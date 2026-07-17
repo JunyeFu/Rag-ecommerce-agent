@@ -2,18 +2,12 @@
 from datetime import date
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from pydantic import BaseModel
 from app.core.database import get_db
+from app.schemas.footprints import FootprintRecordRequest
 from app.schemas.common import ApiResponse
 from app.services import footprint_service
 
 router = APIRouter()
-
-
-class FootprintRecordRequest(BaseModel):
-    """记录足迹请求"""
-    user_id: str
-    product_id: str
 
 
 @router.get("/footprints")

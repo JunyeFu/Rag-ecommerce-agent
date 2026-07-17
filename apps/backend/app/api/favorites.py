@@ -1,24 +1,12 @@
 """商品收藏 API 端点"""
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from pydantic import BaseModel
 from app.core.database import get_db
+from app.schemas.favorites import FavoriteToggleRequest, FavoriteBatchRemoveRequest
 from app.schemas.common import ApiResponse
 from app.services import favorite_service
 
 router = APIRouter()
-
-
-class FavoriteToggleRequest(BaseModel):
-    """收藏/取消收藏请求"""
-    user_id: str
-    product_id: str
-
-
-class FavoriteBatchRemoveRequest(BaseModel):
-    """批量移除收藏请求"""
-    user_id: str
-    product_ids: list[str]
 
 
 @router.get("/favorites")

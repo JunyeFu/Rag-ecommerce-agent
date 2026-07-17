@@ -174,39 +174,42 @@ async def hybrid_search(
 
     vector_param = str(query_vector)
 
-    async with AsyncSessionLocal() as db:
-        dense_sql = text(f"""
-            SELECT id, title, description, price, category, brand, rating,
-                   highlights, scenarios, attributes, image_urls, source_product_id,
-                   1 - (embedding <=> :vector::vector) AS score
-            FROM products
-            WHERE {where_clause}
-            ORDER BY embedding <=> :vector::vector
-            LIMIT :top_k
-        """)
-        params["vector"] = vector_param
-        params["top_k"] = top_k
-        dense_result = await db.execute(dense_sql, params)
-        dense_rows = dense_result.fetchall()
-
-        keyword_results = []
-        if use_hybrid and query_text:
-            kw_params = dict(params)
-            kw_sql = text(f"""
+    try:
+        async with AsyncSessionLocal() as db:
+            dense_sql = text(f"""
                 SELECT id, title, description, price, category, brand, rating,
                        highlights, scenarios, attributes, image_urls, source_product_id,
-                       ts_rank(search_vector, plainto_tsquery(:query_text)) AS score
+                       1 - (embedding <=> :vector::vector) AS score
                 FROM products
                 WHERE {where_clause}
-                  AND search_vector @@ plainto_tsquery(:query_text)
-                ORDER BY score DESC
+                ORDER BY embedding <=> :vector::vector
                 LIMIT :top_k
             """)
-            kw_params["query_text"] = query_text
-            kw_result = await db.execute(kw_sql, kw_params)
-            kw_rows = kw_result.fetchall()
-        else:
-            kw_rows = []
+            params["vector"] = vector_param
+            params["top_k"] = top_k
+            dense_result = await db.execute(dense_sql, params)
+            dense_rows = dense_result.fetchall()
+
+            if use_hybrid and query_text:
+                kw_params = dict(params)
+                kw_sql = text(f"""
+                    SELECT id, title, description, price, category, brand, rating,
+                           highlights, scenarios, attributes, image_urls, source_product_id,
+                           ts_rank(search_vector, plainto_tsquery(:query_text)) AS score
+                    FROM products
+                    WHERE {where_clause}
+                      AND search_vector @@ plainto_tsquery(:query_text)
+                    ORDER BY score DESC
+                    LIMIT :top_k
+                """)
+                kw_params["query_text"] = query_text
+                kw_result = await db.execute(kw_sql, kw_params)
+                kw_rows = kw_result.fetchall()
+            else:
+                kw_rows = []
+    except Exception as e:
+        logger.error("hybrid_search DB error: %s", e)
+        return [], 0.0
 
     dense_items = []
     for row in dense_rows:
@@ -258,18 +261,22 @@ async def search_similar_products(
 
     vector_param = str(query_vector)
 
-    async with AsyncSessionLocal() as db:
-        sql = text("""
-            SELECT id, title, price, rating, brand, category,
-                   highlights, image_urls, source_product_id,
-                   1 - (embedding <=> :vector::vector) AS score
-            FROM products
-            WHERE embedding IS NOT NULL
-            ORDER BY embedding <=> :vector::vector
-            LIMIT :top_k
-        """)
-        result = await db.execute(sql, {"vector": vector_param, "top_k": top_k})
-        rows = result.fetchall()
+    try:
+        async with AsyncSessionLocal() as db:
+            sql = text("""
+                SELECT id, title, price, rating, brand, category,
+                       highlights, image_urls, source_product_id,
+                       1 - (embedding <=> :vector::vector) AS score
+                FROM products
+                WHERE embedding IS NOT NULL
+                ORDER BY embedding <=> :vector::vector
+                LIMIT :top_k
+            """)
+            result = await db.execute(sql, {"vector": vector_param, "top_k": top_k})
+            rows = result.fetchall()
+    except Exception as e:
+        logger.error("search_similar_products DB error: %s", e)
+        return []
 
     products = []
     for row in rows:

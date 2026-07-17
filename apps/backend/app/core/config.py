@@ -8,7 +8,7 @@ Configuration priority:
 import os
 from pathlib import Path
 
-from pydantic import field_validator
+from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings
 
 CONFIG_DIR = Path(__file__).resolve().parents[2]  # apps/backend/
@@ -69,6 +69,17 @@ class Settings(BaseSettings):
     @classmethod
     def _resolve_reranker(cls, v: str) -> str:
         return resolve_model_path(v, _HF_RERANKER)
+
+    @model_validator(mode="after")
+    def _check_production(self):
+        if self.APP_ENV == "production":
+            if not self.DATABASE_URL:
+                raise ValueError("DATABASE_URL is required in production")
+            if not self.DOUBAO_API_KEY and not self.DEEPSEEK_API_KEY:
+                raise ValueError("At least one LLM API key is required in production")
+            if "*" in self.CORS_ORIGINS:
+                raise ValueError("CORS_ORIGINS cannot be '*' in production")
+        return self
 
     model_config = {
         "env_file": str(CONFIG_DIR / ".env"),

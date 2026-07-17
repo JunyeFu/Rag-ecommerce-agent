@@ -1,20 +1,12 @@
 """订单 API 端点 — 下单/查单/取消"""
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from pydantic import BaseModel
 from app.core.database import get_db
+from app.schemas.order import PlaceOrderRequest
 from app.schemas.common import ApiResponse
 from app.services import order_service, cart_service
 
 router = APIRouter()
-
-
-class PlaceOrderRequest(BaseModel):
-    session_id: str
-    address: str = "默认地址"
-    remark: str = ""
-    user_id: str = ""
-    product_ids: list[str] | None = None
 
 
 @router.post("/orders")

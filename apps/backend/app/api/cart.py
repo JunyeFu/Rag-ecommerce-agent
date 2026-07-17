@@ -2,8 +2,8 @@
 import uuid
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from pydantic import BaseModel, Field
 from app.core.database import get_db
+from app.schemas.cart import CartAddRequest, CartRemoveRequest, CartQuantityRequest, CartClearRequest
 from app.schemas.common import ApiResponse
 from app.services import cart_service
 
@@ -16,27 +16,6 @@ def _validate_uuid(value: str, name: str = "session_id") -> uuid.UUID:
         return uuid.UUID(value)
     except (ValueError, AttributeError):
         raise HTTPException(status_code=400, detail=f"无效的 {name} 格式: {value}")
-
-
-class CartAddRequest(BaseModel):
-    session_id: str
-    product_id: str
-    title: str = ""     # 客户端标识用，服务端忽略
-    price: float = 0    # 客户端标识用，服务端忽略（防伪造）
-    user_id: str = ""   # 可选：关联本地用户画像，实现多端购物车匹配
-
-
-class CartRemoveRequest(BaseModel):
-    session_id: str
-    product_id: str
-    user_id: str = ""   # 可选
-
-
-class CartQuantityRequest(BaseModel):
-    session_id: str
-    product_id: str
-    quantity: int
-    user_id: str = ""   # 可选
 
 
 @router.get("/cart")
@@ -141,11 +120,6 @@ async def clear_cart(
     _validate_uuid(session_id)
     await cart_service.clear_cart(db, session_id, user_id=user_id)
     return ApiResponse(data={"cleared": True})
-
-
-class CartClearRequest(BaseModel):
-    session_id: str
-    user_id: str = ""   # 可选
 
 
 @router.post("/cart/clear")

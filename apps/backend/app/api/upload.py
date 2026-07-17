@@ -5,6 +5,7 @@ import logging
 from fastapi import APIRouter, File, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
 
+from app.core.security import validate_image_upload
 from app.schemas.common import ApiResponse
 from app.schemas.sse_events import DoneEvent, ErrorEvent, ProductCardEvent
 from app.services.image_parser import (
@@ -29,8 +30,10 @@ async def upload_image(file: UploadFile = File(...)):
     """Upload an image and save it locally."""
     contents = await file.read()
 
-    if len(contents) > 10 * 1024 * 1024:
-        raise HTTPException(status_code=413, detail="Image size exceeds 10MB")
+    try:
+        validate_image_upload(file.content_type, len(contents))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     filepath = save_upload_image(contents, file.filename or "upload.jpg")
     return ApiResponse(
@@ -49,8 +52,10 @@ async def vision_search(file: UploadFile = File(...)):
     """Camera search: image upload -> Doubao vision parse -> vector search -> SSE cards."""
     contents = await file.read()
 
-    if len(contents) > 10 * 1024 * 1024:
-        raise HTTPException(status_code=413, detail="Image size exceeds 10MB")
+    try:
+        validate_image_upload(file.content_type, len(contents))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     filepath = save_upload_image(contents, file.filename or "camera.jpg")
     logger.info("Vision search: image saved to %s (%d bytes)", filepath, len(contents))
