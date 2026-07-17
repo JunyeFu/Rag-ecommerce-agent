@@ -592,11 +592,12 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
                         JSONObject(response.body?.string().orEmpty())
                     }
                 }
-                val orderNo = orderJson.optString("order_no", "ORD${System.currentTimeMillis()}")
-                val total = orderJson.optDouble(
+                val orderNo = orderJson.optJSONObject("data")?.optString("order_no", "ORD${System.currentTimeMillis()}")
+                    ?: "ORD${System.currentTimeMillis()}"
+                val total = orderJson.optJSONObject("data")?.optDouble(
                     "total",
                     selectedItems.sumOf { it.product.price * it.quantity }
-                )
+                ) ?: selectedItems.sumOf { it.product.price * it.quantity }
 
                 // 后端成功后，删除本地数据库中的已下单商品
                 withContext(Dispatchers.IO) {

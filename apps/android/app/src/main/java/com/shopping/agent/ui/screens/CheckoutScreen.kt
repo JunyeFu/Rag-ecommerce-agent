@@ -288,7 +288,8 @@ private fun fetchProduct(productId: String): Product {
         .build()
     NetworkConfig.httpClient.newCall(request).execute().use { response ->
         if (!response.isSuccessful) throw IllegalStateException("商品加载失败 ${response.code}")
-        val data = JSONObject(response.body?.string().orEmpty()).getJSONObject("data")
+        val data = JSONObject(response.body?.string().orEmpty()).optJSONObject("data")
+            ?: throw IllegalStateException("商品数据解析失败")
         val imageUrls = data.optJSONArray("image_urls")
         val images = (0 until (imageUrls?.length() ?: 0)).map { imageUrls!!.optString(it) }
         return Product(
@@ -356,10 +357,11 @@ private fun submitOrder(
     NetworkConfig.httpClient.newCall(orderReq).execute().use { response ->
         if (!response.isSuccessful) throw IllegalStateException("下单失败 ${response.code}")
         val json = JSONObject(response.body?.string().orEmpty())
+        val data = json.optJSONObject("data") ?: JSONObject()
         return CheckoutOrder(
-            orderId = json.optString("order_id"),
-            orderNo = json.optString("order_no"),
-            total = json.optDouble("total"),
+            orderId = data.optString("order_id"),
+            orderNo = data.optString("order_no"),
+            total = data.optDouble("total"),
             itemsSnapshot = itemsSnapshotJson,
         )
     }

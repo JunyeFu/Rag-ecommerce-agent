@@ -1185,7 +1185,8 @@ class UserRepository(context: Context) {
 
             val body = response.body?.string() ?: return@withContext
             val json = org.json.JSONObject(body)
-            val itemsArray = json.optJSONArray("items") ?: org.json.JSONArray()
+            val data = json.optJSONObject("data") ?: org.json.JSONObject()
+            val itemsArray = data.optJSONArray("items") ?: org.json.JSONArray()
 
             val writableDb = db.writableDatabase
             if (userId.isNotEmpty()) {
@@ -1574,7 +1575,8 @@ class UserRepository(context: Context) {
             }
             val body = response.body?.string() ?: return@withContext
             val json = org.json.JSONObject(body)
-            val itemsArray = json.optJSONArray("items") ?: org.json.JSONArray()
+            val data = json.optJSONObject("data") ?: org.json.JSONObject()
+            val itemsArray = data.optJSONArray("items") ?: org.json.JSONArray()
 
             val writableDb = db.writableDatabase
             for (i in 0 until itemsArray.length()) {
