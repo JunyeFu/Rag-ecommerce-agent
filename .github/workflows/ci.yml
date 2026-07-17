@@ -21,9 +21,6 @@ jobs:
         ports: [5432:5432]
         options: >-
           --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      qdrant:
-        image: qdrant/qdrant:latest
-        ports: [6333:6333]
 
     steps:
       - uses: actions/checkout@v4
@@ -33,5 +30,4 @@ jobs:
       - run: cd apps/backend && python -m pytest tests/ -v
         env:
           DATABASE_URL: postgresql+asyncpg://shopping:shopping123@localhost:5432/shopping_agent
-          QDRANT_URL: http://localhost:6333
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}

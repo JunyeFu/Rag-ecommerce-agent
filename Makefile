@@ -10,7 +10,7 @@ install: ## Install backend dependencies
 dev: ## Start backend dev server
 	cd apps/backend && uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
 
-docker-up: ## Start infrastructure (PostgreSQL + Qdrant + Backend)
+docker-up: ## Start infrastructure (PostgreSQL + Backend)
 	docker compose -f infrastructure/docker-compose.yml up -d
 
 docker-down: ## Stop infrastructure

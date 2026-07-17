@@ -1,6 +1,6 @@
 # Backend — 电商 AI 导购系统
 
-FastAPI + LangGraph + LlamaIndex + Qdrant + PostgreSQL
+FastAPI + LangGraph + pgvector + PostgreSQL
 
 ## 快速启动
 
@@ -18,7 +18,7 @@ alembic upgrade head
 python scripts/seed_data.py
 
 # 5. 启动服务
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --port 8080
 ```
 
 ## API 文档
