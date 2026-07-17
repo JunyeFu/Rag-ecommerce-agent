@@ -1,15 +1,15 @@
 """
-混合检索 — 向量检索 + 关键词检索 + 元数据过滤
+混合检索 - pgvector 向量检索 + tsvector 全文搜索 + RRF 融合
 """
 import time
 import logging
-from qdrant_client import AsyncQdrantClient
-from qdrant_client.models import Filter, FieldCondition, MatchValue, MatchAny, Range, MatchText
+from sqlalchemy import select, text
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.core.database import AsyncSessionLocal
 from app.core.config import settings
 
 logger = logging.getLogger("retriever")
-
-_qdrant = None
 
 
 _CATEGORY_ALIASES: dict[str, list[str]] = {
@@ -45,12 +45,100 @@ def _category_match_values(category: str | None) -> list[str]:
     return deduped
 
 
-def _get_qdrant():
-    """懒加载 Qdrant 客户端（避免模块导入时崩溃）"""
-    global _qdrant
-    if _qdrant is None:
-        _qdrant = AsyncQdrantClient(url=settings.QDRANT_URL)
-    return _qdrant
+def _row_to_payload(row) -> dict:
+    """将 SQLAlchemy Row 转为检索结果 payload 格式"""
+    image_urls = list(row.image_urls or [])
+    image_url = image_urls[0] if image_urls else None
+    return {
+        "product_id": str(row.source_product_id or row.id),
+        "title": row.title or "",
+        "category": row.category or "",
+        "brand": row.brand or "",
+        "price": float(row.price or 0),
+        "rating": float(row.rating or 0),
+        "rating_count": 0,
+        "highlights": list(row.highlights or []),
+        "scenarios": list(row.scenarios or []),
+        "attributes": dict(row.attributes or {}),
+        "image_url": image_url,
+        "image_urls": image_urls,
+    }
+
+
+def _build_where_clause(
+    category: str | None,
+    price_min: float | None,
+    price_max: float | None,
+    exclude_brands: list[str] | None,
+    exclude_categories: list[str] | None,
+    exclude_attributes: dict[str, str] | None,
+) -> tuple[str, dict]:
+    """构建 SQL WHERE 子句和参数"""
+    clauses = ["embedding IS NOT NULL"]
+    params: dict = {}
+
+    if category:
+        cat_values = _category_match_values(category)
+        if len(cat_values) == 1:
+            clauses.append("category = :category")
+            params["category"] = cat_values[0]
+        else:
+            clauses.append("category = ANY(:categories)")
+            params["categories"] = cat_values
+
+    if price_min is not None:
+        clauses.append("price >= :price_min")
+        params["price_min"] = price_min
+    if price_max is not None:
+        clauses.append("price <= :price_max")
+        params["price_max"] = price_max
+
+    if exclude_brands:
+        clauses.append("NOT (brand = ANY(:exclude_brands))")
+        params["exclude_brands"] = exclude_brands
+
+    if exclude_categories:
+        clauses.append("NOT (category = ANY(:exclude_categories))")
+        params["exclude_categories"] = exclude_categories
+
+    if exclude_attributes:
+        for i, (attr_key, attr_val) in enumerate(exclude_attributes.items()):
+            key_param = f"excl_attr_key_{i}"
+            val_param = f"excl_attr_val_{i}"
+            clauses.append(f"NOT (attributes->>:{key_param} = :{val_param})")
+            params[key_param] = attr_key
+            params[val_param] = attr_val
+
+    return " AND ".join(clauses), params
+
+
+def _rrf_fuse(
+    dense_results: list[dict],
+    keyword_results: list[dict],
+    top_k: int,
+    k: int = 60,
+) -> list[dict]:
+    """Reciprocal Rank Fusion: 合并向量检索和关键词检索结果"""
+    scores: dict[str, float] = {}
+    all_items: dict[str, dict] = {}
+
+    for rank, item in enumerate(dense_results):
+        pid = item["payload"]["product_id"]
+        scores[pid] = scores.get(pid, 0) + 1.0 / (k + rank + 1)
+        all_items[pid] = item
+
+    for rank, item in enumerate(keyword_results):
+        pid = item["payload"]["product_id"]
+        scores[pid] = scores.get(pid, 0) + 1.0 / (k + rank + 1)
+        all_items[pid] = item
+
+    sorted_pids = sorted(scores.keys(), key=lambda p: scores[p], reverse=True)
+    result = []
+    for pid in sorted_pids[:top_k]:
+        item = all_items[pid].copy()
+        item["score"] = scores[pid]
+        result.append(item)
+    return result
 
 
 async def hybrid_search(
@@ -67,99 +155,77 @@ async def hybrid_search(
 ) -> tuple[list[dict], float]:
     """
     混合检索:
-    1. 向量语义检索 (dense) — Qdrant query_points
-    2. 关键词增强 — query_text 中的关键术语作为 payload 文本匹配
-    3. 元数据过滤 (category / price range)
-    4. 否定排除过滤 (反选品牌/品类/属性)
+    1. 向量语义检索 (dense) - pgvector <=> cosine distance
+    2. 关键词检索 (keyword) - tsvector @@ plainto_tsquery
+    3. RRF 融合两路结果
+    4. 元数据过滤 (category / price range / 否定排除)
     返回: (结果列表, 检索耗时ms)
     """
     t0 = time.monotonic()
 
-    must_filters = []
-    must_not_filters = []
+    if AsyncSessionLocal is None:
+        logger.warning("Database not configured, returning empty results")
+        return [], 0.0
 
-    if category:
-        category_values = _category_match_values(category)
-        must_filters.append(
-            FieldCondition(
-                key="category",
-                match=MatchAny(any=category_values) if len(category_values) > 1 else MatchValue(value=category),
-            )
-        )
-    if price_min is not None or price_max is not None:
-        price_range = {}
-        if price_min is not None:
-            price_range["gte"] = price_min
-        if price_max is not None:
-            price_range["lte"] = price_max
-        must_filters.append(
-            FieldCondition(key="price", range=Range(**price_range))
-        )
+    where_clause, params = _build_where_clause(
+        category, price_min, price_max,
+        exclude_brands, exclude_categories, exclude_attributes,
+    )
 
-    # 否定排除过滤 (场景4: 反选/排除)
-    if exclude_brands:
-        must_not_filters.append(
-            FieldCondition(key="brand", match=MatchAny(any=exclude_brands))
-        )
-    if exclude_categories:
-        must_not_filters.append(
-            FieldCondition(key="category", match=MatchAny(any=exclude_categories))
-        )
-    if exclude_attributes:
-        for attr_key, attr_val in exclude_attributes.items():
-            must_not_filters.append(
-                FieldCondition(key=f"attributes.{attr_key}", match=MatchValue(value=attr_val))
-            )
+    vector_param = str(query_vector)
 
-    qdrant_filter = None
-    if must_filters or must_not_filters:
-        qdrant_filter = Filter(
-            must=must_filters if must_filters else None,
-            must_not=must_not_filters if must_not_filters else None,
-        )
+    async with AsyncSessionLocal() as db:
+        dense_sql = text(f"""
+            SELECT id, title, description, price, category, brand, rating,
+                   highlights, scenarios, attributes, image_urls, source_product_id,
+                   1 - (embedding <=> :vector::vector) AS score
+            FROM products
+            WHERE {where_clause}
+            ORDER BY embedding <=> :vector::vector
+            LIMIT :top_k
+        """)
+        params["vector"] = vector_param
+        params["top_k"] = top_k
+        dense_result = await db.execute(dense_sql, params)
+        dense_rows = dense_result.fetchall()
 
-    # 混合检索: dense 向量 + 关键词文本匹配 → RRF 融合
-    if use_hybrid and query_text:
-        try:
-            results = await _get_qdrant().query_points(
-                collection_name=settings.QDRANT_COLLECTION,
-                prefetch=[
-                    {"query": query_vector, "using": "", "limit": top_k},
-                    {"query": query_text, "using": "", "limit": top_k},
-                ],
-                query={"fusion": "rrf"},
-                limit=top_k,
-                query_filter=qdrant_filter,
-                with_payload=True,
-            )
-        except Exception:
-            # Qdrant hybrid fusion 不可用时降级为纯向量检索
-            logger.debug("Hybrid fusion unavailable, falling back to dense-only search")
-            results = await _get_qdrant().query_points(
-                collection_name=settings.QDRANT_COLLECTION,
-                query=query_vector,
-                limit=top_k,
-                query_filter=qdrant_filter,
-                with_payload=True,
-            )
+        keyword_results = []
+        if use_hybrid and query_text:
+            kw_params = dict(params)
+            kw_sql = text(f"""
+                SELECT id, title, description, price, category, brand, rating,
+                       highlights, scenarios, attributes, image_urls, source_product_id,
+                       ts_rank(search_vector, plainto_tsquery(:query_text)) AS score
+                FROM products
+                WHERE {where_clause}
+                  AND search_vector @@ plainto_tsquery(:query_text)
+                ORDER BY score DESC
+                LIMIT :top_k
+            """)
+            kw_params["query_text"] = query_text
+            kw_result = await db.execute(kw_sql, kw_params)
+            kw_rows = kw_result.fetchall()
+        else:
+            kw_rows = []
+
+    dense_items = []
+    for row in dense_rows:
+        dense_items.append({"id": str(row.id), "score": float(row.score or 0), "payload": _row_to_payload(row)})
+
+    keyword_items = []
+    for row in kw_rows:
+        keyword_items.append({"id": str(row.id), "score": float(row.score or 0), "payload": _row_to_payload(row)})
+
+    if use_hybrid and keyword_items:
+        items = _rrf_fuse(dense_items, keyword_items, top_k)
     else:
-        results = await _get_qdrant().query_points(
-            collection_name=settings.QDRANT_COLLECTION,
-            query=query_vector,
-            limit=top_k,
-            query_filter=qdrant_filter,
-            with_payload=True,
-        )
+        items = dense_items
 
     elapsed_ms = (time.monotonic() - t0) * 1000
-    items = [
-        {"id": hit.id, "score": hit.score, "payload": hit.payload or {}}
-        for hit in results.points
-    ]
 
     logger.info(
-        "Retrieve: query='%s' → %d results in %.0fms (category=%s, price=%s-%s, exclude_br=%s)",
-        query_text[:50], len(items), elapsed_ms,
+        "Retrieve: query='%s' -> %d results (dense=%d, kw=%d) in %.0fms (category=%s, price=%s-%s, exclude_br=%s)",
+        query_text[:50], len(items), len(dense_items), len(keyword_items), elapsed_ms,
         category or "*", price_min or "*", price_max or "*",
         exclude_brands or [],
     )
@@ -172,7 +238,7 @@ async def search_similar_products(
     top_k: int = 8,
 ) -> list[dict]:
     """
-    拍照找货专用：文本查询 → Embedding → Qdrant 向量检索 → 结构化商品列表
+    拍照找货专用：文本查询 -> Embedding -> pgvector 向量检索 -> 结构化商品列表
 
     Args:
         query_text: 由视觉解析提取的商品描述文本
@@ -186,33 +252,41 @@ async def search_similar_products(
 
     query_vector = await embed_text(query_text)
 
-    try:
-        results = await _get_qdrant().query_points(
-            collection_name=settings.QDRANT_COLLECTION,
-            query=query_vector,
-            limit=top_k,
-            with_payload=True,
-        )
-    except Exception as e:
-        logger.error("Qdrant query failed in search_similar_products: %s", e)
+    if AsyncSessionLocal is None:
+        logger.warning("Database not configured, returning empty results")
         return []
 
+    vector_param = str(query_vector)
+
+    async with AsyncSessionLocal() as db:
+        sql = text("""
+            SELECT id, title, price, rating, brand, category,
+                   highlights, image_urls, source_product_id,
+                   1 - (embedding <=> :vector::vector) AS score
+            FROM products
+            WHERE embedding IS NOT NULL
+            ORDER BY embedding <=> :vector::vector
+            LIMIT :top_k
+        """)
+        result = await db.execute(sql, {"vector": vector_param, "top_k": top_k})
+        rows = result.fetchall()
+
     products = []
-    for hit in results.points:
-        p = hit.payload or {}
+    for row in rows:
+        image_urls = list(row.image_urls or [])
         products.append({
-            "product_id": p.get("product_id", ""),
-            "title": p.get("title", ""),
-            "price": p.get("price", 0),
-            "rating": p.get("rating", 0),
-            "brand": p.get("brand", ""),
-            "category": p.get("category", ""),
-            "match_score": round(hit.score, 4) if hit.score else 0.0,
-            "score": round(hit.score, 4) if hit.score else 0.0,
-            "highlights": p.get("highlights", [])[:3],
-            "image_url": p.get("image_url"),
-            "image_urls": p.get("image_urls", []),
+            "product_id": str(row.source_product_id or row.id),
+            "title": row.title or "",
+            "price": float(row.price or 0),
+            "rating": float(row.rating or 0),
+            "brand": row.brand or "",
+            "category": row.category or "",
+            "match_score": round(float(row.score or 0), 4),
+            "score": round(float(row.score or 0), 4),
+            "highlights": list(row.highlights or [])[:3],
+            "image_url": image_urls[0] if image_urls else None,
+            "image_urls": image_urls,
         })
 
-    logger.info("Similar search: '%s' → %d products", query_text[:60], len(products))
+    logger.info("Similar search: '%s' -> %d products", query_text[:60], len(products))
     return products

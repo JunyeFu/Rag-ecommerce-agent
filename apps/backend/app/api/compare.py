@@ -1,6 +1,6 @@
 """
 商品对比接口 — POST /api/products/compare
-从 Qdrant 检索商品 → 多维度对比 → LLM 生成总结
+从 PostgreSQL 检索商品 → 多维度对比 → LLM 生成总结
 """
 import logging
 

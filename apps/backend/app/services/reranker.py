@@ -5,7 +5,7 @@
 接口: (query, list[doc]) → list[ranked_doc]
 
 兼容两种文档格式:
-- Qdrant: {"id":"...", "score":0.8, "payload":{"text":"...", ...}}
+- PostgreSQL: {"id":"...", "score":0.8, "payload":{"text":"...", ...}}
 - 通用: {"content":"...", "score":0.8, "metadata":{...}}
 """
 import asyncio
@@ -24,7 +24,7 @@ _model_lock = threading.Lock()
 
 
 def _get_content(doc: Dict) -> str:
-    """从 Qdrant 或通用格式文档中提取文本内容"""
+    """从 PostgreSQL 或通用格式文档中提取文本内容"""
     payload = doc.get("payload", {})
     if isinstance(payload, dict):
         parts = []
@@ -101,7 +101,7 @@ def rerank(
         ranked.sort(key=lambda x: x["final_score"], reverse=True)
         return ranked[:top_k]
 
-    # 构造 (query, doc) pairs（兼容 Qdrant 和通用格式）
+    # 构造 (query, doc) pairs（兼容 PostgreSQL 和通用格式）
     pairs = [(query, _get_content(doc)) for doc in documents]
 
     # Cross-Encoder 打分（返回原始 logits）

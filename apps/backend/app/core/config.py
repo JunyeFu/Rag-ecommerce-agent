@@ -31,9 +31,6 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str = ""
 
-    QDRANT_URL: str = "http://localhost:6333"
-    QDRANT_COLLECTION: str = "products"
-
     DOUBAO_API_KEY: str = ""
     DOUBAO_BASE_URL: str = "https://ark.cn-beijing.volces.com/api/v3/"
     LLM_MODEL: str = ""
@@ -60,7 +57,7 @@ class Settings(BaseSettings):
     RERANKER_TOP_K: int = 10
     HYBRID_SEARCH_ENABLED: bool = True
 
-    # Demo 模式 — 跳过 LLM 调用，仅 Qdrant 检索 + 模板化回复
+    # Demo 模式 — 跳过 LLM 调用，仅检索 + 模板化回复
     DEMO_MODE: bool = False
 
     @field_validator("EMBEDDING_MODEL", mode="after")

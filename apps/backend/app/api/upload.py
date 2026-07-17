@@ -87,7 +87,7 @@ async def vision_search(file: UploadFile = File(...)):
     try:
         candidates = await search_similar_products(query_text=search_query, top_k=3)
     except Exception as e:
-        logger.warning("Qdrant search failed, using fallback: %s", e)
+        logger.warning("PostgreSQL search failed, using fallback: %s", e)
         candidates = []
 
     async def event_stream():
@@ -143,7 +143,7 @@ async def vision_search(file: UploadFile = File(...)):
 
 
 def _build_search_query(product_info: dict) -> str:
-    """Build a deduplicated Qdrant query from structured vision output."""
+    """Build a deduplicated PostgreSQL query from structured vision output."""
     parts = []
     keywords = [str(k) for k in product_info.get("keywords", [])]
     seen = set()

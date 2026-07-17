@@ -279,7 +279,7 @@ async def node_clarify(state: AgentState) -> AgentState:
     return state
 
 
-# ── 可用品类列表（启动时从 Qdrant / 种子数据加载，场景映射用）──
+# ── 可用品类列表（启动时从 PostgreSQL / 种子数据加载，场景映射用）──
 _AVAILABLE_CATEGORIES: list[str] = []
 
 # ── 场景关键词 → 品类映射回退表（LLM 失败时使用，确保所有关键词指向已存在品类）──
@@ -631,7 +631,7 @@ def _diversify_scenario_products(ranked: list, max_total: int = 5) -> list:
 # ═══════════════════════════════════════════════════════
 
 def _extract_raw_products(chunks: list, limit: int = 10) -> list[dict]:
-    """从 Qdrant chunks 提取原始商品属性列表"""
+    """从 PostgreSQL chunks 提取原始商品属性列表"""
     raw = []
     for chunk in chunks[:limit]:
         p = chunk["payload"]
@@ -1017,7 +1017,7 @@ async def _retrieve_same_category_supplements(query: str, slots: dict, existing_
     return _filter_chunks_by_exclusions(merged, slots)
 
 
-# 品牌中英文别名映射 — 解决 Qdrant 中同一品牌中英文名不一致导致排除失效的问题
+# 品牌中英文别名映射 — 解决 PostgreSQL 中同一品牌中英文名不一致导致排除失效的问题
 _BRAND_ALIASES: dict[str, str] = {
     "华为": "Huawei", "Huawei": "华为",
     "苹果": "Apple", "Apple": "苹果",
@@ -1588,7 +1588,7 @@ def _extract_cart_item_indices(query: str, item_count: int) -> tuple[list[int], 
 
 async def _find_product_for_cart(query: str, state: "AgentState") -> dict | None:
     """从查询中识别用户要加购的商品。
-    优先级：1. 序号匹配 product_cards  2. 商品名匹配 product_cards  3. Qdrant 搜索
+    优先级：1. 序号匹配 product_cards  2. 商品名匹配 product_cards  3. PostgreSQL 搜索
     """
     product_cards = _get_cart_backref_cards(state)
 
@@ -1615,7 +1615,7 @@ async def _find_product_for_cart(query: str, state: "AgentState") -> dict | None
             if title and len(title) >= 3 and title[:4] in query:
                 return _product_from_card(card)
 
-    # 3. Qdrant 搜索：从 "加入购物车" 前的文本提取搜索词
+    # 3. PostgreSQL 搜索：从 "加入购物车" 前的文本提取搜索词
     for marker in ["加入购物车", "加到购物车", "加购", "添加到购物车"]:
         if marker in query:
             prefix = query.split(marker)[0].strip()
@@ -1638,7 +1638,7 @@ async def _find_product_for_cart(query: str, state: "AgentState") -> dict | None
                                 "price": p.get("price", 0),
                             }
                 except Exception as e:
-                    logger.warning("Cart Qdrant fallback lookup failed: %s", e)
+                    logger.warning("Cart PostgreSQL fallback lookup failed: %s", e)
             break
 
     return None
@@ -2017,9 +2017,9 @@ async def node_compare(state: AgentState) -> AgentState:
         # 从缓存/检索结果中获取商品详情
         raw_products = _extract_raw_products(chunks) if chunks else []
         if not raw_products:
-            # 需要从 Qdrant fetch 这些产品的 payload
-            from app.services.comparator import _fetch_products_from_qdrant
-            raw_products = await _fetch_products_from_qdrant(product_ids)
+            # 需要从 PostgreSQL fetch 这些产品的 payload
+            from app.services.comparator import _fetch_products_from_db
+            raw_products = await _fetch_products_from_db(product_ids)
         ranked = list(raw_products)  # 保持原始顺序
         logger.info("node_compare: using resolved target IDs: %s", product_ids)
     else:
@@ -2642,7 +2642,7 @@ async def generate_response(
     """
     t_start = time.monotonic()
     try:
-        # Demo 模式快速路径 — 跳过 LLM，仅 Qdrant 检索 + 模板化回复
+        # Demo 模式快速路径 — 跳过 LLM，仅 PostgreSQL 检索 + 模板化回复
         if settings.DEMO_MODE:
             from app.services import rag as _rag_module
             logger.info("DEMO_MODE: mock SSE for query=%s", message[:60])

@@ -83,8 +83,8 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.warning("Model warmup skipped: %s", e)
 
-    # 自动数据入库 — 确保 Qdrant 有商品向量（幂等）
-    await _startup.ensure_qdrant_data()
+    # 自动数据入库 — 确保 PostgreSQL 有商品向量（幂等）
+    await _startup.ensure_pgvector_data()
 
     # 清空旧缓存 — 确保 top_k 等参数变更后不返回过期数据
     from app.services import cache

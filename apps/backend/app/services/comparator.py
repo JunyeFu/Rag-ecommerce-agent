@@ -1,12 +1,11 @@
 """
-商品对比 — 多商品多维度对比服务
-从 Qdrant 检索商品详情 → 构建对比维度 → LLM 生成总结
+商品对比 - 多商品多维度对比服务
+从 PostgreSQL 检索商品详情 -> 构建对比维度 -> LLM 生成总结
 """
 import logging
-from qdrant_client.models import Filter, FieldCondition, MatchAny
+from sqlalchemy import text
 
-from app.core.config import settings
-from app.services.retriever import _get_qdrant
+from app.core.database import AsyncSessionLocal
 from app.services.llm_client import chat_completion
 
 logger = logging.getLogger("comparator")
@@ -127,53 +126,49 @@ def _extract_number(text: str) -> float | None:
     return None
 
 
-# ── Qdrant 检索 ───────────────────────────────────────────
+# ── PostgreSQL 检索 ────────────────────────────────────────
 
-async def _fetch_products_from_qdrant(product_ids: list[str]) -> list[dict]:
-    """按 product_id 从 Qdrant 检索商品 payload"""
-    client = _get_qdrant()
-
-    try:
-        records, next_offset = await client.scroll(
-            collection_name=settings.QDRANT_COLLECTION,
-            scroll_filter=Filter(
-                must=[
-                    FieldCondition(
-                        key="product_id",
-                        match=MatchAny(any=product_ids),
-                    )
-                ]
-            ),
-            limit=len(product_ids) + 10,  # 留余量
-            with_payload=True,
-            with_vectors=False,
-        )
-    except Exception as e:
-        logger.error("Qdrant scroll failed: %s", e)
+async def _fetch_products_from_db(product_ids: list[str]) -> list[dict]:
+    """按 product_id 从 PostgreSQL 检索商品详情"""
+    if AsyncSessionLocal is None:
+        logger.warning("Database not configured, returning empty results")
         return []
 
+    async with AsyncSessionLocal() as db:
+        result = await db.execute(
+            text("""
+                SELECT source_product_id, title, category, brand, price, rating,
+                       highlights, scenarios, attributes, image_urls
+                FROM products
+                WHERE source_product_id = ANY(:ids)
+            """),
+            {"ids": product_ids},
+        )
+        rows = result.fetchall()
+
     products = []
-    for record in records:
-        payload = record.payload or {}
-        image_urls = payload.get("image_urls") or []
-        if not image_urls and payload.get("image_url"):
-            image_urls = [payload["image_url"]]
+    for row in rows:
+        image_urls = list(row.image_urls or [])
         products.append({
-            "product_id": payload.get("product_id", ""),
-            "title": payload.get("title", ""),
-            "category": payload.get("category", ""),
-            "brand": payload.get("brand", ""),
-            "price": payload.get("price", 0),
-            "rating": payload.get("rating", 0),
-            "rating_count": payload.get("rating_count", 0),
-            "attributes": payload.get("attributes", {}),
-            "highlights": payload.get("highlights", []),
-            "scenarios": payload.get("scenarios", []),
+            "product_id": row.source_product_id or "",
+            "title": row.title or "",
+            "category": row.category or "",
+            "brand": row.brand or "",
+            "price": float(row.price or 0),
+            "rating": float(row.rating or 0),
+            "rating_count": 0,
+            "attributes": dict(row.attributes or {}),
+            "highlights": list(row.highlights or []),
+            "scenarios": list(row.scenarios or []),
             "image_urls": image_urls,
         })
 
-    logger.info("Fetched %d/%d products from Qdrant", len(products), len(product_ids))
+    logger.info("Fetched %d/%d products from PostgreSQL", len(products), len(product_ids))
     return products
+
+
+# Backward-compatible alias
+_fetch_products_from_qdrant = _fetch_products_from_db
 
 
 # ── LLM 总结生成 ──────────────────────────────────────────
@@ -301,8 +296,8 @@ async def compare_products(
     Returns:
         {dimensions: [{name, values, winner}, ...], summary: str}
     """
-    # 1. 从 Qdrant 获取商品
-    products = await _fetch_products_from_qdrant(product_ids)
+    # 1. 从 PostgreSQL 获取商品
+    products = await _fetch_products_from_db(product_ids)
 
     if not products:
         return {
