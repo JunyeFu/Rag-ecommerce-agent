@@ -9,7 +9,7 @@
 > **⚠️ 阅读提示**：本文档为 2026-05-19 初稿，部分技术选型与实际实现有差异：
 > - LlamaIndex 未实际使用（改用 Qdrant 原生客户端）
 > - 数据集从 HuggingFace superlinked/external-benchmarking 改为自建 190 条中文商品库
-> - LangGraph 从 7 节点规划演进为 10 节点实现
+> - 当前代码口径：LangGraph 为 7 个显式主节点 + 条件路由，不再按早期扩展节点方案表述
 > - LLM 从 DeepSeek/豆包/通义 多选改为 Doubao-Seed-2.0-lite 主力
 > - 详细差异见文末 §13
 
@@ -46,7 +46,7 @@
 - **2023–2024 年**：行业广泛采用 Advanced RAG，引入查询重写、重排序、过滤等步骤。
 - **2025 年起**：RAG 演进为 **Agentic RAG**——由 AI Agent 自主决定何时检索、检索什么、如何拼装上下文、是否需要多轮检索。LlamaIndex 等框架原生支持该模式。
 
-本项目所采用的 **LangGraph + LlamaIndex + Qdrant** 技术组合，正是 Agentic RAG 在电商场景下的典型工程化形态。
+本项目早期调研过 **LangGraph + LlamaIndex + Qdrant** 技术组合；当前实现口径为 **LangGraph + Qdrant 原生客户端 + BGE Reranker**。
 
 ### 1.4 一句话总结
 
@@ -1037,7 +1037,7 @@ MVP 视为通过验收，需满足以下全部条件：
 
 20. 小组内部. *PRD 背景资料调研包*. 2026-05-19.
 21. 小组内部. *PRD 背景资料-高优先级补充*. 2026-05-19.
-22. 小组内部. *开发框架图：Kotlin + FastAPI + LangGraph + LlamaIndex + Qdrant + PostgreSQL*.
+22. 小组内部. *开发框架图：Kotlin + FastAPI + LangGraph + Qdrant + PostgreSQL*.
 
 ---
 
@@ -1056,7 +1056,7 @@ MVP 视为通过验收，需满足以下全部条件：
 > | RAG 框架 | LlamaIndex + Qdrant | Qdrant 原生 Python 客户端（零 LlamaIndex 依赖） |
 > | LLM 主力 | DeepSeek / 豆包 / 通义 多选 | Doubao-Seed-2.0-lite（DeepSeek 保留降级） |
 > | VLM | 豆包视觉 / GPT-4o 备用 | Doubao Vision API 主力，Qwen3-VL-2B 离线降级 |
-> | LangGraph 节点 | 7 节点规划 | 10 节点（classify_intent → route → 8 分支 + generate） |
+> | LangGraph 节点 | 7 节点规划 | 7 个显式主节点 + 条件路由（classify_intent / clarify / retrieve / compare / cart / web_search / generate） |
 > | Embedding | 推荐 Doubao-embedding-vision | BGE-large-zh-v1.5（1024-dim） |
 > | 项目名称 | 暂定 | 拾物 |
 > | 团队 | 产品经理（字节全栈开发比赛项目组） | 傅钧烨、唐荣炜、周芯仪 |

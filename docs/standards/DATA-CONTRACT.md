@@ -1,5 +1,7 @@
 # 拾物 RAG-Commerce 统一数据契约 v1.0
 
+> **⚠️ 辅助文档** - 开发权威入口为 [`DEV-CONTROL.md`](../DEV-CONTROL.md)，如有冲突以权威文档为准。
+>
 > 本文档定义全栈唯一权威数据格式。所有后端 API、SSE 事件、Qdrant 存储、
 > 前端模型、Mock 数据必须遵守此契约。任何偏离均为 Bug。
 

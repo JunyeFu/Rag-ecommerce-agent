@@ -2,7 +2,8 @@
 
 > **AI 全栈挑战赛 (第3届)  · 2026**  
 > 基于 RAG + LangGraph + Doubao 的智能导购系统  
-> 最高优先级需求：`docs/background/REQS-竞赛核心需求.md
+> 最高优先级需求：`docs/background/REQS-竞赛核心需求.md`  
+> **开发权威入口：[`docs/DEV-CONTROL.md`](docs/DEV-CONTROL.md)**
 
 ## 队员
 
@@ -21,8 +22,8 @@
 
 | 层 | 技术 |
 |----|------|
-| Agent 编排 | LangGraph StateGraph (10 节点) |
-| RAG 检索引擎 | LlamaIndex + Qdrant (1024-dim) |
+| Agent 编排 | LangGraph StateGraph（7 个显式主节点 + 条件路由） |
+| RAG 检索引擎 | Qdrant 原生客户端 (1024-dim) + BGE Reranker |
 | 后端服务 | FastAPI (SSE 流式, 8 事件类型) |
 | 数据库 | PostgreSQL + pgvector |
 | LLM | Doubao-Seed-2.0-lite |
@@ -34,12 +35,14 @@
 ```
 rag-ecommerce-agent/
 ├── apps/
-│   ├── backend/          FastAPI 后端 (73 .py, 29 modules)
+│   ├── backend/          FastAPI 后端（约 100 个 Python 文件）
 │   └── android/          Kotlin Compose Android (73 .kt)
-├── docs/                 项目文档 (28 .md)
+├── docs/                 项目文档、答辩资料、评测报告
 ├── infrastructure/       docker-compose + env
 └── README.md
 ```
+
+最新目录与交付物索引见 `docs/INDEX.md`，当前项目状态见 `docs/PROJECT_STATUS.md`。
 
 ## 里程碑 (M0-M10)
 
@@ -129,6 +132,8 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
 - [演示脚本](docs/DEMO_SCRIPT.md)
 - [提交演示手册](docs/submission/DEMO_RUNBOOK.md)
 - [答辩 PPT 大纲](docs/notes/PPT-OUTLINE.md)
+- [答辩知识库](docs/defense-kb/README.md)
+- [最终答辩 PPT 与讲稿](docs/defense-ppt/PPT制作说明.md)
 
 ### 调研与加分项
 

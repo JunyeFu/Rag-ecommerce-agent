@@ -1,5 +1,7 @@
 # 电商AI导购Agent — 开发总纲 DEV-GUIDE v3.2
 
+> **⚠️ 辅助文档** - 开发权威入口为 [`DEV-CONTROL.md`](../DEV-CONTROL.md)，如有冲突以权威文档为准。
+>
 > **最高优先级参考：`docs/background/REQS-竞赛核心需求.md`**  
 > 本文档 = PRD + 竞品分析 + 架构分析 + 创新调研 + UI设计 + 比赛需求 的压缩版  
 > 每次编码前必读。冲突时以 REQS.md 为准。  

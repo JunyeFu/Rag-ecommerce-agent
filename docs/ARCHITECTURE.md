@@ -1,5 +1,7 @@
 # 系统架构 — AI 全栈挑战赛 (v5.0)
 
+> **⚠️ 辅助文档** - 开发权威入口为 [`DEV-CONTROL.md`](DEV-CONTROL.md)，如有冲突以权威文档为准。
+>
 > 课题：基于 RAG 的多模态电商智能导购 AI Agent  
 > 比赛：AI 全栈挑战赛 (第3届)  
 > 评审标准：`docs/background/REQS-竞赛核心需求.md`
@@ -79,9 +81,11 @@ classify_intent → route_after_intent
 | `node_classify_intent` | 意图分类 + 槽位提取 | 9类意图 + 38对品类关键词推理 + 对话历史品类继承 + 品类切换自动重置偏好 + 否定语义解析 |
 | `node_clarify` | 缺失信息追问 | LLM 生成自然追问（品类/预算/场景），含 LLM 失败时的模板降级 |
 | `node_retrieve` | RAG 检索 + 精排 | Qdrant → Reranker → 文本级否定过滤（场景化购物自动分解多类目检索） |
-| `node_rank` | 多维排序 | 语义(40%) × 价格(20%) × 评分(15%) × 品牌(10%) × 属性(15%) |
+| `product_ranker` | 多维排序 | 语义(40%) × 价格(20%) × 评分(15%) × 品牌(10%) × 属性(15%)，由检索链路调用 |
 | `node_generate` | 生成推荐回复 | LLM 三段式推荐 + 反幻觉约束 + 匹配度标注 |
 | `node_cart` | 购物车 CRUD | 对话式加购/删除/清空/查看/下单确认（2步流程） |
+| `node_compare` | 多商品对比 | 候选商品解析、品牌/品类过滤、维度对比、LLM 对比总结 |
+| `node_web_search` | 联网兜底 | 非商品库问题或外部信息查询的降级路径 |
 
 ---
 

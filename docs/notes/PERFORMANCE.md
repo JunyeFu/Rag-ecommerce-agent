@@ -1,7 +1,9 @@
 # 性能基准报告
 
+> **⚠️ 辅助文档** - 开发权威入口为 [`DEV-CONTROL.md`](../DEV-CONTROL.md)，如有冲突以权威文档为准。
+>
 > 测评环境：WSL Ubuntu 22.04, Python 3.11, Doubao-Seed-2.0-lite (ep-20260514111645-lmgt2)
-> 商品索引：190 条 (Qdrant 1024-dim, bge-large-zh-v1.5)
+> 商品索引：287 条 (Qdrant 1024-dim, bge-large-zh-v1.5)
 > 测量时间：2026-05-28
 
 ---

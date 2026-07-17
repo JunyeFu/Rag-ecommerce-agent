@@ -1,4 +1,4 @@
-# RAG E-Commerce Agent - Claude Code 上下文 v4.0
+# RAG E-Commerce Agent - Codex 上下文 v4.0
 
 > **⚠️ 辅助文档** - 开发权威入口为 [`docs/DEV-CONTROL.md`](docs/DEV-CONTROL.md)，如有冲突以权威文档为准。
 

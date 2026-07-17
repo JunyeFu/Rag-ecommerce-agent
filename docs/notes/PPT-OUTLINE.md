@@ -32,7 +32,7 @@
 - 标注延迟：~80ms + 15ms + 900ms + 1.5s = ~2.5s 纯管道
 
 ## P7: Agent 编排（LangGraph）
-- 10 节点工作流图：classify→retrieve→rerank→generate→clarify→anti_select→compare→cart→checkout→vision_search
+- 7 个显式主节点 + 条件路由图：classify_intent→clarify/retrieve/compare/cart/web_search/generate
 - 多轮状态管理：PostgreSQL sessions 表持久化
 
 ## P8: 防幻觉机制
