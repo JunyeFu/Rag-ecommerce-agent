@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.unit
+
 from app.services.intent import _keyword_extract_negation
 
 

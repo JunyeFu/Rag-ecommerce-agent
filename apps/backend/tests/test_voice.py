@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.integration
+
 """Voice API contract tests."""
 import json
 import uuid

@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.integration
+
 """Natural-language cart helper tests."""
 
 import pytest

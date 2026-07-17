@@ -1,4 +1,7 @@
 import pytest
+pytestmark = pytest.mark.unit
+
+import pytest
 
 from app.services import agent
 from app.services.agent import (

@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.unit
+
 from app.services.agent import (
     _filter_chunks_by_requested_category,
     _filter_products_by_requested_category,

@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.unit
+
 """
 pgvector retriever unit tests - tests pure functions without database dependency
 
