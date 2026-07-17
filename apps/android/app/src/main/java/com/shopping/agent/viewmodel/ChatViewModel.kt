@@ -423,11 +423,15 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         val convId = _uiState.value.currentConversationId
 
         try {
+                val isDemoMode = getApplication<Application>()
+                    .getSharedPreferences("shopping_theme_prefs", android.content.Context.MODE_PRIVATE)
+                    .getBoolean("demo_mode_enabled", false)
                 chatRepository.sendMessage(
                     text = text,
                     conversationId = _uiState.value.currentConversationId,
                     cartSessionId = cartSessionId,
                     userId = userRepo.getUserId(),
+                    isDemoMode = isDemoMode,
                 )
                     .collect { event ->
                         when (event) {

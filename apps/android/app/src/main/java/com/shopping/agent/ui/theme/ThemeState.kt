@@ -9,6 +9,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 
 private const val PREFS_NAME = "shopping_theme_prefs"
 private const val KEY_DARK_MODE = "dark_mode_enabled"
+private const val KEY_DEMO_MODE = "demo_mode_enabled"
 
 /**
  * 全局深色模式状态管理
@@ -26,6 +27,17 @@ class ThemeState(context: Context) {
     fun toggleDarkMode(enabled: Boolean) {
         isDarkMode.value = enabled
         prefs.edit().putBoolean(KEY_DARK_MODE, enabled).apply()
+    }
+
+    /** 演示模式开关状态 */
+    val isDemoMode: MutableState<Boolean> = mutableStateOf(
+        prefs.getBoolean(KEY_DEMO_MODE, false)
+    )
+
+    /** 切换演示模式并持久化 */
+    fun toggleDemoMode(enabled: Boolean) {
+        isDemoMode.value = enabled
+        prefs.edit().putBoolean(KEY_DEMO_MODE, enabled).apply()
     }
 }
 

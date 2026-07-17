@@ -19,6 +19,7 @@ import com.shopping.agent.ui.components.HistoryDrawer
 import com.shopping.agent.ui.components.MainBottomNavBar
 import com.shopping.agent.ui.components.bottomNavItems
 import com.shopping.agent.ui.screens.*
+import com.shopping.agent.ui.theme.LocalThemeState
 import com.shopping.agent.viewmodel.ChatViewModel
 import com.shopping.agent.viewmodel.ProductDetailViewModel
 
@@ -38,6 +39,7 @@ fun AppNavGraph(
     val isTabRoute = currentRoute in tabRoutes
 
     var drawerVisible by remember { mutableStateOf(false) }
+    val themeState = LocalThemeState.current
 
     val appViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
         "AppNavGraph requires a ViewModelStoreOwner"
@@ -204,6 +206,8 @@ fun AppNavGraph(
                                     }
                                 }
                             },
+                            isDemoMode = themeState.isDemoMode.value,
+                            onDemoModeChange = { themeState.toggleDemoMode(it) },
                         )
                     }
                     composable("profile_edit") {

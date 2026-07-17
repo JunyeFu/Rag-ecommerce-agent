@@ -31,6 +31,8 @@ fun SettingsScreen(
     onNavigateToCountryRegion: () -> Unit = {},
     onSwitchAccount: () -> Unit = {},
     onLogout: () -> Unit = {},
+    isDemoMode: Boolean = false,
+    onDemoModeChange: (Boolean) -> Unit = {},
 ) {
     Column(
         modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
@@ -85,6 +87,13 @@ fun SettingsScreen(
                     Switch(
                         checked = themeState.isDarkMode.value,
                         onCheckedChange = { themeState.toggleDarkMode(it) }
+                    )
+                })
+                SettingsDivider()
+                SettingsRow(Icons.Default.Science, "演示模式", onClick = {}, trailing = {
+                    Switch(
+                        checked = isDemoMode,
+                        onCheckedChange = onDemoModeChange
                     )
                 })
                 SettingsDivider()
