@@ -19,6 +19,7 @@ class Product(Base):
     category: Mapped[str] = mapped_column(String(128), nullable=False, index=True)
     brand: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
     rating: Mapped[float] = mapped_column(Float, default=0)
+    rating_count: Mapped[int] = mapped_column(Integer, default=0, comment="评分人数")
     image_urls: Mapped[list[str] | None] = mapped_column(ARRAY(String), default=list)
     stock: Mapped[int] = mapped_column(Integer, default=0)
     sales: Mapped[int] = mapped_column(Integer, default=0)

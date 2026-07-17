@@ -14,7 +14,8 @@ import app.models  # noqa: E402, F401 — 触发所有 ORM 模型注册
 if settings.DATABASE_URL:
     engine = create_async_engine(
         settings.DATABASE_URL,
-        echo=False, pool_size=20, max_overflow=10, pool_pre_ping=True,
+        echo=False, pool_size=20, max_overflow=10,
+        pool_pre_ping=True, pool_recycle=3600, pool_timeout=30,
     )
     AsyncSessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 else:

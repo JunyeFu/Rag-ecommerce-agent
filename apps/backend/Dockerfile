@@ -3,9 +3,9 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# 系统依赖（curl 用于 healthcheck）
+# 系统依赖（curl 用于 healthcheck, libgomp1 用于 torch）
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
+    curl libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Python 依赖（阿里云镜像加速）
@@ -25,6 +25,10 @@ ARG HF_ENDPOINT=https://hf-mirror.com
 ENV HF_ENDPOINT=${HF_ENDPOINT}
 RUN python -c "from huggingface_hub import snapshot_download; snapshot_download('BAAI/bge-large-zh-v1.5')" && \
     python -c "from huggingface_hub import snapshot_download; snapshot_download('BAAI/bge-reranker-v2-m3')"
+
+# 非 root 用户运行
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
 
 EXPOSE 8080
 ENV APP_PORT=8080

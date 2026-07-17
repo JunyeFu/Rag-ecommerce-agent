@@ -28,9 +28,6 @@ DATA_DIR_CANDIDATES = [
     APP_ROOT / "data" / "products",
     REPO_ROOT / "data" / "products",
     REPO_ROOT / "apps" / "data" / "products",
-    APP_ROOT / "data" / "qdrant",
-    REPO_ROOT / "data" / "qdrant",
-    REPO_ROOT / "apps" / "data" / "qdrant",
 ]
 JSONL_PATH = next(
     (

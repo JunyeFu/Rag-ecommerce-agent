@@ -59,8 +59,11 @@ async def lifespan(app: FastAPI):
                     await conn.execute(text(
                         "ALTER TABLE messages ADD COLUMN IF NOT EXISTS audio_data BYTEA"
                     ))
-                except Exception:
-                    pass  # 列/索引已存在或数据库不支持 IF NOT EXISTS
+                    await conn.execute(text(
+                        "ALTER TABLE products ADD COLUMN IF NOT EXISTS rating_count INTEGER DEFAULT 0"
+                    ))
+                except Exception as e:
+                    logger.debug("Schema migration skipped: %s", e)
             logger.info("数据库表创建/验证完成")
             _startup._state.db_done = True
         except Exception as exc:
@@ -216,7 +219,10 @@ if IMAGES_DIR.exists():
         """
         from fastapi.responses import FileResponse
 
-        image_file = IMAGES_DIR / file_path
+        image_file = (IMAGES_DIR / file_path).resolve()
+        if not str(image_file).startswith(str(IMAGES_DIR.resolve())):
+            from fastapi import HTTPException
+            raise HTTPException(status_code=403, detail="Forbidden")
         if not image_file.exists() or not image_file.is_file():
             from fastapi import HTTPException
             raise HTTPException(status_code=404, detail="Image not found")
@@ -234,16 +240,20 @@ async def health():
     pgvector_status = "unknown"
     embedding_count = 0
     try:
-        async with engine.connect() as conn:
-            await conn.execute(text("SELECT 1"))
-            result = await conn.execute(text("SELECT COUNT(*) FROM products WHERE embedding IS NOT NULL"))
-            embedding_count = result.scalar()
-            pgvector_status = "ok"
+        if engine is None:
+            db_status = "not_configured"
+            pgvector_status = "not_configured"
+        else:
+            async with engine.connect() as conn:
+                await conn.execute(text("SELECT 1"))
+                result = await conn.execute(text("SELECT COUNT(*) FROM products WHERE embedding IS NOT NULL"))
+                embedding_count = result.scalar()
+                pgvector_status = "ok"
     except Exception as e:
         db_status = "unavailable"
         pgvector_status = f"unavailable: {str(e)[:50]}"
 
-    healthy = db_status == "connected"
+    healthy = db_status == "connected" and pgvector_status == "ok"
     return JSONResponse(status_code=200 if healthy else 503, content={
         "status": "ok" if healthy else "degraded",
         "version": "1.0.0",

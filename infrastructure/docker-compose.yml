@@ -25,7 +25,7 @@ services:
       start_period: 300s
 
   postgres:
-    image: postgres:16
+    image: pgvector/pgvector:pg16
     container_name: shopping-pg
     restart: unless-stopped
     environment:

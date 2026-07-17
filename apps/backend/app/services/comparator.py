@@ -167,10 +167,6 @@ async def _fetch_products_from_db(product_ids: list[str]) -> list[dict]:
     return products
 
 
-# Backward-compatible alias
-_fetch_products_from_qdrant = _fetch_products_from_db
-
-
 # ── LLM 总结生成 ──────────────────────────────────────────
 
 _COMPARISON_SYSTEM_PROMPT = (
