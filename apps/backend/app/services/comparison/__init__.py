@@ -1,8 +1,7 @@
 """
-商品对比 - 多商品多维度对比服务
-从 PostgreSQL 检索商品详情 -> 构建对比维度 -> LLM 生成总结
+商品对比服务包
 """
-from app.services.comparison import (
+from app.services.comparison.pipeline import (
     logger,
     CORE_DIMENSIONS,
     ATTRIBUTE_PRIORITY,
@@ -13,12 +12,16 @@ from app.services.comparison import (
     _generate_summary,
     ComparisonPipeline,
     compare_products,
+)
+from app.services.comparison.strategies import (
     WinnerStrategy,
     PriceWinnerStrategy,
     RatingWinnerStrategy,
     NoWinnerStrategy,
     NumericAttributeWinnerStrategy,
     _determine_winner,
+)
+from app.services.comparison.utils import (
     _extract_number,
     _build_comparison_table,
     _fallback_summary,
