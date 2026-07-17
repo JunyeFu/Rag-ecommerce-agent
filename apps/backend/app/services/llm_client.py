@@ -1,8 +1,9 @@
 """
-LLM 调用封装 — Doubao (豆包) OpenAI-compatible，DeepSeek 降级回退
+LLM 调用封装 — 多 Provider 自适应 (OpenAI-compatible)
 遵循开发规约 v2.0 §3.3.3: 大模型调用统一封装
 
-优先级: Doubao (比赛指定) → DeepSeek (降级)
+优先级: DOUBAO_API_KEY → DEEPSEEK_API_KEY
+当前使用: Mimo v2.5 (via DEEPSEEK slot)
 可测试性: create_llm_client() 接受参数注入，测试时可传 mock client。
 """
 import asyncio
@@ -17,6 +18,15 @@ logger = logging.getLogger("llm_client")
 MAX_RETRIES = 2
 RETRY_BASE_DELAY = 1.0  # 指数退避: 1s, 2s, 4s...
 RETRYABLE_STATUSES = {429, 500, 502, 503, 504}
+
+
+def _needs_thinking_disabled(base_url: str, model: str) -> bool:
+    """Doubao 和 Mimo 默认开启 CoT thinking，需要显式禁用以降低 TTFT。"""
+    return (
+        "volces.com" in base_url          # Doubao
+        or "xiaomimimo.com" in base_url   # Mimo
+        or model.startswith("ep-")        # Doubao endpoint model
+    )
 
 
 def _is_retryable(exc: Exception) -> bool:
@@ -100,14 +110,12 @@ async def fast_chat_completion(
     async def _call():
         client = get_fast_client()
         model = settings.LLM_MODEL
-        # 自动匹配模型名：DeepSeek 用 deepseek-chat，Doubao 用 LLM_MODEL
         _base = str(client.base_url)
-        _is_doubao = "volces.com" in _base or model.startswith("ep-")
         if "deepseek.com" in _base and model.startswith("ep-"):
             model = settings.DEEPSEEK_MODEL or "deepseek-chat"
 
         extra_kwargs = {}
-        if _is_doubao:
+        if _needs_thinking_disabled(_base, model):
             extra_kwargs["extra_body"] = {"thinking": {"type": "disabled"}}
 
         response = await client.chat.completions.create(
@@ -163,12 +171,10 @@ async def chat_completion(
             _model = settings.DEEPSEEK_MODEL or "deepseek-chat"
     start = time.time()
 
-    # Doubao-Seed-2.0-lite 默认开启 Chain-of-Thought (reasoning_content)，
-    # 导致 TTFT 从 1.3s 暴涨到 10s。必须显式关闭 thinking。
-    # 仅对 Doubao (volces.com / ep-* endpoint) 添加此参数。
-    _is_doubao = ("volces.com" in str(_c.base_url)) or _model.startswith("ep-")
+    # Doubao / Mimo 默认开启 CoT thinking，导致 TTFT 暴涨。
+    # 必须显式关闭 thinking。
     extra_kwargs = {}
-    if _is_doubao:
+    if _needs_thinking_disabled(str(_c.base_url), _model):
         extra_kwargs["extra_body"] = {"thinking": {"type": "disabled"}}
 
     try:

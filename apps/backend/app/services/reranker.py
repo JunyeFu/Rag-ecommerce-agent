@@ -27,12 +27,19 @@ def _get_content(doc: Dict) -> str:
     """从 Qdrant 或通用格式文档中提取文本内容"""
     payload = doc.get("payload", {})
     if isinstance(payload, dict):
-        # 优先拼接 title + highlights（最相关文本）
         parts = []
         if payload.get("title"):
             parts.append(payload["title"])
+        if payload.get("category"):
+            parts.append(payload["category"])
+        if payload.get("brand"):
+            parts.append(payload["brand"])
         if payload.get("highlights"):
-            parts.extend(payload["highlights"][:3])
+            parts.extend(payload["highlights"][:5])
+        if payload.get("description"):
+            parts.append(str(payload["description"])[:200])
+        if payload.get("attributes"):
+            parts.append(" ".join(str(v) for v in payload["attributes"].values()))
         if parts:
             return " ".join(parts)
         if payload.get("text"):

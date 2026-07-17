@@ -69,16 +69,19 @@ async def lifespan(app: FastAPI):
     else:
         logger.info("DATABASE_URL 未配置，跳过数据库初始化（内存模式）")
 
-    # 预热 Reranker 模型（同步，阻塞启动直到就绪）
-    _startup._state.phase = "warming_reranker"
+    # 并行预热 Reranker + Embedding 模型
+    _startup._state.phase = "warming_models"
     try:
-        from app.services.reranker import _get_model
-        import asyncio as _asyncio
-        await _asyncio.to_thread(_get_model)
-        logger.info("Reranker model warmed up")
+        from app.services.reranker import _get_model as _load_reranker
+        from app.services.embedding import get_embedding_model as _load_embedding
+        await asyncio.gather(
+            asyncio.to_thread(_load_reranker),
+            asyncio.to_thread(_load_embedding),
+        )
+        logger.info("Reranker + Embedding models warmed up in parallel")
         _startup._state.reranker_warm = True
     except Exception as e:
-        logger.warning("Reranker warmup skipped: %s", e)
+        logger.warning("Model warmup skipped: %s", e)
 
     # 自动数据入库 — 确保 Qdrant 有商品向量（幂等）
     await _startup.ensure_qdrant_data()

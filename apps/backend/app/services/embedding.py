@@ -29,6 +29,17 @@ def get_embedding_model():
     return _embedding_model
 
 
+def set_shared_model(model):
+    """注入预加载的模型实例，避免 startup 播种后 API 端点重复加载。
+
+    由 startup.py 在 Qdrant 播种完成后调用，复用已加载的 SentenceTransformer，
+    节省 ~1.3GB RAM 和 10-30s 重复加载时间。
+    """
+    global _embedding_model
+    _embedding_model = model
+    logger.info("Embedding model injected from startup (shared instance)")
+
+
 async def embed_text(text: str) -> list[float]:
     """单文本 → 向量 (异步非阻塞)"""
     model = get_embedding_model()

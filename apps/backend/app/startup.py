@@ -365,6 +365,10 @@ async def ensure_qdrant_data() -> None:
         dim = model.get_sentence_embedding_dimension()
         logger.info("Embedding model ready, dim=%d", dim)
 
+        # 注入共享模型实例 — API 端点复用，避免重复加载（省 ~1.3GB RAM + 10-30s）
+        from app.services.embedding import set_shared_model
+        set_shared_model(model)
+
         # Create collection if needed
         if not collection_exists:
             client.create_collection(

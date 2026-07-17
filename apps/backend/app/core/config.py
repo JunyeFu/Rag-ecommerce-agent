@@ -55,6 +55,14 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["*"]
     MAX_UPLOAD_SIZE_MB: int = 10
 
+    # 检索配置
+    RETRIEVAL_TOP_K: int = 20
+    RERANKER_TOP_K: int = 10
+    HYBRID_SEARCH_ENABLED: bool = True
+
+    # Demo 模式 — 跳过 LLM 调用，仅 Qdrant 检索 + 模板化回复
+    DEMO_MODE: bool = False
+
     @field_validator("EMBEDDING_MODEL", mode="after")
     @classmethod
     def _resolve_embedding(cls, v: str) -> str:

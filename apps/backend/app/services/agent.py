@@ -13,6 +13,7 @@ from app.services.rag import retrieve as rag_retrieve
 from app.services.reranker import rerank_async
 from app.services.llm_client import chat_completion
 from app.schemas.sse_events import TextDeltaEvent, ProductCardEvent, DoneEvent, ErrorEvent, ProgressEvent, WebSearchResultEvent
+from app.core.config import settings
 from app.services.web_search import search_web, format_search_results, WEB_SEARCH_PROMPT, WEB_SEARCH_FALLBACK_PROMPT
 from app.services import cache
 from app.services import state_manager as sm
@@ -63,9 +64,9 @@ async def node_classify_intent(state: AgentState) -> AgentState:
         state["slots"] = {}
         return state
 
-    # 短词扩展：≤4 字符的查询添加扩展上下文，提升检索效果
+    # 查询扩展：短查询(≤6字)或明显查询类意图时展开关键词提升检索召回
     expanded = query
-    if len(query.strip()) <= 4:
+    if len(query.strip()) <= 6:
         expanded = await _expand_short_query(query)
         logger.info("Short query expanded: '%s' → '%s'", query, expanded)
 
@@ -456,7 +457,7 @@ async def node_retrieve(state: AgentState) -> AgentState:
         for sq in sub_queries:
             result = await rag_retrieve(
                 query=sq,
-                top_k=10,  # 扩容候选池供品类多样性采样
+                top_k=settings.RETRIEVAL_TOP_K,  # 扩容候选池供品类多样性采样
                 category=None,
                 price_min=slots.get("price_min"),
                 price_max=slots.get("price_max"),
@@ -476,7 +477,7 @@ async def node_retrieve(state: AgentState) -> AgentState:
     else:
         result = await rag_retrieve(
             query=query,
-            top_k=10,
+            top_k=settings.RETRIEVAL_TOP_K,
             category=slots.get("category"),
             price_min=slots.get("price_min"),
             price_max=slots.get("price_max"),
@@ -539,7 +540,7 @@ async def node_retrieve(state: AgentState) -> AgentState:
             query_text = state.get("rewritten_query") or state["query"]
             n_before = len(state["retrieved_chunks"])
             state["retrieved_chunks"] = await rerank_async(
-                query_text, state["retrieved_chunks"], top_k=10
+                query_text, state["retrieved_chunks"], top_k=settings.RERANKER_TOP_K
             )
             logger.info("Reranker applied: %d → %d chunks re-ranked", n_before, len(state["retrieved_chunks"]))
         except Exception as e:
@@ -2641,6 +2642,35 @@ async def generate_response(
     """
     t_start = time.monotonic()
     try:
+        # Demo 模式快速路径 — 跳过 LLM，仅 Qdrant 检索 + 模板化回复
+        if settings.DEMO_MODE:
+            from app.services import rag as _rag_module
+            logger.info("DEMO_MODE: mock SSE for query=%s", message[:60])
+            yield {"event": "progress", "data": ProgressEvent(message="[演示模式] 正在检索商品...").model_dump_json()}
+            result = await _rag_module.retrieve(query=message, top_k=settings.RETRIEVAL_TOP_K)
+            chunks = result.get("chunks", [])
+            if chunks:
+                yield {"event": "text_delta", "data": TextDeltaEvent(content=f"[演示模式] 为您找到 {len(chunks[:5])} 款相关商品：\n\n").model_dump_json()}
+                total = min(len(chunks), 5)
+                for i, c in enumerate(chunks[:total]):
+                    p = c.get("payload", {})
+                    yield {"event": "product_cards", "data": ProductCardEvent(
+                        product_id=p.get("product_id", ""),
+                        title=p.get("title", ""),
+                        price=p.get("price", 0),
+                        rating=p.get("rating", 0),
+                        image_url=p.get("image_url") or (p.get("image_urls", [None])[0] if p.get("image_urls") else None),
+                        category=p.get("category", ""),
+                        highlights=p.get("highlights", [])[:3],
+                        match_score=round(c.get("score", 0.5), 4),
+                        index=i + 1,
+                        total=total,
+                    ).model_dump_json()}
+            else:
+                yield {"event": "text_delta", "data": TextDeltaEvent(content="[演示模式] 未找到匹配商品，请尝试其他关键词。\n").model_dump_json()}
+            yield {"event": "done", "data": DoneEvent(latency_ms=0, total_cards=min(len(chunks), 5), message="demo-mode").model_dump_json()}
+            return
+
         yield {"event": "progress", "data": ProgressEvent(message="正在分析您的需求...").model_dump_json()}
         yield {"event": "text_delta", "data": TextDeltaEvent(content="收到，我马上帮你处理。\n\n").model_dump_json()}
 

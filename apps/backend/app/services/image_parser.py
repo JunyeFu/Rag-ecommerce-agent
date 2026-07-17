@@ -1,9 +1,9 @@
 """
 Image understanding for product search.
 
-The camera-search path uses Doubao's OpenAI-compatible vision API only. Local
-vision models are intentionally not loaded here, so mobile startup and backend
-deployments do not depend on heavyweight local model files.
+Uses the configured LLM provider's vision API (OpenAI-compatible format).
+Local vision models are intentionally not loaded here, so mobile startup
+and backend deployments do not depend on heavyweight local model files.
 """
 import asyncio
 import base64
@@ -32,24 +32,33 @@ UPLOAD_DIR = Path(__file__).resolve().parents[3] / "uploads"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def get_vision_readiness() -> dict:
-    """Return lightweight Doubao vision readiness details."""
+def _api_key_configured() -> bool:
     from app.core.config import settings
+    return bool(settings.DOUBAO_API_KEY or settings.DEEPSEEK_API_KEY)
 
-    configured = bool(settings.DOUBAO_API_KEY)
+
+def get_vision_readiness() -> dict:
+    """Return vision API readiness details."""
     return {
-        "provider": "doubao_vision_api",
-        "cloud_vision_configured": configured,
-        "ready": configured,
+        "provider": "llm_vision_api",
+        "cloud_vision_configured": _api_key_configured(),
+        "ready": _api_key_configured(),
     }
 
 
-async def _parse_with_doubao(image_bytes: bytes) -> dict:
-    """Parse a product image using Doubao's OpenAI-compatible vision format."""
+def _needs_thinking_disabled() -> bool:
+    """Doubao and Mimo need explicit thinking=disabled for vision calls."""
+    from app.core.config import settings
+    base = (settings.DOUBAO_BASE_URL or settings.DEEPSEEK_BASE_URL or "").lower()
+    return "volces.com" in base or "xiaomimimo.com" in base
+
+
+async def _parse_with_vision(image_bytes: bytes) -> dict:
+    """Parse a product image using the configured LLM vision API (OpenAI-compatible)."""
     from app.core.config import settings
 
-    if not settings.DOUBAO_API_KEY:
-        raise RuntimeError("DOUBAO_API_KEY is not configured")
+    if not _api_key_configured():
+        raise RuntimeError("No API key configured for vision (set DOUBAO_API_KEY or DEEPSEEK_API_KEY)")
 
     img_b64 = base64.b64encode(image_bytes).decode("utf-8")
     data_url = f"data:image/jpeg;base64,{img_b64}"
@@ -67,17 +76,22 @@ async def _parse_with_doubao(image_bytes: bytes) -> dict:
 
     client = _get_llm_client()
     start = time.time()
+
+    extra_kwargs = {}
+    if _needs_thinking_disabled():
+        extra_kwargs["extra_body"] = {"thinking": {"type": "disabled"}}
+
     resp = await client.chat.completions.create(
         model=settings.LLM_MODEL,
         messages=messages,
         temperature=0.1,
         max_tokens=256,
-        extra_body={"thinking": {"type": "disabled"}},
+        **extra_kwargs,
     )
 
     elapsed = time.time() - start
     output_text = resp.choices[0].message.content or ""
-    logger.info("Doubao vision parsed in %.1fs: %s...", elapsed, output_text[:80])
+    logger.info("Vision parsed in %.1fs: %s...", elapsed, output_text[:80])
 
     result = _parse_vlm_output(output_text)
     if result["confidence"] == 0.0:
@@ -87,16 +101,16 @@ async def _parse_with_doubao(image_bytes: bytes) -> dict:
 
 async def parse_product_image(image_bytes: bytes) -> dict:
     """
-    Extract structured product attributes from an image through Doubao vision.
+    Extract structured product attributes from an image through vision API.
 
     Returns:
         {category, brand, color, material, style, keywords, description, confidence}
     """
     try:
-        return await _parse_with_doubao(image_bytes)
+        return await _parse_with_vision(image_bytes)
     except Exception as e:
-        logger.error("Doubao vision API failed: %s", e)
-        raise RuntimeError(f"Doubao vision API failed: {str(e)[:100]}") from e
+        logger.error("Vision API failed: %s", e)
+        raise RuntimeError(f"Vision API failed: {str(e)[:100]}") from e
 
 
 def _build_prompt() -> str:

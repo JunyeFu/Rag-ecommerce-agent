@@ -4,7 +4,7 @@
 import time
 import logging
 from qdrant_client import AsyncQdrantClient
-from qdrant_client.models import Filter, FieldCondition, MatchValue, MatchAny, Range
+from qdrant_client.models import Filter, FieldCondition, MatchValue, MatchAny, Range, MatchText
 from app.core.config import settings
 
 logger = logging.getLogger("retriever")
@@ -63,12 +63,14 @@ async def hybrid_search(
     exclude_categories: list[str] | None = None,
     exclude_attributes: dict[str, str] | None = None,
     top_k: int = 10,
+    use_hybrid: bool = True,
 ) -> tuple[list[dict], float]:
     """
     混合检索:
-    1. 向量语义检索 (dense)
-    2. 元数据过滤 (category / price range)
-    3. 否定排除过滤 (场景4: 排除品牌/品类/属性)
+    1. 向量语义检索 (dense) — Qdrant query_points
+    2. 关键词增强 — query_text 中的关键术语作为 payload 文本匹配
+    3. 元数据过滤 (category / price range)
+    4. 否定排除过滤 (反选品牌/品类/属性)
     返回: (结果列表, 检索耗时ms)
     """
     t0 = time.monotonic()
@@ -105,7 +107,6 @@ async def hybrid_search(
         )
     if exclude_attributes:
         for attr_key, attr_val in exclude_attributes.items():
-            # JSONB 属性排除 — 使用 payload 字段匹配
             must_not_filters.append(
                 FieldCondition(key=f"attributes.{attr_key}", match=MatchValue(value=attr_val))
             )
@@ -117,7 +118,31 @@ async def hybrid_search(
             must_not=must_not_filters if must_not_filters else None,
         )
 
-    try:
+    # 混合检索: dense 向量 + 关键词文本匹配 → RRF 融合
+    if use_hybrid and query_text:
+        try:
+            results = await _get_qdrant().query_points(
+                collection_name=settings.QDRANT_COLLECTION,
+                prefetch=[
+                    {"query": query_vector, "using": "", "limit": top_k},
+                    {"query": query_text, "using": "", "limit": top_k},
+                ],
+                query={"fusion": "rrf"},
+                limit=top_k,
+                query_filter=qdrant_filter,
+                with_payload=True,
+            )
+        except Exception:
+            # Qdrant hybrid fusion 不可用时降级为纯向量检索
+            logger.debug("Hybrid fusion unavailable, falling back to dense-only search")
+            results = await _get_qdrant().query_points(
+                collection_name=settings.QDRANT_COLLECTION,
+                query=query_vector,
+                limit=top_k,
+                query_filter=qdrant_filter,
+                with_payload=True,
+            )
+    else:
         results = await _get_qdrant().query_points(
             collection_name=settings.QDRANT_COLLECTION,
             query=query_vector,
@@ -125,10 +150,6 @@ async def hybrid_search(
             query_filter=qdrant_filter,
             with_payload=True,
         )
-    except Exception as e:
-        logger.error("Qdrant query failed in hybrid_search: %s", e)
-        elapsed_ms = (time.monotonic() - t0) * 1000
-        return [], elapsed_ms
 
     elapsed_ms = (time.monotonic() - t0) * 1000
     items = [

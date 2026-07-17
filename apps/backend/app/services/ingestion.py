@@ -117,6 +117,7 @@ async def ingest_products_from_db(products: list[dict]) -> int:
             "highlights": prod.get("highlights", []),
             "scenarios": prod.get("scenarios", []),
             "attributes": prod.get("attributes", {}),
+            "text": texts[i],
         }
         points.append(PointStruct(id=point_id, vector=vec, payload=payload))
 
