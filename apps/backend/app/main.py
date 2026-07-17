@@ -12,7 +12,7 @@ from contextlib import asynccontextmanager
 
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -133,6 +133,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# 请求追踪中间件
+from app.core.middleware import RequestIDMiddleware
+app.add_middleware(RequestIDMiddleware)
+
 # Prometheus metrics — 所有 HTTP 请求的延迟/计数/错误率
 try:
     from prometheus_fastapi_instrumentator import Instrumentator
@@ -155,6 +159,18 @@ async def app_exception_handler(request: Request, exc: AppException):
         content=ApiResponse(
             code=exc.detail["code"] if isinstance(exc.detail, dict) else 5000,
             message=exc.detail["message"] if isinstance(exc.detail, dict) else str(exc.detail),
+            data=None,
+        ).model_dump(),
+    )
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    """将 HTTPException 统一转换为 ApiResponse 格式"""
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=ApiResponse(
+            code=exc.status_code * 10,
+            message=str(exc.detail) if not isinstance(exc.detail, dict) else exc.detail.get("message", str(exc.detail)),
             data=None,
         ).model_dump(),
     )
