@@ -122,7 +122,7 @@ ExploreProductPostScreen(postId, onBack)
 
 | 维度 | 变更前 | 变更后 |
 |------|:--:|:--:|
-| Qdrant 向量 | 50 | **190** |
+| pgvector 向量 | 50 | **287** |
 | 品类 | 1 (电子) | **94** |
 | MockProducts | 10条3品类 | **30条15品类** |
 | MockCategoryProducts | 5Tab | **10Tab 72条** |
@@ -183,7 +183,7 @@ ExploreProductPostScreen(postId, onBack)
 修改:
   docs/standards/DESIGN.md                    v5.4 → v5.5
   docs/progress/开发进度控制表.md              场景9/M7更新
-  apps/backend/data/qdrant/seed_products.json 50→190条
+  apps/backend/data/seed_products.json 50→287条
   data/mock/MockProducts.kt                   10→30条 (picsum→placehold)
   data/mock/MockCategoryProducts.kt           5Tab→10Tab (picsum→placehold)
   data/mock/MockCompareData.kt                默认推荐+7品类

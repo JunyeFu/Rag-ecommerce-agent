@@ -247,7 +247,7 @@ Body: `{ "session_id": "...", "address": "收货地址" }`
   "status": "ok",
   "version": "1.0.0",
   "database": "connected",
-  "qdrant": "ok"
+   "pgvector": "ok"
 }
 ```
 

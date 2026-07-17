@@ -1,6 +1,6 @@
 # 改进方案初版设计 v1.0
 
-> 来源：评委模拟中识别的 3 个改进方向
+> 来源：项目自评中识别的 3 个改进方向
 > 状态：初版设计，待评审后进入迭代
 
 ---
@@ -13,7 +13,7 @@
 |----------|:---:|:---:|
 | DB 建表 | 1-3s | ~0.5s |
 | Reranker 预热（CrossEncoder 加载） | 30-120s | 3-10s |
-| Qdrant 等待就绪 | 0-120s | ~0s |
+| pgvector 等待就绪 | 0-120s | ~0s |
 | Embedding 模型下载 | 2-5min | ~0s |
 | SentenceTransformer 加载 | 10-30s | 10-30s |
 | 向量编码 + 入库 | 20-40s | ~1s（已存在则跳过） |
@@ -23,17 +23,17 @@
 
 #### A.1.1 并行化启动（~30s 节省）
 
-`main.py` lifespan 中 reranker 预热和 Qdrant 数据播种是顺序执行但互不依赖：
+`main.py` lifespan 中 reranker 预热和 pgvector 数据播种是顺序执行但互不依赖：
 
 ```python
 # 现状（顺序）
 await _warmup_reranker()          # 3-10s
-await _startup.ensure_qdrant_data()  # 1-40s
+await _startup.ensure_pgvector_data()  # 1-40s
 
 # 改为并行
 await asyncio.gather(
     _warmup_reranker(),
-    _startup.ensure_qdrant_data(),
+    _startup.ensure_pgvector_data(),
 )
 ```
 
@@ -72,11 +72,11 @@ CrossEncoder('BAAI/bge-reranker-v2-m3')
 
 模型在 `docker build` 时下载到镜像层，容器启动时直接加载本地缓存，**跳过 2-5min 下载**。
 
-代价：镜像增大 ~3.5GB。可接受，比赛评审用 Docker 环境通常不关心镜像大小。
+代价：镜像增大 ~3.5GB。可接受，部署环境用 Docker 环境通常不关心镜像大小。
 
 #### A.2.2 预计算向量快照
 
-在 Docker build 阶段运行一次完整编码，将 Qdrant 快照打入镜像或 volume。容器启动时直接挂载，**跳过 20-40s 编码**。
+在 Docker build 阶段运行一次完整编码，将 pgvector 快照打入镜像或 volume。容器启动时直接挂载，**跳过 20-40s 编码**。
 
 ### A.3 推荐实施路径
 
@@ -133,7 +133,7 @@ results = mmr_deduplicate(all_results)
 
 #### B.2.1 真正的 Hybrid Search（BM25 + Dense）
 
-Qdrant 原生支持多路检索 + RRF 融合：
+pgvector 支持多路检索 + RRF 融合：
 
 ```python
 # Prefetch: 同时发两条检索
@@ -142,7 +142,7 @@ prefetch = [
     models.Prefetch(query=sparse_vector, using="sparse", limit=20),
 ]
 results = client.query_points(
-    collection_name="products",
+    table_name="products",
     prefetch=prefetch,
     query=models.FusionQuery(fusion=models.Fusion.RRF),
 )

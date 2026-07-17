@@ -1,10 +1,8 @@
-# 系统架构 — AI 全栈挑战赛 (v5.0)
+# 系统架构 (v5.0)
 
 > **⚠️ 辅助文档** - 开发权威入口为 [`DEV-CONTROL.md`](DEV-CONTROL.md)，如有冲突以权威文档为准。
 >
-> 课题：基于 RAG 的多模态电商智能导购 AI Agent  
-> 比赛：AI 全栈挑战赛 (第3届)  
-> 评审标准：`docs/background/REQS-竞赛核心需求.md`
+> 课题：基于 RAG 的多模态电商智能导购 AI Agent
 
 ---
 
@@ -32,8 +30,8 @@
           ┌─────────────────┼─────────────────┐
           │                 │                  │
     ┌─────┴─────┐   ┌──────┴──────┐   ┌──────┴──────┐
-    │  LangGraph │   │   Qdrant    │   │ PostgreSQL  │
-    │  编排引擎  │   │  向量数据库  │   │  结构化数据  │
+     │  LangGraph │   │  pgvector   │   │ PostgreSQL  │
+     │  编排引擎  │   │  向量存储    │   │  结构化数据  │
     └─────┬─────┘   └──────┬──────┘   └──────┬──────┘
           │                │                  │
     ┌─────┴──────┐   ┌─────┴──────┐           │
@@ -52,12 +50,12 @@
 
 | 层 | 选型 | 理由 |
 |----|------|------|
-| 客户端 | Android Kotlin + Compose | 比赛要求原生 |
+| 客户端 | Android Kotlin + Compose | 原生客户端 |
 | 后端框架 | FastAPI | 异步 + SSE EventSourceResponse |
 | Agent 编排 | LangGraph | StateGraph + conditional edges |
-| 向量库 | Qdrant (1024-dim) | 本地部署 + REST API + 高性能 |
+| 向量库 | pgvector (1024-dim) | PostgreSQL 扩展，统一数据层 |
 | 数据库 | PostgreSQL + asyncpg | 会话/商品/购物车持久化 |
-| LLM | Doubao-Seed-2.0-lite | 比赛提供，TPM 80万，RPM 700 |
+| LLM | Doubao-Seed-2.0-lite | TPM 80万，RPM 700 |
 | Embedding | BGE-large-zh-v1.5 | 中文电商领域 SOTA |
 | Reranker | BGE-Reranker-large | 中文精排提升 |
 | 视觉 API | Doubao-Seed-2.0-lite | 拍照找货图像理解 |
@@ -80,7 +78,7 @@ classify_intent → route_after_intent
 |------|------|----------|
 | `node_classify_intent` | 意图分类 + 槽位提取 | 9类意图 + 38对品类关键词推理 + 对话历史品类继承 + 品类切换自动重置偏好 + 否定语义解析 |
 | `node_clarify` | 缺失信息追问 | LLM 生成自然追问（品类/预算/场景），含 LLM 失败时的模板降级 |
-| `node_retrieve` | RAG 检索 + 精排 | Qdrant → Reranker → 文本级否定过滤（场景化购物自动分解多类目检索） |
+| `node_retrieve` | RAG 检索 + 精排 | pgvector → Reranker → 文本级否定过滤（场景化购物自动分解多类目检索） |
 | `product_ranker` | 多维排序 | 语义(40%) × 价格(20%) × 评分(15%) × 品牌(10%) × 属性(15%)，由检索链路调用 |
 | `node_generate` | 生成推荐回复 | LLM 三段式推荐 + 反幻觉约束 + 匹配度标注 |
 | `node_cart` | 购物车 CRUD | 对话式加购/删除/清空/查看/下单确认（2步流程） |
@@ -143,7 +141,7 @@ LLM 输出使用结构化标记 `[SUMMARY]` / `[PRODUCT_N]` / `[CLOSING]`，`_em
 
 | 加分项 | 难度 | 说明 |
 |--------|:--:|------|
-| 拍照找货 | ⭐⭐⭐ | Doubao 视觉 API 图像理解 → 结构化属性 → Qdrant 相似检索 → SSE 流式返回 |
+| 拍照找货 | ⭐⭐⭐ | Doubao 视觉 API 图像理解 → 结构化属性 → pgvector 相似检索 → SSE 流式返回 |
 | 多商品对比 | ⭐⭐⭐ | 多维属性提取 + LLM 对比总结 + 维度可视化面板 |
 | 反选与排除 | ⭐⭐ | Clarify Chips 反选 + 文本级兜底过滤 + 否定语义解析 |
 | 购物车管理 | ⭐⭐ | 对话式 CRUD + 自然语言序号/名称匹配 + 多商品批量操作（索引提取） |
@@ -170,7 +168,7 @@ LLM 输出使用结构化标记 `[SUMMARY]` / `[PRODUCT_N]` / `[CLOSING]`，`_em
 相机拍照 → ChatInputBar (Uri → tempFile) → ChatViewModel.sendImage()
   → POST /api/v1/upload/vision-search (multipart/form-data)
   → Doubao 视觉 API 图像理解 → product_info (description/category/attributes)
-  → Qdrant 相似商品检索 (top_k=3)
+  → pgvector 相似商品检索 (top_k=3)
   → SSE stream: vision_parsed | product_cards | done
 ```
 
@@ -199,13 +197,13 @@ apps/backend/app/            # 后端服务
 ├── services/                # 业务逻辑
 │   ├── agent.py             # LangGraph Agent 编排
 │   ├── intent.py            # 意图分类
-│   ├── retriever.py         # Qdrant 检索
+│   ├── retriever.py         # pgvector 检索
 │   ├── reranker.py          # BGE 精排
 │   ├── product_ranker.py    # 多维排序
 │   ├── comparator.py        # 商品对比
 │   ├── cart_service.py      # 购物车持久化
 │   └── image_parser.py      # Doubao 视觉 API 图像理解
-└── data/qdrant/             # 数据导入脚本
+└── data/                    # 数据导入脚本
 
 apps/android/app/src/main/java/com/shopping/agent/
 ├── ui/                      # Compose 页面
@@ -222,9 +220,7 @@ apps/android/app/src/main/java/com/shopping/agent/
 docs/                        # 技术文档
 ├── ARCHITECTURE.md          # 本文档
 ├── API.md                   # API 接口文档
-├── DEMO_SCRIPT.md           # 演示脚本
-├── standards/DATA-CONTRACT.md # 数据协议
-└── background/REQS-竞赛核心需求.md  # 竞赛需求
+└── standards/DATA-CONTRACT.md # 数据协议
 ```
 
 ---
@@ -233,10 +229,10 @@ docs/                        # 技术文档
 
 ```bash
 # 1. 基础设施
-docker compose -f infrastructure/docker-compose.yml up -d postgres qdrant
+docker compose -f infrastructure/docker-compose.yml up -d postgres
 
 # 2. 数据导入
-cd apps/backend && python -c "from app.startup import ensure_qdrant_data; import asyncio; asyncio.run(ensure_qdrant_data())"
+cd apps/backend && python -c "from app.startup import ensure_pgvector_data; import asyncio; asyncio.run(ensure_pgvector_data())"
 
 # 3. 后端服务
 cd apps/backend && uvicorn app.main:app --host 0.0.0.0 --port 8080

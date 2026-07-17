@@ -5,8 +5,8 @@
 验证环境：
 - Backend: FastAPI / Uvicorn, `http://127.0.0.1:8080/api/v1`
 - Database: Docker PostgreSQL, `localhost:5433`
-- Vector DB: Docker Qdrant, `localhost:6333`
-- 商品向量：`products` collection，190 条（评测时为 290 条）
+- Vector DB: pgvector in PostgreSQL, `localhost:5433`
+- 商品向量：`products` table，287 条（评测时为 290 条）
 
 基准脚本：
 - `apps/backend/scripts/benchmark_ttft.py`

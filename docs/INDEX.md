@@ -1,49 +1,42 @@
-# 文档与交付物索引
+# 文档索引
 
-> 更新时间：2026-07-01  
-> 用途：作为项目资料入口，减少答辩前查找成本。
+> 更新时间：2026-07-17
+> 用途：项目文档入口，快速定位所需资料。
 
-## 最高优先级
+## 开发权威
 
-- **`docs/DEV-CONTROL.md`**：开发权威入口，技术栈/命令/架构/规范/数据契约的唯一权威来源。
-- `docs/background/REQS-竞赛核心需求.md`：比赛刚性要求、评分权重、加分项体系。
-- `docs/PROJECT_STATUS.md`：当前项目状态与统一答辩口径。
-- `README.md`：项目入口、技术栈、快速启动。
+- **[`docs/DEV-CONTROL.md`](DEV-CONTROL.md)**：开发权威入口，技术栈/命令/架构/规范/数据契约的唯一权威来源。
+- [`README.md`](../README.md)：项目入口、技术栈、快速启动。
 
 ## 架构与接口
 
-- `docs/ARCHITECTURE.md`：系统架构、Agent、SSE、数据流。
-- `docs/API.md`：后端接口文档。
-- `docs/standards/DATA-CONTRACT.md`：前后端数据契约。
-- `docs/architecture/项目结构说明.md`：目录结构说明。
+- [`docs/ARCHITECTURE.md`](ARCHITECTURE.md)：系统架构、Agent、SSE、数据流。
+- [`docs/API.md`](API.md)：后端接口文档。
+- [`docs/standards/DATA-CONTRACT.md`](standards/DATA-CONTRACT.md)：前后端数据契约。
+- [`docs/architecture/项目结构说明.md`](architecture/项目结构说明.md)：目录结构说明（历史文档）。
 
-## 评测与性能
+## 开发规范
 
-- `docs/EVALUATION.md`：评测口径和 P@3 结果。
-- `docs/optimization/TTFT_BENCHMARK.md`：延迟与 TTFT 基准。
-- `docs/notes/PERFORMANCE.md`：性能说明。
+- [`docs/standards/DEV-GUIDE.md`](standards/DEV-GUIDE.md)：开发总纲、系统目标与创新约束。
+- [`docs/standards/开发规约-v2.md`](standards/开发规约-v2.md)：命名/代码/测试/提交规范。
+- [`docs/standards/SETUP.md`](standards/SETUP.md)：从零搭建详细指南。
+- [`docs/standards/MECHANISM.md`](standards/MECHANISM.md)：全链路机制设计。
+- [`docs/standards/DESIGN.md`](standards/DESIGN.md)：UI 设计规范。
 
-## 答辩资料
+## 性能
 
-- `docs/defense-ppt/PPT制作说明.md`：PPT 当前版本和制作说明。
-- `docs/defense-ppt/拾物-AI全栈挑战赛答辩-视觉修复版-v9.pptx`：当前最终 PPT。
-- `docs/defense-ppt/拾物-AI全栈挑战赛答辩-完整讲稿.md`：25 页逐页完整讲稿。
-- `docs/defense-kb/README.md`：答辩知识库入口。
-- `docs/DEMO_SCRIPT.md`：演示脚本。
-- `docs/submission/DEMO_RUNBOOK.md`：提交演示手册。
-- `docs/submission/拾物演示视频.mp4`：演示视频文件。
+- [`docs/notes/PERFORMANCE.md`](notes/PERFORMANCE.md)：性能基准。
+- [`docs/optimization/TTFT_BENCHMARK.md`](optimization/TTFT_BENCHMARK.md)：延迟与 TTFT 基准。
 
-## 背景与调研
+## 研究与优化
 
-- `docs/background/核心要求-比赛题目.md`：赛题说明整理。
-- `docs/background/PRD-电商AI导购Agent-V1.0.md`：产品需求文档，含历史设计口径。
-- `docs/background/电商RAG导购Agent案例分析.md`：竞品与案例分析。
-- `docs/background/PRD-背景资料-学术文献补充.md`：学术与行业背景。
-- `docs/optimization/INNOVATION-RESEARCH.md`：创新点研究。
+- [`docs/research/rag-framework-research-report.md`](research/rag-framework-research-report.md)：RAG 框架选型分析。
+- [`docs/optimization/INNOVATION-RESEARCH.md`](optimization/INNOVATION-RESEARCH.md)：技术创新点研究。
+- [`docs/optimization/IMPROVEMENT-DESIGN-V1.md`](optimization/IMPROVEMENT-DESIGN-V1.md)：架构改进设计方案。
 
-## 归档资料
+## 背景资料
 
-- `docs/archive/defense-ppt-old/`：历史 PPT 版本和旧 inspect 文件。
-- `docs/archive/defense-ppt-preview/`：旧 PPT 预览图和布局 JSON。
-
-归档资料仅用于追溯，不作为当前答辩口径来源。
+- [`docs/background/PRD-电商AI导购Agent-V1.0.md`](background/PRD-电商AI导购Agent-V1.0.md)：产品需求文档。
+- [`docs/background/Agent框架架构分析.md`](background/Agent框架架构分析.md)：框架选型分析。
+- [`docs/background/电商RAG导购Agent案例分析.md`](background/电商RAG导购Agent案例分析.md)：竞品与案例分析。
+- [`docs/background/PRD-背景资料-学术文献补充.md`](background/PRD-背景资料-学术文献补充.md)：学术与行业背景。
