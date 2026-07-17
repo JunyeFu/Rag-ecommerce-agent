@@ -211,6 +211,10 @@ async def node_cart(state: "AgentState") -> "AgentState":
 
     try:
         from app.core.database import AsyncSessionLocal
+        if AsyncSessionLocal is None:
+            state["response"] = "数据库未连接，购物车功能暂不可用。"
+            state["product_cards"] = []
+            return state
         async with AsyncSessionLocal() as db:
             if cart_action == "view":
                 items = await cart_service.get_cart(db, session_id, user_id=user_id)
@@ -369,7 +373,7 @@ async def run_agent(query: str, session_id: str = "") -> dict:
         "session_id": session_id,
         "slots": {},
     }
-    final_state = await agent_graph.ainvoke(initial_state)
+    final_state = await agent_graph.ainvoke(initial_state, config={"recursion_limit": 10})
     return final_state
 
 
@@ -662,7 +666,7 @@ async def generate_response(
         if route == "clarify":
             await _persist_dialog_context(conversation_id, after_intent)
             yield {"event": "progress", "data": ProgressEvent(message="正在分析您的需求细节...").model_dump_json()}
-            final_state = await agent_graph.ainvoke(after_intent)
+            final_state = await agent_graph.ainvoke(after_intent, config={"recursion_limit": 10})
             clarify_text = final_state.get("response", "")
             missing_list = after_intent.get("slots", {}).get("missing_slots", [])
             if not isinstance(missing_list, list):

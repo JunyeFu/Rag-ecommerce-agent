@@ -102,6 +102,15 @@ async def lifespan(app: FastAPI):
         logger.info("数据库连接已关闭")
     except Exception as exc:
         logger.error("数据库关闭异常: %s", exc)
+    try:
+        from app.services.llm_client import _client, _fast_client
+        if _client:
+            await _client.close()
+        if _fast_client:
+            await _fast_client.close()
+        logger.info("LLM HTTP clients closed")
+    except Exception as exc:
+        logger.error("LLM client cleanup error: %s", exc)
 
 
 # ── FastAPI app ───────────────────────────────────────────
