@@ -159,7 +159,7 @@ def _product_from_card(card: dict) -> dict:
 
 def _get_cart_backref_cards(state: AgentState) -> list[dict]:
     product_cards = state.get("product_cards", []) or []
-    slots = state.get("slots", {}) or []
+    slots = state.get("slots", {}) or {}
     prev_cards = slots.get("product_cards", []) or []
     return product_cards or prev_cards or []
 

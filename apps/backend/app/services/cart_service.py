@@ -19,10 +19,15 @@ def _cache_key(session_id: str, user_id: str = "") -> str:
 
 
 def _invalidate_cache(session_id: str, user_id: str = ""):
-    """清除指定 session（及可能的 user_id 变体）的缓存。
-    由于无法枚举所有 user_id 组合，采用前缀匹配删除。
+    """清除指定 session（及所有 user_id 变体）的缓存。
+
+    使用 ":" 分隔符精确匹配，避免 session_id 前缀重合导致误删
+    （例如 "abc123" 不应匹配 "abc123def" 的缓存键）。
     """
-    keys_to_remove = [k for k in _cart_cache if k.startswith(session_id)]
+    keys_to_remove = [
+        k for k in _cart_cache
+        if k == session_id or k.startswith(f"{session_id}:")
+    ]
     for k in keys_to_remove:
         _cart_cache.pop(k, None)
 
@@ -70,11 +75,13 @@ async def add_to_cart(
     _invalidate_cache(session_id)
 
     result = await db.execute(
-        select(CartItem).where(
+        select(CartItem)
+        .where(
             CartItem.session_id == sid,
             CartItem.product_id == product_id,
             CartItem.user_id == user_id if user_id else CartItem.user_id.is_(None),
         )
+        .with_for_update()
     )
     existing = result.scalar_one_or_none()
 
