@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 from app.core.database import get_db
+from app.schemas.common import ApiResponse
 from app.services import footprint_service
 
 router = APIRouter()
@@ -78,11 +79,11 @@ async def get_footprints(
             })
         items.append(item)
 
-    return {
+    return ApiResponse(data={
         "items": items,
         "count": len(items),
         "total": count,
-    }
+    })
 
 
 @router.get("/footprints/count")
@@ -98,7 +99,7 @@ async def get_footprint_count(
     if not user_id:
         raise HTTPException(status_code=400, detail="user_id 不能为空")
     count = await footprint_service.get_footprint_count(db, user_id)
-    return {"count": count}
+    return ApiResponse(data={"count": count})
 
 
 @router.post("/footprints/record")
@@ -118,4 +119,4 @@ async def record_footprint(
     if not body.user_id or not body.product_id:
         raise HTTPException(status_code=400, detail="user_id 和 product_id 不能为空")
     result = await footprint_service.record_footprint(db, body.user_id, body.product_id)
-    return result
+    return ApiResponse(data=result)

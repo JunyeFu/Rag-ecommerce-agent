@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, Form
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
+from app.schemas.common import ApiResponse
 from app.services import review_service
 
 router = APIRouter()
@@ -77,14 +78,14 @@ async def create_review(
         media=media_bytes,
         is_anonymous=is_anonymous,
     )
-    return {
+    return ApiResponse(data={
         "review_id": str(review.id),
         "product_id": review.product_id,
         "rating": review.rating,
         "nickname": review.nickname,
         "review_date": review.review_date.isoformat() if review.review_date else None,
         "message": "评价成功",
-    }
+    })
 
 
 @router.get("/reviews/product/{product_id}")
@@ -98,7 +99,7 @@ async def list_product_reviews(
     reviews, total, avg_rating = await review_service.get_reviews_by_product(
         db, product_id, limit=limit, offset=offset
     )
-    return {
+    return ApiResponse(data={
         "reviews": [
             {
                 "id": str(r.id),
@@ -116,7 +117,7 @@ async def list_product_reviews(
         ],
         "total": total,
         "average_rating": avg_rating,
-    }
+    })
 
 
 @router.get("/reviews/user/{user_id}")
@@ -128,7 +129,7 @@ async def list_user_reviews(
 ):
     """获取用户的所有评价"""
     reviews = await review_service.get_reviews_by_user(db, user_id, limit=limit, offset=offset)
-    return {
+    return ApiResponse(data={
         "reviews": [
             {
                 "id": str(r.id),
@@ -142,7 +143,7 @@ async def list_user_reviews(
             }
             for r in reviews
         ]
-    }
+    })
 
 
 @router.get("/reviews/{review_id}")
@@ -151,7 +152,7 @@ async def get_review(review_id: str, db: AsyncSession = Depends(get_db)):
     review = await review_service.get_review(db, review_id)
     if not review:
         raise HTTPException(status_code=404, detail="评价不存在")
-    return {
+    return ApiResponse(data={
         "id": str(review.id),
         "product_id": review.product_id,
         "user_id": review.user_id,
@@ -162,4 +163,4 @@ async def get_review(review_id: str, db: AsyncSession = Depends(get_db)):
         "review_date": review.review_date.isoformat() if review.review_date else None,
         "is_anonymous": review.is_anonymous,
         "created_at": review.created_at.isoformat() if review.created_at else None,
-    }
+    })

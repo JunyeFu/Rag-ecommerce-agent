@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 from app.core.database import get_db
+from app.schemas.common import ApiResponse
 from app.services import order_service, cart_service
 
 router = APIRouter()
@@ -50,14 +51,14 @@ async def place_order(body: PlaceOrderRequest, db: AsyncSession = Depends(get_db
     else:
         await cart_service.clear_cart(db, body.session_id, user_id=body.user_id)
 
-    return {
+    return ApiResponse(data={
         "order_id": str(order.id),
         "order_no": order.order_no,
         "total": order.total,
         "items_count": len(items_snapshot),
         "status": order.status,
         "created_at": order.created_at.isoformat() if order.created_at else None,
-    }
+    })
 
 
 @router.get("/orders")
@@ -67,7 +68,7 @@ async def list_orders(
 ):
     """查询当前会话的所有订单"""
     orders = await order_service.get_orders_by_session(db, session_id)
-    return {
+    return ApiResponse(data={
         "orders": [
             {
                 "order_id": str(o.id),
@@ -81,7 +82,7 @@ async def list_orders(
             }
             for o in orders
         ]
-    }
+    })
 
 
 @router.get("/orders/{order_id}")
@@ -90,7 +91,7 @@ async def get_order(order_id: str, db: AsyncSession = Depends(get_db)):
     order = await order_service.get_order(db, order_id)
     if not order:
         raise HTTPException(status_code=404, detail="订单不存在")
-    return {
+    return ApiResponse(data={
         "order_id": str(order.id),
         "order_no": order.order_no,
         "total": order.total,
@@ -99,7 +100,7 @@ async def get_order(order_id: str, db: AsyncSession = Depends(get_db)):
         "remark": order.remark,
         "items": order.items_snapshot,
         "created_at": order.created_at.isoformat() if order.created_at else None,
-    }
+    })
 
 
 @router.post("/orders/{order_id}/cancel")
@@ -108,4 +109,4 @@ async def cancel_order(order_id: str, db: AsyncSession = Depends(get_db)):
     ok = await order_service.cancel_order(db, order_id)
     if not ok:
         raise HTTPException(status_code=404, detail="订单不存在")
-    return {"cancelled": True}
+    return ApiResponse(data={"cancelled": True})

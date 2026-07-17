@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
+from app.schemas.common import ApiResponse
 from app.schemas.user import UserSyncRequest, UserRead
 from app.services import user_service
 
@@ -40,7 +41,7 @@ async def get_user(user_id: str, db: AsyncSession = Depends(get_db)):
     user = await user_service.get_user(db, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="用户不存在")
-    return {
+    return ApiResponse(data={
         "id": user.id,
         "nickname": user.nickname,
         "gender": user.gender,
@@ -52,4 +53,4 @@ async def get_user(user_id: str, db: AsyncSession = Depends(get_db)):
         "has_avatar": user.avatar is not None,
         "created_at": user.created_at.isoformat() if user.created_at else None,
         "updated_at": user.updated_at.isoformat() if user.updated_at else None,
-    }
+    })

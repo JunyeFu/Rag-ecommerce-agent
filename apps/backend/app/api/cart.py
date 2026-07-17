@@ -2,8 +2,9 @@
 import uuid
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from app.core.database import get_db
+from app.schemas.common import ApiResponse
 from app.services import cart_service
 
 router = APIRouter()
@@ -66,11 +67,11 @@ async def get_cart(
             "category": prod.category if prod else "",
         })
 
-    return {
+    return ApiResponse(data={
         "items": cart_items,
         "total": round(total, 12),
         "count": len(items),
-    }
+    })
 
 
 @router.post("/cart/items")
@@ -89,7 +90,7 @@ async def add_item(body: CartAddRequest, db: AsyncSession = Depends(get_db)):
         db, body.session_id, body.product_id, product.title, product.price,
         user_id=body.user_id,
     )
-    return {"id": str(item.id), "quantity": item.quantity}
+    return ApiResponse(data={"id": str(item.id), "quantity": item.quantity})
 
 
 @router.post("/cart/add")
@@ -103,7 +104,7 @@ async def remove_item(body: CartRemoveRequest, db: AsyncSession = Depends(get_db
     """删除购物车商品"""
     _validate_uuid(body.session_id)
     ok = await cart_service.remove_from_cart(db, body.session_id, body.product_id, user_id=body.user_id)
-    return {"deleted": ok}
+    return ApiResponse(data={"deleted": ok})
 
 
 @router.post("/cart/remove")
@@ -111,7 +112,7 @@ async def remove_item_alias(body: CartRemoveRequest, db: AsyncSession = Depends(
     """[Android 兼容] 删除购物车商品"""
     _validate_uuid(body.session_id)
     ok = await cart_service.remove_from_cart(db, body.session_id, body.product_id, user_id=body.user_id)
-    return {"deleted": ok}
+    return ApiResponse(data={"deleted": ok})
 
 
 @router.put("/cart/items")
@@ -119,7 +120,7 @@ async def update_quantity(body: CartQuantityRequest, db: AsyncSession = Depends(
     """修改商品数量"""
     _validate_uuid(body.session_id)
     ok = await cart_service.update_quantity(db, body.session_id, body.product_id, body.quantity, user_id=body.user_id)
-    return {"updated": ok}
+    return ApiResponse(data={"updated": ok})
 
 
 @router.put("/cart/quantity")
@@ -127,7 +128,7 @@ async def update_quantity_alias(body: CartQuantityRequest, db: AsyncSession = De
     """[Android 兼容] 修改商品数量"""
     _validate_uuid(body.session_id)
     ok = await cart_service.update_quantity(db, body.session_id, body.product_id, body.quantity, user_id=body.user_id)
-    return {"updated": ok}
+    return ApiResponse(data={"updated": ok})
 
 
 @router.delete("/cart")
@@ -139,7 +140,7 @@ async def clear_cart(
     """清空购物车，可选 user_id 仅清空特定用户的商品"""
     _validate_uuid(session_id)
     await cart_service.clear_cart(db, session_id, user_id=user_id)
-    return {"cleared": True}
+    return ApiResponse(data={"cleared": True})
 
 
 class CartClearRequest(BaseModel):
@@ -152,4 +153,4 @@ async def clear_cart_alias(body: CartClearRequest, db: AsyncSession = Depends(ge
     """[Android 兼容] 清空购物车"""
     _validate_uuid(body.session_id)
     await cart_service.clear_cart(db, body.session_id, user_id=body.user_id)
-    return {"cleared": True}
+    return ApiResponse(data={"cleared": True})

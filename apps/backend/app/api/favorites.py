@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 from app.core.database import get_db
+from app.schemas.common import ApiResponse
 from app.services import favorite_service
 
 router = APIRouter()
@@ -60,11 +61,11 @@ async def get_favorites(
             })
         items.append(item)
 
-    return {
+    return ApiResponse(data={
         "items": items,
         "count": len(items),
         "total": count,
-    }
+    })
 
 
 @router.get("/favorites/check")
@@ -82,7 +83,7 @@ async def check_favorite(
     if not user_id or not product_id:
         raise HTTPException(status_code=400, detail="user_id 和 product_id 不能为空")
     is_fav = await favorite_service.is_favorited(db, user_id, product_id)
-    return {"favorited": is_fav}
+    return ApiResponse(data={"favorited": is_fav})
 
 
 @router.get("/favorites/count")
@@ -98,7 +99,7 @@ async def get_favorite_count(
     if not user_id:
         raise HTTPException(status_code=400, detail="user_id 不能为空")
     count = await favorite_service.get_favorite_count(db, user_id)
-    return {"count": count}
+    return ApiResponse(data={"count": count})
 
 
 @router.post("/favorites/toggle")
@@ -115,7 +116,7 @@ async def toggle_favorite(
     if not body.user_id or not body.product_id:
         raise HTTPException(status_code=400, detail="user_id 和 product_id 不能为空")
     result = await favorite_service.toggle_favorite(db, body.user_id, body.product_id)
-    return result
+    return ApiResponse(data=result)
 
 
 @router.post("/favorites/remove")
@@ -134,4 +135,4 @@ async def batch_remove_favorites(
     removed = await favorite_service.remove_favorites(
         db, body.user_id, body.product_ids
     )
-    return {"removed": removed}
+    return ApiResponse(data={"removed": removed})
