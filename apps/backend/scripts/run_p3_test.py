@@ -1,5 +1,9 @@
 """
-P@3 Retrieval Precision Test — post UUID5 fix verification
+P@3 Retrieval Precision Test - post UUID5 fix verification
+
+⚠️  DEPRECATED: This script was written for the Qdrant era and has not been
+    updated for the pgvector migration. It will not work as-is. To run P@3
+    evaluation, use the /api/v1/evaluation endpoint instead.
 
 Directly queries Qdrant with embedded test queries, computes Precision@3
 against ground truth product IDs. Does NOT require the backend server.

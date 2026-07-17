@@ -114,7 +114,7 @@ app = FastAPI(
 - **流式响应**: SSE (Server-Sent Events) 实时推送
 
 ## 技术栈
-FastAPI + LangGraph + Qdrant + Doubao-Seed-2.0 + BGE-large-v1.5""",
+FastAPI + LangGraph + pgvector + Doubao-Seed-2.0 + BGE-large-v1.5""",
     version="1.0.0",
     lifespan=lifespan,
     docs_url="/docs",
@@ -229,41 +229,27 @@ if IMAGES_DIR.exists():
 # ── 健康检查 ──────────────────────────────────────────────
 @app.get("/health")
 async def health():
-    """健康检查：验证应用 + 数据库 + Qdrant 连通性"""
-    import httpx
-    
+    """健康检查：验证应用 + 数据库 + pgvector 连通性"""
     db_status = "connected"
+    pgvector_status = "unknown"
+    embedding_count = 0
     try:
         async with engine.connect() as conn:
             await conn.execute(text("SELECT 1"))
-    except Exception:
-        db_status = "unavailable"
-    
-    # Qdrant 连通性检查
-    qdrant_status = "unknown"
-    collection_name = ""
-    vector_size = 0
-    try:
-        async with httpx.AsyncClient(timeout=3.0) as client:
-            r = await client.get(f"{settings.QDRANT_URL}/collections/{settings.QDRANT_COLLECTION}")
-            if r.status_code == 200:
-                data = r.json()
-                qdrant_status = "ok"
-                collection_name = settings.QDRANT_COLLECTION
-                vector_size = data.get("result", {}).get("config", {}).get("params", {}).get("vectors", {}).get("size", 0)
-            else:
-                qdrant_status = f"error: HTTP {r.status_code}"
+            result = await conn.execute(text("SELECT COUNT(*) FROM products WHERE embedding IS NOT NULL"))
+            embedding_count = result.scalar()
+            pgvector_status = "ok"
     except Exception as e:
-        qdrant_status = f"unavailable: {str(e)[:50]}"
-    
+        db_status = "unavailable"
+        pgvector_status = f"unavailable: {str(e)[:50]}"
+
     healthy = db_status == "connected"
     return JSONResponse(status_code=200 if healthy else 503, content={
         "status": "ok" if healthy else "degraded",
         "version": "1.0.0",
         "database": db_status,
-        "qdrant": qdrant_status,
-        "collection": collection_name,
-        "vector_size": vector_size,
+        "pgvector": pgvector_status,
+        "embedding_count": embedding_count,
     })
 
 
@@ -303,8 +289,8 @@ async def ready():
         "status": state["phase"],
         "progress": {
             "database": state["db_done"],
-            "qdrant_collection_exists": state["collection_exists"],
-            "qdrant_item_count": state["item_count"],
+            "pgvector_ready": state["collection_exists"],
+            "embedding_count": state["item_count"],
             "reranker_warm": state["reranker_warm"],
             "model_source": state.get("model_source", ""),
             "model_download_pct": state.get("model_download_pct", 0),

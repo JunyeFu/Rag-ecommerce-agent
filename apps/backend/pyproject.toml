@@ -19,7 +19,6 @@ dependencies = [
     "sentence-transformers>=3.0.0",
     "huggingface_hub[hf_transfer]>=0.20.0",
     "torch>=2.0.0",
-    "qdrant-client>=1.12.0",
     "pydantic>=2.10.0",
     "pydantic-settings>=2.7.0",
     "httpx>=0.28.0",

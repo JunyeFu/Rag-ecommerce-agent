@@ -25,6 +25,9 @@ logger = logging.getLogger("startup")
 APP_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DATA_DIR_CANDIDATES = [
+    APP_ROOT / "data" / "products",
+    REPO_ROOT / "data" / "products",
+    REPO_ROOT / "apps" / "data" / "products",
     APP_ROOT / "data" / "qdrant",
     REPO_ROOT / "data" / "qdrant",
     REPO_ROOT / "apps" / "data" / "qdrant",

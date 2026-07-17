@@ -3,7 +3,7 @@
 """
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import AsyncSessionLocal
@@ -97,7 +97,7 @@ async def update_state(session_id: str, **kwargs) -> dict:
                     .where(Session.id == session_id)
                     .values(
                         state_json=state,
-                        updated_at=datetime.utcnow(),
+                        updated_at=datetime.now(timezone.utc),
                     )
                 )
                 await db.commit()
