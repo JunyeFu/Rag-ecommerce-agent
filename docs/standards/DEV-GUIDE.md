@@ -232,22 +232,29 @@ tar -xzf huggingface-models.tar.gz -C ~/
 
 ## 八、模块完成度现状
 
+> 更新：2026-07-18（模块化重构后）
+
 | 模块 | 完成度 | 备注 |
 |------|:---:|------|
-| agent.py | 95% | 全9场景 + 反幻觉 + 2步下单 + 场景分解 |
+| agent.py (facade) | 95% | 838行 facade + generate_response + node_cart + route_after_intent |
+| agent_nodes/ (7节点) | 95% | classify/clarify/retrieve/generate/compare/web_search 已模块化 |
+| slot_management.py | 90% | 品类推断 + 槽位合并 + 否定过滤（453行，最高 fan-in） |
+| cart_nlp.py | 95% | 购物车 NLP 解析（425行纯正则，14函数） |
+| llm/ (Strategy+Factory) | 95% | LLMProvider 接口 + Doubao/DeepSeek/Mimo 自动检测 |
+| comparison/ (Template Method) | 95% | ComparisonPipeline + WinnerStrategy 4实现 |
+| core/cache/ (Protocol) | 95% | CacheBackend + InMemoryCache(LRU+TTL) + NoOpCache + QueryCache |
 | intent.py | 90% | 9类意图 + 否定检测 + 槽位提取 |
-| retriever.py | 95% | pgvector + 否定排除 + 多类目并行检索 |
-| reranker.py | 90% | BGE-Reranker-v2-m3 线程安全加载 |
+| retriever.py | 95% | pgvector hybrid + 否定排除 + DB 错误兜底 |
+| reranker.py | 90% | BGE-Reranker-v2-m3 + 冷却重试（300s） |
 | product_ranker.py | 90% | 5维加权排序 |
 | image_parser.py | 85% | VLM 图像理解 + 结构化输出 |
-| cart_service.py | 90% | PostgreSQL 持久化 + CRUD |
+| cart_service.py | 90% | PostgreSQL 持久化 + FOR UPDATE 竞态修复 |
 | state_manager.py | 90% | Session 状态 + 上下文递进 |
 | chat.py | 100% | SSE 流式 + 全事件类型 |
-| upload.py | 90% | 图片上传 + vision-search |
-| 购物车模块 | 90% | 对话式 CRUD + 2步下单确认 |
-| 多模态模块 | 85% | VLM → pgvector 相似检索 |
-| LLM | 100% | Doubao-Seed-2.0-lite 主路 + DeepSeek 快路 |
-| Android 前端 | 85% | 4页面 + SSE + 拍照找货 + 购物车UI |
+| upload.py | 95% | 图片上传 + vision-search + content-type 校验 |
+| schemas/ (15文件) | 95% | 内联 BaseModel 已全部提取 + 字段约束 |
+| LLM | 100% | Doubao 主路 + DeepSeek/Mimo 快路 + 统一 _execute_completion |
+| Android 前端 | 90% | 4页面 + SSE + ApiClient.kt 集中调用 + DemoMode |
 
 ---
 

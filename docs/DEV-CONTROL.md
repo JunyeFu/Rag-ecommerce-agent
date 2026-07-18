@@ -3,7 +3,7 @@
 > **本文档是项目开发的唯一权威入口。** 所有技术选型、数据口径、命令参考以本文档为准。
 > 其他开发文档均为辅助参考，如与本文档冲突，以本文档为准。
 >
-> 最后更新：2026-07-17
+> 最后更新：2026-07-18（重构后同步：agent.py 模块化 + 设计模式落地 + 231 单元测试）
 
 ---
 
@@ -36,16 +36,27 @@
 
 | 层 | 技术 | 说明 |
 |----|------|------|
-| 后端框架 | **FastAPI** | 异步 ASGI，端口 8080 |
-| Agent 编排 | **LangGraph** StateGraph | 7 节点 + 条件路由（非 LangChain AgentExecutor） |
+| 后端框架 | **FastAPI** | 异步 ASGI，端口 8080，统一 ApiResponse 信封 |
+| Agent 编排 | **LangGraph** StateGraph | 7 节点 + 条件路由（recursion_limit=10 安全守卫） |
 | 向量库 | **PostgreSQL + pgvector** | 1024-dim，cosine distance，ivfflat 索引 |
 | 全文搜索 | **PostgreSQL tsvector** | title(A) + description(B) + category(C) 权重，GIN 索引 |
 | Embedding | **BGE-large-zh-v1.5** | 中文语义，CPU 推理，~1.3GB |
-| Reranker | **BGE-Reranker-v2-m3** | CrossEncoder，sigmoid 归一化，~2.2GB |
+| Reranker | **BGE-Reranker-v2-m3** | CrossEncoder，sigmoid 归一化，~2.2GB，失败冷却重试 |
 | 数据库 | **PostgreSQL** | 结构化存储 + 向量列 + 全文搜索一体化 |
 | LLM | **Doubao-Seed-2.0-lite** | 火山方舟 API（Key 已验证） |
-| 前端 | **Kotlin + Jetpack Compose** | Android 原生，73 个 .kt 文件 |
+| 前端 | **Kotlin + Jetpack Compose** | Android 原生，73 个 .kt 文件，集中式 ApiClient |
 | Python | 3.11+ | 虚拟环境 `.venv`（项目目录内） |
+
+### 设计模式落地
+
+| 模式 | 应用位置 |
+|------|----------|
+| **Strategy + Factory** | `services/llm/` - LLMProvider 接口 + Doubao/DeepSeek/Mimo 多 Provider 自动检测 |
+| **Template Method** | `services/comparison/pipeline.py` - ComparisonPipeline 定义对比骨架 |
+| **Strategy** | `services/comparison/strategies.py` - WinnerStrategy（Price/Rating/NumericAttribute/NoWinner） |
+| **Protocol 接口** | `core/cache/backend.py` - CacheBackend + InMemoryCache/NoOpCache 可替换 |
+| **LazySingleton** | `core/lazy.py` - 通用线程安全延迟加载（替代 5 处重复单例模式） |
+| **Facade** | `agent.py`（838行）+ `comparator.py` + `llm_client.py` - 向后兼容重导出 |
 
 > **注意**：项目**未使用 LlamaIndex**。检索管线为自研实现（pgvector 原生 SQL + BGE CrossEncoder + 意图感知多维排序）。
 
@@ -144,17 +155,55 @@ RAG Pipeline (embed -> hybrid_search -> rerank -> rank)
 PostgreSQL + pgvector (向量+结构化+全文搜索) + Doubao LLM
 ```
 
-### LangGraph 7 节点
+### LangGraph 7 节点（已模块化）
 
-| 节点 | 职责 |
-|------|------|
-| `classify_intent` | LLM 意图分类 + slot 提取 + 否定语义 + query rewrite |
-| `clarify` | 追问缺失关键信息 |
-| `retrieve` | RAG 检索（pgvector hybrid + 分级回退 + MMR 采样 + exclusion 过滤 + BGE rerank） |
-| `generate` | LLM 三段式生成 + 反幻觉约束 + SSE 流式输出 |
-| `cart` | 购物车操作 |
-| `compare` | 商品对比 |
-| `web_search` | 视觉搜索（图片上传 -> Doubao vision -> 相似商品检索） |
+| 节点 | 模块 | 职责 |
+|------|------|------|
+| `classify_intent` | `agent_nodes/classify.py` | LLM 意图分类 + slot 提取 + 否定语义 + query rewrite |
+| `clarify` | `agent_nodes/clarify.py` | 追问缺失关键信息 |
+| `retrieve` | `agent_nodes/retrieve.py` | RAG 检索（pgvector hybrid + 分级回退 + MMR 采样 + exclusion 过滤 + BGE rerank） |
+| `generate` | `agent_nodes/generate.py` | LLM 三段式生成 + 反幻觉约束 + SSE 流式输出 |
+| `cart` | `agent.py`（保留，兼容测试 monkeypatch） | 购物车操作 |
+| `compare` | `agent_nodes/compare.py` | 商品对比（Template Method 管线） |
+| `web_search` | `agent_nodes/web_search.py` | 视觉搜索（图片上传 -> Doubao vision -> 相似商品检索） |
+
+### 后端模块结构
+
+```
+app/services/
+├── agent.py (838行 facade)          # route_after_intent + node_cart + generate_response + build_agent_graph
+├── agent_streaming.py               # SSE 交错输出辅助
+├── agent_state.py                   # AgentState TypedDict
+├── slot_management.py (453行)       # 品类推断 + 槽位合并 + 否定过滤（最高 fan-in）
+├── cart_nlp.py (425行)             # 购物车 NLP 解析（纯正则）
+├── scenario.py                      # 场景化品类映射
+├── product_assembly.py              # 商品校验 + 卡片组装
+├── prompts.py                       # LLM 生成 prompt 构建
+├── agent_nodes/                     # LangGraph 节点包
+│   ├── classify.py / clarify.py / retrieve.py
+│   ├── generate.py / compare.py / web_search.py
+├── llm/                             # LLM Strategy + Factory
+│   ├── providers.py (Doubao/DeepSeek/Mimo)
+│   ├── factory.py / service.py
+├── comparison/                      # 对比 Template Method + Strategy
+│   ├── pipeline.py / strategies.py / utils.py
+├── retriever.py / reranker.py / embedding.py / rag.py
+├── product_ranker.py / cart_service.py / comparator.py (facade)
+├── image_parser.py / voice_recognition.py / web_search.py
+├── exclusion_rules.py / state_manager.py / cache.py (facade)
+├── intent.py / ingestion.py / evaluator.py
+
+app/core/
+├── cache/ (backend.py + query_cache.py)  # CacheBackend Protocol + InMemoryCache
+├── config.py                        # model_validator 生产环境守卫（CORS/DB/API Key）
+├── database.py                      # DatabaseContext + pool_recycle=3600
+├── exceptions.py                    # ValidationError/AuthError/RateLimitError 等
+├── lazy.py                          # LazySingleton[T] 通用延迟加载
+├── middleware.py                   # RequestIDMiddleware（已激活）
+├── security.py                     # validate_image_upload（已接入 upload 路由）
+
+app/schemas/ (15 文件)               # cart/favorites/footprints/order 已从路由提取
+```
 
 ### SSE 事件协议
 
@@ -219,8 +268,10 @@ query -> embed_text (BGE-large-zh)
 
 ### 测试
 
-- 单元测试：101 个 pytest 用例（含 pgvector retriever 29 个纯函数测试）
-- 集成测试：curl 命令覆盖核心 API
+- **单元测试：231 个**（`pytest -m unit`，0.27s，零外部依赖）
+- 集成测试：44 个（`pytest -m integration`，需 DB/LLM）
+- pytest 标记：`unit` / `integration` / `slow`，CI 分层运行
+- 覆盖核心：route_after_intent(26) / comparator(51) / image_parser(20) / cache(40) / retriever_pgvector(29) / intent(20) / product_ranker(11) / cart_nlp(12) / state_slots(14)
 - E2E 测试：9 场景全覆盖
 
 ---
@@ -275,23 +326,25 @@ query -> embed_text (BGE-large-zh)
 ## 8. API 概览
 
 > 详细 API 文档见 [API.md](API.md)（辅助文档）
+>
+> **所有 JSON 端点统一使用 `ApiResponse` 信封**：`{"code":0, "data":..., "message":"ok"}`
+> SSE 端点（chat / voice / vision-search）不受信封约束。
 
 | 模块 | 端点 | 说明 |
 |------|------|------|
 | 对话 | `POST /api/chat` | SSE 流式对话 |
 | 商品 | `GET/POST/PUT/DELETE /api/products` | CRUD + 筛选/排序/分页 |
 | 购物车 | `GET/POST/DELETE /api/cart` | CRUD（含 Android 兼容别名） |
-| 订单 | `POST /api/orders` | 创建订单 |
-| 视觉搜索 | `POST /api/upload` | 图片上传 -> 相似商品 |
-| 语音 | `POST /api/voice/recognize` | 语音识别 |
-| 对比 | `GET /api/compare` | 商品对比 |
-| 反馈 | `POST /api/feedback` | 用户反馈 |
-| 收藏 | `GET/POST/DELETE /api/favorites` | 收藏管理 |
-| 足迹 | `GET /api/footprints` | 浏览足迹 |
-| 评测 | `GET /api/evaluation` | 系统评测 |
-| 知识 | `POST /api/knowledge/ingest` | 知识导入 |
-| 缓存 | `POST /api/cache/clear` | 清除缓存 |
-| 健康 | `GET /health /ready /version` | 健康检查 |
+| 订单 | `POST/GET /api/orders` | 创建/查询订单 |
+| 视觉搜索 | `POST /api/upload/vision-search` | 图片上传 -> SSE 商品卡片 |
+| 语音 | `POST /api/voice/recognize` `/api/voice/chat` | 语音识别 / SSE 对话 |
+| 对比 | `POST /api/products/compare` | 商品对比（Template Method 管线） |
+| 反馈 | `POST /api/feedback` | 用户反馈（rating: -1/0/1） |
+| 收藏 | `GET/POST /api/favorites` | 收藏管理 |
+| 足迹 | `GET/POST /api/footprints` | 浏览足迹 |
+| 评价 | `POST/GET /api/reviews` | 商品评价（含图片压缩） |
+| 评测 | `POST/GET /api/evaluation` | 系统评测 |
+| 健康 | `GET /health /ready /version` | 健康检查（pgvector + DB 双检） |
 
 ---
 
@@ -369,10 +422,12 @@ query -> embed_text (BGE-large-zh)
 | # | 问题 | 影响 | 优先级 |
 |---|------|------|:---:|
 | 1 | 品类别名硬编码在 retriever.py `_CATEGORY_ALIASES` | 可维护性 | 低 |
-| 2 | agent.py 仍有 ~2700 行（已提取 streaming helpers） | 代码组织 | 低 |
-| 3 | MECHANISM.md 部分描述与实际实现不符 | 文档准确性 | 中 |
-| 4 | comparator.py 保留 backward-compatible alias `_fetch_products_from_qdrant` | 命名一致性 | 低 |
-| 5 | 部分 API 集成测试需运行中的 DB/LLM | 测试完整性 | 中 |
+| 2 | `generate_response` 仍 432 行（SSE 编排逻辑密集） | 代码组织 | 低 |
+| 3 | 无端点认证体系（所有 API 依赖 session_id 参数，不校验身份） | 安全 | 高（生产前必须补充） |
+| 4 | `.env` 中存有明文 API Key（需轮换 + 密钥管理器） | 安全 | 高（用户操作） |
+| 5 | DB 密码为弱口令 `shopping123`（需生成强随机密码） | 安全 | 高（用户操作） |
+| 6 | 部分 API 集成测试需运行中的 DB/LLM（44 个 integration 标记） | 测试完整性 | 中 |
+| 7 | `web_search.py` 中 DDGS 同步调用在 async 函数内（阻塞事件循环） | 性能 | 中 |
 
 ---
 
