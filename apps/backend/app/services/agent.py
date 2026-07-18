@@ -14,7 +14,6 @@ This module is now a facade that re-exports from focused submodules:
 
 node_cart stays here for monkeypatch compatibility (tests patch agent._find_product_for_cart).
 """
-import json
 import logging
 import time
 import re
@@ -682,6 +681,18 @@ async def generate_response(
             yield {"event": "done", "data": DoneEvent().model_dump_json()}
             return
 
+        # ── Input safety check: after intent classification, before retrieval ──
+        from app.services.agent_nodes.safety_check import (
+            node_safety_check_input,
+            node_safety_check_output,
+        )
+        after_intent = await node_safety_check_input(after_intent)
+        if after_intent.get("_safety_blocked"):
+            yield {"event": "progress", "data": ProgressEvent(message="安全检查未通过").model_dump_json()}
+            yield {"event": "text_delta", "data": TextDeltaEvent(content=after_intent["response"]).model_dump_json()}
+            yield {"event": "done", "data": DoneEvent(total_cards=0).model_dump_json()}
+            return
+
         # ── Progress 2: 意图分类完成，进入检索阶段 ──
         yield {"event": "progress", "data": ProgressEvent(message="已理解需求，正在检索商品...").model_dump_json()}
 
@@ -805,16 +816,23 @@ async def generate_response(
 
         t_first_token = None
         response_text = ""
-        async for event in _stream_interleaved(stream, cards):
-            if event["event"] == "text_delta":
+        async for chunk in stream:
+            if chunk.choices and chunk.choices[0].delta.content:
                 if t_first_token is None:
                     t_first_token = time.monotonic()
-                data = json.loads(event["data"])
-                response_text += data.get("content", "")
-            yield event
+                response_text += chunk.choices[0].delta.content
 
         ttft_ms = int((t_first_token - t_start) * 1000) if t_first_token else 0
         logger.info("LLM done: %d chars, TTFT=%dms", len(response_text), ttft_ms)
+
+        output_state = await node_safety_check_output(
+            {"response": response_text, "product_cards": cards}
+        )
+        response_text = output_state.get("response", response_text)
+        cards = output_state.get("product_cards", cards)
+
+        async for event in _emit_interleaved(response_text, cards):
+            yield event
 
         # ═══════════════════════════════════════════════════════
         # 阶段 6: 缓存 + 状态回写

@@ -562,6 +562,24 @@ class UserRepository(context: Context) {
     }
 
     /**
+     * 清除当前用户的所有本地数据（购物车、收藏、足迹、搜索历史）。
+     *
+     * 用于"退出登录"场景：与"切换账号"不同，退出登录会清空本地业务数据，
+     * 但保留 user_profile 记录本身（供下一次登录或游客使用）。
+     * 调用此方法后应再调用 [deleteCredentials] 以清除登录态。
+     */
+    suspend fun clearAllLocalData() = withContext(Dispatchers.IO) {
+        val userId = getUserId()
+        if (userId.isEmpty()) return@withContext
+        val writableDb = db.writableDatabase
+        writableDb.delete(LocalDatabase.TABLE_CART, "user_id=?", arrayOf(userId))
+        writableDb.delete(LocalDatabase.TABLE_FAVORITES, "user_id=?", arrayOf(userId))
+        writableDb.delete(LocalDatabase.TABLE_FOOTPRINTS, "user_id=?", arrayOf(userId))
+        writableDb.delete(LocalDatabase.TABLE_SEARCH, null, null)
+        writableDb.delete(LocalDatabase.TABLE_CUSTOMER_SERVICE, "user_id=?", arrayOf(userId))
+    }
+
+    /**
      * 检查当前用户是否为游客（is_guest = 1）。
      * @return true 表示游客登录，false 表示非游客（已通过手机号/邮箱登录）
      */
@@ -1678,6 +1696,34 @@ class UserRepository(context: Context) {
             }
         } catch (e: Exception) {
             Log.e("UserRepository", "cancelOrderOnBackend: 同步失败", e)
+        }
+    }
+
+    /**
+     * 调用后端 API 更新订单状态。
+     *
+     * 用于"催发货"、"确认收货"等本地状态流转时与后端同步。
+     * 后端无对应端点时静默失败（仅记日志），不影响本地状态。
+     *
+     * @param backendOrderNo 后端订单号（ORD 开头）
+     * @param newStatus 目标状态值（见 [OrderStatus]）
+     */
+    suspend fun updateOrderStatusOnBackend(backendOrderNo: String, newStatus: String) = withContext(Dispatchers.IO) {
+        if (backendOrderNo.isEmpty()) return@withContext
+        try {
+            val baseUrl = NetworkConfig.BASE_URL
+            val client = NetworkConfig.httpClient
+            val body = org.json.JSONObject().apply { put("status", newStatus) }
+            val request = okhttp3.Request.Builder()
+                .url("$baseUrl/api/v1/orders/$backendOrderNo/status")
+                .post(body.toString().toRequestBody("application/json".toMediaType()))
+                .build()
+            val response = client.newCall(request).execute()
+            if (!response.isSuccessful) {
+                Log.w("UserRepository", "updateOrderStatusOnBackend: 后端返回 ${response.code}")
+            }
+        } catch (e: Exception) {
+            Log.e("UserRepository", "updateOrderStatusOnBackend: 同步失败", e)
         }
     }
 

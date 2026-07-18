@@ -61,6 +61,7 @@ fun CheckoutScreen(
     var error by remember { mutableStateOf<String?>(null) }
     var items by remember { mutableStateOf<List<CartItem>>(emptyList()) }
     var address by remember { mutableStateOf<UserRepository.ShippingAddress?>(null) }
+    var showConfirmDialog by remember { mutableStateOf(false) }
 
     fun load() {
         scope.launch {
@@ -96,6 +97,61 @@ fun CheckoutScreen(
         listOf(it.recipientName, it.phone, it.addressDetail).filter { part -> part.isNotBlank() }.joinToString(" ")
     }.orEmpty()
 
+    if (showConfirmDialog) {
+        AlertDialog(
+            onDismissRequest = { showConfirmDialog = false },
+            title = { Text("确认提交订单？") },
+            text = { Text("实付金额：¥${"%.2f".format(total)}，共 ${items.size} 件商品") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showConfirmDialog = false
+                        scope.launch {
+                            isSubmitting = true
+                            error = null
+                            try {
+                                val order = withContext(Dispatchers.IO) {
+                                    submitOrder(
+                                        sessionId = sessionId,
+                                        userId = repository.getUserId(),
+                                        address = addressText.ifBlank { "默认地址" },
+                                        items = items,
+                                        addBuyNowItem = source == "buy",
+                                    )
+                                }
+                                withContext(Dispatchers.IO) {
+                                    val orderBodyJson = JSONObject().apply {
+                                        put("backend_order_no", order.orderNo)
+                                        put("total", order.total)
+                                        put("items", JSONArray(order.itemsSnapshot))
+                                    }
+                                    repository.addOrderRecord(
+                                        orderBody = orderBodyJson.toString(),
+                                        status = UserRepository.OrderStatus.PENDING_SHIPPING,
+                                        backendOrderNo = order.orderNo,
+                                    )
+                                    repository.deleteCartItems(items.map { it.product.productId })
+                                }
+                                onOrderCreated(order.orderId)
+                            } catch (e: Exception) {
+                                error = e.message ?: "下单失败"
+                            } finally {
+                                isSubmitting = false
+                            }
+                        }
+                    },
+                ) {
+                    Text("确认", color = Primary)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showConfirmDialog = false }) {
+                    Text("取消")
+                }
+            },
+        )
+    }
+
     Scaffold(
         topBar = {
             GradientTopBar {
@@ -121,43 +177,7 @@ fun CheckoutScreen(
                         Text("¥${"%.2f".format(total)}", style = MaterialTheme.typography.titleLarge, color = TextPrice, fontWeight = FontWeight.Bold)
                     }
                     Button(
-                        onClick = {
-                            scope.launch {
-                                isSubmitting = true
-                                error = null
-                                try {
-                                    val order = withContext(Dispatchers.IO) {
-                                        submitOrder(
-                                            sessionId = sessionId,
-                                            userId = repository.getUserId(),
-                                            address = addressText.ifBlank { "默认地址" },
-                                            items = items,
-                                            addBuyNowItem = source == "buy",
-                                        )
-                                    }
-                                    // 同步写入本地 SQLite 订单记录（待发货状态，绑定后端订单号）
-                                    withContext(Dispatchers.IO) {
-                                        val orderBodyJson = JSONObject().apply {
-                                            put("backend_order_no", order.orderNo)
-                                            put("total", order.total)
-                                            put("items", JSONArray(order.itemsSnapshot))
-                                        }
-                                        repository.addOrderRecord(
-                                            orderBody = orderBodyJson.toString(),
-                                            status = UserRepository.OrderStatus.PENDING_SHIPPING,
-                                            backendOrderNo = order.orderNo,
-                                        )
-                                        // 删除已下单的购物车商品
-                                        repository.deleteCartItems(items.map { it.product.productId })
-                                    }
-                                    onOrderCreated(order.orderId)
-                                } catch (e: Exception) {
-                                    error = e.message ?: "下单失败"
-                                } finally {
-                                    isSubmitting = false
-                                }
-                            }
-                        },
+                        onClick = { showConfirmDialog = true },
                         enabled = items.isNotEmpty() && !isSubmitting,
                         shape = CircleShape,
                         colors = ButtonDefaults.buttonColors(containerColor = Primary),

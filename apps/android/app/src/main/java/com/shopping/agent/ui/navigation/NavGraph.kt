@@ -124,7 +124,14 @@ fun AppNavGraph(
                     }
                     composable(Screen.Cart.route) {
                         CartScreen(
-                            onCheckout = { navController.navigate(Screen.Checkout.createRoute("cart")) }
+                            onCheckout = { navController.navigate(Screen.Checkout.createRoute("cart")) },
+                            onNavigateToHome = {
+                                navController.navigate("home") {
+                                    popUpTo("home") { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                         )
                     }
                     composable(
@@ -152,7 +159,7 @@ fun AppNavGraph(
                     ) { entry ->
                         OrderDetailScreen(
                             orderId = entry.arguments?.getString("orderId") ?: "",
-                            onBack = { navController.popBackStack("home", false) },
+                            onBack = { navController.popBackStack() },
                         )
                     }
                     composable("settings") {
@@ -197,6 +204,7 @@ fun AppNavGraph(
                                 scope.launch {
                                     try {
                                         kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                                            repo.clearAllLocalData()
                                             repo.deleteCredentials()
                                         }
                                     } catch (_: Exception) {}

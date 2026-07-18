@@ -91,8 +91,6 @@ fun ExploreScreen(
             IconButton(onClick = LocalOnMenuClick.current, modifier = Modifier.size(34.dp)) {
                 Icon(Icons.Default.Menu, "菜单", tint = MaterialTheme.colorScheme.onSurface, modifier = Modifier.size(26.dp))
             }
-            Text("发布", modifier = Modifier.padding(end = 12.dp),
-                style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Medium)
         })
 
         // 随机卡片网格

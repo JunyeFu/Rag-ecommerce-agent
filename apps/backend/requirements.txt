@@ -9,6 +9,9 @@ sqlalchemy[asyncio]==2.0.36
 asyncpg==0.31.0
 pgvector>=0.3.0,<0.4.0
 
+# 知识库文档解析
+pypdf>=4.0.0
+
 # LLM & Agent
 openai==2.38.0
 langgraph==1.2.2

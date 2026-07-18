@@ -32,9 +32,9 @@ async def node_classify_intent(state: AgentState) -> AgentState:
         state["slots"] = {}
         return state
 
-    # 查询扩展：短查询(≤6字)或明显查询类意图时展开关键词提升检索召回
+    # 查询扩展：短查询(≤8字)或明显查询类意图时展开关键词提升检索召回
     expanded = query
-    if len(query.strip()) <= 6:
+    if len(query.strip()) <= 8:
         expanded = await _expand_short_query(query)
         logger.info("Short query expanded: '%s' -> '%s'", query, expanded)
 

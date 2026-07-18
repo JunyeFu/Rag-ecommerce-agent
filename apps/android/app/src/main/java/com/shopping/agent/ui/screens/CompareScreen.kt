@@ -619,6 +619,7 @@ private fun CompareTrackingSheet(
                 ) {}
             }
             // 价格趋势卡片列表
+            // TODO: platformTrends 目前使用 MockCompareData，后续需接入真实价格趋势 API
             LazyColumn(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -712,47 +713,6 @@ private fun PriceTrendChart(
             }
         }
     }
-}
-
-// AI 对比结果弹窗
-@Composable
-private fun AiCompareDialog(result: com.shopping.agent.data.repository.CompareResult, onDismiss: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("AI 智能对比", style = MaterialTheme.typography.titleMedium) },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                result.dimensions.forEach { dim ->
-                    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)) {
-                        Column(modifier = Modifier.padding(12.dp)) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(dim.name, style = MaterialTheme.typography.titleSmall,
-                                    fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
-                                if (dim.winner != null) {
-                                    Spacer(Modifier.width(8.dp))
-                                    Surface(shape = RadiusSm, color = PrimaryLight) {
-                                        Text("最佳: ${dim.winner}", modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
-                                            style = MaterialTheme.typography.labelSmall, color = Primary)
-                                    }
-                                }
-                            }
-                            Spacer(Modifier.height(4.dp))
-                            dim.values.forEach { (product, value) ->
-                                Text("$product: $value", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            }
-                        }
-                    }
-                }
-                if (result.summary.isNotEmpty()) {
-                    Card(colors = CardDefaults.cardColors(containerColor = PrimaryLight)) {
-                        Text(result.summary, modifier = Modifier.padding(12.dp),
-                            style = MaterialTheme.typography.bodyMedium, color = Primary)
-                    }
-                }
-            }
-        },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("关闭") } }
-    )
 }
 
 private fun formatSalesCount(count: Int): String = when {

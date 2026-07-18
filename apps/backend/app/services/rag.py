@@ -5,6 +5,7 @@ import time
 import logging
 from app.services.retriever import hybrid_search
 from app.services.embedding import embed_text
+from app.core.config import settings
 
 logger = logging.getLogger("rag")
 
@@ -19,7 +20,7 @@ async def retrieve(
     exclude_categories: list[str] | None = None,
     exclude_attributes: dict[str, str] | None = None,
     strict_category: bool = False,
-    use_hybrid: bool = True,
+    use_hybrid: bool | None = None,
 ) -> dict:
     """
     RAG 检索主入口:
@@ -28,6 +29,9 @@ async def retrieve(
     3. 返回 {'chunks': [...], 'latency_ms': float}
     """
     t0 = time.monotonic()
+
+    if use_hybrid is None:
+        use_hybrid = settings.HYBRID_SEARCH_ENABLED
 
     vector = await embed_text(query)
     chunks, search_ms = await hybrid_search(

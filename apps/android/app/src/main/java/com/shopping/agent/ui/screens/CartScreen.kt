@@ -78,6 +78,7 @@ private val UncheckedColor = Color(0xFFCCCCCC)
 fun CartScreen(
     viewModel: CartViewModel = viewModel(),
     onCheckout: () -> Unit = { viewModel.placeOrder() },
+    onNavigateToHome: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -109,7 +110,7 @@ fun CartScreen(
                 )
             }
             uiState.items.isEmpty() -> {
-                CartEmptyState()
+                CartEmptyState(onNavigateToHome = onNavigateToHome)
             }
             else -> {
                 CartItemList(
@@ -286,7 +287,7 @@ private fun ManageBottomBar(
 // ═══════════════════════════════════════════════════════════════
 
 @Composable
-private fun ColumnScope.CartEmptyState() {
+private fun ColumnScope.CartEmptyState(onNavigateToHome: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -308,8 +309,11 @@ private fun ColumnScope.CartEmptyState() {
             )
             Text(
                 text = "去首页逛逛 AI 导购推荐吧",
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = Primary,
                 style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier
+                    .clickable { onNavigateToHome() }
+                    .padding(vertical = 4.dp),
             )
         }
     }

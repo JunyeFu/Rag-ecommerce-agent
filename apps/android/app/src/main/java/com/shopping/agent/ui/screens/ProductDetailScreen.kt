@@ -103,7 +103,13 @@ fun ProductDetailScreen(
             }
         } else if (uiState.product == null) {
             Box(Modifier.fillMaxSize().padding(innerPadding), contentAlignment = Alignment.Center) {
-                Text("商品加载失败", color = Color.Gray)
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("商品加载失败", color = Color.Gray)
+                    Spacer(Modifier.height(12.dp))
+                    OutlinedButton(onClick = { viewModel.loadProduct(productId) }) {
+                        Text("重试", color = CoralRed)
+                    }
+                }
             }
         } else {
             val product = uiState.product ?: return@Scaffold

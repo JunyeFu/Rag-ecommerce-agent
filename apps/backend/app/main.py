@@ -78,6 +78,21 @@ async def lifespan(app: FastAPI):
                     await conn.execute(text(
                         "CREATE INDEX IF NOT EXISTS ix_sessions_auth_user_id ON sessions(auth_user_id)"
                     ))
+                    # 知识库分块表 (RAG 文档向量化存储)
+                    await conn.execute(text("""
+                        CREATE TABLE IF NOT EXISTS knowledge_chunks (
+                            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                            doc_id TEXT NOT NULL,
+                            chunk_index INT NOT NULL,
+                            chunk_text TEXT NOT NULL,
+                            embedding vector(1024),
+                            metadata JSONB DEFAULT '{}',
+                            created_at TIMESTAMPTZ DEFAULT NOW()
+                        )
+                    """))
+                    await conn.execute(text(
+                        "CREATE INDEX IF NOT EXISTS idx_knowledge_embedding ON knowledge_chunks USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100)"
+                    ))
                 except Exception as e:
                     logger.debug("Schema migration skipped: %s", e)
             logger.info("数据库表创建/验证完成")

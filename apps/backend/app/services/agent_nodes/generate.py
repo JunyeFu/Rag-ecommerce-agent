@@ -61,6 +61,11 @@ async def node_generate(state: AgentState) -> AgentState:
     state["product_cards"] = cards
     state["_is_reliable"] = is_reliable
 
+    # ── Self-Corrective: 低检索质量标记 ──
+    retrieval_score = state.get("_retrieval_score", 0)
+    if retrieval_score and retrieval_score < 0.3:
+        state["_low_confidence"] = True
+
     prompt = _build_generation_prompt(state["query"], state.get("slots", {}), valid_ranked, is_reliable, state["intent"], history=state.get("history", []))
 
     try:

@@ -113,3 +113,15 @@ async def cancel_order(order_id: str, db: AsyncSession = Depends(get_db)):
     if not ok:
         raise HTTPException(status_code=404, detail="订单不存在")
     return ApiResponse(data={"cancelled": True})
+
+
+@router.post("/orders/{order_id}/status")
+async def update_order_status_endpoint(order_id: str, status: str = Query(...), db: AsyncSession = Depends(get_db)):
+    """更新订单状态 - 带状态机校验"""
+    try:
+        ok = await order_service.update_order_status(db, order_id, status)
+    except ValidationError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    if not ok:
+        raise HTTPException(status_code=404, detail="订单不存在")
+    return ApiResponse(data={"order_id": order_id, "status": status})

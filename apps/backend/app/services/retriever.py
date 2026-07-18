@@ -123,12 +123,12 @@ def _rrf_fuse(
     all_items: dict[str, dict] = {}
 
     for rank, item in enumerate(dense_results):
-        pid = item["payload"]["product_id"]
+        pid = item["payload"].get("product_id") or item["id"]
         scores[pid] = scores.get(pid, 0) + 1.0 / (k + rank + 1)
         all_items[pid] = item
 
     for rank, item in enumerate(keyword_results):
-        pid = item["payload"]["product_id"]
+        pid = item["payload"].get("product_id") or item["id"]
         scores[pid] = scores.get(pid, 0) + 1.0 / (k + rank + 1)
         all_items[pid] = item
 
@@ -139,6 +139,42 @@ def _rrf_fuse(
         item["score"] = scores[pid]
         result.append(item)
     return result
+
+
+async def _search_knowledge_chunks(
+    db: AsyncSession,
+    vector: list[float],
+    top_k: int,
+) -> list[dict]:
+    """向量检索 knowledge_chunks 表，返回带 source_type=knowledge 标记的结果"""
+    try:
+        sql = text("""
+            SELECT id, doc_id, chunk_text, metadata,
+                   1 - (embedding <=> :vector::vector) AS score
+            FROM knowledge_chunks
+            WHERE embedding IS NOT NULL
+            ORDER BY embedding <=> :vector::vector
+            LIMIT :top_k
+        """)
+        result = await db.execute(sql, {"vector": str(vector), "top_k": top_k})
+        rows = result.fetchall()
+    except Exception as e:
+        logger.warning("knowledge_chunks search skipped (table may not exist yet): %s", e)
+        return []
+
+    items: list[dict] = []
+    for row in rows:
+        items.append({
+            "id": str(row.id),
+            "score": float(row.score or 0),
+            "payload": {
+                "text": row.chunk_text or "",
+                "source_type": "knowledge",
+                "doc_id": row.doc_id or "",
+                "metadata": dict(row.metadata or {}),
+            },
+        })
+    return items
 
 
 async def hybrid_search(
@@ -207,6 +243,8 @@ async def hybrid_search(
                 kw_rows = kw_result.fetchall()
             else:
                 kw_rows = []
+
+            knowledge_rows = await _search_knowledge_chunks(db, query_vector, top_k * 2)
     except Exception as e:
         logger.error("hybrid_search DB error: %s", e)
         return [], 0.0
@@ -219,7 +257,10 @@ async def hybrid_search(
     for row in kw_rows:
         keyword_items.append({"id": str(row.id), "score": float(row.score or 0), "payload": _row_to_payload(row)})
 
-    if use_hybrid and keyword_items:
+    if knowledge_rows:
+        fusion_dense = dense_items + knowledge_rows
+        items = _rrf_fuse(fusion_dense, keyword_items, top_k)
+    elif use_hybrid and keyword_items:
         items = _rrf_fuse(dense_items, keyword_items, top_k)
     else:
         items = dense_items
@@ -227,8 +268,8 @@ async def hybrid_search(
     elapsed_ms = (time.monotonic() - t0) * 1000
 
     logger.info(
-        "Retrieve: query='%s' -> %d results (dense=%d, kw=%d) in %.0fms (category=%s, price=%s-%s, exclude_br=%s)",
-        query_text[:50], len(items), len(dense_items), len(keyword_items), elapsed_ms,
+        "Retrieve: query='%s' -> %d results (dense=%d, kw=%d, knowledge=%d) in %.0fms (category=%s, price=%s-%s, exclude_br=%s)",
+        query_text[:50], len(items), len(dense_items), len(keyword_items), len(knowledge_rows), elapsed_ms,
         category or "*", price_min or "*", price_max or "*",
         exclude_brands or [],
     )

@@ -130,7 +130,18 @@ def _build_user_prefs(slots: dict) -> dict:
 def _assemble_cards(valid_ranked: list) -> list[dict]:
     """将排序校验后的商品列表组装为最终卡片格式"""
     cards = []
-    for r in valid_ranked:
+    for i, r in enumerate(valid_ranked):
+        citation = []
+        if r.get("semantic_score") is not None:
+            citation.append({
+                "source_type": "semantic_retrieval",
+                "description": f"向量检索匹配度 {round(r.get('semantic_score', 0) * 100)}%",
+            })
+        if r.get("highlights"):
+            citation.append({
+                "source_type": "product_highlights",
+                "description": "商品亮点摘要",
+            })
         cards.append({
             "product_id": r.get("product_id") or r.get("id") or "",
             "title": r["title"],
@@ -144,6 +155,7 @@ def _assemble_cards(valid_ranked: list) -> list[dict]:
             "match_score": r.get("match_score", 0.5),
             "rank_reason": r.get("rank_reason", ""),
             "scenarios": r.get("scenarios", []),
+            "citation": citation,
         })
     return cards
 
