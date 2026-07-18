@@ -285,7 +285,7 @@ Phase 2 完成标准（全部满足）：
 - [x] F10 安全过滤可用（输入+输出双重）
 - [x] F7 引用标注可见（[1][2] + citation 字段 + 前端 CitationSection 渲染）
 - [x] 基础认证可用（Session Token）
-- [ ] P@3 ≥ 0.35 (需DB环境验证)
+- [~] P@3 ≥ 0.35 (代码改进已落地 D1-D5，需运行 `python -m app.services.evaluator` 在 LLM 可用时验证)
 - [x] 单元测试 ≥ 350（实测 359 unit + 44 integration = 403）
 - [x] DEV-CONTROL-V2.md 更新为完成状态
 
