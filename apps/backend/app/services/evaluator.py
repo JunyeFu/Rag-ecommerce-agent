@@ -15,7 +15,7 @@ from typing import Optional
 
 logger = logging.getLogger("evaluator")
 
-EVAL_CASES_PATH = Path(__file__).resolve().parents[3] / "data" / "test_cases" / "eval_cases.json"
+EVAL_CASES_PATH = Path(__file__).resolve().parents[2] / "data" / "test_cases" / "eval_cases.json"
 
 
 def _build_ragas_dataset(test_results: list[dict]) -> list[dict]:
