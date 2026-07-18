@@ -4,6 +4,26 @@
 >
 > Phase 1 基线：agent.py 模块化（13 模块）+ pgvector 迁移 + 231 单元测试 + ApiResponse 统一 + CacheBackend/LazySingleton 基础设施。
 
+## Phase 2 完成状态
+
+- [x] **Tier 1**: 认证 + 后端P0 (commit c2b136b)
+- [x] **Tier 2**: F6知识库 + F10安全 + F7引用 (commit 70bd24f)
+- [x] **Tier 3**: 前端15项缺陷修复 (commit 70bd24f)
+- [x] **Tier 4**: Self-Corrective RAG (commit 70bd24f)
+- [x] **Tier 5**: 检索质量提升 (commit 70bd24f)
+- [x] **Tier 6**: 测试补充 231->403 (359 unit + 44 integration)
+
+### 各 Workstream 落地摘要
+
+| Workstream | 落地内容 |
+|-----------|---------|
+| A 前端交互修复 (15) | A1-A15 全部修复：首页错误重试、空购物车引导、订单占位清理、订单状态同步、商品详情重试、设置页切换账号、历史抽屉退出、结算确认弹窗、空实现隐藏/标注、DemoMode banner、探索页发布按钮、客服空按钮、收藏/足迹错误提示 |
+| B 后端能力补齐 (10) | B1 Session Token 认证 + AuthMiddleware；B2 下单库存校验；B3 订单状态机；B4 下单+清空购物车原子事务；B5 购物车数量上限；B6 速率限制；B7-B10 评价校验/N+1优化/对话式下单/upload端点清理 |
+| C 概念落差补齐 (10) | C1-C4 F6 知识库（PDF/MD/TXT 解析 + chunk + pgvector + hybrid_search RRF 融合）；C5-C7 F10 安全过滤（Doubao moderation 输入端+输出端）；C8-C10 F7 引用标注（citation prompt + ProductCardEvent.citation + 前端 CitationSection 渲染） |
+| D 检索质量提升 (5) | D1 GT 语义标注；D2 真正 Hybrid Search（dense+tsvector+RRF）；D3 评测默认启用 Reranker；D4 短词扩展 4->8 字符；D5 评测集扩充 |
+| E 创新点 (4) | E1 retrieval_score 输出；E2 score<3.0 触发 query rewrite + 二次检索（Self-Corrective RAG）；E3 综合匹配度前端展示；E4 低分商品标注 |
+| F 测试覆盖 (6) | F1 认证中间件测试；F2 知识库管道测试；F3 安全过滤测试；F4 订单状态机测试；F5 前端契约回归测试；F6 检索精度评测脚本 |
+
 ## 1. 愿景与目标
 
 ### 1.1 定位转变
@@ -259,15 +279,15 @@ Phase 2.6 (Tier 6): F1-F6 测试                 [2.8d] ─────┘
 ## 12. 验收标准
 
 Phase 2 完成标准（全部满足）：
-- [ ] 8 项 P0 前端缺陷全部修复
-- [ ] 5 项 P0 后端缺陷全部修复
-- [ ] F6 知识库可用（PDF/MD/TXT -> 检索）
-- [ ] F10 安全过滤可用（输入+输出双重）
-- [ ] F7 引用标注可见（[1][2] + citation 字段）
-- [ ] 基础认证可用（Session Token）
-- [ ] P@3 ≥ 0.35
-- [ ] 单元测试 ≥ 350
-- [ ] DEV-CONTROL-V2.md 更新为完成状态
+- [x] 8 项 P0 前端缺陷全部修复
+- [x] 5 项 P0 后端缺陷全部修复
+- [x] F6 知识库可用（PDF/MD/TXT -> 检索）
+- [x] F10 安全过滤可用（输入+输出双重）
+- [x] F7 引用标注可见（[1][2] + citation 字段 + 前端 CitationSection 渲染）
+- [x] 基础认证可用（Session Token）
+- [ ] P@3 ≥ 0.35 (需DB环境验证)
+- [x] 单元测试 ≥ 350（实测 359 unit + 44 integration = 403）
+- [x] DEV-CONTROL-V2.md 更新为完成状态
 
 ---
 

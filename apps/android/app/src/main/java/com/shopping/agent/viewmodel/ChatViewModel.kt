@@ -486,6 +486,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                                     brand = event.brand,
                                     category = event.category,
                                     matchScore = event.matchScore,
+                                    citation = event.citation,
                                 )
                                 accCards.add(product)
 
@@ -831,6 +832,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                                 brand = event.brand,
                                 category = event.category,
                                 matchScore = event.matchScore,
+                                citation = event.citation,
                             )
                             accCards.add(product)
                             _uiState.update { it.copy(streamingCards = accCards.toList()) }
@@ -1018,6 +1020,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                                     brand = event.brand,
                                     category = event.category,
                                     matchScore = event.matchScore,
+                                    citation = event.citation,
                                 )
                                 accCards.add(product)
                                 _uiState.update { it.copy(streamingCards = accCards.toList()) }

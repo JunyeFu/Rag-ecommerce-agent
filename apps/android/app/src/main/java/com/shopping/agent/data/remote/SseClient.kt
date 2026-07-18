@@ -208,7 +208,8 @@ class SseClient(
                         brand = d.brand,
                         category = d.category ?: "",
                         index = d.index,
-                        total = d.total
+                        total = d.total,
+                        citation = d.citation?.map { Citation(it.source_type, it.description) } ?: emptyList()
                     )
                 }
                 "progress" -> {

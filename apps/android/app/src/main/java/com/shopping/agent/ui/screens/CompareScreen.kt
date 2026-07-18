@@ -112,6 +112,7 @@ fun CompareTabScreen() {
                                     brand = event.brand,
                                     category = event.category,
                                     matchScore = event.matchScore,
+                                    citation = event.citation,
                                 ))
                             }
                             is SSEEvent.Done -> {

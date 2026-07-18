@@ -23,54 +23,69 @@ fun ProductCardHorizontal(
         shape = RadiusLg,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        modifier = modifier.fillMaxWidth().height(120.dp),
+        modifier = modifier.fillMaxWidth(),
     ) {
-        Row(modifier = Modifier.padding(Dimens.cardPadding)) {
-            AsyncImage(
-                model = product.imageUrl,
-                contentDescription = product.title,
-                modifier = Modifier
-                    .size(Dimens.productCardImageSize)
-                    .then(Modifier),
-                contentScale = ContentScale.Crop,
-            )
-            Spacer(Modifier.width(Dimens.space3))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = product.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
+        Column {
+            Row(modifier = Modifier.padding(Dimens.cardPadding).height(IntrinsicSize.Min)) {
+                AsyncImage(
+                    model = product.imageUrl,
+                    contentDescription = product.title,
+                    modifier = Modifier
+                        .size(Dimens.productCardImageSize)
+                        .then(Modifier),
+                    contentScale = ContentScale.Crop,
                 )
-                Spacer(Modifier.weight(1f))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("¥${product.price}", style = PriceSmall, color = TextPrice)
-                }
-                Spacer(Modifier.height(Dimens.space1))
-                Row(horizontalArrangement = Arrangement.spacedBy(Dimens.space2)) {
-                    ProductSourceBadge(source = product.source)
-                    if (product.matchScore > 0) {
-                        Surface(shape = RadiusSm, color = MaterialTheme.colorScheme.outlineVariant) {
+                Spacer(Modifier.width(Dimens.space3))
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Top,
+                ) {
+                    Text(
+                        text = product.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Spacer(Modifier.height(Dimens.space1))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("¥${product.price}", style = PriceSmall, color = TextPrice)
+                    }
+                    Spacer(Modifier.height(Dimens.space1))
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.space2),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        ProductSourceBadge(source = product.source)
+                        if (product.matchScore > 0) {
+                            Surface(shape = RadiusSm, color = MaterialTheme.colorScheme.outlineVariant) {
+                                Text(
+                                    "匹配 ${(product.matchScore * 100).toInt()}%",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                                )
+                            }
+                        }
+                        if (product.rankReason != "") {
                             Text(
-                                "匹配 ${(product.matchScore * 100).toInt()}%",
+                                "✓ ${product.rankReason}",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                                color = Success,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.weight(1f, fill = false),
                             )
                         }
                     }
-                    if (product.rankReason != "") {
-                        Text(
-                            "✓ ${product.rankReason}",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Success,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f, fill = false),
-                        )
-                    }
                 }
+            }
+            CitationSection(
+                citations = product.citation,
+                modifier = Modifier.padding(horizontal = Dimens.cardPadding),
+            )
+            if (product.citation.isNotEmpty()) {
+                Spacer(Modifier.height(Dimens.space2))
             }
         }
     }
