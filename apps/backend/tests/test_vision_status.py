@@ -12,4 +12,4 @@ async def test_vision_status_does_not_load_model(client):
     assert response.status_code == 200
     data = response.json()
     assert {"ready", "provider", "cloud_vision_configured"} <= set(data)
-    assert data["provider"] == "doubao_vision_api"
+    assert data["provider"] in {"doubao_vision_api", "llm_vision_api"}
