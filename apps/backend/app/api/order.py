@@ -1,17 +1,23 @@
-"""订单 API 端点 — 下单/查单/取消"""
+"""订单 API 端点 - 下单/查单/取消"""
+import logging
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
+from app.core.exceptions import ValidationError
 from app.schemas.order import PlaceOrderRequest
 from app.schemas.common import ApiResponse
 from app.services import order_service, cart_service
 
+logger = logging.getLogger("order_api")
 router = APIRouter()
 
 
 @router.post("/orders")
 async def place_order(body: PlaceOrderRequest, db: AsyncSession = Depends(get_db)):
-    """下单 — 读取购物车，创建订单，清空购物车"""
+    """下单 - 原子事务：库存校验 + 创建订单 + 清空购物车
+
+    在同一 DB 事务中完成，任一步骤失败则整体回滚。
+    """
     # 读取当前购物车
     items = await cart_service.get_cart(db, body.session_id, body.user_id)
     if body.product_ids:
@@ -31,17 +37,19 @@ async def place_order(body: PlaceOrderRequest, db: AsyncSession = Depends(get_db
         for it in items
     ]
 
-    # 创建订单
-    order = await order_service.create_order(
-        db, body.session_id, items_snapshot, total, body.address, body.remark
-    )
-
-    # 清空购物车
-    if body.product_ids:
-        for item in items:
-            await cart_service.remove_from_cart(db, body.session_id, str(item.product_id), user_id=body.user_id)
-    else:
-        await cart_service.clear_cart(db, body.session_id, user_id=body.user_id)
+    # 原子下单（库存校验 + 创建订单 + 清空购物车 同一事务）
+    try:
+        order = await order_service.create_order_atomic(
+            db, body.session_id, items_snapshot, total, body.address, body.remark,
+            product_ids=body.product_ids, user_id=body.user_id,
+        )
+    except ValidationError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.warning("Order creation failed: %s", e)
+        raise HTTPException(status_code=500, detail="下单失败，请稍后重试")
 
     return ApiResponse(data={
         "order_id": str(order.id),
@@ -97,8 +105,11 @@ async def get_order(order_id: str, db: AsyncSession = Depends(get_db)):
 
 @router.post("/orders/{order_id}/cancel")
 async def cancel_order(order_id: str, db: AsyncSession = Depends(get_db)):
-    """取消订单"""
-    ok = await order_service.cancel_order(db, order_id)
+    """取消订单 - 带状态机校验（仅 pending_payment/pending_shipping 可取消）"""
+    try:
+        ok = await order_service.cancel_order(db, order_id)
+    except ValidationError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     if not ok:
         raise HTTPException(status_code=404, detail="订单不存在")
     return ApiResponse(data={"cancelled": True})

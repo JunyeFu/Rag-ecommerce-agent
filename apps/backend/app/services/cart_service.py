@@ -1,13 +1,18 @@
 """
-购物车 CRUD 服务 — 带内存缓存加速，支持 user_id 匹配
+购物车 CRUD 服务 - 带内存缓存加速，支持 user_id 匹配
 """
 import uuid
 import logging
 from sqlalchemy import select, delete, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.cart import CartItem
+from app.core.exceptions import BadRequestError
 
 logger = logging.getLogger("cart_service")
+
+# 购物车上限配置
+MAX_SINGLE_ITEM_QTY = 99  # 单品最大数量
+MAX_CART_TOTAL_ITEMS = 50  # 购物车总件数上限
 
 # ── 内存缓存：key=(session_id, user_id), value=(items_list, total) ──
 _cart_cache: dict[str, tuple[list[CartItem], float]] = {}
@@ -70,6 +75,8 @@ async def add_to_cart(
 
     Args:
         user_id: 可选的用户 ID，传入时写入 cart_items.user_id 列
+    Raises:
+        BadRequestError: 超过单品数量上限或购物车总件数上限
     """
     sid = _to_uuid(session_id)
     _invalidate_cache(session_id)
@@ -86,10 +93,24 @@ async def add_to_cart(
     existing = result.scalar_one_or_none()
 
     if existing:
+        # 单品数量上限校验
+        if existing.quantity >= MAX_SINGLE_ITEM_QTY:
+            raise BadRequestError(f"单品数量已达上限（{MAX_SINGLE_ITEM_QTY} 件）")
         existing.quantity += 1
         await db.flush()
         logger.info("Cart: %s quantity=%d (user=%s)", product_id[:16], existing.quantity, user_id[:12] if user_id else "anon")
         return existing
+
+    # 新增商品 - 校验购物车总件数
+    total_stmt = select(func.coalesce(func.sum(CartItem.quantity), 0)).where(
+        CartItem.session_id == sid
+    )
+    if user_id:
+        total_stmt = total_stmt.where(CartItem.user_id == user_id)
+    total_result = await db.execute(total_stmt)
+    current_total = total_result.scalar() or 0
+    if current_total >= MAX_CART_TOTAL_ITEMS:
+        raise BadRequestError(f"购物车已达上限（{MAX_CART_TOTAL_ITEMS} 件），请先清理")
 
     item = CartItem(
         session_id=sid,
@@ -135,6 +156,8 @@ async def update_quantity(
 
     Args:
         user_id: 可选，传入时仅更新匹配 user_id 的商品
+    Raises:
+        BadRequestError: 超过单品数量上限
     """
     sid = _to_uuid(session_id)
     _invalidate_cache(session_id)
@@ -148,6 +171,9 @@ async def update_quantity(
     item = result.scalar_one_or_none()
     if not item:
         return False
+    # 数量上限校验（0 表示删除，不限）
+    if quantity > MAX_SINGLE_ITEM_QTY:
+        raise BadRequestError(f"单品数量不能超过 {MAX_SINGLE_ITEM_QTY} 件")
     item.quantity = max(0, quantity)
     await db.flush()
     return True

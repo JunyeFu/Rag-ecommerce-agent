@@ -18,7 +18,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 
-from app.api import chat, products, upload, evaluation, feedback, compare, knowledge, cart, order, favorites, footprints, user, review, voice
+from app.api import chat, products, upload, evaluation, feedback, compare, knowledge, cart, order, favorites, footprints, user, review, voice, auth
 from app.core.config import settings
 from app.core.database import engine, Base
 
@@ -61,6 +61,22 @@ async def lifespan(app: FastAPI):
                     ))
                     await conn.execute(text(
                         "ALTER TABLE products ADD COLUMN IF NOT EXISTS rating_count INTEGER DEFAULT 0"
+                    ))
+                    # Phase 2: Session Token 认证字段
+                    await conn.execute(text(
+                        "ALTER TABLE sessions ADD COLUMN IF NOT EXISTS auth_token VARCHAR(64)"
+                    ))
+                    await conn.execute(text(
+                        "ALTER TABLE sessions ADD COLUMN IF NOT EXISTS auth_user_id VARCHAR(64)"
+                    ))
+                    await conn.execute(text(
+                        "ALTER TABLE sessions ADD COLUMN IF NOT EXISTS auth_expires_at TIMESTAMPTZ"
+                    ))
+                    await conn.execute(text(
+                        "CREATE INDEX IF NOT EXISTS ix_sessions_auth_token ON sessions(auth_token)"
+                    ))
+                    await conn.execute(text(
+                        "CREATE INDEX IF NOT EXISTS ix_sessions_auth_user_id ON sessions(auth_user_id)"
                     ))
                 except Exception as e:
                     logger.debug("Schema migration skipped: %s", e)
@@ -143,8 +159,10 @@ app.add_middleware(
 )
 
 # 请求追踪中间件
-from app.core.middleware import RequestIDMiddleware
+from app.core.middleware import RequestIDMiddleware, AuthMiddleware, RateLimitMiddleware
 app.add_middleware(RequestIDMiddleware)
+app.add_middleware(AuthMiddleware)
+app.add_middleware(RateLimitMiddleware)
 
 # Prometheus metrics — 所有 HTTP 请求的延迟/计数/错误率
 try:
@@ -213,6 +231,7 @@ async def request_timing_middleware(request: Request, call_next):
     return response
 
 for prefix in ["/api/v1"]:
+    app.include_router(auth.router, prefix=prefix, tags=["auth"])
     app.include_router(chat.router, prefix=prefix, tags=["chat"])
     app.include_router(products.router, prefix=prefix, tags=["products"])
     app.include_router(upload.router, prefix=prefix, tags=["upload"])
