@@ -89,9 +89,7 @@ async def remove_item(body: CartRemoveRequest, db: AsyncSession = Depends(get_db
 @router.post("/cart/remove")
 async def remove_item_alias(body: CartRemoveRequest, db: AsyncSession = Depends(get_db)):
     """[Android 兼容] 删除购物车商品"""
-    _validate_uuid(body.session_id)
-    ok = await cart_service.remove_from_cart(db, body.session_id, body.product_id, user_id=body.user_id)
-    return ApiResponse(data={"deleted": ok})
+    return await remove_item(body, db)
 
 
 @router.put("/cart/items")
@@ -105,9 +103,7 @@ async def update_quantity(body: CartQuantityRequest, db: AsyncSession = Depends(
 @router.put("/cart/quantity")
 async def update_quantity_alias(body: CartQuantityRequest, db: AsyncSession = Depends(get_db)):
     """[Android 兼容] 修改商品数量"""
-    _validate_uuid(body.session_id)
-    ok = await cart_service.update_quantity(db, body.session_id, body.product_id, body.quantity, user_id=body.user_id)
-    return ApiResponse(data={"updated": ok})
+    return await update_quantity(body, db)
 
 
 @router.delete("/cart")
@@ -125,6 +121,4 @@ async def clear_cart(
 @router.post("/cart/clear")
 async def clear_cart_alias(body: CartClearRequest, db: AsyncSession = Depends(get_db)):
     """[Android 兼容] 清空购物车"""
-    _validate_uuid(body.session_id)
-    await cart_service.clear_cart(db, body.session_id, user_id=body.user_id)
-    return ApiResponse(data={"cleared": True})
+    return await clear_cart(session_id=body.session_id, user_id=body.user_id, db=db)

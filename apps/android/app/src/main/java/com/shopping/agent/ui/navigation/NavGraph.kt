@@ -206,6 +206,9 @@ fun AppNavGraph(
                                         kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
                                             repo.clearAllLocalData()
                                             repo.deleteCredentials()
+                                            com.shopping.agent.data.local.AuthManager.clearToken(
+                                                com.shopping.agent.ShoppingApp.instance
+                                            )
                                         }
                                     } catch (_: Exception) {}
                                     navController.navigate("login") {

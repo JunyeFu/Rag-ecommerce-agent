@@ -1,5 +1,5 @@
 """
-中间件 - request_id 注入、请求日志、认证、限流预留
+中间件 - request_id 注入、请求日志、认证、限流
 遵循开发规约 v2.0 §15
 """
 import time
@@ -14,7 +14,7 @@ from app.schemas.common import ApiResponse
 
 logger = logging.getLogger("middleware")
 
-# 认证豁免路径
+# 认证豁免路径 - 仅这些路径不需要 token
 AUTH_EXEMPT_PATHS = {
     "/api/v1/auth/login",
     "/api/v1/auth/logout",
@@ -27,24 +27,6 @@ AUTH_EXEMPT_PATHS = {
     "/metrics",
     "/",
 }
-
-# 认证可选路径（有 token 则验证，无 token 也放行，用于过渡期）
-AUTH_OPTIONAL_PREFIXES = (
-    "/api/v1/products",
-    "/api/v1/chat",
-    "/api/v1/voice",
-    "/api/v1/upload",
-    "/api/v1/evaluation",
-    "/api/v1/cart",
-    "/api/v1/orders",
-    "/api/v1/favorites",
-    "/api/v1/footprints",
-    "/api/v1/reviews",
-    "/api/v1/feedback",
-    "/api/v1/users",
-    "/api/v1/knowledge",
-    "/api/v1/compare",
-)
 
 # 限流配置：路径 -> (window_seconds, max_requests)
 RATE_LIMIT_CONFIG = {
@@ -124,10 +106,10 @@ class RequestIDMiddleware(BaseHTTPMiddleware):
 class AuthMiddleware(BaseHTTPMiddleware):
     """Session Token 认证中间件
 
-    策略（过渡期）：
-    - 豁免路径：直接放行
-    - 认证可选路径：有 token 则验证并注入 user_id，无 token 也放行（设 user_id=""）
-    - 其他 /api/v1 路径：必须携带有效 token
+    策略：
+    - 静态资源/非 API 路径：直接放行
+    - 豁免路径（AUTH_EXEMPT_PATHS）：直接放行
+    - 其他 /api/ 路径：必须携带有效 token，否则返回 401
     """
     async def dispatch(self, request: Request, call_next):
         path = request.url.path
@@ -144,16 +126,27 @@ class AuthMiddleware(BaseHTTPMiddleware):
         auth_header = request.headers.get("authorization", "")
         token = auth_header.replace("Bearer ", "").strip() if auth_header else ""
 
-        if token:
-            # 有 token - 验证
-            user_id = await validate_session_token(token)
-            if user_id:
-                request.state.user_id = user_id
-            else:
-                # token 无效 - 过渡期放行，设为空
-                request.state.user_id = ""
-        else:
-            # 无 token - 过渡期放行，设为空
-            request.state.user_id = ""
+        if not token:
+            return JSONResponse(
+                status_code=401,
+                content=ApiResponse(
+                    code=4010,
+                    message="未提供认证令牌，请先登录",
+                    data=None,
+                ).model_dump(),
+            )
 
+        # 验证 token
+        user_id = await validate_session_token(token)
+        if not user_id:
+            return JSONResponse(
+                status_code=401,
+                content=ApiResponse(
+                    code=4011,
+                    message="认证令牌无效或已过期，请重新登录",
+                    data=None,
+                ).model_dump(),
+            )
+
+        request.state.user_id = user_id
         return await call_next(request)

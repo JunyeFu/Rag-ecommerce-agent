@@ -9,3 +9,8 @@ class PlaceOrderRequest(BaseModel):
     remark: str = ""
     user_id: str = ""
     product_ids: list[str] | None = None
+
+
+class OrderStatusUpdateRequest(BaseModel):
+    """订单状态更新请求 - POST body 防止 query 参数泄露到日志/缓存"""
+    status: str = Field(..., min_length=1)

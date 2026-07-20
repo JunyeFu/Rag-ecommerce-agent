@@ -1,10 +1,10 @@
 """订单 API 端点 - 下单/查单/取消"""
 import logging
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, Query, HTTPException, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.core.exceptions import ValidationError
-from app.schemas.order import PlaceOrderRequest
+from app.schemas.order import PlaceOrderRequest, OrderStatusUpdateRequest
 from app.schemas.common import ApiResponse
 from app.services import order_service, cart_service
 
@@ -116,12 +116,20 @@ async def cancel_order(order_id: str, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/orders/{order_id}/status")
-async def update_order_status_endpoint(order_id: str, status: str = Query(...), db: AsyncSession = Depends(get_db)):
-    """更新订单状态 - 带状态机校验"""
+async def update_order_status_endpoint(
+    order_id: str,
+    body: OrderStatusUpdateRequest,
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+):
+    """更新订单状态 - 带状态机校验 + 要求已登录"""
+    user_id = getattr(request.state, "user_id", "")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="未登录，无法修改订单状态")
     try:
-        ok = await order_service.update_order_status(db, order_id, status)
+        ok = await order_service.update_order_status(db, order_id, body.status)
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
     if not ok:
         raise HTTPException(status_code=404, detail="订单不存在")
-    return ApiResponse(data={"order_id": order_id, "status": status})
+    return ApiResponse(data={"order_id": order_id, "status": body.status})
