@@ -89,7 +89,17 @@ async def create_session_token(user_id: str = "", nickname: str = "") -> tuple[s
             await db.flush()
             logger.info("Auth: created guest %s", user_id[:16])
 
-        # 写入 token 缓存（DB 持久化通过 sessions 表的 auth_token 字段实现）
+        # 持久化 token 到 sessions 表（进程重启后仍可验证）
+        from app.models.session import Session as SessionModel
+        session = SessionModel(
+            auth_token=token,
+            auth_user_id=user_id,
+            auth_expires_at=expires_at,
+        )
+        db.add(session)
+        await db.flush()
+
+        # 写入内存缓存
         _cache_set(token, user_id)
         logger.info("Auth token: user=%s guest=%s expires=%s", user_id[:16], is_guest, expires_at.isoformat())
 
