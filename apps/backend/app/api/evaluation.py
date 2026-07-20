@@ -14,13 +14,13 @@ async def run_eval(background_tasks: BackgroundTasks):
     # 同步模式：直接执行并返回结果
     try:
         result = await run_evaluation()
-        return ApiResponse(data=result, message="评测完成").model_dump()
+        return ApiResponse(data=result, message="评测完成")
     except Exception as e:
         logger.exception("Evaluation failed")
         return ApiResponse(
             data={"error": "评测执行失败，请稍后重试"},
             message="评测执行失败"
-        ).model_dump()
+        )
 
 
 @router.get("/evaluation/report")
@@ -33,9 +33,9 @@ async def get_eval_report():
     if report_path.exists():
         with open(report_path, encoding="utf-8") as f:
             report = json.load(f)
-        return ApiResponse(data=report, message="评测报告").model_dump()
+        return ApiResponse(data=report, message="评测报告")
 
     return ApiResponse(
         data={"status": "no_report"},
         message="暂无评测报告，请先执行 POST /evaluation/run"
-    ).model_dump()
+    )

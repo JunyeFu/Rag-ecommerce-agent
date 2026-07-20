@@ -1,6 +1,6 @@
 """商品足迹（浏览历史）API 端点"""
 from datetime import date
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, Query, HTTPException, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.schemas.footprints import FootprintRecordRequest
@@ -12,24 +12,15 @@ router = APIRouter()
 
 @router.get("/footprints")
 async def get_footprints(
-    user_id: str = Query(...),
+    request: Request,
     start_date: str | None = Query(None, description="筛选起始日期，格式 YYYY-MM-DD"),
     end_date: str | None = Query(None, description="筛选结束日期，格式 YYYY-MM-DD"),
     offset: int = Query(0, ge=0),
     limit: int = Query(50, ge=1, le=100),
     db: AsyncSession = Depends(get_db),
 ):
-    """获取用户足迹列表 — 按浏览日期降序，含日期范围筛选。
-
-    Args:
-        user_id: 用户 ID（必填）
-        start_date: 筛选起始日期（含），格式 YYYY-MM-DD，可选
-        end_date: 筛选结束日期（含），格式 YYYY-MM-DD，可选
-        offset: 分页偏移量，默认 0
-        limit: 每页数量，默认 50，最大 100
-    """
-    if not user_id:
-        raise HTTPException(status_code=400, detail="user_id 不能为空")
+    """获取用户足迹列表 - 按浏览日期降序，含日期范围筛选。user_id 从 auth token 解析。"""
+    user_id = request.state.user_id
 
     # 解析日期参数
     sd = None
@@ -82,16 +73,11 @@ async def get_footprints(
 
 @router.get("/footprints/count")
 async def get_footprint_count(
-    user_id: str = Query(...),
+    request: Request,
     db: AsyncSession = Depends(get_db),
 ):
-    """获取用户足迹总数。
-
-    Args:
-        user_id: 用户 ID（必填）
-    """
-    if not user_id:
-        raise HTTPException(status_code=400, detail="user_id 不能为空")
+    """获取用户足迹总数。user_id 从 auth token 解析。"""
+    user_id = request.state.user_id
     count = await footprint_service.get_footprint_count(db, user_id)
     return ApiResponse(data={"count": count})
 
@@ -99,18 +85,12 @@ async def get_footprint_count(
 @router.post("/footprints/record")
 async def record_footprint(
     body: FootprintRecordRequest,
+    request: Request,
     db: AsyncSession = Depends(get_db),
 ):
-    """记录商品浏览足迹。
-
-    - 库中不存在该商品足迹 → 新增记录
-    - 库中已存在该商品足迹 → 更新浏览日期
-
-    Args:
-        body.user_id: 用户 ID
-        body.product_id: 商品 ID
-    """
-    if not body.user_id or not body.product_id:
-        raise HTTPException(status_code=400, detail="user_id 和 product_id 不能为空")
-    result = await footprint_service.record_footprint(db, body.user_id, body.product_id)
+    """记录商品浏览足迹。user_id 从 auth token 解析。"""
+    user_id = request.state.user_id
+    if not body.product_id:
+        raise HTTPException(status_code=400, detail="product_id 不能为空")
+    result = await footprint_service.record_footprint(db, user_id, body.product_id)
     return ApiResponse(data=result)

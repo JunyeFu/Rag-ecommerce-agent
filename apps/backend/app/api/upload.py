@@ -22,7 +22,7 @@ router = APIRouter()
 @router.get("/upload/vision-status")
 async def vision_status():
     """Return Doubao vision readiness without loading local models."""
-    return get_vision_readiness()
+    return ApiResponse(data=get_vision_readiness())
 
 
 @router.post("/upload/image")
@@ -44,7 +44,7 @@ async def upload_image(file: UploadFile = File(...)):
             "path": filepath,
         },
         message="Upload successful",
-    ).model_dump()
+    )
 
 
 @router.post("/upload/vision-search")
@@ -175,4 +175,4 @@ async def upload_document(file: UploadFile = File(...)):
     return ApiResponse(
         data={"filename": file.filename, "status": "processing"},
         message="Document received and processing",
-    ).model_dump()
+    )

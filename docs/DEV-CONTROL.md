@@ -558,35 +558,36 @@ query -> embed_text (BGE-large-zh)
 | A4 | **补 `cart_service` + `create_order_atomic` 测试**：+26 单元测试（359->385），覆盖缓存/CRUD/原子事务/状态机 | ✅ |
 | A5 | **cart API alias 委托**：3 个 alias 改为 `return await canonical(...)` | ✅ |
 
-#### P1 标准化（1-2 周，建立硬门禁）
+#### P1 标准化（✅ 2026-07-20，硬门禁已建立）
 
-**B1. 引入 Alembic 迁移框架**
-```bash
-cd apps/backend && alembic init alembic
-# 把 main.py:52-95 的 12 条 SQL 迁移到版本化脚本
-# 启动时只跑 alembic upgrade head，失败则拒绝启动
-```
+**B1. 引入 Alembic 迁移框架** ✅
+- `alembic init alembic` + async env.py（使用 app.core.database.Base + async_engine）
+- 初始迁移 `0001_initial_schema.py`：pgvector 扩展 + Base.metadata.create_all + ivfflat/GIN 索引
+- main.py lifespan 12 条裸 SQL 替换为 `alembic upgrade head`，失败则 raise 拒绝启动
+- 对现有 DB 执行 `alembic stamp head` 标记 baseline
 
-**B2. 统一 API 契约（5 条硬规则）**
-1. 所有业务端点必须返回 `ApiResponse` 对象（禁 `.model_dump()`）
-2. 所有业务端点必须声明 `response_model=ApiResponse[T]`
-3. 所有突变操作必须 POST/PATCH/DELETE，禁用 Query 传业务参数
-4. 所有端点必须从 `request.state.user_id` 读用户，禁函数参数传 user_id
-5. CI 跑契约测试（`pytest -m contract`）校验信封一致性
+**B2. 统一 API 契约（5 条硬规则）** ✅（规则 2 后续完善）
+1. ✅ 所有业务端点必须返回 `ApiResponse` 对象（13 处 `.model_dump()` 已移除：products/evaluation/voice/upload）
+2. ⏳ 所有业务端点必须声明 `response_model=ApiResponse[T]`（需定义泛型类型，后续 P2 完善）
+3. ✅ 所有突变操作必须 POST/PATCH/DELETE，禁用 Query 传业务参数（order.py 已在 P0 修复）
+4. ✅ 所有端点必须从 `request.state.user_id` 读用户（favorites/footprints/cart 已改，移除 user_id Query）
+5. ✅ CI 跑契约测试 `pytest -m contract`（test_api_contract.py：5 端点 401 + ApiResponse 信封验证）
 
-**B3. 环境配置治理**
-- `config.py` 增加 `QDRANT_URL` 等已删字段的 `DeprecatedField` validator（启动告警）
-- `.env.example` 与 `config.py` 字段一一对齐，CI 跑 `diff` 校验
-- `.env` 中 key 改为 `${DEEPSEEK_API_KEY}` 引用，避免明文落盘
+**B3. 环境配置治理** ✅
+- `config.py` 增加 `_warn_deprecated_fields` model_validator（QDRANT_URL/COLLECTION 废弃告警）
+- `.env.example` 与 `config.py` 字段一一对齐（补齐 RERANKER_MODEL/HF_ENDPOINT/检索配置/DEMO_MODE）
+- `.env` 中 key 轮换需用户手动操作（已在 P0 A3 标注）
 
-**B4. CI 硬门禁**（`.github/workflows/ci.yml`）
+**B4. CI 硬门禁** ✅（`.github/workflows/ci.yml` 6 job）
 ```yaml
-- lint: ruff check + mypy strict
-- test: pytest -m "unit or integration"  覆盖率 < 70% 失败
+- lint: ruff check + mypy
+- unit-tests: pytest -m unit --cov-fail-under=70
+- contract-tests: pytest -m contract (需要 DB)
+- integration-tests: pytest -m integration (需要 DB + LLM)
 - security: bandit + pip-audit
-- contract: pytest -m contract
-- migrate: alembic check  (迁移与模型一致)
+- migration-check: alembic upgrade head on fresh DB
 ```
+- pyproject.toml 添加 ruff/mypy 配置 + dev 依赖（ruff/mypy/bandit/pip-audit）
 
 #### P2 规范化（2-4 周，建立编码规范）
 
@@ -653,7 +654,7 @@ class CacheBackend(Protocol):
 | 阶段 | 周期 | 内容 | 验收指标 |
 |------|------|------|---------|
 | **P0 止血** | ✅ 2026-07-20 | A1-A5 | 鉴权强制生效、死配置清理、+26 单元测试（359->385）、alias 委托 |
-| **P1 标准化** | 1-2 周 | B1-B4 | CI 红线生效、迁移可回滚 |
+| **P1 标准化** | ✅ 2026-07-20 | B1-B4 | Alembic 迁移可回滚、API 契约信封统一、CI 6-job 硬门禁 |
 | **P2 规范化** | 2-4 周 | C1-C3 | God Function 消失、覆盖率 ≥ 70% |
 | **P3 模块化** | 2-4 周 | D1-D3 | 单文件 ≤ 400 行、无模块级 dict 缓存 |
 | **持续** | 日常 | §12.3 AI 协作纪律 | 每次合入过审查清单 |

@@ -45,61 +45,21 @@ async def lifespan(app: FastAPI):
         logger.info("HF_ENDPOINT=%s", settings.HF_ENDPOINT)
 
     if settings.DATABASE_URL:
+        from alembic.config import Config as AlembicConfig
+        from alembic import command as alembic_command
+
+        backend_dir = Path(__file__).resolve().parents[1]
+        alembic_cfg = AlembicConfig(str(backend_dir / "alembic.ini"))
+        alembic_cfg.set_main_option(
+            "script_location", str(backend_dir / "alembic")
+        )
         try:
-            async with engine.begin() as conn:
-                await conn.run_sync(Base.metadata.create_all)
-                # 迁移：为已有 cart_items 表添加 user_id 列（v1→v2）
-                try:
-                    await conn.execute(text(
-                        "ALTER TABLE cart_items ADD COLUMN IF NOT EXISTS user_id VARCHAR(64)"
-                    ))
-                    await conn.execute(text(
-                        "CREATE INDEX IF NOT EXISTS ix_cart_items_user_id ON cart_items(user_id)"
-                    ))
-                    await conn.execute(text(
-                        "ALTER TABLE messages ADD COLUMN IF NOT EXISTS audio_data BYTEA"
-                    ))
-                    await conn.execute(text(
-                        "ALTER TABLE products ADD COLUMN IF NOT EXISTS rating_count INTEGER DEFAULT 0"
-                    ))
-                    # Phase 2: Session Token 认证字段
-                    await conn.execute(text(
-                        "ALTER TABLE sessions ADD COLUMN IF NOT EXISTS auth_token VARCHAR(64)"
-                    ))
-                    await conn.execute(text(
-                        "ALTER TABLE sessions ADD COLUMN IF NOT EXISTS auth_user_id VARCHAR(64)"
-                    ))
-                    await conn.execute(text(
-                        "ALTER TABLE sessions ADD COLUMN IF NOT EXISTS auth_expires_at TIMESTAMPTZ"
-                    ))
-                    await conn.execute(text(
-                        "CREATE INDEX IF NOT EXISTS ix_sessions_auth_token ON sessions(auth_token)"
-                    ))
-                    await conn.execute(text(
-                        "CREATE INDEX IF NOT EXISTS ix_sessions_auth_user_id ON sessions(auth_user_id)"
-                    ))
-                    # 知识库分块表 (RAG 文档向量化存储)
-                    await conn.execute(text("""
-                        CREATE TABLE IF NOT EXISTS knowledge_chunks (
-                            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                            doc_id TEXT NOT NULL,
-                            chunk_index INT NOT NULL,
-                            chunk_text TEXT NOT NULL,
-                            embedding vector(1024),
-                            metadata JSONB DEFAULT '{}',
-                            created_at TIMESTAMPTZ DEFAULT NOW()
-                        )
-                    """))
-                    await conn.execute(text(
-                        "CREATE INDEX IF NOT EXISTS idx_knowledge_embedding ON knowledge_chunks USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100)"
-                    ))
-                except Exception as e:
-                    logger.debug("Schema migration skipped: %s", e)
-            logger.info("数据库表创建/验证完成")
+            await asyncio.to_thread(alembic_command.upgrade, alembic_cfg, "head")
+            logger.info("Alembic 迁移完成")
             _startup._state.db_done = True
         except Exception as exc:
-            logger.warning("数据库初始化失败（降级运行，购物车/多轮历史暂不可用）: %s", exc)
-            # 不 raise — 允许应用在无数据库模式下运行
+            logger.error("数据库迁移失败，拒绝启动: %s", exc)
+            raise
     else:
         logger.info("DATABASE_URL 未配置，跳过数据库初始化（内存模式）")
 

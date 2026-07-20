@@ -35,7 +35,7 @@ async def recognize(file: UploadFile = File(...)):
     except Exception as exc:
         logger.error("Voice recognition failed: %s", exc)
         raise HTTPException(status_code=503, detail=f"Voice recognition failed: {str(exc)[:120]}") from exc
-    return ApiResponse(data=result, message="Voice recognized").model_dump()
+    return ApiResponse(data=result, message="Voice recognized")
 
 
 @router.post("/voice/chat")

@@ -32,6 +32,10 @@ dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.24.0",
     "pytest-cov>=4.0.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "bandit>=1.8.0",
+    "pip-audit>=2.7.0",
 ]
 
 [build-system]
@@ -46,7 +50,25 @@ asyncio_mode = "auto"
 markers = [
     "unit: 纯函数测试, 无外部依赖 (<1s)",
     "integration: 需要 DB 或 LLM (>1s)",
+    "contract: API 契约测试, 验证 ApiResponse 信封一致性",
     "slow: 耗时测试 (>5s)",
 ]
 testpaths = ["tests"]
 addopts = "--strict-markers"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B017"]  # pytest.raises(Exception) in tests
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+warn_unused_configs = true
+check_untyped_defs = false

@@ -5,11 +5,15 @@ Configuration priority:
 2. apps/backend/.env
 3. Code defaults
 """
+import logging
 import os
+import warnings
 from pathlib import Path
 
 from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings
+
+logger = logging.getLogger("config")
 
 CONFIG_DIR = Path(__file__).resolve().parents[2]  # apps/backend/
 
@@ -79,6 +83,24 @@ class Settings(BaseSettings):
                 raise ValueError("At least one LLM API key is required in production")
             if "*" in self.CORS_ORIGINS:
                 raise ValueError("CORS_ORIGINS cannot be '*' in production")
+        return self
+
+    @model_validator(mode="after")
+    def _warn_deprecated_fields(self):
+        """检测已废弃的环境变量，发出警告"""
+        _deprecated = {
+            "QDRANT_URL": "pgvector 迁移已移除 Qdrant 依赖",
+            "QDRANT_COLLECTION": "pgvector 迁移已移除 Qdrant 依赖",
+        }
+        for key, msg in _deprecated.items():
+            val = os.environ.get(key)
+            if val:
+                warnings.warn(
+                    f"环境变量 {key} 已废弃: {msg} (请从 .env 中删除)",
+                    DeprecationWarning,
+                    stacklevel=2,
+                )
+                logger.warning("废弃环境变量 %s=%s", key, val[:8] + "***")
         return self
 
     model_config = {
