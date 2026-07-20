@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import AsyncSessionLocal
 from app.core.config import settings
+from app.services.embedding import embed_text
 
 logger = logging.getLogger("retriever")
 
@@ -292,8 +293,6 @@ async def search_similar_products(
         [{"product_id":..., "title":..., "price":..., "rating":...,
           "match_score":..., "highlights":..., "image_url":...}, ...]
     """
-    from app.services.embedding import embed_text
-
     query_vector = await embed_text(query_text)
 
     if AsyncSessionLocal is None:

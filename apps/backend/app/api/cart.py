@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.schemas.cart import CartAddRequest, CartRemoveRequest, CartQuantityRequest, CartClearRequest
 from app.schemas.common import ApiResponse
-from app.services import cart_service
+from app.services import cart_service, product_service
 
 router = APIRouter()
 
@@ -34,7 +34,6 @@ async def get_cart(
 
     cart_items = []
     for i in items:
-        from app.services import product_service
         # 直接传原始 product_id，get_product_by_id 内部已支持 UUID / source_product_id 双重查找
         prod = await product_service.get_product_by_id(db, i.product_id)
         cart_items.append({
@@ -61,7 +60,6 @@ async def add_item(body: CartAddRequest, request: Request, db: AsyncSession = De
     _validate_uuid(body.session_id)
 
     # 服务端查商品表，不信任客户端传入的 price/title
-    from app.services import product_service
     # 直接传原始 product_id，get_product_by_id 内部已支持 UUID / source_product_id 双重查找
     product = await product_service.get_product_by_id(db, body.product_id)
     if product is None:

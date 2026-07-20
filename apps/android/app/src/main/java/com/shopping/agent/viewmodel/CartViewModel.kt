@@ -76,6 +76,13 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
     /** 获取当前用户 ID（用于后端 user_id 参数） */
     private fun getUserId(): String = repository.getUserId()
 
+    /** 计算购物车总价和选中总价 */
+    private fun calcTotals(items: List<CartItem>, selectedIds: Set<String>): Pair<Double, Double> {
+        val total = items.sumOf { it.product.price * it.quantity }
+        val selectedTotal = items.filter { it.product.productId in selectedIds }.sumOf { it.product.price * it.quantity }
+        return total to selectedTotal
+    }
+
     /** 调用后端 API：添加商品到购物车 */
     private suspend fun syncAddToBackend(product: Product, quantity: Int = 1): Boolean {
         return withContext(Dispatchers.IO) {
@@ -213,9 +220,8 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
                 val items = withContext(Dispatchers.IO) {
                     repository.getCartItemsForCurrentUser(sessionId)
                 }
-                val total = items.sumOf { it.product.price * it.quantity }
                 val selectedIds = items.filter { it.isSelected }.map { it.product.productId }.toSet()
-                val selectedTotal = items.filter { it.isSelected }.sumOf { it.product.price * it.quantity }
+                val (total, selectedTotal) = calcTotals(items, selectedIds)
                 _uiState.update {
                     it.copy(
                         items = items,
@@ -231,9 +237,8 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
                     val items = withContext(Dispatchers.IO) {
                         repository.getCartItemsForCurrentUser(sessionId)
                     }
-                    val total = items.sumOf { it.product.price * it.quantity }
                     val selectedIds = items.filter { it.isSelected }.map { it.product.productId }.toSet()
-                    val selectedTotal = items.filter { it.isSelected }.sumOf { it.product.price * it.quantity }
+                    val (total, selectedTotal) = calcTotals(items, selectedIds)
                     _uiState.update {
                         it.copy(
                             items = items,
@@ -261,7 +266,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
                         repository.getCartItemsForCurrentUser(sessionId)
                     }
                     val selectedIds = items.filter { it.isSelected }.map { it.product.productId }.toSet()
-                    val selectedTotal = items.filter { it.isSelected }.sumOf { it.product.price * it.quantity }
+                    val (_, selectedTotal) = calcTotals(items, selectedIds)
                     _uiState.update {
                         it.copy(
                             isManageMode = false,
@@ -291,9 +296,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
             } else {
                 newSelected.add(productId)
             }
-            val selectedTotal = state.items
-                .filter { newSelected.contains(it.product.productId) }
-                .sumOf { it.product.price * it.quantity }
+            val selectedTotal = calcTotals(state.items, newSelected.toSet()).second
             state.copy(
                 selectedProductIds = newSelected,
                 selectedTotalPrice = selectedTotal,
@@ -311,9 +314,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
             } else {
                 allIds
             }
-            val selectedTotal = state.items
-                .filter { newSelected.contains(it.product.productId) }
-                .sumOf { it.product.price * it.quantity }
+            val (_, selectedTotal) = calcTotals(state.items, newSelected)
             state.copy(
                 selectedProductIds = newSelected,
                 selectedTotalPrice = selectedTotal,
@@ -335,9 +336,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
             } else {
                 newSelected.addAll(brandProductIds)
             }
-            val selectedTotal = state.items
-                .filter { newSelected.contains(it.product.productId) }
-                .sumOf { it.product.price * it.quantity }
+            val (total, selectedTotal) = calcTotals(updated, newSelected.toSet())
             state.copy(
                 selectedProductIds = newSelected,
                 selectedTotalPrice = selectedTotal,
@@ -364,10 +363,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
                     item.copy(quantity = item.quantity + 1)
                 } else item
             }
-            val total = updated.sumOf { it.product.price * it.quantity }
-            val selectedTotal = updated
-                .filter { state.selectedProductIds.contains(it.product.productId) }
-                .sumOf { it.product.price * it.quantity }
+            val (total, selectedTotal) = calcTotals(updated, state.selectedProductIds)
             state.copy(items = updated, totalPrice = total, selectedTotalPrice = selectedTotal)
         }
         viewModelScope.launch {
@@ -396,10 +392,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
                     item.copy(quantity = item.quantity - 1)
                 } else item
             }
-            val total = updated.sumOf { it.product.price * it.quantity }
-            val selectedTotal = updated
-                .filter { state.selectedProductIds.contains(it.product.productId) }
-                .sumOf { it.product.price * it.quantity }
+            val (total, selectedTotal) = calcTotals(updated, state.selectedProductIds)
             state.copy(items = updated, totalPrice = total, selectedTotalPrice = selectedTotal)
         }
         viewModelScope.launch {
@@ -423,10 +416,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
                     item.copy(quantity = clamped)
                 } else item
             }
-            val total = updated.sumOf { it.product.price * it.quantity }
-            val selectedTotal = updated
-                .filter { state.selectedProductIds.contains(it.product.productId) }
-                .sumOf { it.product.price * it.quantity }
+            val (total, selectedTotal) = calcTotals(updated, state.selectedProductIds)
             state.copy(items = updated, totalPrice = total, selectedTotalPrice = selectedTotal)
         }
         viewModelScope.launch {
@@ -446,10 +436,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
         _uiState.update { state ->
             val updated = state.items.filter { it.product.productId != productId }
             val newSelected = state.selectedProductIds - productId
-            val total = updated.sumOf { it.product.price * it.quantity }
-            val selectedTotal = updated
-                .filter { newSelected.contains(it.product.productId) }
-                .sumOf { it.product.price * it.quantity }
+            val (total, selectedTotal) = calcTotals(updated, newSelected)
             state.copy(
                 items = updated,
                 totalPrice = total,
@@ -520,11 +507,8 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
                 val newItem = CartItem(product, 1, isSelected = true)
                 _uiState.update { state ->
                     val updated = state.items + newItem
-                    val total = updated.sumOf { it.product.price * it.quantity }
                     val newSelected = state.selectedProductIds + product.productId
-                    val selectedTotal = updated
-                        .filter { newSelected.contains(it.product.productId) }
-                        .sumOf { it.product.price * it.quantity }
+                    val (total, selectedTotal) = calcTotals(updated, newSelected)
                     state.copy(
                         items = updated,
                         totalPrice = total,
@@ -679,11 +663,8 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
         // 乐观更新 UI
         _uiState.update { state ->
             val updated = state.items.filter { it.product.productId !in idsToDelete }
-            val total = updated.sumOf { it.product.price * it.quantity }
             val newSelected = state.selectedProductIds - idsToDelete.toSet()
-            val selectedTotal = updated
-                .filter { newSelected.contains(it.product.productId) }
-                .sumOf { it.product.price * it.quantity }
+            val (total, selectedTotal) = calcTotals(updated, newSelected)
             state.copy(
                 items = updated,
                 totalPrice = total,

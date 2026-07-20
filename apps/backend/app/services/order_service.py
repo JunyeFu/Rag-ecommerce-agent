@@ -2,6 +2,7 @@
 import uuid
 import hashlib
 import logging
+import time
 from typing import Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -28,7 +29,6 @@ CANCELLABLE_STATES = {"pending_payment", "pending_shipping"}
 
 def _generate_order_no(session_id: str) -> str:
     """生成唯一订单号：ORD + 时间戳 + hash 后8位"""
-    import time
     ts = str(int(time.time()))
     digest = hashlib.md5((session_id + ts).encode()).hexdigest()[:8].upper()
     return f"ORD{ts[-6:]}{digest}"

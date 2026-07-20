@@ -10,6 +10,7 @@
 """
 import asyncio
 import logging
+import math
 import threading
 import time
 from typing import List, Dict, Optional
@@ -130,7 +131,6 @@ def rerank(
         scores = [float(s) for s in scores]
 
     def _sigmoid(x):
-        import math
         try:
             return 1.0 / (1.0 + math.exp(-x))
         except OverflowError:

@@ -8,6 +8,7 @@ if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 import logging
+import time
 from contextlib import asynccontextmanager
 
 from pathlib import Path
@@ -180,8 +181,6 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 @app.exception_handler(Exception)
 async def unhandled_exception_handler(request: Request, exc: Exception):
     """兜底异常处理器 — 不暴露堆栈，记录请求上下文"""
-    import logging
-    logger = logging.getLogger("main")
     logger.error(
         "Unhandled exception: %s %s [client=%s] — %s",
         request.method, request.url.path, request.client.host if request.client else "?",
@@ -197,10 +196,9 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
 @app.middleware("http")
 async def request_timing_middleware(request: Request, call_next):
     """记录每个请求的耗时，慢查询警告"""
-    import time as _time
-    t0 = _time.monotonic()
+    t0 = time.monotonic()
     response = await call_next(request)
-    elapsed_ms = (_time.monotonic() - t0) * 1000
+    elapsed_ms = (time.monotonic() - t0) * 1000
     if elapsed_ms > 3000:
         logger.warning("Slow request: %s %s — %.0fms", request.method, request.url.path, elapsed_ms)
     return response

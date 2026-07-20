@@ -86,6 +86,18 @@ def mock_cache():
 
 
 @pytest.fixture
+def mock_db():
+    """Mock AsyncSession - MagicMock with async flush/execute/refresh"""
+    from unittest.mock import AsyncMock, MagicMock
+    mock = MagicMock()
+    mock.execute = AsyncMock()
+    mock.flush = AsyncMock()
+    mock.refresh = AsyncMock()
+    mock.add = MagicMock()
+    return mock
+
+
+@pytest.fixture
 def sample_product():
     """标准 Product dict - 基于 287 条商品中的典型数据"""
     return {

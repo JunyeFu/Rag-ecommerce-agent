@@ -1,5 +1,7 @@
 """评测接口 — 对接 evaluator 服务"""
+import json
 import logging
+from pathlib import Path
 from fastapi import APIRouter, BackgroundTasks
 from app.schemas.common import ApiResponse
 from app.services.evaluator import run_evaluation
@@ -26,9 +28,6 @@ async def run_eval(background_tasks: BackgroundTasks):
 @router.get("/evaluation/report")
 async def get_eval_report():
     """获取最新评测报告"""
-    from pathlib import Path
-    import json
-
     report_path = Path(__file__).resolve().parents[2] / "data" / "test_cases" / "eval_results.json"
     if report_path.exists():
         with open(report_path, encoding="utf-8") as f:

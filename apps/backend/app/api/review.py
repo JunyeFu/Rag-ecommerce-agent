@@ -1,4 +1,5 @@
 """商品评价 API 端点 — 评价增删查"""
+import io
 from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, Form
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
@@ -27,7 +28,6 @@ async def create_review(
     # 处理上传的媒体文件
     media_bytes: bytes | None = None
     if media_files:
-        import io
         from PIL import Image
 
         all_media = []

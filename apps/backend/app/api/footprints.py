@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.schemas.footprints import FootprintRecordRequest
 from app.schemas.common import ApiResponse
-from app.services import footprint_service
+from app.services import footprint_service, product_service
 
 router = APIRouter()
 
@@ -46,7 +46,6 @@ async def get_footprints(
     items = []
     for fp in footprints:
         # 查询商品详情以返回前端展示所需字段
-        from app.services import product_service
         prod = await product_service.get_product_by_id(db, fp.product_id)
         item = {
             "product_id": fp.product_id,

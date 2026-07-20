@@ -4,6 +4,8 @@ Scenario shopping - scenario-to-category mapping and category diversification.
 Extracted from agent.py.
 """
 import logging
+import re
+from collections import defaultdict
 
 logger = logging.getLogger("agent")
 
@@ -71,7 +73,6 @@ async def _map_scenario_to_categories(query: str, scenario: str) -> list[str]:
         )
         lines = [l.strip() for l in raw.strip().split("\n") if l.strip()]
         # Filter out numbered/bullet prefixes
-        import re
         lines = [re.sub(r'^[\d]+[\.\)、\s]+', '', l).strip() for l in lines]
         lines = [re.sub(r'^[-•\*●]\s*', '', l).strip() for l in lines]
         lines = [l for l in lines if 1 <= len(l) <= 80]
@@ -140,7 +141,6 @@ def _pre_diversify_by_category(chunks: list, max_per_category: int = 3) -> list:
     """
     if not chunks:
         return []
-    from collections import defaultdict
     groups: dict[str, list] = defaultdict(list)
     for c in chunks:
         cat = (c.get("payload", {}) or {}).get("category", "") or "其他"

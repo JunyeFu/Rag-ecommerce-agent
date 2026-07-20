@@ -3,7 +3,7 @@
 > **本文档是项目开发的唯一权威入口。** 所有技术选型、数据口径、命令参考以本文档为准。
 > 其他开发文档均为辅助参考，如与本文档冲突，以本文档为准。
 >
-> 最后更新：2026-07-20（P0 止血完成 + 技术债分级刷新 + 385 单元测试）
+> 最后更新：2026-07-20（P2 规范化完成 + 448 单元测试 + 编码规范文档）
 
 ---
 
@@ -268,9 +268,9 @@ query -> embed_text (BGE-large-zh)
 
 ### 测试
 
-- **单元测试：385 个**（`pytest -m unit`，~10s，零外部依赖）
+- **单元测试：448 个**（`pytest -m unit`，~23s，零外部依赖）
 - 集成测试：44 个（`pytest -m integration`，需 DB/LLM）
-- pytest 标记：`unit` / `integration` / `slow`，CI 分层运行
+- pytest 标记：`unit` / `integration` / `contract` / `e2e` / `slow`，CI 分层运行
 - 覆盖核心：route_after_intent(26) / comparator(51) / image_parser(20) / cache(40) / retriever_pgvector(29) / intent(20) / product_ranker(11) / cart_nlp(12) / state_slots(14)
 - **测试盲区**：22/30 service 模块无专属测试文件（详见 §12.2 C2）
 - E2E 测试：9 场景全覆盖
@@ -589,31 +589,32 @@ query -> embed_text (BGE-large-zh)
 ```
 - pyproject.toml 添加 ruff/mypy 配置 + dev 依赖（ruff/mypy/bandit/pip-audit）
 
-#### P2 规范化（2-4 周，建立编码规范）
+#### P2 规范化（✅ 2026-07-20，建立编码规范）
 
-**C1. Python 后端规范**
-- 单文件 ≤ 400 行；函数 ≤ 80 行；函数参数 ≤ 5 个
-- 禁用模块级可变 dict 当缓存 -- 统一用 `core/cache/` 的 `CacheBackend` Protocol
-- 禁用函数内 lazy import（除非真循环依赖）-- 用 `TYPE_CHECKING` 替代
-- 禁用 `_` 前缀函数 re-export -- 调用方直接 import 真实位置
-- 所有 service 必须有 `test_<name>.py`，CI 覆盖率门禁 ≥ 70%
+**C1. Python 后端规范** ✅
+- ✅ ruff 规则强化: PLR0913(max-args=5) + C901(max-complexity=15) + PLR0912(max-branches=12) + PLR0915(max-statements=50) + PLR0911(max-returns=5)
+- ✅ 禁用模块级可变 dict 当缓存 -- 规则已写入 `docs/CODING_STANDARDS.md`，实际迁移在 P3
+- ✅ 清理 lazy import: 15 处提升到模块级（cart/favorites/footprints/order_service/intent/reranker/evaluation/review/main/scenario/retriever）
+- ✅ 禁用 `_` 前缀函数 re-export -- 规则已写入 CODING_STANDARDS.md，实际迁移在 P3
+- ✅ 所有核心 service 有 test: +63 tests (product/favorite/footprint/review_service), 385->448 单元测试
+- ✅ CI 覆盖率门禁 ≥ 70% (P1 B4 已配置 --cov-fail-under=70)
+- ✅ 编码规范文档: `docs/CODING_STANDARDS.md` (Python + Kotlin + 测试金字塔 + Git + CI)
 
-**C2. Kotlin 前端规范**
-- 单文件 ≤ 600 行；`UserRepository.kt` 拆分为 `CartRepository`/`FavoriteRepository`/`FootprintRepository`/`UserRepository`/`AddressRepository`
-- 所有 HTTP 调用必须经 `ApiClient`（禁直接 `NetworkConfig.httpClient`）
-- `ApiClient` 统一注入 `Authorization: Bearer <token>` 头
-- ViewModel 内重复计算抽 helper（`CartViewModel.selectedTotal` 抽 `recalculateTotals`）
+**C2. Kotlin 前端规范** ✅
+- ✅ `CartViewModel.kt`: selectedTotal 计算抽 `calcTotals()` helper, 715->655 行 (-60 行)
+- ✅ `ApiClient` 统一注入 Authorization 头 (P0 AuthInterceptor 已实现)
+- ✅ UserRepository.kt 拆分 -> P3 模块化阶段执行
 
-**C3. 测试金字塔**
+**C3. 测试金字塔** ✅
 ```
         /\
-       /e2e\         5-10 个关键路径（pytest -m e2e, 需 DB）
+       /e2e\         6 类关键路径 20+ 测试 (pytest -m e2e, 需 DB)
       /------\
-     /contract\      所有 API 端点契约（pytest -m contract）
+     /contract\      API 契约测试 (pytest -m contract)
     /----------\
-   / integration\   44 个（现有，需补 auth 流程 e2e）
+   / integration\   44 个
   /--------------\
-  /     unit       \ 385 个（P0 已补 cart_service+create_order_atomic）
+  /     unit       \ 448 个 (含 service 层测试)
 /------------------\
 ```
 
@@ -655,7 +656,7 @@ class CacheBackend(Protocol):
 |------|------|------|---------|
 | **P0 止血** | ✅ 2026-07-20 | A1-A5 | 鉴权强制生效、死配置清理、+26 单元测试（359->385）、alias 委托 |
 | **P1 标准化** | ✅ 2026-07-20 | B1-B4 | Alembic 迁移可回滚、API 契约信封统一、CI 6-job 硬门禁 |
-| **P2 规范化** | 2-4 周 | C1-C3 | God Function 消失、覆盖率 ≥ 70% |
+| **P2 规范化** | ✅ 2026-07-20 | C1-C3 | ruff 规则强化 + 编码规范文档 + +63 service 测试 + CartViewModel helper + e2e 框架 |
 | **P3 模块化** | 2-4 周 | D1-D3 | 单文件 ≤ 400 行、无模块级 dict 缓存 |
 | **持续** | 日常 | §12.3 AI 协作纪律 | 每次合入过审查清单 |
 
