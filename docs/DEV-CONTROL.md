@@ -3,7 +3,7 @@
 > **本文档是项目开发的唯一权威入口。** 所有技术选型、数据口径、命令参考以本文档为准。
 > 其他开发文档均为辅助参考，如与本文档冲突，以本文档为准。
 >
-> 最后更新：2026-07-18（重构后同步：agent.py 模块化 + 设计模式落地 + 231 单元测试）
+> 最后更新：2026-07-20（P0 止血完成 + 技术债分级刷新 + 385 单元测试）
 
 ---
 
@@ -268,10 +268,11 @@ query -> embed_text (BGE-large-zh)
 
 ### 测试
 
-- **单元测试：231 个**（`pytest -m unit`，0.27s，零外部依赖）
+- **单元测试：385 个**（`pytest -m unit`，~10s，零外部依赖）
 - 集成测试：44 个（`pytest -m integration`，需 DB/LLM）
 - pytest 标记：`unit` / `integration` / `slow`，CI 分层运行
 - 覆盖核心：route_after_intent(26) / comparator(51) / image_parser(20) / cache(40) / retriever_pgvector(29) / intent(20) / product_ranker(11) / cart_nlp(12) / state_slots(14)
+- **测试盲区**：22/30 service 模块无专属测试文件（详见 §12.2 C2）
 - E2E 测试：9 场景全覆盖
 
 ---
@@ -417,17 +418,255 @@ query -> embed_text (BGE-large-zh)
 
 ---
 
-## 11. 已知技术债
+## 11. 已知技术债（分级）
 
-| # | 问题 | 影响 | 优先级 |
-|---|------|------|:---:|
-| 1 | 品类别名硬编码在 retriever.py `_CATEGORY_ALIASES` | 可维护性 | 低 |
-| 2 | `generate_response` 仍 432 行（SSE 编排逻辑密集） | 代码组织 | 低 |
-| 3 | 无端点认证体系（所有 API 依赖 session_id 参数，不校验身份） | 安全 | 高（生产前必须补充） |
-| 4 | `.env` 中存有明文 API Key（需轮换 + 密钥管理器） | 安全 | 高（用户操作） |
-| 5 | DB 密码为弱口令 `shopping123`（需生成强随机密码） | 安全 | 高（用户操作） |
-| 6 | 部分 API 集成测试需运行中的 DB/LLM（44 个 integration 标记） | 测试完整性 | 中 |
-| 7 | `web_search.py` 中 DDGS 同步调用在 async 函数内（阻塞事件循环） | 性能 | 中 |
+> 2026-07-20 基于 Vibe Coding 质量审计刷新。P0 止血已完成（A1-A5），T2/T3/T4/T5/T6/T10/T11 已修复。详细审计依据见 §12。
+
+### CRITICAL（阻塞生产）
+
+| # | 问题 | 位置 | 影响 | 修复方案 |
+|---|------|------|------|---------|
+| T1 | `generate_response` 442 行 God Function | `agent.py:409-851` | 7+ early return、深嵌套，任何修改风险极高 | 拆分为 Pipeline + Handler（§12.4 D1） |
+| T2 | ~~22/30 service 模块零测试~~ ✅ 部分 | `cart_service`/`order_service`/`product_service`/`favorite_service` 等 | 涉及钱、库存、鉴权的核心业务无回归保护 | ✅ `cart_service` +19 测试 / `create_order_atomic` +7 测试（§12.4 A4）。其余 service 待补 |
+| T3 | ~~`create_order_atomic` 零测试~~ ✅ | `order_service.py:61-117` | ~~唯一下单事务路径无覆盖~~ | ✅ 7 个测试覆盖空购物车/库存校验/正常下单/product_ids过滤/订单号/精度 |
+
+### HIGH（生产前必修）
+
+| # | 问题 | 位置 | 影响 | 修复方案 |
+|---|------|------|------|---------|
+| T4 | ~~AuthMiddleware 放行所有业务端点~~ ✅ | ~~`middleware.py:124-159`~~ | ~~无 token 也可调 `/orders`/`/cart`/`/favorites`~~ | ✅ 移除 `AUTH_OPTIONAL_PREFIXES`，强制 401（§12.4 A1） |
+| T5 | ~~订单状态无鉴权可突变~~ ✅ | ~~`order.py:118-127`~~ | ~~`?status=completed` 查询参数改状态~~ | ✅ 改 `OrderStatusUpdateRequest` Body + 要求已登录（§12.4 A2） |
+| T6 | ~~`.env` 残留死配置~~ ✅ | ~~`.env:3-4`~~ | ~~`QDRANT_URL`/`QDRANT_COLLECTION` 代码 0 引用~~ | ✅ 已删除（§12.4 A3）。Key 轮换待用户操作 |
+| T7 | 启动时 12 条裸 SQL 迁移 | `main.py:52-95` | 无 Alembic、无版本号、失败仅 log 后继续 | 引入 Alembic（§12.4 B1） |
+| T8 | `UserRepository.kt` 1643 行 God File | `data/local/UserRepository.kt` | cart/favorites/footprints/profile/address/order 全塞一文件 | 拆 5 个 Repository（§12.4 D2） |
+| T9 | 4 处模块级可变 dict 当缓存 | `cart_service.py:18`/`auth_service.py:20`/`middleware.py:60`/`state_manager.py:16` | 无 TTL/无大小上限/多 worker 不一致 | 统一走 `CacheBackend` Protocol（§12.4 D3） |
+| T10 | ~~Cart API 别名复制粘贴~~ ✅ | ~~`cart.py:75-130`~~ | ~~3 个 alias 复制实现而非委托~~ | ✅ 3 个 alias 改为 `return await canonical(...)`（§12.4 A5） |
+| T11 | ~~前端 ApiClient 不发 Auth 头~~ ✅ | ~~`ApiClient.kt:18-48`~~ | ~~契约已破，仅因 middleware 放行才"能用"~~ | ✅ `AuthInterceptor` 统一注入 `Authorization` 头（§12.4 A1） |
+| T12 | 订单状态跳过 `pending_payment` | `order_service.py:103` | `create_order_atomic` 直接写 `pending_shipping`，状态机初始态不可达 | 修正为 `pending_payment` |
+| T13 | 真实 API Key 明文落盘 | `.env:8` | `DEEPSEEK_API_KEY=sk-c11c...` 备份/录屏可泄漏 | 轮换 + 改 `${VAR}` 引用 |
+
+### MEDIUM（后续迭代修复）
+
+| # | 问题 | 位置 | 修复方向 |
+|---|------|------|---------|
+| T14 | 7 端点绕过 ApiResponse 信封 | `main.py:316/329/347/357`、`upload.py:25` | 统一返 `ApiResponse` 对象 |
+| T15 | `products.py` 用 `.model_dump()` 与其他端点不一致 | `products.py:48-97` | 统一返 `ApiResponse` 对象，禁 `.model_dump()` |
+| T16 | `_HAS_DB` import 时捕获 | `state_manager.py:19` | 改用 `DatabaseContext` |
+| T17 | `cart.py:51` `round(total, 12)` 货币精度无意义 | `cart.py:51` | 改 `round(total, 2)` |
+| T18 | 3 处 N+1 查询 | `cart.py:36`、`favorites.py:36`、`footprints.py:59` | 批量 `get_products_by_ids` |
+| T19 | `/auth/login` 无速率限制 | `middleware.py:50-57` | 加入 `RATE_LIMIT_CONFIG` |
+| T20 | `startup.py:143` 硬编码模型名 | `startup.py:143` | 改用 `settings.EMBEDDING_MODEL` |
+| T21 | CORS `["*"]` + 关闭鉴权 | `config.py:52` | 开发环境显式白名单 |
+| T22 | `agent.py` re-export 40 个 `_` 前缀私有函数 | `agent.py:35-128` | 调用方直接 import 真实位置 |
+| T23 | 12 处函数内 lazy import | `cart.py:36` 等 | 提升到模块级 |
+| T24 | `review.py:52-53` 吞异常 | `review.py:52-53` | 改 log + 降级处理 |
+
+### LOW（不阻塞，记录跟踪）
+
+| # | 问题 | 位置 | 修复方向 |
+|---|------|------|---------|
+| T25 | 品类别名硬编码 | `retriever.py` `_CATEGORY_ALIASES` | 抽到配置 |
+| T26 | `web_search.py` DDGS 同步调用在 async 内 | `web_search.py` | 改 `asyncio.to_thread` |
+| T27 | 部分 API 集成测试需运行中的 DB/LLM | 44 个 integration 标记 | docker-compose test 环境 |
+
+---
+
+## 12. Vibe Coding 质量审计与提升路线图
+
+> 2026-07-20 固化。本节基于行业 vibe coding 通病研究 + 全量代码审计，定义从"作品集 demo"到"可维护产品"的质量提升路径。
+>
+> 审计依据：Wikipedia "Vibe coding" 词条、Veracode 2025 GenAI Code Security Report、CodeRabbit 470 PR 分析、GitClear 2.11 亿行代码纵向研究、METR 随机对照试验 + 本项目全量代码扫描（`apps/backend` ~90 Python 文件 + `apps/android` ~73 Kotlin 文件）。
+
+### 12.1 行业 Vibe Coding 通病映射
+
+| # | 行业通病 | 行业数据 | 本项目是否命中 |
+|---|---------|---------|:---:|
+| V1 | 安全漏洞 | Veracode: LLM 安全性未改善；Lovable 170/1645 应用泄漏；CodeRabbit: 安全漏洞 2.74x | ✅ 命中（T4/T5/T13） |
+| V2 | 代码重复激增 | GitClear: 2021->2024 重复量增 4 倍 | ✅ 命中（T10/cart alias + CartViewModel selectedTotal ~10 处重复） |
+| V3 | 重构萎缩 | GitClear: 重构占变更 25%-><10% | ✅ 命中（T1 God Function 未拆） |
+| V4 | 重大缺陷率高 | CodeRabbit: AI 协作代码重大问题 1.7x，配置错误多 75% | ✅ 命中（T12 状态机 + T4 鉴权配置） |
+| V5 | 可维护性崩塌 | Fast Company "vibe coding hangover"；WSJ "vibe slop 危机" | ✅ 命中（T1/T8 God File/Function） |
+| V6 | 复杂任务反降效 | METR RCT: 有经验开发者用 AI +19% 完成时间 | ⚠️ 部分（TTFT 优化已对抗，但 T1 复杂度高） |
+| V7 | 技术债复利 | GitClear: code churn 近乎翻倍 | ✅ 命中（T22 re-export 破坏封装） |
+| V8 | 测试覆盖断层 | CodeRabbit: AI 代码可读性问题高 | ✅ 命中（T2/T3 核心业务零测试） |
+
+**行业修复共识**（Simon Willison / Ars Technica / IBM Think）：
+- **"审查、测试、理解"三件套** -- Willison: "如果 LLM 写了每一行但你审查测试理解了，那不是 vibe coding，是把 LLM 当打字助手"
+- **AI 生成代码必须经过等价 Code Review**（CodeRabbit 报告建议）
+- **迁移到 ADLC（Agent Development Lifecycle）**（IBM）：结构化、可治理、可追溯
+- **护栏优先于自由度**：lint + 类型检查 + 安全扫描 + 契约测试作为硬门禁
+
+### 12.2 项目缺陷分级（审计依据）
+
+> 详细 file:line 可溯源，按严重度分级。完整审计报告见 git 历史 commit。
+
+#### CRITICAL（3 项）
+
+| # | 缺陷 | 位置 |
+|---|------|------|
+| C1 | `generate_response` 442 行 God Function | `agent.py:409-851` |
+| C2 | 22/30 service 模块零测试 | `cart_service`/`order_service`/`product_service` 等 |
+| C3 | `create_order_atomic` 零测试 | `order_service.py:61-117` |
+
+#### HIGH（11 项）
+
+| # | 缺陷 | 位置 |
+|---|------|------|
+| H1 | AuthMiddleware 放行所有业务端点 | `middleware.py:124-159` |
+| H2 | 订单状态无鉴权可突变 | `order.py:118-127` |
+| H3 | `.env` 残留死配置 `QDRANT_*` | `.env:3-4` |
+| H4 | 启动时 12 条裸 SQL 迁移 | `main.py:52-95` |
+| H5 | `UserRepository.kt` 1643 行 God File | `data/local/UserRepository.kt` |
+| H6 | 4 处模块级可变 dict 当缓存 | `cart_service.py:18`/`auth_service.py:20`/`middleware.py:60`/`state_manager.py:16` |
+| H7 | Cart API 别名复制粘贴 | `cart.py:75-130` |
+| H8 | `CartViewModel.kt` selectedTotal 计算 ~10 处重复 | `CartViewModel.kt` 多函数 |
+| H9 | 前端 ApiClient 不发 Auth 头 | `ApiClient.kt:18-48` |
+| H10 | 订单状态跳过 `pending_payment` | `order_service.py:103` |
+| H11 | 真实 API Key 明文落盘 | `.env:8` |
+
+### 12.3 AI 协作纪律（反 Vibe Slop）
+
+> 对抗 GitClear 发现的重构萎缩 + Willison 警告的 "vibe slop" 危机。
+
+#### 审查清单（每次 AI 生成代码合入前必过）
+
+- [ ] 我理解这段代码的每一行（Willison 标准）
+- [ ] 有对应测试且通过
+- [ ] 无安全漏洞（bandit + 人工 review 鉴权/SQL/注入）
+- [ ] 无重复实现（grep 同名函数/相似逻辑）
+- [ ] 符合 §6 开发规范（行数/参数数/import 规范）
+- [ ] 不引入模块级可变状态（T9 对抗）
+- [ ] 不绕过 ApiResponse 信封（T14 对抗）
+
+#### AI 协作红线
+
+1. **"Accept All" 禁用** -- AI 生成的 diff 必须逐块审查
+2. **重构优先于新增** -- 每个 sprint 至少 20% 时间用于重构（对抗 V3 重构萎缩）
+3. **不理解的代码宁可重写也不合入** -- 对抗 V5 可维护性崩塌
+4. **安全敏感操作必须双人 review** -- 鉴权/迁移/删库变更（rsync 3.4.1 事件教训）
+5. **AI 生成的迁移/脚本必须人工验证** -- 不盲信 LLM 输出
+
+### 12.4 质量提升路线图（P0-P3）
+
+#### P0 止血（✅ 已完成 2026-07-20）
+
+| 步骤 | 动作 | 状态 |
+|------|------|------|
+| A1 | **启用真实鉴权**：移除 `AUTH_OPTIONAL_PREFIXES`，middleware 强制 401；前端新增 `AuthInterceptor` + `AuthManager` 自动获取/注入 token | ✅ |
+| A2 | **订单状态突变改 POST body**：`order.py` `Query(...)` -> `OrderStatusUpdateRequest` Body + 要求已登录 | ✅ |
+| A3 | **清理 `.env`**：删 `QDRANT_URL`/`QDRANT_COLLECTION`（key 轮换需用户操作） | ✅ |
+| A4 | **补 `cart_service` + `create_order_atomic` 测试**：+26 单元测试（359->385），覆盖缓存/CRUD/原子事务/状态机 | ✅ |
+| A5 | **cart API alias 委托**：3 个 alias 改为 `return await canonical(...)` | ✅ |
+
+#### P1 标准化（1-2 周，建立硬门禁）
+
+**B1. 引入 Alembic 迁移框架**
+```bash
+cd apps/backend && alembic init alembic
+# 把 main.py:52-95 的 12 条 SQL 迁移到版本化脚本
+# 启动时只跑 alembic upgrade head，失败则拒绝启动
+```
+
+**B2. 统一 API 契约（5 条硬规则）**
+1. 所有业务端点必须返回 `ApiResponse` 对象（禁 `.model_dump()`）
+2. 所有业务端点必须声明 `response_model=ApiResponse[T]`
+3. 所有突变操作必须 POST/PATCH/DELETE，禁用 Query 传业务参数
+4. 所有端点必须从 `request.state.user_id` 读用户，禁函数参数传 user_id
+5. CI 跑契约测试（`pytest -m contract`）校验信封一致性
+
+**B3. 环境配置治理**
+- `config.py` 增加 `QDRANT_URL` 等已删字段的 `DeprecatedField` validator（启动告警）
+- `.env.example` 与 `config.py` 字段一一对齐，CI 跑 `diff` 校验
+- `.env` 中 key 改为 `${DEEPSEEK_API_KEY}` 引用，避免明文落盘
+
+**B4. CI 硬门禁**（`.github/workflows/ci.yml`）
+```yaml
+- lint: ruff check + mypy strict
+- test: pytest -m "unit or integration"  覆盖率 < 70% 失败
+- security: bandit + pip-audit
+- contract: pytest -m contract
+- migrate: alembic check  (迁移与模型一致)
+```
+
+#### P2 规范化（2-4 周，建立编码规范）
+
+**C1. Python 后端规范**
+- 单文件 ≤ 400 行；函数 ≤ 80 行；函数参数 ≤ 5 个
+- 禁用模块级可变 dict 当缓存 -- 统一用 `core/cache/` 的 `CacheBackend` Protocol
+- 禁用函数内 lazy import（除非真循环依赖）-- 用 `TYPE_CHECKING` 替代
+- 禁用 `_` 前缀函数 re-export -- 调用方直接 import 真实位置
+- 所有 service 必须有 `test_<name>.py`，CI 覆盖率门禁 ≥ 70%
+
+**C2. Kotlin 前端规范**
+- 单文件 ≤ 600 行；`UserRepository.kt` 拆分为 `CartRepository`/`FavoriteRepository`/`FootprintRepository`/`UserRepository`/`AddressRepository`
+- 所有 HTTP 调用必须经 `ApiClient`（禁直接 `NetworkConfig.httpClient`）
+- `ApiClient` 统一注入 `Authorization: Bearer <token>` 头
+- ViewModel 内重复计算抽 helper（`CartViewModel.selectedTotal` 抽 `recalculateTotals`）
+
+**C3. 测试金字塔**
+```
+        /\
+       /e2e\         5-10 个关键路径（pytest -m e2e, 需 DB）
+      /------\
+     /contract\      所有 API 端点契约（pytest -m contract）
+    /----------\
+   / integration\   44 个（现有，需补 auth 流程 e2e）
+  /--------------\
+  /     unit       \ 385 个（P0 已补 cart_service+create_order_atomic）
+/------------------\
+```
+
+#### P3 模块化（2-4 周，消除 God File/Function）
+
+**D1. 拆分 `generate_response`（C1/T1）**
+
+当前 442 行 God Function 拆为意图分发的 Pipeline 模式：
+```
+agent/
+  pipeline.py          # AgentPipeline 编排骨架（Template Method）
+  handlers/
+    cart_handler.py      # node_cart 逻辑（当前 138 行）
+    compare_handler.py   # 对比路由
+    retrieve_handler.py  # 检索 + fallback + web_search
+    clarify_handler.py   # 澄清路由
+    web_search_handler.py
+```
+每个 handler 实现 `async def handle(state) -> AsyncIterator[Event]`，`pipeline.py` 根据 `intent` 分发。`generate_response` 退化为 30 行调度器。
+
+**D2. 拆分 `UserRepository.kt`（H5/T8）**
+
+按领域拆 5 个 Repository，共享 `ApiClient` + `AppDatabase`。
+
+**D3. 缓存统一（H6/T9）**
+
+删除 4 处模块级 dict，全部走 `core/cache/backend.py`：
+```python
+class CacheBackend(Protocol):
+    async def get(self, key: str) -> Any: ...
+    async def set(self, key: str, value: Any, ttl: int = 300): ...
+    async def invalidate(self, key: str): ...
+```
+新增 `RedisCacheBackend` 支持多 worker 部署。
+
+### 12.5 路线图总览
+
+| 阶段 | 周期 | 内容 | 验收指标 |
+|------|------|------|---------|
+| **P0 止血** | ✅ 2026-07-20 | A1-A5 | 鉴权强制生效、死配置清理、+26 单元测试（359->385）、alias 委托 |
+| **P1 标准化** | 1-2 周 | B1-B4 | CI 红线生效、迁移可回滚 |
+| **P2 规范化** | 2-4 周 | C1-C3 | God Function 消失、覆盖率 ≥ 70% |
+| **P3 模块化** | 2-4 周 | D1-D3 | 单文件 ≤ 400 行、无模块级 dict 缓存 |
+| **持续** | 日常 | §12.3 AI 协作纪律 | 每次合入过审查清单 |
+
+### 12.6 核心结论
+
+1. **本项目是典型 vibe coding 产物**：功能完整（9/9 场景），但存在行业报告的所有通病（V1-V8 全部命中）-- 安全漏洞、代码重复、God File/Function、测试覆盖断层、技术债复利。
+
+2. **行业数据印证风险**：CodeRabbit 报告 AI 协作代码重大问题 1.7x、安全漏洞 2.74x。本项目 T4（鉴权失效）+ T5（无鉴权改订单状态）正是此类高风险缺陷典型。
+
+3. **修复顺序不可颠倒**：**先止血（鉴权 + 死配置 + 关键测试）**，**再标准化（Alembic + CI 门禁）**，**后模块化（拆 God File/Function）**。没有测试和 CI 门禁就重构 God Function，等于在 vibe coding 的地基上盖楼。
+
+4. **长期对抗靠纪律**：Willison 的标准--"审查、测试、理解"--是唯一被行业验证的反 vibe slop 方法。工具（lint/CI/bandit）是硬门禁，纪律（§12.3 清单）是软门禁，两者缺一不可。
 
 ---
 
