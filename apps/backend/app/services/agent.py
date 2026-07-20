@@ -682,10 +682,7 @@ async def generate_response(
             return
 
         # ── Input safety check: after intent classification, before retrieval ──
-        from app.services.agent_nodes.safety_check import (
-            node_safety_check_input,
-            node_safety_check_output,
-        )
+        from app.services.agent_nodes.safety_check import node_safety_check_input
         after_intent = await node_safety_check_input(after_intent)
         if after_intent.get("_safety_blocked"):
             yield {"event": "progress", "data": ProgressEvent(message="安全检查未通过").model_dump_json()}
@@ -824,12 +821,6 @@ async def generate_response(
 
         ttft_ms = int((t_first_token - t_start) * 1000) if t_first_token else 0
         logger.info("LLM done: %d chars, TTFT=%dms", len(response_text), ttft_ms)
-
-        output_state = await node_safety_check_output(
-            {"response": response_text, "product_cards": cards}
-        )
-        response_text = output_state.get("response", response_text)
-        cards = output_state.get("product_cards", cards)
 
         async for event in _emit_interleaved(response_text, cards):
             yield event

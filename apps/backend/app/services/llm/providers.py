@@ -48,7 +48,7 @@ class DeepSeekProvider:
     model = settings.DEEPSEEK_MODEL or "deepseek-chat"
 
     def needs_thinking_disabled(self) -> bool:
-        return False
+        return True
 
     def resolve_model(self, requested_model: str | None) -> str:
         if requested_model and requested_model.startswith("ep-"):
@@ -56,7 +56,7 @@ class DeepSeekProvider:
         return requested_model or self.model
 
     def get_extra_kwargs(self) -> dict:
-        return {}
+        return {"extra_body": {"thinking": {"type": "disabled"}}}
 
 
 class MimoProvider:

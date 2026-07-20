@@ -132,45 +132,4 @@ async def node_retrieve(state: AgentState) -> AgentState:
 
     logger.info("Agent retrieved %d chunks in %.0fms", len(state["retrieved_chunks"]), state["latency_ms"])
 
-    # ── Self-Corrective RAG: 检索质量自评 ──
-    if state["retrieved_chunks"] and state.get("intent") not in ("chitchat", "scenario_shopping"):
-        scores = [float(c.get("final_score", c.get("score", 0.5))) for c in state["retrieved_chunks"][:5]]
-        avg_score = sum(scores) / len(scores) if scores else 0
-        state["_retrieval_score"] = round(avg_score, 3)
-
-        if avg_score < 0.3 and not state.get("_retry_retrieved"):
-            logger.warning("Low retrieval score %.3f, triggering query rewrite + re-retrieval", avg_score)
-            try:
-                from app.services.llm_client import fast_chat_completion
-                rewrite_prompt = f"将以下商品搜索词改写为更具体的描述（保留核心需求，补充可能的品类名、品牌名或使用场景）：\n原文：{query}\n改写："
-                resp = await fast_chat_completion(
-                    messages=[{"role": "user", "content": rewrite_prompt}],
-                    temperature=0.3,
-                    max_tokens=80,
-                )
-                rewritten = resp.strip() if resp else ""
-                if rewritten and rewritten != query:
-                    logger.info("Query rewritten for retry: '%s' -> '%s'", query, rewritten)
-                    retry_result = await rag_retrieve(
-                        query=rewritten,
-                        top_k=settings.RETRIEVAL_TOP_K,
-                        category=slots.get("category"),
-                        price_min=slots.get("price_min"),
-                        price_max=slots.get("price_max"),
-                        exclude_brands=_scoped_exclude_brands(slots),
-                        exclude_categories=slots.get("exclude_categories"),
-                        exclude_attributes=slots.get("exclude_attributes"),
-                        strict_category=bool(slots.get("category")),
-                    )
-                    if retry_result["chunks"] and len(retry_result["chunks"]) > len(state["retrieved_chunks"]):
-                        retry_scores = [float(c.get("final_score", c.get("score", 0.5))) for c in retry_result["chunks"][:5]]
-                        retry_avg = sum(retry_scores) / len(retry_scores) if retry_scores else 0
-                        if retry_avg > avg_score:
-                            logger.info("Retry improved score: %.3f -> %.3f", avg_score, retry_avg)
-                            state["retrieved_chunks"] = retry_result["chunks"]
-                            state["_retrieval_score"] = round(retry_avg, 3)
-                            state["_retry_retrieved"] = True
-            except Exception as e:
-                logger.warning("Self-corrective retry failed: %s", e)
-
     return state
