@@ -41,18 +41,18 @@ def _make_call_next(captured: dict):
 
 
 class TestAuthMiddleware:
-    """AuthMiddleware 过渡期认证策略"""
+    """AuthMiddleware 认证策略 - 强制鉴权"""
 
     @pytest.mark.asyncio
-    async def test_no_authorization_header_sets_empty_user_id(self, monkeypatch):
+    async def test_no_authorization_header_returns_401(self, monkeypatch):
         async def fake_validate(token):
             return "should-not-be-called"
 
         monkeypatch.setattr("app.core.middleware.validate_session_token", fake_validate)
         captured = {}
         mw = AuthMiddleware(app=None)
-        await mw.dispatch(MockRequest("/api/v1/products", auth_header=None), _make_call_next(captured))
-        assert captured["user_id"] == ""
+        resp = await mw.dispatch(MockRequest("/api/v1/products", auth_header=None), _make_call_next(captured))
+        assert resp.status_code == 401
 
     @pytest.mark.asyncio
     async def test_valid_bearer_token_sets_user_id(self, monkeypatch):
@@ -69,22 +69,22 @@ class TestAuthMiddleware:
         assert captured["user_id"] == "user-abc"
 
     @pytest.mark.asyncio
-    async def test_invalid_token_sets_empty_user_id(self, monkeypatch):
+    async def test_invalid_token_returns_401(self, monkeypatch):
         async def fake_validate(token):
             return None
 
         monkeypatch.setattr("app.core.middleware.validate_session_token", fake_validate)
         captured = {}
         mw = AuthMiddleware(app=None)
-        await mw.dispatch(
+        resp = await mw.dispatch(
             MockRequest("/api/v1/products", auth_header="Bearer bad-token"),
             _make_call_next(captured),
         )
-        assert captured["user_id"] == ""
+        assert resp.status_code == 401
 
     @pytest.mark.asyncio
-    async def test_malformed_header_no_bearer_prefix_still_processed(self, monkeypatch):
-        """无 Bearer 前缀的 header 仍被处理（过渡期宽松策略），整值作为 token 验证"""
+    async def test_malformed_header_returns_401(self, monkeypatch):
+        """无 Bearer 前缀的 header 被当作 token，验证失败返回 401"""
         validated_tokens = []
 
         async def fake_validate(token):
@@ -94,26 +94,25 @@ class TestAuthMiddleware:
         monkeypatch.setattr("app.core.middleware.validate_session_token", fake_validate)
         captured = {}
         mw = AuthMiddleware(app=None)
-        await mw.dispatch(
+        resp = await mw.dispatch(
             MockRequest("/api/v1/products", auth_header="Token xyz"),
             _make_call_next(captured),
         )
-        assert validated_tokens == ["Token xyz"]
-        assert captured["user_id"] == ""
+        assert resp.status_code == 401
 
     @pytest.mark.asyncio
-    async def test_empty_token_after_bearer_sets_empty(self, monkeypatch):
+    async def test_empty_token_after_bearer_returns_401(self, monkeypatch):
         async def fake_validate(token):
             return "should-not-be-called"
 
         monkeypatch.setattr("app.core.middleware.validate_session_token", fake_validate)
         captured = {}
         mw = AuthMiddleware(app=None)
-        await mw.dispatch(
+        resp = await mw.dispatch(
             MockRequest("/api/v1/products", auth_header="Bearer "),
             _make_call_next(captured),
         )
-        assert captured["user_id"] == ""
+        assert resp.status_code == 401
 
     @pytest.mark.asyncio
     async def test_exempt_paths_skip_auth(self, monkeypatch):
