@@ -5,12 +5,12 @@
 import time
 import uuid
 import logging
-from collections import defaultdict, deque
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from app.services.auth_service import validate_session_token
 from app.schemas.common import ApiResponse
+from app.core.cache import SlidingWindowRateLimiter
 
 logger = logging.getLogger("middleware")
 
@@ -38,23 +38,8 @@ RATE_LIMIT_CONFIG = {
     "/api/v1/evaluation/run": (300, 3),  # 3 req/5min
 }
 
-# 内存限流器：client_key:path -> deque[timestamps]
-_rate_buckets: dict[str, deque] = defaultdict(deque)
-
-
-def _check_rate_limit(key: str, window: int, max_req: int) -> tuple[bool, int]:
-    """检查限流。返回 (allowed, remaining_seconds)."""
-    now = time.time()
-    bucket = _rate_buckets[key]
-    # 清除过期记录
-    while bucket and bucket[0] < now - window:
-        bucket.popleft()
-    if len(bucket) >= max_req:
-        # 计算还需要等多久
-        retry_after = int(bucket[0] + window - now) + 1
-        return False, max(retry_after, 1)
-    bucket.append(now)
-    return True, 0
+# 滑动窗口限流器（封装内部状态，非模块级 dict）
+_rate_limiter = SlidingWindowRateLimiter()
 
 
 class RateLimitMiddleware(BaseHTTPMiddleware):
@@ -70,7 +55,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             client_ip = request.client.host if request.client else "unknown"
             rate_key = f"{client_ip}:{path}"
 
-            allowed, retry_after = _check_rate_limit(rate_key, window, max_req)
+            allowed, retry_after = await _rate_limiter.check(rate_key, window, max_req)
             if not allowed:
                 logger.warning("Rate limit hit: %s %s (retry after %ds)", client_ip, path, retry_after)
                 return JSONResponse(

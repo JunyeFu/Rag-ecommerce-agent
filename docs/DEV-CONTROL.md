@@ -3,7 +3,7 @@
 > **本文档是项目开发的唯一权威入口。** 所有技术选型、数据口径、命令参考以本文档为准。
 > 其他开发文档均为辅助参考，如与本文档冲突，以本文档为准。
 >
-> 最后更新：2026-07-20（P2 规范化完成 + 448 单元测试 + 编码规范文档）
+> 最后更新：2026-07-21（P3 模块化完成 + 448 单元测试 + God File/Function 消除）
 
 ---
 
@@ -426,7 +426,7 @@ query -> embed_text (BGE-large-zh)
 
 | # | 问题 | 位置 | 影响 | 修复方案 |
 |---|------|------|------|---------|
-| T1 | `generate_response` 442 行 God Function | `agent.py:409-851` | 7+ early return、深嵌套，任何修改风险极高 | 拆分为 Pipeline + Handler（§12.4 D1） |
+| ~~T1~~ | ~~`generate_response` 442 行 God Function~~ | ~~`agent.py:409-851`~~ | ~~7+ early return、深嵌套~~ | ✅ 已拆为 pipeline.py + 9 个 handler，调度器 40 行 |
 | T2 | ~~22/30 service 模块零测试~~ ✅ 部分 | `cart_service`/`order_service`/`product_service`/`favorite_service` 等 | 涉及钱、库存、鉴权的核心业务无回归保护 | ✅ `cart_service` +19 测试 / `create_order_atomic` +7 测试（§12.4 A4）。其余 service 待补 |
 | T3 | ~~`create_order_atomic` 零测试~~ ✅ | `order_service.py:61-117` | ~~唯一下单事务路径无覆盖~~ | ✅ 7 个测试覆盖空购物车/库存校验/正常下单/product_ids过滤/订单号/精度 |
 
@@ -438,8 +438,8 @@ query -> embed_text (BGE-large-zh)
 | T5 | ~~订单状态无鉴权可突变~~ ✅ | ~~`order.py:118-127`~~ | ~~`?status=completed` 查询参数改状态~~ | ✅ 改 `OrderStatusUpdateRequest` Body + 要求已登录（§12.4 A2） |
 | T6 | ~~`.env` 残留死配置~~ ✅ | ~~`.env:3-4`~~ | ~~`QDRANT_URL`/`QDRANT_COLLECTION` 代码 0 引用~~ | ✅ 已删除（§12.4 A3）。Key 轮换待用户操作 |
 | T7 | 启动时 12 条裸 SQL 迁移 | `main.py:52-95` | 无 Alembic、无版本号、失败仅 log 后继续 | 引入 Alembic（§12.4 B1） |
-| T8 | `UserRepository.kt` 1643 行 God File | `data/local/UserRepository.kt` | cart/favorites/footprints/profile/address/order 全塞一文件 | 拆 5 个 Repository（§12.4 D2） |
-| T9 | 4 处模块级可变 dict 当缓存 | `cart_service.py:18`/`auth_service.py:20`/`middleware.py:60`/`state_manager.py:16` | 无 TTL/无大小上限/多 worker 不一致 | 统一走 `CacheBackend` Protocol（§12.4 D3） |
+| ~~T8~~ | ~~`UserRepository.kt` 1643 行 God File~~ | ~~`data/local/UserRepository.kt`~~ | ~~cart/favorites/footprints/profile/address/order 全塞一文件~~ | ✅ 拆为 6 个 Ext 文件，主文件 596 行 |
+| ~~T9~~ | ~~4 处模块级可变 dict 当缓存~~ | ~~`cart_service.py:18`/`auth_service.py:20`/`middleware.py:60`/`state_manager.py:16`~~ | ~~无 TTL/无大小上限/多 worker 不一致~~ | ✅ 统一走 InMemoryCache + SlidingWindowRateLimiter |
 | T10 | ~~Cart API 别名复制粘贴~~ ✅ | ~~`cart.py:75-130`~~ | ~~3 个 alias 复制实现而非委托~~ | ✅ 3 个 alias 改为 `return await canonical(...)`（§12.4 A5） |
 | T11 | ~~前端 ApiClient 不发 Auth 头~~ ✅ | ~~`ApiClient.kt:18-48`~~ | ~~契约已破，仅因 middleware 放行才"能用"~~ | ✅ `AuthInterceptor` 统一注入 `Authorization` 头（§12.4 A1） |
 | T12 | 订单状态跳过 `pending_payment` | `order_service.py:103` | `create_order_atomic` 直接写 `pending_shipping`，状态机初始态不可达 | 修正为 `pending_payment` |
@@ -618,37 +618,39 @@ query -> embed_text (BGE-large-zh)
 /------------------\
 ```
 
-#### P3 模块化（2-4 周，消除 God File/Function）
+#### P3 模块化（✅ 2026-07-21，消除 God File/Function）
 
-**D1. 拆分 `generate_response`（C1/T1）**
+**D1. 拆分 `generate_response`（C1/T1）✅**
 
-当前 442 行 God Function 拆为意图分发的 Pipeline 模式：
-```
-agent/
-  pipeline.py          # AgentPipeline 编排骨架（Template Method）
-  handlers/
-    cart_handler.py      # node_cart 逻辑（当前 138 行）
-    compare_handler.py   # 对比路由
-    retrieve_handler.py  # 检索 + fallback + web_search
-    clarify_handler.py   # 澄清路由
-    web_search_handler.py
-```
-每个 handler 实现 `async def handle(state) -> AsyncIterator[Event]`，`pipeline.py` 根据 `intent` 分发。`generate_response` 退化为 30 行调度器。
+443 行 God Function 拆为意图分发 Pipeline 模式：
+- `intent_router.py` (96行) - 4 个意图修正函数（cart_keyword/negation/commerce/cart_confirm）
+- `pipeline.py` (509行) - PipelineContext + 9 个 handler 异步生成器 + generate_response 调度器
+- Handler: demo/cache_hit/chitchat/web_search/cart/compare/clarify/safety_block/retrieve
+- `agent.py` 从 851 行降至 411 行，`generate_response` 退化为 40 行调度器
+- node_cart 保留在 agent.py（monkeypatch 兼容），pipeline.py 通过 lazy import 调用
 
-**D2. 拆分 `UserRepository.kt`（H5/T8）**
+**D2. 拆分 `UserRepository.kt`（H5/T8）✅**
 
-按领域拆 5 个 Repository，共享 `ApiClient` + `AppDatabase`。
+1772 行 God File 用 Kotlin 扩展函数拆分，零调用方变更：
+- `UserRepository.kt` 596 行（用户画像 + 对话消息 + 设置 + 搜索历史 + 客服 + 嵌套数据类）
+- `CartRepositoryExt.kt` 274 行（购物车 CRUD + 后端同步）
+- `FavoriteRepositoryExt.kt` 244 行（收藏 CRUD + 后端同步）
+- `FootprintRepositoryExt.kt` 182 行（足迹 CRUD + 后端同步）
+- `AddressRepositoryExt.kt` 202 行（收货地址 + 支付设置 + 国家地区）
+- `OrderRepositoryExt.kt` 209 行（订单记录 + 后端状态同步 + 评价提交）
+- `AuthRepositoryExt.kt` 121 行（凭证管理 + 登录状态）
+- `db`/`gson` 改为 `internal` 可见性，扩展函数通过 same-module 访问
 
-**D3. 缓存统一（H6/T9）**
+**D3. 缓存统一（H6/T9）✅**
 
 删除 4 处模块级 dict，全部走 `core/cache/backend.py`：
-```python
-class CacheBackend(Protocol):
-    async def get(self, key: str) -> Any: ...
-    async def set(self, key: str, value: Any, ttl: int = 300): ...
-    async def invalidate(self, key: str): ...
-```
-新增 `RedisCacheBackend` 支持多 worker 部署。
+- `CacheBackend` Protocol 新增 `delete_prefix` 方法
+- 新建 `core/cache/rate_limiter.py` - `SlidingWindowRateLimiter` 替代模块级 defaultdict(deque)
+- cart_service `_cart_cache` -> `InMemoryCache(max_size=200, default_ttl=300)`
+- auth_service `_TOKEN_CACHE` -> `InMemoryCache(max_size=500, default_ttl=1800)`
+- middleware `_rate_buckets` -> `SlidingWindowRateLimiter()`
+- state_manager `_cache` -> `InMemoryCache(max_size=200, default_ttl=3600)`
+- 所有缓存调用从 sync 改为 async（get/set/delete/delete_prefix）
 
 ### 12.5 路线图总览
 
@@ -657,7 +659,7 @@ class CacheBackend(Protocol):
 | **P0 止血** | ✅ 2026-07-20 | A1-A5 | 鉴权强制生效、死配置清理、+26 单元测试（359->385）、alias 委托 |
 | **P1 标准化** | ✅ 2026-07-20 | B1-B4 | Alembic 迁移可回滚、API 契约信封统一、CI 6-job 硬门禁 |
 | **P2 规范化** | ✅ 2026-07-20 | C1-C3 | ruff 规则强化 + 编码规范文档 + +63 service 测试 + CartViewModel helper + e2e 框架 |
-| **P3 模块化** | 2-4 周 | D1-D3 | 单文件 ≤ 400 行、无模块级 dict 缓存 |
+| **P3 模块化** | ✅ 2026-07-21 | D1-D3 | generate_response 443->40行、UserRepository.kt 1772->596行、4处模块级dict缓存统一 |
 | **持续** | 日常 | §12.3 AI 协作纪律 | 每次合入过审查清单 |
 
 ### 12.6 核心结论

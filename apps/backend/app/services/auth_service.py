@@ -3,7 +3,6 @@
 方案：UUID token + DB sessions 表 + 内存缓存（TTL 30min）
 """
 import uuid
-import time
 import logging
 from datetime import datetime, timedelta, timezone
 from typing import Optional
@@ -12,37 +11,31 @@ from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import AsyncSessionLocal, db_context
+from app.core.cache import InMemoryCache
 from app.models.user import User
 
 logger = logging.getLogger("auth_service")
 
-# ── 内存缓存：token -> (user_id, expires_ts) ──
-_TOKEN_CACHE: dict[str, tuple[str, float]] = {}
+# ── 内存缓存：token -> user_id（TTL 30min，自动过期）──
+_TOKEN_CACHE = InMemoryCache(max_size=500, default_ttl=1800)
 _TOKEN_TTL = 1800  # 30 分钟
 
 
-def _cache_get(token: str) -> Optional[str]:
-    """从缓存读取 user_id，过期则清除"""
-    entry = _TOKEN_CACHE.get(token)
-    if entry is None:
-        return None
-    user_id, expires_ts = entry
-    if time.time() > expires_ts:
-        _TOKEN_CACHE.pop(token, None)
-        return None
-    return user_id
+async def _cache_get(token: str) -> Optional[str]:
+    """从缓存读取 user_id（TTL 自动过期）"""
+    return await _TOKEN_CACHE.get(token)
 
 
-def _cache_set(token: str, user_id: str, ttl: int = _TOKEN_TTL) -> None:
-    _TOKEN_CACHE[token] = (user_id, time.time() + ttl)
+async def _cache_set(token: str, user_id: str, ttl: int = _TOKEN_TTL) -> None:
+    await _TOKEN_CACHE.set(token, user_id, ttl=ttl)
 
 
-def _cache_del(token: str) -> None:
-    _TOKEN_CACHE.pop(token, None)
+async def _cache_del(token: str) -> None:
+    await _TOKEN_CACHE.delete(token)
 
 
-def _cache_clear() -> None:
-    _TOKEN_CACHE.clear()
+async def _cache_clear() -> None:
+    await _TOKEN_CACHE.clear()
 
 
 async def create_session_token(user_id: str = "", nickname: str = "") -> tuple[str, str, bool, datetime]:
@@ -59,7 +52,7 @@ async def create_session_token(user_id: str = "", nickname: str = "") -> tuple[s
             # 内存模式 - 仍可生成 token，只是不持久化
             if not user_id:
                 user_id = f"guest-{uuid.uuid4().hex[:12]}"
-            _cache_set(token, user_id)
+            await _cache_set(token, user_id)
             logger.info("Auth token (memory mode): user=%s guest=%s", user_id[:16], is_guest)
             return token, user_id, is_guest, expires_at
 
@@ -100,7 +93,7 @@ async def create_session_token(user_id: str = "", nickname: str = "") -> tuple[s
         await db.flush()
 
         # 写入内存缓存
-        _cache_set(token, user_id)
+        await _cache_set(token, user_id)
         logger.info("Auth token: user=%s guest=%s expires=%s", user_id[:16], is_guest, expires_at.isoformat())
 
     return token, user_id, is_guest, expires_at
@@ -112,7 +105,7 @@ async def validate_session_token(token: str) -> Optional[str]:
     优先查内存缓存，未命中则查 DB。
     """
     # 1. 内存缓存
-    user_id = _cache_get(token)
+    user_id = await _cache_get(token)
     if user_id is not None:
         return user_id
 
@@ -133,7 +126,7 @@ async def validate_session_token(token: str) -> Optional[str]:
                 return None
             user_id = session.auth_user_id or ""
             if user_id:
-                _cache_set(token, user_id)
+                await _cache_set(token, user_id)
             return user_id or None
     except Exception as exc:
         logger.warning("Token validation DB error: %s", exc)
@@ -142,7 +135,7 @@ async def validate_session_token(token: str) -> Optional[str]:
 
 async def revoke_session_token(token: str) -> bool:
     """撤销 token（登出）"""
-    _cache_del(token)
+    await _cache_del(token)
     if AsyncSessionLocal is None:
         return True
     try:
@@ -180,6 +173,6 @@ async def bind_token_to_session(token: str, session_id: str, user_id: str) -> No
                 )
             )
             await db.commit()
-            _cache_set(token, user_id)
+            await _cache_set(token, user_id)
     except Exception as exc:
         logger.warning("Token bind error: %s", exc)

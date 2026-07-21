@@ -16,7 +16,7 @@ from app.core.middleware import (
     AuthMiddleware,
     RateLimitMiddleware,
     AUTH_EXEMPT_PATHS,
-    _rate_buckets,
+    _rate_limiter,
 )
 
 pytestmark = pytest.mark.unit
@@ -152,12 +152,12 @@ class TestAuthMiddleware:
 class TestRateLimitMiddlewareDispatch:
     """RateLimitMiddleware 中间件层 - 429 JSONResponse 行为
 
-    与 test_rate_limiter.py 区别：后者测 _check_rate_limit 函数；
+    与 test_rate_limiter.py 区别：后者测 _rate_limiter.check 函数；
     本类测 RateLimitMiddleware.dispatch 返回 429 响应与路径隔离。
     """
 
     def setup_method(self):
-        _rate_buckets.clear()
+        _rate_limiter._buckets.clear()
 
     @pytest.mark.asyncio
     async def test_first_request_allowed_returns_200(self):

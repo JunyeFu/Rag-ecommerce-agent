@@ -8,6 +8,7 @@
 """
 from app.core.cache.backend import CacheBackend, InMemoryCache, NoOpCache
 from app.core.cache.query_cache import QueryCache, query_cache
+from app.core.cache.rate_limiter import SlidingWindowRateLimiter
 
 __all__ = [
     "CacheBackend",
@@ -15,4 +16,5 @@ __all__ = [
     "NoOpCache",
     "QueryCache",
     "query_cache",
+    "SlidingWindowRateLimiter",
 ]

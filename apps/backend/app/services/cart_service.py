@@ -7,6 +7,7 @@ from sqlalchemy import select, delete, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.cart import CartItem
 from app.core.exceptions import BadRequestError
+from app.core.cache import InMemoryCache
 
 logger = logging.getLogger("cart_service")
 
@@ -15,7 +16,7 @@ MAX_SINGLE_ITEM_QTY = 99  # 单品最大数量
 MAX_CART_TOTAL_ITEMS = 50  # 购物车总件数上限
 
 # ── 内存缓存：key=(session_id, user_id), value=(items_list, total) ──
-_cart_cache: dict[str, tuple[list[CartItem], float]] = {}
+_cart_cache = InMemoryCache(max_size=200, default_ttl=300)
 
 
 def _cache_key(session_id: str, user_id: str = "") -> str:
@@ -23,18 +24,14 @@ def _cache_key(session_id: str, user_id: str = "") -> str:
     return f"{session_id}:{user_id}" if user_id else session_id
 
 
-def _invalidate_cache(session_id: str, user_id: str = ""):
+async def _invalidate_cache(session_id: str, user_id: str = ""):
     """清除指定 session（及所有 user_id 变体）的缓存。
 
     使用 ":" 分隔符精确匹配，避免 session_id 前缀重合导致误删
     （例如 "abc123" 不应匹配 "abc123def" 的缓存键）。
     """
-    keys_to_remove = [
-        k for k in _cart_cache
-        if k == session_id or k.startswith(f"{session_id}:")
-    ]
-    for k in keys_to_remove:
-        _cart_cache.pop(k, None)
+    await _cart_cache.delete(session_id)
+    await _cart_cache.delete_prefix(f"{session_id}:")
 
 
 def _to_uuid(value: str) -> uuid.UUID:
@@ -49,7 +46,7 @@ async def get_cart(db: AsyncSession, session_id: str, user_id: str = "") -> list
         user_id: 可选的用户 ID，传入时按 user_id + session_id 联合过滤
     """
     cache_key = _cache_key(session_id, user_id)
-    cached = _cart_cache.get(cache_key)
+    cached = await _cart_cache.get(cache_key)
     if cached is not None:
         return cached[0]
 
@@ -62,7 +59,7 @@ async def get_cart(db: AsyncSession, session_id: str, user_id: str = "") -> list
     result = await db.execute(stmt)
     items = list(result.scalars().all())
     total = sum(it.price * it.quantity for it in items)
-    _cart_cache[cache_key] = (items, total)
+    await _cart_cache.set(cache_key, (items, total))
     return items
 
 
@@ -79,7 +76,7 @@ async def add_to_cart(
         BadRequestError: 超过单品数量上限或购物车总件数上限
     """
     sid = _to_uuid(session_id)
-    _invalidate_cache(session_id)
+    await _invalidate_cache(session_id)
 
     result = await db.execute(
         select(CartItem)
@@ -136,7 +133,7 @@ async def remove_from_cart(
         user_id: 可选，传入时仅删除匹配 user_id 的商品
     """
     sid = _to_uuid(session_id)
-    _invalidate_cache(session_id)
+    await _invalidate_cache(session_id)
     stmt = delete(CartItem).where(
         CartItem.session_id == sid,
         CartItem.product_id == product_id,
@@ -160,7 +157,7 @@ async def update_quantity(
         BadRequestError: 超过单品数量上限
     """
     sid = _to_uuid(session_id)
-    _invalidate_cache(session_id)
+    await _invalidate_cache(session_id)
     stmt = select(CartItem).where(
         CartItem.session_id == sid,
         CartItem.product_id == product_id,
@@ -186,7 +183,7 @@ async def clear_cart(db: AsyncSession, session_id: str, user_id: str = ""):
         user_id: 可选，传入时仅清空匹配 user_id 的商品
     """
     sid = _to_uuid(session_id)
-    _invalidate_cache(session_id)
+    await _invalidate_cache(session_id)
     stmt = delete(CartItem).where(CartItem.session_id == sid)
     if user_id:
         stmt = stmt.where(CartItem.user_id == user_id)
@@ -201,7 +198,7 @@ async def get_cart_total(db: AsyncSession, session_id: str, user_id: str = "") -
         user_id: 可选，传入时仅统计匹配 user_id 的商品
     """
     cache_key = _cache_key(session_id, user_id)
-    cached = _cart_cache.get(cache_key)
+    cached = await _cart_cache.get(cache_key)
     if cached is not None:
         return cached[1]
 

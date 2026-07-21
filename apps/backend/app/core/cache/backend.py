@@ -18,6 +18,7 @@ class CacheBackend(Protocol):
     async def get(self, key: str) -> Any | None: ...
     async def set(self, key: str, value: Any, ttl: int | None = None) -> None: ...
     async def delete(self, key: str) -> None: ...
+    async def delete_prefix(self, prefix: str) -> None: ...
     async def clear(self) -> None: ...
     async def stats(self) -> dict: ...
 
@@ -53,6 +54,12 @@ class InMemoryCache:
         async with self._lock:
             self._cache.pop(key, None)
 
+    async def delete_prefix(self, prefix: str) -> None:
+        async with self._lock:
+            keys_to_remove = [k for k in self._cache if k.startswith(prefix)]
+            for k in keys_to_remove:
+                del self._cache[k]
+
     async def clear(self) -> None:
         async with self._lock:
             self._cache.clear()
@@ -72,6 +79,9 @@ class NoOpCache:
         pass
 
     async def delete(self, key: str) -> None:
+        pass
+
+    async def delete_prefix(self, prefix: str) -> None:
         pass
 
     async def clear(self) -> None:
