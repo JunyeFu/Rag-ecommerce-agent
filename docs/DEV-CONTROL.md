@@ -12,9 +12,9 @@
 | 项目 | 拾物 - RAG 多模态电商导购 AI Agent |
 |------|------|
 | 仓库 | `git@github.com:fujunye-company/rag-ecommerce-agent.git` |
-| 当前状态 | 全栈交付完成，9/9 场景代码就绪 |
+| 当前状态 | 全栈交付 + P0-P3 质量提升完成，9/9 场景代码就绪 |
 | 商品数据 | 287 条商品，94 个细分类目 |
-| 客户端 | Android 原生 APK（24.1MB，编译通过） |
+| 客户端 | Android 原生（Kotlin/Compose，82 个 .kt 文件） |
 
 ### 功能覆盖
 
@@ -43,8 +43,8 @@
 | Embedding | **BGE-large-zh-v1.5** | 中文语义，CPU 推理，~1.3GB |
 | Reranker | **BGE-Reranker-v2-m3** | CrossEncoder，sigmoid 归一化，~2.2GB，失败冷却重试 |
 | 数据库 | **PostgreSQL** | 结构化存储 + 向量列 + 全文搜索一体化 |
-| LLM | **Doubao-Seed-2.0-lite** | 火山方舟 API（Key 已验证） |
-| 前端 | **Kotlin + Jetpack Compose** | Android 原生，73 个 .kt 文件，集中式 ApiClient |
+| LLM | **DeepSeek-V4-Flash** | DeepSeek API（reasoning 已禁用，TTFT ~0.6s） |
+| 前端 | **Kotlin + Jetpack Compose** | Android 原生，82 个 .kt 文件，集中式 ApiClient |
 | Python | 3.11+ | 虚拟环境 `.venv`（项目目录内） |
 
 ### 设计模式落地
@@ -54,9 +54,10 @@
 | **Strategy + Factory** | `services/llm/` - LLMProvider 接口 + Doubao/DeepSeek/Mimo 多 Provider 自动检测 |
 | **Template Method** | `services/comparison/pipeline.py` - ComparisonPipeline 定义对比骨架 |
 | **Strategy** | `services/comparison/strategies.py` - WinnerStrategy（Price/Rating/NumericAttribute/NoWinner） |
-| **Protocol 接口** | `core/cache/backend.py` - CacheBackend + InMemoryCache/NoOpCache 可替换 |
+| **Pipeline + Handler** | `services/pipeline.py` (432行) + `intent_router.py` - generate_response 退化为 40 行调度器 + 9 个 handler |
+| **Protocol 接口** | `core/cache/backend.py` - CacheBackend + InMemoryCache(LRU+TTL)/NoOpCache/SlidingWindowRateLimiter |
 | **LazySingleton** | `core/lazy.py` - 通用线程安全延迟加载（替代 5 处重复单例模式） |
-| **Facade** | `agent.py`（838行）+ `comparator.py` + `llm_client.py` - 向后兼容重导出 |
+| **Facade** | `agent.py`（354行）+ `comparator.py` + `llm_client.py` - 向后兼容重导出 |
 
 > **注意**：项目**未使用 LlamaIndex**。检索管线为自研实现（pgvector 原生 SQL + BGE CrossEncoder + 意图感知多维排序）。
 
@@ -68,12 +69,17 @@ sentence-transformers==3.4.1    torch==2.12.0
 pgvector>=0.3.0,<0.4.0    sqlalchemy[asyncio]==2.0.36
 ```
 
-### Doubao API 配置
+### LLM API 配置
 
 ```
+# 当前激活：DeepSeek
+Base:  https://api.deepseek.com/v1
+Model: deepseek-v4-flash (reasoning disabled, TTFT ~0.6s)
+Key:   见 apps/backend/.env (DEEPSEEK_API_KEY)
+
+# 备选：Doubao（DOUBAO_API_KEY 为空时自动 fallback 到 DeepSeek）
 Base:  https://ark.cn-beijing.volces.com/api/v3/
 Model: ep-20260514111645-lmgt2
-Key:   见 apps/backend/.env (DOUBAO_API_KEY)
 ```
 
 ---
@@ -165,13 +171,15 @@ PostgreSQL + pgvector (向量+结构化+全文搜索) + Doubao LLM
 | `generate` | `agent_nodes/generate.py` | LLM 三段式生成 + 反幻觉约束 + SSE 流式输出 |
 | `cart` | `agent.py`（保留，兼容测试 monkeypatch） | 购物车操作 |
 | `compare` | `agent_nodes/compare.py` | 商品对比（Template Method 管线） |
-| `web_search` | `agent_nodes/web_search.py` | 视觉搜索（图片上传 -> Doubao vision -> 相似商品检索） |
+| `web_search` | `agent_nodes/web_search.py` | 联网搜索 + 视觉搜索（图片上传 -> LLM vision -> 相似商品检索） |
 
 ### 后端模块结构
 
 ```
 app/services/
-├── agent.py (838行 facade)          # route_after_intent + node_cart + generate_response + build_agent_graph
+├── agent.py (354行 facade)          # route_after_intent + node_cart + build_agent_graph + re-export
+├── pipeline.py (432行)              # generate_response 调度器 + 9 个 handler（P3 D1 提取）
+├── intent_router.py (81行)          # 4 个意图修正函数（P3 D1 提取）
 ├── agent_streaming.py               # SSE 交错输出辅助
 ├── agent_state.py                   # AgentState TypedDict
 ├── slot_management.py (453行)       # 品类推断 + 槽位合并 + 否定过滤（最高 fan-in）
@@ -181,7 +189,7 @@ app/services/
 ├── prompts.py                       # LLM 生成 prompt 构建
 ├── agent_nodes/                     # LangGraph 节点包
 │   ├── classify.py / clarify.py / retrieve.py
-│   ├── generate.py / compare.py / web_search.py
+│   ├── generate.py / compare.py / web_search.py / safety_check.py
 ├── llm/                             # LLM Strategy + Factory
 │   ├── providers.py (Doubao/DeepSeek/Mimo)
 │   ├── factory.py / service.py
@@ -194,12 +202,12 @@ app/services/
 ├── intent.py / ingestion.py / evaluator.py
 
 app/core/
-├── cache/ (backend.py + query_cache.py)  # CacheBackend Protocol + InMemoryCache
-├── config.py                        # model_validator 生产环境守卫（CORS/DB/API Key）
+├── cache/ (backend.py + query_cache.py + rate_limiter.py)  # CacheBackend Protocol + InMemoryCache(LRU+TTL) + SlidingWindowRateLimiter
+├── config.py                        # model_validator 生产环境守卫（CORS/DB/API Key）+ DeprecatedField 检测
 ├── database.py                      # DatabaseContext + pool_recycle=3600
 ├── exceptions.py                    # ValidationError/AuthError/RateLimitError 等
 ├── lazy.py                          # LazySingleton[T] 通用延迟加载
-├── middleware.py                   # RequestIDMiddleware（已激活）
+├── middleware.py                   # AuthMiddleware（强制 401）+ RateLimitMiddleware
 ├── security.py                     # validate_image_upload（已接入 upload 路由）
 
 app/schemas/ (15 文件)               # cart/favorites/footprints/order 已从路由提取
@@ -260,7 +268,7 @@ query -> embed_text (BGE-large-zh)
 
 | 指标 | 目标 | 实际 |
 |------|------|------|
-| TTFT（首字延迟） | < 1s | ~1.5s |
+| TTFT（首字延迟） | < 1s | ~0.6s（DeepSeek reasoning disabled） |
 | SSE 吞吐 | ≥ 20 tok/s | 达标 |
 | 检索延迟 | < 2s | ~1s |
 | 冷启动 E2E | < 15s | ~11s |
@@ -269,11 +277,11 @@ query -> embed_text (BGE-large-zh)
 ### 测试
 
 - **单元测试：448 个**（`pytest -m unit`，~23s，零外部依赖）
-- 集成测试：44 个（`pytest -m integration`，需 DB/LLM）
-- pytest 标记：`unit` / `integration` / `contract` / `e2e` / `slow`，CI 分层运行
-- 覆盖核心：route_after_intent(26) / comparator(51) / image_parser(20) / cache(40) / retriever_pgvector(29) / intent(20) / product_ranker(11) / cart_nlp(12) / state_slots(14)
-- **测试盲区**：22/30 service 模块无专属测试文件（详见 §12.2 C2）
-- E2E 测试：9 场景全覆盖
+- 集成/契约/E2E 测试：68 个（`pytest -m integration`，需 DB/LLM）
+- pytest 标记：`unit` / `integration` / `contract` / `e2e`，CI 分层运行
+- 覆盖核心：route_after_intent(26) / comparator(51) / image_parser(20) / cache(40) / retriever_pgvector(29) / intent(20) / product_ranker(11) / cart_nlp(12) / state_slots(14) / cart_service(19) / order_service(17) / auth_middleware(12) / rate_limiter(7) / product_service(20) / favorite_service(14) / footprint_service(14) / review_service(15)
+- service 测试覆盖：13/30 service 模块有专属测试文件（P2 新增 4 个）
+- E2E 测试：6 类关键路径（AuthFlow / ProductBrowse / CartFlow / FavoriteFlow / FootprintFlow / OrderFlow）
 
 ---
 
@@ -467,7 +475,7 @@ query -> embed_text (BGE-large-zh)
 |---|------|------|---------|
 | T25 | 品类别名硬编码 | `retriever.py` `_CATEGORY_ALIASES` | 抽到配置 |
 | T26 | `web_search.py` DDGS 同步调用在 async 内 | `web_search.py` | 改 `asyncio.to_thread` |
-| T27 | 部分 API 集成测试需运行中的 DB/LLM | 44 个 integration 标记 | docker-compose test 环境 |
+| T27 | 部分 API 集成测试需运行中的 DB/LLM | 68 个 integration/contract/e2e 标记 | docker-compose test 环境 |
 
 ---
 
@@ -612,7 +620,7 @@ query -> embed_text (BGE-large-zh)
       /------\
      /contract\      API 契约测试 (pytest -m contract)
     /----------\
-   / integration\   44 个
+    / integration\   68 个 (含 contract + e2e, 6 类关键路径)
   /--------------\
   /     unit       \ 448 个 (含 service 层测试)
 /------------------\

@@ -82,7 +82,7 @@
       /------\
      /contract\      所有 API 端点契约（pytest -m contract）
     /----------\
-   / integration\   44 个（现有，需补 auth 流程 e2e）
+   / integration\   68 个（含 contract + e2e，6 类关键路径全覆盖）
   /--------------\
   /     unit       \ 448 个（含 service 层测试）
 /------------------\

@@ -29,7 +29,7 @@ Android(Kotlin/Compose) ← SSE → FastAPI ← LangGraph → pgvector/PostgreSQ
 | Agent | LangGraph StateGraph | |
 | RAG | pgvector + SQLAlchemy | LlamaIndex 未实际使用 |
 | 数据库 | PostgreSQL + pgvector | |
-| LLM | **Doubao-Seed-2.0-lite** ✅ 已验证 | DeepSeek 保留降级 |
+| LLM | **DeepSeek-V4-Flash** ✅ 已验证 | Doubao 保留降级（reasoning disabled, TTFT ~0.6s） |
 | Embedding | BGE-large-zh-v1.5 | 中文电商领域 SOTA |
 
 ### Doubao API
@@ -232,29 +232,32 @@ tar -xzf huggingface-models.tar.gz -C ~/
 
 ## 八、模块完成度现状
 
-> 更新：2026-07-18（模块化重构后）
+> 更新：2026-07-21（P0-P3 质量提升完成后同步）
 
 | 模块 | 完成度 | 备注 |
 |------|:---:|------|
-| agent.py (facade) | 95% | 838行 facade + generate_response + node_cart + route_after_intent |
-| agent_nodes/ (7节点) | 95% | classify/clarify/retrieve/generate/compare/web_search 已模块化 |
+| agent.py (facade) | 95% | 354行 facade + node_cart + route_after_intent + re-export |
+| pipeline.py (P3 D1) | 95% | 432行 - generate_response 调度器 + 9 个 handler 异步生成器 |
+| intent_router.py (P3 D1) | 95% | 81行 - 4 个意图修正函数（cart_keyword/negation/commerce/cart_confirm） |
+| agent_nodes/ (7节点) | 95% | classify/clarify/retrieve/generate/compare/web_search/safety_check 已模块化 |
 | slot_management.py | 90% | 品类推断 + 槽位合并 + 否定过滤（453行，最高 fan-in） |
 | cart_nlp.py | 95% | 购物车 NLP 解析（425行纯正则，14函数） |
-| llm/ (Strategy+Factory) | 95% | LLMProvider 接口 + Doubao/DeepSeek/Mimo 自动检测 |
+| llm/ (Strategy+Factory) | 95% | LLMProvider 接口 + Doubao/DeepSeek/Mimo 自动检测 + thinking disabled |
 | comparison/ (Template Method) | 95% | ComparisonPipeline + WinnerStrategy 4实现 |
-| core/cache/ (Protocol) | 95% | CacheBackend + InMemoryCache(LRU+TTL) + NoOpCache + QueryCache |
+| core/cache/ (Protocol) | 95% | CacheBackend + InMemoryCache(LRU+TTL) + NoOpCache + QueryCache + SlidingWindowRateLimiter |
 | intent.py | 90% | 9类意图 + 否定检测 + 槽位提取 |
 | retriever.py | 95% | pgvector hybrid + 否定排除 + DB 错误兜底 |
 | reranker.py | 90% | BGE-Reranker-v2-m3 + 冷却重试（300s） |
 | product_ranker.py | 90% | 5维加权排序 |
 | image_parser.py | 85% | VLM 图像理解 + 结构化输出 |
-| cart_service.py | 90% | PostgreSQL 持久化 + FOR UPDATE 竞态修复 |
-| state_manager.py | 90% | Session 状态 + 上下文递进 |
+| cart_service.py | 90% | PostgreSQL 持久化 + InMemoryCache(LRU+TTL) 替代模块级 dict |
+| auth_service.py | 90% | Session Token + InMemoryCache(LRU+TTL) + DB 持久化 |
+| state_manager.py | 90% | Session 状态 + InMemoryCache(LRU+TTL) |
 | chat.py | 100% | SSE 流式 + 全事件类型 |
 | upload.py | 95% | 图片上传 + vision-search + content-type 校验 |
 | schemas/ (15文件) | 95% | 内联 BaseModel 已全部提取 + 字段约束 |
-| LLM | 100% | Doubao 主路 + DeepSeek/Mimo 快路 + 统一 _execute_completion |
-| Android 前端 | 90% | 4页面 + SSE + ApiClient.kt 集中调用 + DemoMode |
+| LLM | 100% | DeepSeek-V4-Flash 主路（reasoning disabled） + Doubao/Mimo 备选 |
+| Android 前端 | 90% | 82 .kt 文件 + SSE + ApiClient + AuthInterceptor + AuthManager + 6 个 Repository Ext |
 
 ---
 

@@ -1,11 +1,13 @@
 # 文档索引
 
-> 更新时间：2026-07-18（重构后同步：agent.py 模块化 + 设计模式落地 + 231 单元测试）
+> 更新时间：2026-07-21（P0-P3 质量提升完成 + 448 单元测试 + God File/Function 消除）
 > 用途：项目文档入口，快速定位所需资料。
 
 ## 开发权威
 
 - **[`docs/DEV-CONTROL.md`](DEV-CONTROL.md)**：开发权威入口，技术栈/命令/架构/规范/数据契约的唯一权威来源。
+- [`docs/DEV-CONTROL-V2.md`](DEV-CONTROL-V2.md)：Phase 2 路线图（已完成，含验收标准）。
+- [`docs/CODING_STANDARDS.md`](CODING_STANDARDS.md)：编码规范（Python/Kotlin/测试/Git/CI 门禁）。
 - [`README.md`](../README.md)：项目入口、技术栈、快速启动。
 
 ## 架构与接口

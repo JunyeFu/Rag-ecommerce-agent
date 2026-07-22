@@ -35,8 +35,8 @@
     └─────┬─────┘   └──────┬──────┘   └──────┬──────┘
           │                │                  │
     ┌─────┴──────┐   ┌─────┴──────┐           │
-    │ Doubao LLM │   │ BGE Embed  │           │
-    │Seed-2.0-lite│  │+ Reranker  │           │
+     │ DeepSeek   │   │ BGE Embed  │           │
+     │ V4-Flash   │   │+ Reranker  │           │
     └────────────┘   └────────────┘           │
                                     ┌─────────┴────────┐
                                     │ CartService CRUD │
@@ -55,10 +55,10 @@
 | Agent 编排 | LangGraph | StateGraph + conditional edges |
 | 向量库 | pgvector (1024-dim) | PostgreSQL 扩展，统一数据层 |
 | 数据库 | PostgreSQL + asyncpg | 会话/商品/购物车持久化 |
-| LLM | Doubao-Seed-2.0-lite | TPM 80万，RPM 700 |
+| LLM | DeepSeek-V4-Flash | reasoning disabled, TTFT ~0.6s |
 | Embedding | BGE-large-zh-v1.5 | 中文电商领域 SOTA |
-| Reranker | BGE-Reranker-large | 中文精排提升 |
-| 视觉 API | Doubao-Seed-2.0-lite | 拍照找货图像理解 |
+| Reranker | BGE-Reranker-v2-m3 | CrossEncoder sigmoid 归一化 |
+| 视觉 API | LLM_MODEL (provider auto-detect) | 拍照找货图像理解 |
 
 ---
 

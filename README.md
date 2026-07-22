@@ -9,10 +9,9 @@
 | 指标 | 数据 |
 |------|------|
 | 商品数据 | 287 条商品，94 个细分类目 |
-| 后端 | 104 个 Python 文件，FastAPI + LangGraph |
-| 前端 | 73 个 Kotlin 文件，Android 原生 Jetpack Compose |
-| APK | 24.1 MB（Debug 编译通过） |
-| 单元测试 | 101 个 pytest 用例 |
+| 后端 | 112 个 Python 文件，FastAPI + LangGraph |
+| 前端 | 82 个 Kotlin 文件，Android 原生 Jetpack Compose |
+| 单元测试 | 448 个 pytest 用例 + 68 集成/契约/E2E 测试 |
 
 ## 技术栈
 
@@ -24,7 +23,7 @@
 | 全文搜索 | PostgreSQL tsvector | title(A) + description(B) + category(C) 权重，GIN 索引 |
 | Embedding | BGE-large-zh-v1.5 | 中文语义向量，CPU 推理 |
 | Reranker | BGE-Reranker-v2-m3 | CrossEncoder，sigmoid 归一化 |
-| LLM | Doubao-Seed-2.0-lite | 火山方舟 API |
+| LLM | DeepSeek-V4-Flash | DeepSeek API（reasoning disabled, TTFT ~0.6s） |
 | 数据库 | PostgreSQL | 结构化存储 + 向量列 + 全文搜索一体化 |
 | 前端 | Kotlin + Jetpack Compose | Android 原生 |
 
@@ -41,7 +40,7 @@ LangGraph StateGraph (7 nodes)
     ↕
 RAG Pipeline (embed -> hybrid_search -> rerank -> rank)
     ↕
-PostgreSQL + pgvector (向量 + 结构化 + 全文搜索) + Doubao LLM
+PostgreSQL + pgvector (向量 + 结构化 + 全文搜索) + DeepSeek LLM
 ```
 
 ### LangGraph 工作流
@@ -186,9 +185,9 @@ rag-ecommerce-agent/
 │   │   │   ├── core/         配置与数据库
 │   │   │   ├── models/       SQLAlchemy 数据模型
 │   │   │   └── main.py       FastAPI 入口
-│   │   ├── tests/            101 个 pytest 用例
+│   │   ├── tests/            448 单元 + 68 集成/契约/E2E 测试
 │   │   └── data/             商品数据（287 条 JSONL）
-│   └── android/              Kotlin Compose Android（73 .kt）
+│   └── android/              Kotlin Compose Android（82 .kt）
 │       └── app/src/main/java/com/shopping/agent/
 │           ├── ui/           屏幕/组件/主题/导航
 │           ├── data/         远程/本地/TTS/语音/Mock

@@ -3,15 +3,17 @@
 > **权威开发控制文档（Phase 2）**。本文档承接 `DEV-CONTROL.md`（Phase 1 基线），定义从"作品集 demo"升级为"可体验产品原型"的完整执行计划。
 >
 > Phase 1 基线：agent.py 模块化（13 模块）+ pgvector 迁移 + 231 单元测试 + ApiResponse 统一 + CacheBackend/LazySingleton 基础设施。
+>
+> **后续质量提升（P0-P3）已完成**：详见 `DEV-CONTROL.md` §12。当前 448 单元测试 + 68 集成测试 / agent.py 354行 / UserRepository.kt 596行 / LLM 切换 DeepSeek-V4-Flash。
 
 ## Phase 2 完成状态
 
 - [x] **Tier 1**: 认证 + 后端P0 (commit c2b136b)
 - [x] **Tier 2**: F6知识库 + F10安全 + F7引用 (commit 70bd24f)
 - [x] **Tier 3**: 前端15项缺陷修复 (commit 70bd24f)
-- [x] **Tier 4**: Self-Corrective RAG (commit 70bd24f)
+- [x] **Tier 4**: Self-Corrective RAG (commit 70bd24f, 后续 TTFT 优化已禁用)
 - [x] **Tier 5**: 检索质量提升 (commit 70bd24f)
-- [x] **Tier 6**: 测试补充 231->403 (359 unit + 44 integration)
+- [x] **Tier 6**: 测试补充 231->448 unit + 68 integration/contract/e2e
 
 ### 各 Workstream 落地摘要
 
@@ -282,11 +284,11 @@ Phase 2 完成标准（全部满足）：
 - [x] 8 项 P0 前端缺陷全部修复
 - [x] 5 项 P0 后端缺陷全部修复
 - [x] F6 知识库可用（PDF/MD/TXT -> 检索）
-- [x] F10 安全过滤可用（输入+输出双重）
+- [x] F10 安全过滤可用（输入端关键词 + 输出端已移除以降低 TTFT）
 - [x] F7 引用标注可见（[1][2] + citation 字段 + 前端 CitationSection 渲染）
-- [x] 基础认证可用（Session Token）
+- [x] 基础认证可用（Session Token，P0 已强制 401）
 - [~] P@3 ≥ 0.35 (代码改进已落地 D1-D5，需运行 `python -m app.services.evaluator` 在 LLM 可用时验证)
-- [x] 单元测试 ≥ 350（实测 359 unit + 44 integration = 403）
+- [x] 单元测试 ≥ 350（实测 448 unit + 68 integration/contract/e2e = 516）
 - [x] DEV-CONTROL-V2.md 更新为完成状态
 
 ---
