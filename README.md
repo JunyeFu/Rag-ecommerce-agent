@@ -1,144 +1,242 @@
-# 拾物 — 基于 RAG 的多模态电商智能导购 AI Agent
+# 拾物 - RAG 多模态电商导购 AI Agent
 
-> **AI 全栈挑战赛 (第3届)  · 2026**  
-> 基于 RAG + LangGraph + Doubao 的智能导购系统  
-> 最高优先级需求：`docs/background/REQS-竞赛核心需求.md
-
-## 队员
-
-| 队员 | 职责 |
-|------|------|
-| 傅钧烨 | Agent 框架设计、主线模块实现 |
-| 唐荣炜 | 真机测试反馈、外包模块、演示视频录制 |
-| 周芯仪 | 市场与需求分析、演示视频剪辑 |
+> 基于 RAG + LangGraph + pgvector 的智能导购系统，覆盖"意图理解 -> 智能咨询 -> 决策辅助 -> 交易执行"全链路闭环。
 
 ## 项目概述
 
-"意图理解 → 智能咨询 → 决策辅助 → 交易执行" 全链路闭环。
-覆盖 9 级导购场景（推荐→筛选→追问→对比→反问→反选→场景化→购物车→拍照找货）。
+拾物是一个多模态电商导购 AI Agent，通过自然语言对话帮助用户完成商品推荐、条件筛选、多轮追问、商品对比、场景化推荐、拍照搜物、语音搜索等 9 级导购场景。系统采用 LangGraph StateGraph 编排 Agent 工作流，结合 pgvector 混合检索（向量 + 全文搜索 + 结构化过滤）和 BGE Reranker 重排序，实现意图感知的精准商品推荐。
+
+| 指标 | 数据 |
+|------|------|
+| 商品数据 | 287 条商品，94 个细分类目 |
+| 后端 | 112 个 Python 文件，FastAPI + LangGraph |
+| 前端 | 82 个 Kotlin 文件，Android 原生 Jetpack Compose |
+| 单元测试 | 448 个 pytest 用例 + 68 集成/契约/E2E 测试 |
 
 ## 技术栈
 
-| 层 | 技术 |
-|----|------|
-| Agent 编排 | LangGraph StateGraph (10 节点) |
-| RAG 检索引擎 | LlamaIndex + Qdrant (1024-dim) |
-| 后端服务 | FastAPI (SSE 流式, 8 事件类型) |
-| 数据库 | PostgreSQL + pgvector |
-| LLM | Doubao-Seed-2.0-lite |
-| Embedding | BGE-large-zh-v1.5 |
-| 前端 | Kotlin + Jetpack Compose (73 .kt) |
+| 层 | 技术 | 说明 |
+|----|------|------|
+| Agent 编排 | LangGraph StateGraph | 7 节点 + 条件路由 |
+| 后端框架 | FastAPI | 异步 ASGI，SSE 流式输出（8 事件类型） |
+| 向量检索 | PostgreSQL + pgvector | 1024-dim，cosine distance，ivfflat 索引 |
+| 全文搜索 | PostgreSQL tsvector | title(A) + description(B) + category(C) 权重，GIN 索引 |
+| Embedding | BGE-large-zh-v1.5 | 中文语义向量，CPU 推理 |
+| Reranker | BGE-Reranker-v2-m3 | CrossEncoder，sigmoid 归一化 |
+| LLM | DeepSeek-V4-Flash | DeepSeek API（reasoning disabled, TTFT ~0.6s） |
+| 数据库 | PostgreSQL | 结构化存储 + 向量列 + 全文搜索一体化 |
+| 前端 | Kotlin + Jetpack Compose | Android 原生 |
 
-## 项目结构
+> 检索管线为自研实现（pgvector 原生 SQL + BGE CrossEncoder + 意图感知多维排序），未使用 LlamaIndex/LangChain AgentExecutor。
 
-```
-rag-ecommerce-agent/
-├── apps/
-│   ├── backend/          FastAPI 后端 (73 .py, 29 modules)
-│   └── android/          Kotlin Compose Android (73 .kt)
-├── docs/                 项目文档 (28 .md)
-├── infrastructure/       docker-compose + env
-└── README.md
-```
-
-## 里程碑 (M0-M10)
+## 架构概览
 
 ```
-M0 ✅  M1 ✅  M2 ✅  M3 ✅  M4 ✅  M5 ✅  M6 ✅  M7 ✅  M8 ✅  M9 ✅  M10 ✅
+Android (Kotlin/Compose)
+    ↕  SSE + REST
+FastAPI (16 routes)
+    ↕
+LangGraph StateGraph (7 nodes)
+    ↕
+RAG Pipeline (embed -> hybrid_search -> rerank -> rank)
+    ↕
+PostgreSQL + pgvector (向量 + 结构化 + 全文搜索) + DeepSeek LLM
 ```
 
-详见 `docs/progress/M0-M10-全项目规划.md`
+### LangGraph 工作流
 
-## 9 场景完成度
+```mermaid
+graph TD
+    START([用户消息]) --> classify_intent
+    classify_intent["classify_intent<br/>LLM 意图分类 + slot 提取<br/>+ 否定语义 + query rewrite"]
+    classify_intent --> route{路由}
+    route -->|闲聊/通用| generate
+    route -->|对比需求| compare
+    route -->|购物车| cart
+    route -->|视觉搜索| web_search
+    route -->|信息不足| clarify
+    route -->|商品检索| retrieve
+    clarify["clarify<br/>追问缺失信息"] --> generate
+    retrieve["retrieve<br/>pgvector 混合检索<br/>+ BGE Reranker 重排<br/>+ 意图感知排序"] --> generate
+    generate["generate<br/>LLM 三段式生成<br/>+ 反幻觉约束<br/>+ SSE 流式输出"]
+    compare["compare<br/>商品横向对比"]
+    cart["cart<br/>购物车 CRUD"]
+    web_search["web_search<br/>Doubao vision<br/>-> 相似商品检索"]
+    generate --> END([SSE 响应])
+    compare --> END
+    cart --> END
+    web_search --> END
+```
 
-| 级 | 场景 | 后端 | Android | 联调 |
-|:--:|------|:--:|:--:|:--:|
-| 1 | 单轮推荐 | ✅ | ✅ | ✅ |
-| 2 | 条件筛选 | ✅ | ✅ | ✅ |
-| 3 | 多轮追问 | ✅ | ✅ | ✅ |
-| 4 | 对比决策 | ✅ | ✅ | ✅ |
-| 5 | Agent 主动反问 | ✅ | ✅ | ✅ |
-| 6 | 反选排除 | ✅ | ✅ | ✅ |
-| 7 | 场景化组合 | ✅ | ✅ | ✅ |
-| 8 | 购物车下单 | ✅ | ✅ | ✅ |
-| 9 | 拍照找货 | ✅ | ✅ | ✅ |
+| 节点 | 职责 |
+|------|------|
+| `classify_intent` | LLM 意图分类 + slot 提取 + 否定语义 + query rewrite |
+| `clarify` | 追问缺失关键信息 |
+| `retrieve` | pgvector 混合检索 + 分级回退 + MMR 采样 + exclusion 过滤 + BGE rerank |
+| `generate` | LLM 三段式生成 + 反幻觉约束 + SSE 流式输出 |
+| `cart` | 购物车操作（查看/添加/修改/删除/结算） |
+| `compare` | 商品对比 |
+| `web_search` | 视觉搜索（图片上传 -> Doubao vision -> 相似商品检索） |
+
+### RAG 检索管线
+
+```
+query -> embed_text (BGE-large-zh)
+      -> pgvector hybrid_search (dense vector <=> + tsvector @@ RRF 融合)
+      -> 分级回退 (类目+价格 -> 类目 -> 无类目)
+      -> 场景分解 + 类目感知 MMR 采样
+      -> exclusion 过滤 + 类目守卫
+      -> BGE-Reranker-v2-m3 重排
+      -> intent-aware 5 维加权排序
+         (semantic*0.4 + price*0.2 + rating*0.15 + brand*0.1 + attributes*0.15)
+```
+
+<details>
+<summary>RAG 检索流程图（点击展开）</summary>
+
+```mermaid
+flowchart LR
+    Q[用户查询] --> E[BGE-large-zh<br/>Embedding]
+    E --> H[pgvector<br/>hybrid_search]
+    H --> D[dense vector<br/>cosine distance]
+    H --> K[tsvector<br/>全文搜索]
+    D --> RRF[RRF 融合<br/>k=60]
+    K --> RRF
+    RRF --> FB{分级回退}
+    FB -->|类目+价格| MMR
+    FB -->|仅类目| MMR
+    FB -->|无类目| MMR
+    MMR[场景分解<br/>+ MMR 采样] --> EX[exclusion 过滤<br/>+ 类目守卫]
+    EX --> RR[BGE-Reranker-v2-m3<br/>CrossEncoder 重排]
+    RR --> RK[意图感知<br/>5维加权排序]
+    RK --> OUT[Top-K 商品]
+```
+
+</details>
+
+## 功能覆盖
+
+| # | 场景 | 说明 |
+|---|------|------|
+| 1 | 对话推荐 | 自然语言商品推荐，SSE 流式输出 |
+| 2 | 条件筛选 | 价格/品牌/类目等多维度过滤 |
+| 3 | 多轮追问 | Agent 主动澄清缺失信息 |
+| 4 | 商品对比 | 多商品横向对比决策 |
+| 5 | 主动反问 | 槽位不足时主动追问 |
+| 6 | 否定排除 | "不要红色" -> 精准排除红色商品 |
+| 7 | 场景化推荐 | "露营装备" -> 多品类组合推荐 |
+| 8 | 购物车管理 | 对话式购物车 CRUD |
+| 9 | 拍照搜物 | 图片上传 -> 视觉理解 -> 相似商品 |
 
 ## 快速开始
 
-> **新人从零搭建** → 完整指南：`docs/standards/SETUP.md`
+> 完整搭建指南：[`docs/standards/SETUP.md`](docs/standards/SETUP.md)
+
+### 前置条件
+
+- Python 3.11+、Docker 24+、Git 2.40+
+- Android Studio + JDK 17（编译前端）
+- HuggingFace 模型：BGE-large-zh-v1.5 + BGE-Reranker-v2-m3（共 ~3.5GB）
+
+### 启动步骤
 
 ```bash
 # 1. 克隆仓库
 git clone https://github.com/fujunye-company/rag-ecommerce-agent.git
 cd rag-ecommerce-agent
 
-# 2. 配置环境变量（API Key 由比赛主办方提供，请联系主办方获取）
-cp apps/backend/.env.example apps/backend/.env
-# 编辑 apps/backend/.env，将 DOUBAO_API_KEY 替换为主办方提供的 Key
+# 2. 启动 PostgreSQL
+docker compose -f infrastructure/docker-compose.yml up -d
 
-# 3. 安装 Python 依赖
-python3 -m venv .venv && source .venv/bin/activate
-cd apps/backend && pip install -r requirements.txt
+# 3. 配置后端环境
+cd apps/backend
+cp .env.example .env   # 填入 DOUBAO_API_KEY 等
 
-# 4. 下载 Embedding 模型（首次约 1.3GB，需 5-15 分钟）
-python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('BAAI/bge-large-zh-v1.5')"
+# 4. 安装依赖
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 
-# 5. 启动基础设施
-cd ../..
-docker compose -f infrastructure/docker-compose.yml up -d postgres qdrant
-
-# 6. 数据入库
-cd apps/backend && python -c "from app.startup import ensure_qdrant_data; import asyncio; asyncio.run(ensure_qdrant_data())"
-
-# 7. 启动后端
+# 5. 启动后端（含自动数据导入 pgvector）
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
+
+# 6. 编译 Android
+cd ../android && ./gradlew assembleDebug
 ```
 
-## 相关文档
+### Make 快捷方式
 
-### 竞赛核心
+```bash
+make install    # 安装 Python 依赖
+make dev        # 启动后端开发服务器
+make docker-up  # 启动 Docker 基础设施
+make test       # 运行测试
+make seed       # 数据导入
+```
 
-- [竞赛核心需求](docs/background/REQS-竞赛核心需求.md) — 最高优先级，评分权重与交付标准
-- [比赛题目要求](docs/background/核心要求-比赛题目.md)
-- [PRD 产品需求文档](docs/background/PRD-电商AI导购Agent-V1.0.md)
-- [课题说明会纪要](docs/standards/requirements-based-rag-multimodal-ecommerce-ai-agent.md)
+## 项目结构
 
-### 架构与设计
+```
+rag-ecommerce-agent/
+├── apps/
+│   ├── backend/              FastAPI 后端（104 .py）
+│   │   ├── app/
+│   │   │   ├── api/          16 个 API 路由模块
+│   │   │   ├── services/     27 个服务（agent/retriever/reranker/ranker...）
+│   │   │   ├── core/         配置与数据库
+│   │   │   ├── models/       SQLAlchemy 数据模型
+│   │   │   └── main.py       FastAPI 入口
+│   │   ├── tests/            448 单元 + 68 集成/契约/E2E 测试
+│   │   └── data/             商品数据（287 条 JSONL）
+│   └── android/              Kotlin Compose Android（82 .kt）
+│       └── app/src/main/java/com/shopping/agent/
+│           ├── ui/           屏幕/组件/主题/导航
+│           ├── data/         远程/本地/TTS/语音/Mock
+│           └── viewmodel/    ChatViewModel/CartViewModel
+├── docs/                     项目文档
+├── infrastructure/           docker-compose + env
+├── Makefile                  快捷命令
+└── README.md
+```
 
-- [系统架构](docs/ARCHITECTURE.md)
-- [API 文档](docs/API.md)
-- [项目结构说明](docs/architecture/项目结构说明.md)
-- [核心机制](docs/standards/MECHANISM.md)
-- [数据契约](docs/standards/DATA-CONTRACT.md)
-- [UI 设计规范](docs/standards/DESIGN.md)
+## 文档
 
-### 开发与部署
+### 开发权威
 
-- [从零搭建指南](docs/standards/SETUP.md)
-- [开发总纲](docs/standards/DEV-GUIDE.md)
-- [开发规约](docs/standards/开发规约-v2.md)
+- **[DEV-CONTROL.md](docs/DEV-CONTROL.md)** - 开发权威入口，技术栈/命令/架构/规范/数据契约的唯一权威来源
 
-### 评测与性能
+### 架构与接口
 
-- [评测报告](docs/EVALUATION.md)
-- [性能基准](docs/notes/PERFORMANCE.md)
-- [TTFT 延迟基准](docs/optimization/TTFT_BENCHMARK.md)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - 系统架构、Agent 工作流、SSE 协议、数据流
+- [API.md](docs/API.md) - 后端 API 接口文档
+- [DATA-CONTRACT.md](docs/standards/DATA-CONTRACT.md) - 前后端数据契约
+- [MECHANISM.md](docs/standards/MECHANISM.md) - 全链路机制设计
 
-### 答辩与演示
+### 开发规范
 
-- [演示脚本](docs/DEMO_SCRIPT.md)
-- [提交演示手册](docs/submission/DEMO_RUNBOOK.md)
-- [答辩 PPT 大纲](docs/notes/PPT-OUTLINE.md)
+- [DEV-GUIDE.md](docs/standards/DEV-GUIDE.md) - 开发总纲、系统目标与创新约束
+- [开发规约-v2.md](docs/standards/开发规约-v2.md) - 命名/代码/测试/提交规范
+- [SETUP.md](docs/standards/SETUP.md) - 从零搭建详细指南
+- [DESIGN.md](docs/standards/DESIGN.md) - UI 设计规范
 
-### 调研与加分项
+### 性能与研究
 
-- [Agent 框架架构分析](docs/background/Agent框架架构分析.md)
-- [竞品案例分析](docs/background/电商RAG导购Agent案例分析.md)
-- [学术文献补充](docs/background/PRD-背景资料-学术文献补充.md)
-- [创新研究](docs/optimization/INNOVATION-RESEARCH.md)
+- [PERFORMANCE.md](docs/notes/PERFORMANCE.md) - 性能基准
+- [TTFT_BENCHMARK.md](docs/optimization/TTFT_BENCHMARK.md) - 延迟与 TTFT 基准
+- [RAG 调研报告](docs/research/rag-framework-research-report.md) - RAG 框架选型分析
+- [INNOVATION-RESEARCH.md](docs/optimization/INNOVATION-RESEARCH.md) - 技术创新点研究
 
-### 项目管理
+## 性能指标
 
-- [M0-M10 全项目规划](docs/progress/M0-M10-全项目规划.md)
-- [开发进度控制表](docs/progress/开发进度控制表.md)
-- [变更日志](docs/CHANGELOG.md)
+| 指标 | 目标 | 实际 |
+|------|------|------|
+| TTFT（首字延迟） | < 1s | ~1.5s |
+| SSE 吞吐 | ≥ 20 tok/s | 达标 |
+| 检索延迟 | < 2s | ~1s |
+| 冷启动 E2E | < 15s | ~11s |
+| 热缓存命中 | - | ~16ms |
+
+## 作者
+
+| 成员 | 职责 |
+|------|------|
+| 傅钧烨 | Agent 框架设计、主线模块实现、全栈开发 |

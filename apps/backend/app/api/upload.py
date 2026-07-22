@@ -5,6 +5,7 @@ import logging
 from fastapi import APIRouter, File, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
 
+from app.core.security import validate_image_upload
 from app.schemas.common import ApiResponse
 from app.schemas.sse_events import DoneEvent, ErrorEvent, ProductCardEvent
 from app.services.image_parser import (
@@ -21,7 +22,7 @@ router = APIRouter()
 @router.get("/upload/vision-status")
 async def vision_status():
     """Return Doubao vision readiness without loading local models."""
-    return get_vision_readiness()
+    return ApiResponse(data=get_vision_readiness())
 
 
 @router.post("/upload/image")
@@ -29,8 +30,10 @@ async def upload_image(file: UploadFile = File(...)):
     """Upload an image and save it locally."""
     contents = await file.read()
 
-    if len(contents) > 10 * 1024 * 1024:
-        raise HTTPException(status_code=413, detail="Image size exceeds 10MB")
+    try:
+        validate_image_upload(file.content_type, len(contents))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     filepath = save_upload_image(contents, file.filename or "upload.jpg")
     return ApiResponse(
@@ -41,7 +44,7 @@ async def upload_image(file: UploadFile = File(...)):
             "path": filepath,
         },
         message="Upload successful",
-    ).model_dump()
+    )
 
 
 @router.post("/upload/vision-search")
@@ -49,8 +52,10 @@ async def vision_search(file: UploadFile = File(...)):
     """Camera search: image upload -> Doubao vision parse -> vector search -> SSE cards."""
     contents = await file.read()
 
-    if len(contents) > 10 * 1024 * 1024:
-        raise HTTPException(status_code=413, detail="Image size exceeds 10MB")
+    try:
+        validate_image_upload(file.content_type, len(contents))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     filepath = save_upload_image(contents, file.filename or "camera.jpg")
     logger.info("Vision search: image saved to %s (%d bytes)", filepath, len(contents))
@@ -87,7 +92,7 @@ async def vision_search(file: UploadFile = File(...)):
     try:
         candidates = await search_similar_products(query_text=search_query, top_k=3)
     except Exception as e:
-        logger.warning("Qdrant search failed, using fallback: %s", e)
+        logger.warning("PostgreSQL search failed, using fallback: %s", e)
         candidates = []
 
     async def event_stream():
@@ -143,7 +148,7 @@ async def vision_search(file: UploadFile = File(...)):
 
 
 def _build_search_query(product_info: dict) -> str:
-    """Build a deduplicated Qdrant query from structured vision output."""
+    """Build a deduplicated PostgreSQL query from structured vision output."""
     parts = []
     keywords = [str(k) for k in product_info.get("keywords", [])]
     seen = set()
@@ -170,4 +175,4 @@ async def upload_document(file: UploadFile = File(...)):
     return ApiResponse(
         data={"filename": file.filename, "status": "processing"},
         message="Document received and processing",
-    ).model_dump()
+    )

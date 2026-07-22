@@ -423,11 +423,15 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         val convId = _uiState.value.currentConversationId
 
         try {
+                val isDemoMode = getApplication<Application>()
+                    .getSharedPreferences("shopping_theme_prefs", android.content.Context.MODE_PRIVATE)
+                    .getBoolean("demo_mode_enabled", false)
                 chatRepository.sendMessage(
                     text = text,
                     conversationId = _uiState.value.currentConversationId,
                     cartSessionId = cartSessionId,
                     userId = userRepo.getUserId(),
+                    isDemoMode = isDemoMode,
                 )
                     .collect { event ->
                         when (event) {
@@ -482,6 +486,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                                     brand = event.brand,
                                     category = event.category,
                                     matchScore = event.matchScore,
+                                    citation = event.citation,
                                 )
                                 accCards.add(product)
 
@@ -827,6 +832,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                                 brand = event.brand,
                                 category = event.category,
                                 matchScore = event.matchScore,
+                                citation = event.citation,
                             )
                             accCards.add(product)
                             _uiState.update { it.copy(streamingCards = accCards.toList()) }
@@ -1014,6 +1020,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                                     brand = event.brand,
                                     category = event.category,
                                     matchScore = event.matchScore,
+                                    citation = event.citation,
                                 )
                                 accCards.add(product)
                                 _uiState.update { it.copy(streamingCards = accCards.toList()) }

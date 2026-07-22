@@ -19,15 +19,23 @@ dependencies = [
     "sentence-transformers>=3.0.0",
     "huggingface_hub[hf_transfer]>=0.20.0",
     "torch>=2.0.0",
-    "qdrant-client>=1.12.0",
     "pydantic>=2.10.0",
     "pydantic-settings>=2.7.0",
     "httpx>=0.28.0",
     "alembic>=1.14.0",
-    "pytest>=8.0.0",
-    "pytest-asyncio>=0.24.0",
     "prometheus-fastapi-instrumentator>=7.0.0",
     "ddgs>=9.14.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "bandit>=1.8.0",
+    "pip-audit>=2.7.0",
 ]
 
 [build-system]
@@ -36,3 +44,43 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["app"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+markers = [
+    "unit: 纯函数测试, 无外部依赖 (<1s)",
+    "integration: 需要 DB 或 LLM (>1s)",
+    "contract: API 契约测试, 验证 ApiResponse 信封一致性",
+    "e2e: 端到端测试, 完整用户路径 (需 DB)",
+    "slow: 耗时测试 (>5s)",
+]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "C901", "PLR0911", "PLR0912", "PLR0913", "PLR0915", "PLR2004"]
+ignore = ["E501"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 15
+
+[tool.ruff.lint.pylint]
+max-args = 5
+max-returns = 5
+max-branches = 12
+max-statements = 50
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B017", "PLR2004"]  # pytest.raises(Exception) + magic values in tests
+"app/services/agent.py" = ["PLR0912", "PLR0915", "C901"]  # God Function 待 P3 拆分
+"app/services/agent_nodes/*.py" = ["PLR0913"]  # LangGraph 节点签名固定
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+warn_unused_configs = true
+check_untyped_defs = false

@@ -243,7 +243,6 @@ async def extract_negation_slots(query: str) -> dict:
 
 def _keyword_extract_negation(query: str) -> dict:
     """关键词规则提取否定条件（回退） + 常见属性值映射"""
-    import re
     exclude_brands = []
     exclude_categories = []
     exclude_attributes = {}

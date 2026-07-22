@@ -19,6 +19,7 @@ import com.shopping.agent.ui.components.HistoryDrawer
 import com.shopping.agent.ui.components.MainBottomNavBar
 import com.shopping.agent.ui.components.bottomNavItems
 import com.shopping.agent.ui.screens.*
+import com.shopping.agent.ui.theme.LocalThemeState
 import com.shopping.agent.viewmodel.ChatViewModel
 import com.shopping.agent.viewmodel.ProductDetailViewModel
 
@@ -38,6 +39,7 @@ fun AppNavGraph(
     val isTabRoute = currentRoute in tabRoutes
 
     var drawerVisible by remember { mutableStateOf(false) }
+    val themeState = LocalThemeState.current
 
     val appViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
         "AppNavGraph requires a ViewModelStoreOwner"
@@ -122,7 +124,14 @@ fun AppNavGraph(
                     }
                     composable(Screen.Cart.route) {
                         CartScreen(
-                            onCheckout = { navController.navigate(Screen.Checkout.createRoute("cart")) }
+                            onCheckout = { navController.navigate(Screen.Checkout.createRoute("cart")) },
+                            onNavigateToHome = {
+                                navController.navigate("home") {
+                                    popUpTo("home") { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                         )
                     }
                     composable(
@@ -150,7 +159,7 @@ fun AppNavGraph(
                     ) { entry ->
                         OrderDetailScreen(
                             orderId = entry.arguments?.getString("orderId") ?: "",
-                            onBack = { navController.popBackStack("home", false) },
+                            onBack = { navController.popBackStack() },
                         )
                     }
                     composable("settings") {
@@ -195,7 +204,11 @@ fun AppNavGraph(
                                 scope.launch {
                                     try {
                                         kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                                            repo.clearAllLocalData()
                                             repo.deleteCredentials()
+                                            com.shopping.agent.data.local.AuthManager.clearToken(
+                                                com.shopping.agent.ShoppingApp.instance
+                                            )
                                         }
                                     } catch (_: Exception) {}
                                     navController.navigate("login") {
@@ -204,6 +217,8 @@ fun AppNavGraph(
                                     }
                                 }
                             },
+                            isDemoMode = themeState.isDemoMode.value,
+                            onDemoModeChange = { themeState.toggleDemoMode(it) },
                         )
                     }
                     composable("profile_edit") {

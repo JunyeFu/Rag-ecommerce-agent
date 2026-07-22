@@ -1,5 +1,5 @@
 """
-知识库入库 — 文档 → chunk → 向量化 → Qdrant
+知识库入库 — 文档 → chunk → 向量化 → PostgreSQL
 用法: python scripts/ingest_knowledge.py
 """
 import os, asyncio

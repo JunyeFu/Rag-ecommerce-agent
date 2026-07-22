@@ -164,7 +164,8 @@ private fun fetchOrderDetail(orderId: String): OrderDetail {
     NetworkConfig.httpClient.newCall(request).execute().use { response ->
         if (!response.isSuccessful) throw IllegalStateException("订单加载失败 ${response.code}")
         val json = JSONObject(response.body?.string().orEmpty())
-        val rawItems = json.optJSONArray("items") ?: org.json.JSONArray()
+        val data = json.optJSONObject("data") ?: JSONObject()
+        val rawItems = data.optJSONArray("items") ?: org.json.JSONArray()
         val lines = (0 until rawItems.length()).map { idx ->
             val item = rawItems.getJSONObject(idx)
             OrderLine(
@@ -175,11 +176,11 @@ private fun fetchOrderDetail(orderId: String): OrderDetail {
             )
         }
         return OrderDetail(
-            orderNo = json.optString("order_no"),
-            status = json.optString("status"),
-            total = json.optDouble("total"),
-            address = json.optString("address"),
-            createdAt = json.optString("created_at"),
+            orderNo = data.optString("order_no"),
+            status = data.optString("status"),
+            total = data.optDouble("total"),
+            address = data.optString("address"),
+            createdAt = data.optString("created_at"),
             items = lines,
         )
     }

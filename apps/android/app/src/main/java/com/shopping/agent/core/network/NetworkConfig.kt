@@ -1,6 +1,7 @@
 package com.shopping.agent.core.network
 
 import com.shopping.agent.BuildConfig
+import com.shopping.agent.data.remote.AuthInterceptor
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
@@ -14,8 +15,9 @@ import java.util.concurrent.TimeUnit
 object NetworkConfig {
     val BASE_URL: String = BuildConfig.API_BASE_URL
 
-    /** Shared OkHttpClient — single connection pool, reused across all consumers */
+    /** Shared OkHttpClient - single connection pool, reused across all consumers */
     val httpClient: OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(AuthInterceptor())
         .connectTimeout(10, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)

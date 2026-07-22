@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.integration
+
 """Natural-language cart helper tests."""
 
 import pytest
@@ -230,7 +233,7 @@ def test_cart_multi_backref_adds_explicit_ordinal_cards():
 
 
 @pytest.mark.asyncio
-async def test_cart_qdrant_fallback_accepts_sku_product_id(monkeypatch):
+async def test_cart_db_fallback_accepts_sku_product_id(monkeypatch):
     from app.services import rag
 
     async def fake_retrieve(**_kwargs):

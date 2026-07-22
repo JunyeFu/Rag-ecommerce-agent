@@ -1,4 +1,6 @@
-"""Voice recognition via Doubao multimodal chat with fallback transcription."""
+"""
+Voice recognition via LLM multimodal chat with fallback transcription.
+"""
 import base64
 import io
 import logging
@@ -19,10 +21,20 @@ def _audio_format(filename: str) -> str:
     return "m4a"
 
 
-async def _recognize_with_doubao(audio_bytes: bytes, filename: str) -> str:
+def _needs_thinking_disabled() -> bool:
+    base = (settings.DOUBAO_BASE_URL or settings.DEEPSEEK_BASE_URL or "").lower()
+    return "volces.com" in base or "xiaomimimo.com" in base
+
+
+async def _recognize_with_multimodal(audio_bytes: bytes, filename: str) -> str:
     client = create_llm_client(timeout=45.0)
     fmt = _audio_format(filename)
     encoded = base64.b64encode(audio_bytes).decode("ascii")
+
+    extra_kwargs = {}
+    if _needs_thinking_disabled():
+        extra_kwargs["extra_body"] = {"thinking": {"type": "disabled"}}
+
     response = await client.chat.completions.create(
         model=settings.LLM_MODEL,
         messages=[
@@ -40,7 +52,7 @@ async def _recognize_with_doubao(audio_bytes: bytes, filename: str) -> str:
         ],
         temperature=0,
         max_tokens=300,
-        extra_body={"thinking": {"type": "disabled"}},
+        **extra_kwargs,
     )
     return (response.choices[0].message.content or "").strip()
 
@@ -62,12 +74,12 @@ async def recognize_voice(audio_bytes: bytes, filename: str = "voice.m4a") -> di
 
     errors: list[str] = []
     try:
-        text = await _recognize_with_doubao(audio_bytes, filename)
+        text = await _recognize_with_multimodal(audio_bytes, filename)
         if text:
-            return {"text": text, "provider": "doubao_chat_input_audio"}
+            return {"text": text, "provider": "multimodal_llm"}
     except Exception as exc:
-        logger.warning("Doubao input_audio recognition failed: %s", exc)
-        errors.append(f"doubao: {str(exc)[:120]}")
+        logger.warning("Multimodal voice recognition failed: %s", exc)
+        errors.append(f"multimodal: {str(exc)[:120]}")
 
     try:
         text = await _recognize_with_whisper(audio_bytes, filename)

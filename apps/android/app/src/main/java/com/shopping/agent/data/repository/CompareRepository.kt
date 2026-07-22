@@ -1,14 +1,10 @@
 package com.shopping.agent.data.repository
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.shopping.agent.core.network.NetworkConfig
 import com.shopping.agent.data.model.Product
+import com.shopping.agent.data.remote.ApiClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -27,39 +23,30 @@ data class CompareResult(
 class CompareRepository(
     private val baseUrl: String = NetworkConfig.BASE_URL
 ) {
-    private val client = NetworkConfig.httpClient
-    private val gson = Gson()
-
     suspend fun fetchProducts(): List<Product>? = withContext(Dispatchers.IO) {
         try {
-            val request = Request.Builder()
-                .url("$baseUrl/api/v1/products?limit=100")
-                .get()
-                .build()
-            val response = client.newCall(request).execute()
-            if (response.isSuccessful) {
-                val json = response.body?.string() ?: return@withContext null
-                val arr = JSONArray(json)
-                val products = mutableListOf<Product>()
-                for (i in 0 until arr.length()) {
-                    val obj = arr.getJSONObject(i)
-                    products.add(Product(
-                        productId = obj.optString("product_id", ""),
-                        title = obj.optString("title", ""),
-                        brand = obj.optString("brand").takeIf { obj.has("brand") && !obj.isNull("brand") },
-                        category = obj.optString("category", ""),
-                        price = obj.optDouble("price", 0.0),
-                        rating = obj.optDouble("rating", 3.0).toFloat(),
-                        ratingCount = obj.optInt("rating_count", 0),
-                        imageUrl = NetworkConfig.resolveImageUrl(obj.optString("image_url").takeIf { obj.has("image_url") && !obj.isNull("image_url") }),
-                        imageUrls = listOf(),
-                        highlights = listOf(),
-                        attributes = mapOf(),
-                        source = obj.optString("source", ""),
-                    ))
-                }
-                products
-            } else null
+            val response = ApiClient.get("/products", mapOf("size" to "100"))
+            val data = response.optJSONObject("data") ?: return@withContext null
+            val items = data.optJSONArray("items") ?: return@withContext null
+            val products = mutableListOf<Product>()
+            for (i in 0 until items.length()) {
+                val obj = items.getJSONObject(i)
+                products.add(Product(
+                    productId = obj.optString("product_id", ""),
+                    title = obj.optString("title", ""),
+                    brand = obj.optString("brand").takeIf { obj.has("brand") && !obj.isNull("brand") },
+                    category = obj.optString("category", ""),
+                    price = obj.optDouble("price", 0.0),
+                    rating = obj.optDouble("rating", 3.0).toFloat(),
+                    ratingCount = obj.optInt("rating_count", 0),
+                    imageUrl = NetworkConfig.resolveImageUrl(obj.optString("image_url").takeIf { obj.has("image_url") && !obj.isNull("image_url") }),
+                    imageUrls = listOf(),
+                    highlights = listOf(),
+                    attributes = mapOf(),
+                    source = obj.optString("source", ""),
+                ))
+            }
+            products
         } catch (e: Exception) {
             null
         }
@@ -69,39 +56,30 @@ class CompareRepository(
         try {
             val body = JSONObject().apply {
                 put("product_ids", JSONArray(productIds))
-                put("dimensions", JSONArray())
             }
 
-            val request = Request.Builder()
-                .url("$baseUrl/api/v1/products/compare")
-                .post(body.toString().toRequestBody("application/json".toMediaType()))
-                .build()
-
-            val response = client.newCall(request).execute()
-            if (response.isSuccessful) {
-                val json = response.body?.string() ?: return@withContext null
-                val obj = JSONObject(json)
-                val dimsArray = obj.optJSONArray("dimensions") ?: JSONArray()
-                val dimensions = mutableListOf<CompareDimension>()
-                for (i in 0 until dimsArray.length()) {
-                    val d = dimsArray.getJSONObject(i)
-                    val valuesObj = d.optJSONObject("values") ?: JSONObject()
-                    val values = mutableMapOf<String, String>()
-                    for (key in valuesObj.keys()) {
-                        values[key] = valuesObj.optString(key, "")
-                    }
-                    dimensions.add(CompareDimension(
-                        name = d.optString("name", ""),
-                        values = values,
-                        winner = d.optString("winner").takeIf { d.has("winner") && !d.isNull("winner") },
-                    ))
+            val response = ApiClient.post("/products/compare", body.toString())
+            val data = response.optJSONObject("data") ?: return@withContext null
+            val dimsArray = data.optJSONArray("dimensions") ?: JSONArray()
+            val dimensions = mutableListOf<CompareDimension>()
+            for (i in 0 until dimsArray.length()) {
+                val d = dimsArray.getJSONObject(i)
+                val valuesObj = d.optJSONObject("values") ?: JSONObject()
+                val values = mutableMapOf<String, String>()
+                for (key in valuesObj.keys()) {
+                    values[key] = valuesObj.optString(key, "")
                 }
-                CompareResult(
-                    dimensions = dimensions,
-                    summary = obj.optString("summary", ""),
-                    productIds = productIds,
-                )
-            } else null
+                dimensions.add(CompareDimension(
+                    name = d.optString("name", ""),
+                    values = values,
+                    winner = d.optString("winner").takeIf { d.has("winner") && !d.isNull("winner") },
+                ))
+            }
+            CompareResult(
+                dimensions = dimensions,
+                summary = data.optString("summary", ""),
+                productIds = productIds,
+            )
         } catch (e: Exception) {
             null
         }

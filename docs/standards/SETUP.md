@@ -1,5 +1,7 @@
 # 从零开始运行项目 — 完整指南
 
+> **⚠️ 辅助文档** - 开发权威入口为 [`DEV-CONTROL.md`](../DEV-CONTROL.md)，如有冲突以权威文档为准。
+>
 > 目标：从 `git clone` 到后端跑通 + Android 编译成功，覆盖所有必需步骤。
 
 ---
@@ -35,14 +37,14 @@ cd rag-ecommerce-agent
 cp apps/backend/.env.example apps/backend/.env
 
 # 2. 编辑 .env，填入真实 API Key（至少填一个 LLM Key）
-# API Key 由比赛主办方提供，请联系主办方获取。
+# API Key 由项目自行配置，参考 .env.example 中的说明。
 # 编辑器打开 apps/backend/.env，修改以下两行：
 #
-#   DOUBAO_API_KEY=ark-xxxxxx     ← 比赛提供的豆包 Key
+#   DOUBAO_API_KEY=ark-xxxxxx     ← 豆包 Key
 #   DEEPSEEK_API_KEY=sk-xxxxxx    ← 或者用 DeepSeek Key
 ```
 
-`.env.example` 中的其他配置项（数据库地址、Qdrant 地址、模型名）均已有合理默认值，本地开发无需修改。
+`.env.example` 中的其他配置项（数据库地址、模型名）均已有合理默认值，本地开发无需修改。
 
 ---
 
@@ -66,7 +68,7 @@ pip install -r requirements.txt
 验证依赖安装成功：
 
 ```bash
-python -c "import fastapi, sentence_transformers, qdrant_client, langgraph; print('All OK')"
+python -c "import fastapi, sentence_transformers, sqlalchemy, langgraph; print('All OK')"
 ```
 
 ---
@@ -115,23 +117,20 @@ print('Both models ready')
 # 回到项目根目录
 cd ../..  # 回到 rag-ecommerce-agent/
 
-# 仅启动 PostgreSQL + Qdrant（backend 手动启动以方便调试）
-docker compose -f infrastructure/docker-compose.yml up -d postgres qdrant
+# 仅启动 PostgreSQL（backend 手动启动以方便调试）
+docker compose -f infrastructure/docker-compose.yml up -d postgres
 
 # 等待容器就绪（约 10-15 秒）
 docker compose -f infrastructure/docker-compose.yml ps
 ```
 
-预期看到 2 个容器 running：`shopping-pg`、`shopping-qdrant`。
+预期看到 1 个容器 running：`shopping-pg`。
 
 验证基础设施：
 
 ```bash
 # PostgreSQL 连接测试
 docker exec shopping-pg pg_isready -U shopping -d shopping_agent
-
-# Qdrant 健康检查
-curl http://localhost:6333/healthz
 ```
 
 ---
@@ -142,7 +141,7 @@ curl http://localhost:6333/healthz
 cd apps/backend
 
 # 执行入库（首次约 30 秒，含 embedding 编码）
-python -c "from app.startup import ensure_qdrant_data; import asyncio; asyncio.run(ensure_qdrant_data())"
+python -c "from app.startup import ensure_pgvector_data; import asyncio; asyncio.run(ensure_pgvector_data())"
 ```
 
 预期输出：
@@ -150,17 +149,17 @@ python -c "from app.startup import ensure_qdrant_data; import asyncio; asyncio.r
 ```
 Loading embedding model: BAAI/bge-large-zh-v1.5
 Embedding model ready, dim=1024
-Creating collection: products 1024-dim
-Upserting 190 products with reviews...
-Done: 190 vectors ingested
+Creating table: products 1024-dim
+Upserting 287 products with reviews...
+Done: 287 vectors ingested
 ```
 
 验证入库成功：
 
 ```bash
-# 直接查询 Qdrant 向量数
-curl -s http://localhost:6333/collections/products | python -c "import sys,json; d=json.load(sys.stdin); print(f'Points: {d[\"result\"][\"points_count\"]}')"
-# 预期输出：Points: 190
+# 直接查询 pgvector 向量数
+docker exec shopping-pg psql -U shopping -d shopping_agent -c "SELECT COUNT(*) FROM products;"
+# 预期输出：287
 ```
 
 ---
@@ -252,11 +251,11 @@ netstat -ano | findstr :5432
 Stop-Service postgresql* -Force
 ```
 
-### Q2: Qdrant 连接失败
+### Q2: pgvector 扩展未安装
 
 ```bash
-docker logs shopping-qdrant
-# 确保容器正在运行且端口 6333 可访问
+docker exec shopping-pg psql -U shopping -d shopping_agent -c "CREATE EXTENSION IF NOT EXISTS vector;"
+# 确保 PostgreSQL 容器正在运行且端口 5433 可访问
 ```
 
 ### Q3: 入库脚本报 "model not found"

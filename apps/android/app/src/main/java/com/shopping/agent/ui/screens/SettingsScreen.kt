@@ -31,6 +31,8 @@ fun SettingsScreen(
     onNavigateToCountryRegion: () -> Unit = {},
     onSwitchAccount: () -> Unit = {},
     onLogout: () -> Unit = {},
+    isDemoMode: Boolean = false,
+    onDemoModeChange: (Boolean) -> Unit = {},
 ) {
     Column(
         modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
@@ -63,8 +65,6 @@ fun SettingsScreen(
             SettingsSectionCard("账号与安全") {
                 SettingsRow(Icons.Default.Person, "个人信息", onClick = onNavigateToProfileEdit)
                 SettingsDivider()
-                SettingsRow(Icons.Default.Lock, "账号与安全", onClick = {})
-                SettingsDivider()
                 SettingsRow(Icons.Default.LocationOn, "收货地址", onClick = onNavigateToShippingAddress)
                 SettingsDivider()
                 SettingsRow(Icons.Default.AccountBalanceWallet, "支付设置", onClick = onNavigateToPaymentSettings)
@@ -74,12 +74,6 @@ fun SettingsScreen(
 
             // 分组2: 功能
             SettingsSectionCard("功能") {
-                SettingsRow(Icons.Default.Settings, "通用设置", onClick = {})
-                SettingsDivider()
-                SettingsRow(Icons.Default.Notifications, "消息通知", onClick = {})
-                SettingsDivider()
-                SettingsRow(Icons.Default.PrivacyTip, "隐私设置", onClick = {})
-                SettingsDivider()
                 SettingsRow(Icons.Default.DarkMode, "深色模式", onClick = {}, trailing = {
                     val themeState = LocalThemeState.current
                     Switch(
@@ -88,16 +82,12 @@ fun SettingsScreen(
                     )
                 })
                 SettingsDivider()
-                SettingsRow(Icons.Default.Palette, "个性皮肤", "默认", onClick = {})
-            }
-
-            // 分组3: 关于
-            SettingsSectionCard("关于") {
-                SettingsRow(Icons.Default.Store, "商家入驻", onClick = {})
-                SettingsDivider()
-                SettingsRow(Icons.AutoMirrored.Filled.Help, "帮助与反馈", onClick = {})
-                SettingsDivider()
-                SettingsRow(Icons.Default.Info, "关于拾物", "v1.0.0 有新版本", valueColor = Warning, onClick = {})
+                SettingsRow(Icons.Default.Science, "演示模式", onClick = {}, trailing = {
+                    Switch(
+                        checked = isDemoMode,
+                        onCheckedChange = onDemoModeChange
+                    )
+                })
             }
 
             Spacer(Modifier.height(8.dp))

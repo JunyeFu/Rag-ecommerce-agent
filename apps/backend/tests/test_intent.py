@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.unit
+
 """
 Intent classifier tests — 测试纯函数：_clean_json, _keyword_classify, _keyword_extract_negation
 """

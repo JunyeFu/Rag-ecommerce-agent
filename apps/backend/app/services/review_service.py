@@ -95,7 +95,7 @@ async def get_review(db: AsyncSession, review_id: str) -> Optional[Review]:
     """按 ID 查询评价"""
     try:
         uid = uuid.UUID(review_id)
-    except (ValueError, AttributeError):
+    except (ValueError, AttributeError, TypeError):
         return None
     result = await db.execute(select(Review).where(Review.id == uid))
     return result.scalar_one_or_none()

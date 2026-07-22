@@ -1,5 +1,9 @@
 """
-P@3 Retrieval Precision Test — post UUID5 fix verification
+P@3 Retrieval Precision Test - post UUID5 fix verification
+
+⚠️  DEPRECATED: This script was written for the Qdrant era and has not been
+    updated for the pgvector migration. It will not work as-is. To run P@3
+    evaluation, use the /api/v1/evaluation endpoint instead.
 
 Directly queries Qdrant with embedded test queries, computes Precision@3
 against ground truth product IDs. Does NOT require the backend server.
@@ -64,8 +68,8 @@ def search_qdrant_hits(model, query: str, top_k: int = 10) -> list[dict]:
     return resp.json()["result"]
 
 
-def search_qdrant(model, query: str, top_k: int = 10, with_reranker: bool = False) -> list[str]:
-    """Embed query and search Qdrant, optionally rerank top-10 before P@3."""
+def search_qdrant(model, query: str, top_k: int = 10, with_reranker: bool = True, hybrid: bool = False) -> list[str]:
+    """Embed query and search Qdrant, optionally rerank + hybrid before P@3."""
     hits = search_qdrant_hits(model, query, top_k=top_k)
     if with_reranker and hits:
         from app.services.reranker import rerank
@@ -196,7 +200,7 @@ def compute_precision_at_k(retrieved: list[str], ground_truth: list[str], k: int
     ret = retrieved[:k]
     if not ret:
         return 0.0
-    return len(set(ret) & gt_set) / min(len(ret), k)
+    return len(set(ret) & gt_set) / k
 
 
 def compute_recall_at_k(retrieved: list[str], ground_truth: list[str], k: int = 3) -> float:
@@ -230,7 +234,7 @@ def update_eval_cases_ground_truth(cat_map: dict[str, list]):
     return cases
 
 
-def main(limit: int = 0, update_gt: bool = False, with_reranker: bool = False):
+def main(limit: int = 0, update_gt: bool = False, with_reranker: bool = True, hybrid: bool = False):
     print("=" * 60)
     print("P@3 Retrieval Precision Test")
     print("=" * 60)
@@ -286,7 +290,7 @@ def main(limit: int = 0, update_gt: bool = False, with_reranker: bool = False):
         gt_ids = case.get("ground_truth_product_ids", [])
 
         t0 = time.time()
-        retrieved = search_qdrant(model, query, top_k=10, with_reranker=with_reranker)
+        retrieved = search_qdrant(model, query, top_k=10, with_reranker=with_reranker, hybrid=hybrid)
         latency = (time.time() - t0) * 1000
 
         p3 = compute_precision_at_k(retrieved, gt_ids, k=3)
@@ -393,7 +397,11 @@ if __name__ == "__main__":
     parser.add_argument("--limit", type=int, default=0, help="Limit number of cases")
     parser.add_argument("--update-ground-truth", action="store_true",
                         help="Auto-generate ground truth from product data")
-    parser.add_argument("--with-reranker", action="store_true",
-                        help="Apply app.services.reranker to the top-10 hits before scoring")
+    parser.add_argument("--with-reranker", action="store_true", default=True,
+                        help="Apply app.services.reranker to the top-K hits before scoring (default: on)")
+    parser.add_argument("--no-reranker", action="store_false", dest="with_reranker",
+                        help="Disable reranker (raw vector retrieval only)")
+    parser.add_argument("--hybrid", action="store_true",
+                        help="Enable hybrid search (dense + text RRF fusion)")
     args = parser.parse_args()
-    main(limit=args.limit, update_gt=args.update_ground_truth, with_reranker=args.with_reranker)
+    main(limit=args.limit, update_gt=args.update_ground_truth, with_reranker=args.with_reranker, hybrid=args.hybrid)

@@ -8,17 +8,18 @@ if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 import logging
+import time
 from contextlib import asynccontextmanager
 
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 
-from app.api import chat, products, upload, evaluation, feedback, compare, knowledge, cart, order, favorites, footprints, user, review, voice
+from app.api import chat, products, upload, evaluation, feedback, compare, knowledge, cart, order, favorites, footprints, user, review, voice, auth
 from app.core.config import settings
 from app.core.database import engine, Base
 
@@ -45,43 +46,40 @@ async def lifespan(app: FastAPI):
         logger.info("HF_ENDPOINT=%s", settings.HF_ENDPOINT)
 
     if settings.DATABASE_URL:
+        from alembic.config import Config as AlembicConfig
+        from alembic import command as alembic_command
+
+        backend_dir = Path(__file__).resolve().parents[1]
+        alembic_cfg = AlembicConfig(str(backend_dir / "alembic.ini"))
+        alembic_cfg.set_main_option(
+            "script_location", str(backend_dir / "alembic")
+        )
         try:
-            async with engine.begin() as conn:
-                await conn.run_sync(Base.metadata.create_all)
-                # 迁移：为已有 cart_items 表添加 user_id 列（v1→v2）
-                try:
-                    await conn.execute(text(
-                        "ALTER TABLE cart_items ADD COLUMN IF NOT EXISTS user_id VARCHAR(64)"
-                    ))
-                    await conn.execute(text(
-                        "CREATE INDEX IF NOT EXISTS ix_cart_items_user_id ON cart_items(user_id)"
-                    ))
-                    await conn.execute(text(
-                        "ALTER TABLE messages ADD COLUMN IF NOT EXISTS audio_data BYTEA"
-                    ))
-                except Exception:
-                    pass  # 列/索引已存在或数据库不支持 IF NOT EXISTS
-            logger.info("数据库表创建/验证完成")
+            await asyncio.to_thread(alembic_command.upgrade, alembic_cfg, "head")
+            logger.info("Alembic 迁移完成")
             _startup._state.db_done = True
         except Exception as exc:
-            logger.warning("数据库初始化失败（降级运行，购物车/多轮历史暂不可用）: %s", exc)
-            # 不 raise — 允许应用在无数据库模式下运行
+            logger.error("数据库迁移失败，拒绝启动: %s", exc)
+            raise
     else:
         logger.info("DATABASE_URL 未配置，跳过数据库初始化（内存模式）")
 
-    # 预热 Reranker 模型（同步，阻塞启动直到就绪）
-    _startup._state.phase = "warming_reranker"
+    # 并行预热 Reranker + Embedding 模型
+    _startup._state.phase = "warming_models"
     try:
-        from app.services.reranker import _get_model
-        import asyncio as _asyncio
-        await _asyncio.to_thread(_get_model)
-        logger.info("Reranker model warmed up")
+        from app.services.reranker import _get_model as _load_reranker
+        from app.services.embedding import get_embedding_model as _load_embedding
+        await asyncio.gather(
+            asyncio.to_thread(_load_reranker),
+            asyncio.to_thread(_load_embedding),
+        )
+        logger.info("Reranker + Embedding models warmed up in parallel")
         _startup._state.reranker_warm = True
     except Exception as e:
-        logger.warning("Reranker warmup skipped: %s", e)
+        logger.warning("Model warmup skipped: %s", e)
 
-    # 自动数据入库 — 确保 Qdrant 有商品向量（幂等）
-    await _startup.ensure_qdrant_data()
+    # 自动数据入库 — 确保 PostgreSQL 有商品向量（幂等）
+    await _startup.ensure_pgvector_data()
 
     # 清空旧缓存 — 确保 top_k 等参数变更后不返回过期数据
     from app.services import cache
@@ -96,6 +94,15 @@ async def lifespan(app: FastAPI):
         logger.info("数据库连接已关闭")
     except Exception as exc:
         logger.error("数据库关闭异常: %s", exc)
+    try:
+        from app.services.llm_client import _client, _fast_client
+        if _client:
+            await _client.close()
+        if _fast_client:
+            await _fast_client.close()
+        logger.info("LLM HTTP clients closed")
+    except Exception as exc:
+        logger.error("LLM client cleanup error: %s", exc)
 
 
 # ── FastAPI app ───────────────────────────────────────────
@@ -111,7 +118,7 @@ app = FastAPI(
 - **流式响应**: SSE (Server-Sent Events) 实时推送
 
 ## 技术栈
-FastAPI + LangGraph + Qdrant + Doubao-Seed-2.0 + BGE-large-v1.5""",
+FastAPI + LangGraph + pgvector + Doubao-Seed-2.0 + BGE-large-v1.5""",
     version="1.0.0",
     lifespan=lifespan,
     docs_url="/docs",
@@ -126,6 +133,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# 请求追踪中间件
+from app.core.middleware import RequestIDMiddleware, AuthMiddleware, RateLimitMiddleware
+app.add_middleware(RequestIDMiddleware)
+app.add_middleware(AuthMiddleware)
+app.add_middleware(RateLimitMiddleware)
 
 # Prometheus metrics — 所有 HTTP 请求的延迟/计数/错误率
 try:
@@ -153,11 +166,21 @@ async def app_exception_handler(request: Request, exc: AppException):
         ).model_dump(),
     )
 
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    """将 HTTPException 统一转换为 ApiResponse 格式"""
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=ApiResponse(
+            code=exc.status_code * 10,
+            message=str(exc.detail) if not isinstance(exc.detail, dict) else exc.detail.get("message", str(exc.detail)),
+            data=None,
+        ).model_dump(),
+    )
+
 @app.exception_handler(Exception)
 async def unhandled_exception_handler(request: Request, exc: Exception):
     """兜底异常处理器 — 不暴露堆栈，记录请求上下文"""
-    import logging
-    logger = logging.getLogger("main")
     logger.error(
         "Unhandled exception: %s %s [client=%s] — %s",
         request.method, request.url.path, request.client.host if request.client else "?",
@@ -173,15 +196,15 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
 @app.middleware("http")
 async def request_timing_middleware(request: Request, call_next):
     """记录每个请求的耗时，慢查询警告"""
-    import time as _time
-    t0 = _time.monotonic()
+    t0 = time.monotonic()
     response = await call_next(request)
-    elapsed_ms = (_time.monotonic() - t0) * 1000
+    elapsed_ms = (time.monotonic() - t0) * 1000
     if elapsed_ms > 3000:
         logger.warning("Slow request: %s %s — %.0fms", request.method, request.url.path, elapsed_ms)
     return response
 
 for prefix in ["/api/v1"]:
+    app.include_router(auth.router, prefix=prefix, tags=["auth"])
     app.include_router(chat.router, prefix=prefix, tags=["chat"])
     app.include_router(products.router, prefix=prefix, tags=["products"])
     app.include_router(upload.router, prefix=prefix, tags=["upload"])
@@ -213,7 +236,10 @@ if IMAGES_DIR.exists():
         """
         from fastapi.responses import FileResponse
 
-        image_file = IMAGES_DIR / file_path
+        image_file = (IMAGES_DIR / file_path).resolve()
+        if not str(image_file).startswith(str(IMAGES_DIR.resolve())):
+            from fastapi import HTTPException
+            raise HTTPException(status_code=403, detail="Forbidden")
         if not image_file.exists() or not image_file.is_file():
             from fastapi import HTTPException
             raise HTTPException(status_code=404, detail="Image not found")
@@ -226,41 +252,31 @@ if IMAGES_DIR.exists():
 # ── 健康检查 ──────────────────────────────────────────────
 @app.get("/health")
 async def health():
-    """健康检查：验证应用 + 数据库 + Qdrant 连通性"""
-    import httpx
-    
+    """健康检查：验证应用 + 数据库 + pgvector 连通性"""
     db_status = "connected"
+    pgvector_status = "unknown"
+    embedding_count = 0
     try:
-        async with engine.connect() as conn:
-            await conn.execute(text("SELECT 1"))
-    except Exception:
-        db_status = "unavailable"
-    
-    # Qdrant 连通性检查
-    qdrant_status = "unknown"
-    collection_name = ""
-    vector_size = 0
-    try:
-        async with httpx.AsyncClient(timeout=3.0) as client:
-            r = await client.get(f"{settings.QDRANT_URL}/collections/{settings.QDRANT_COLLECTION}")
-            if r.status_code == 200:
-                data = r.json()
-                qdrant_status = "ok"
-                collection_name = settings.QDRANT_COLLECTION
-                vector_size = data.get("result", {}).get("config", {}).get("params", {}).get("vectors", {}).get("size", 0)
-            else:
-                qdrant_status = f"error: HTTP {r.status_code}"
+        if engine is None:
+            db_status = "not_configured"
+            pgvector_status = "not_configured"
+        else:
+            async with engine.connect() as conn:
+                await conn.execute(text("SELECT 1"))
+                result = await conn.execute(text("SELECT COUNT(*) FROM products WHERE embedding IS NOT NULL"))
+                embedding_count = result.scalar()
+                pgvector_status = "ok"
     except Exception as e:
-        qdrant_status = f"unavailable: {str(e)[:50]}"
-    
-    healthy = db_status == "connected"
+        db_status = "unavailable"
+        pgvector_status = f"unavailable: {str(e)[:50]}"
+
+    healthy = db_status == "connected" and pgvector_status == "ok"
     return JSONResponse(status_code=200 if healthy else 503, content={
         "status": "ok" if healthy else "degraded",
         "version": "1.0.0",
         "database": db_status,
-        "qdrant": qdrant_status,
-        "collection": collection_name,
-        "vector_size": vector_size,
+        "pgvector": pgvector_status,
+        "embedding_count": embedding_count,
     })
 
 
@@ -300,8 +316,8 @@ async def ready():
         "status": state["phase"],
         "progress": {
             "database": state["db_done"],
-            "qdrant_collection_exists": state["collection_exists"],
-            "qdrant_item_count": state["item_count"],
+            "pgvector_ready": state["collection_exists"],
+            "embedding_count": state["item_count"],
             "reranker_warm": state["reranker_warm"],
             "model_source": state.get("model_source", ""),
             "model_download_pct": state.get("model_download_pct", 0),

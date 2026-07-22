@@ -1,6 +1,8 @@
 # 拾物 RAG-Commerce 统一数据契约 v1.0
 
-> 本文档定义全栈唯一权威数据格式。所有后端 API、SSE 事件、Qdrant 存储、
+> **⚠️ 辅助文档** - 开发权威入口为 [`DEV-CONTROL.md`](../DEV-CONTROL.md)，如有冲突以权威文档为准。
+>
+> 本文档定义全栈唯一权威数据格式。所有后端 API、SSE 事件、pgvector 存储、
 > 前端模型、Mock 数据必须遵守此契约。任何偏离均为 Bug。
 
 ---
@@ -129,31 +131,31 @@ data class Product(
 
 ---
 
-## 3. Qdrant 存储格式
+## 3. pgvector 存储格式
 
-### 3.1 Collection: products
+### 3.1 Table: products
 
 ```
 维度: 1024 (BAAI/bge-large-zh-v1.5)
 向量字段: vector
-Payload: ProductRecord 的全部字段（1.1）
+Row fields: ProductRecord 的全部字段（1.1）
 ```
 
 ### 3.2 索引
 
 ```
-payload index: category, brand, price
+column index: category, brand, price
 ```
 
 ### 3.3 摄入流程
 
 ```
-seed_products.json → ProductRecord → embed(title) → Qdrant.upsert
+seed_products.json → ProductRecord → embed(title) → pgvector upsert
 ```
 
-Point ID 使用 `uuid.uuid5(namespace, product_id)` 确定性生成，避免 md5 hash 碰撞。
+主键使用 `uuid.uuid5(namespace, product_id)` 确定性生成，避免 md5 hash 碰撞。
 
-种子数据文件 (`data/qdrant/seed_products.json`) 必须使用 ProductRecord 格式。
+种子数据文件 (`data/seed_products.json`) 必须使用 ProductRecord 格式。
 
 ---
 
@@ -165,7 +167,7 @@ Point ID 使用 `uuid.uuid5(namespace, product_id)` 确定性生成，避免 md5
 {
     "code": 200,
     "items": [ /* ProductRecord[] */ ],
-    "total": 190,
+    "total": 287,
     "page": 1,
     "size": 20
 }
@@ -197,9 +199,9 @@ Point ID 使用 `uuid.uuid5(namespace, product_id)` 确定性生成，避免 md5
 
 ```
 seed_products.json (ProductRecord)
-  ↓ embed → Qdrant
+  ↓ embed → pgvector
   ↓ retriever.hybrid_search()
-retriever result: {"id": str, "score": float, "payload": ProductRecord}
+retriever result: {"id": str, "score": float, "row": ProductRecord}
   ↓ agent.py node_retrieve → raw_products
 raw_products: ProductRecord + {"semantic_score": float}
   ↓ product_ranker.rank()
@@ -223,7 +225,7 @@ Product (Kotlin)
 ### 6.1 品类规范（94 个细分类，不再分大类）
 
 > 实际种子数据包含 94 个 distinct category 值（如 T恤、手机、耳机、跑鞋、精华液等），
-> 通过 `category_mapping.json` 映射到展示大类。详见 `apps/backend/data/qdrant/seed_products.json`。
+> 通过 `category_mapping.json` 映射到展示大类。详见 `apps/backend/data/seed_products.json`。
 
 旧 `"Electronics/Headphones"` 格式废弃，全改为 `"耳机"`。
 
@@ -232,11 +234,11 @@ Product (Kotlin)
 ## 7. 迁移检查清单
 
 - [x] seed_products.json → 改为 ProductRecord 格式 + 新品类名
-- [x] Qdrant 重建 collection + 重新摄入
+- [x] pgvector 重建 table + 重新摄入
 - [x] ProductSchema (Pydantic) → 对齐 ProductRecord 字段
 - [x] ProductCardEvent (SSE) → 补全 image_urls, brand, category
 - [x] agent.py raw_products/cards → 统一用 ProductRecord 字段
-- [x] retriever.py payload 读取 → 字段名对齐
+- [x] retriever.py row fields 读取 → 字段名对齐
 - [x] product_ranker.py → 输入输出字段对齐 ProductRecord
 - [x] product_service.py → 返回 ProductRecord
 - [x] Product.kt → 重写对齐 ProductRecord

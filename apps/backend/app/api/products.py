@@ -47,7 +47,7 @@ async def list_products(
     ]
     return ApiResponse(
         data=PaginatedResponse(items=items, total=total, page=page, size=size)
-    ).model_dump()
+    )
 
 
 @router.get("/products/{product_id}")
@@ -59,7 +59,7 @@ async def get_product_detail(
     product = await get_product_by_id(db, product_id)
     if not product:
         raise NotFoundError(message=f"商品不存在: {product_id}")
-    return ApiResponse(data=ProductRead.model_validate(product).model_dump(mode="json")).model_dump()
+    return ApiResponse(data=ProductRead.model_validate(product).model_dump(mode="json"))
 
 
 @router.post("/products", status_code=201)
@@ -69,7 +69,7 @@ async def create_product_endpoint(
 ):
     """创建商品"""
     product = await create_product(db, body.model_dump())
-    return ApiResponse(data=ProductRead.model_validate(product).model_dump(mode="json")).model_dump()
+    return ApiResponse(data=ProductRead.model_validate(product).model_dump(mode="json"))
 
 
 @router.put("/products/{product_id}")
@@ -82,7 +82,7 @@ async def update_product_endpoint(
     product = await update_product(db, product_id, body.model_dump(exclude_none=True))
     if not product:
         raise NotFoundError(message=f"商品不存在: {product_id}")
-    return ApiResponse(data=ProductRead.model_validate(product).model_dump(mode="json")).model_dump()
+    return ApiResponse(data=ProductRead.model_validate(product).model_dump(mode="json"))
 
 
 @router.delete("/products/{product_id}")
@@ -94,4 +94,4 @@ async def delete_product_endpoint(
     success = await delete_product(db, product_id)
     if not success:
         raise NotFoundError(message=f"商品不存在: {product_id}")
-    return ApiResponse(data={"deleted": str(product_id)}).model_dump()
+    return ApiResponse(data={"deleted": str(product_id)})

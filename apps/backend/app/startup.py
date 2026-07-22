@@ -1,8 +1,8 @@
 """
-First-run auto-import: ensures Qdrant has product vectors before the app serves traffic.
+First-run auto-import: ensures PostgreSQL products table has embeddings before serving traffic.
 Also seeds PostgreSQL products table for REST API queries.
 
-Idempotent — skips if collection/table already contains data. Designed for one-click deploy.
+Idempotent - skips if table already contains embeddings. Designed for one-click deploy.
 """
 import json
 import logging
@@ -11,12 +11,9 @@ import uuid
 from dataclasses import dataclass
 from pathlib import Path
 
-import httpx
 from huggingface_hub import scan_cache_dir, snapshot_download
-from qdrant_client import QdrantClient
-from qdrant_client.http import models as qdrant_models
 from sentence_transformers import SentenceTransformer
-from sqlalchemy import select, func
+from sqlalchemy import select, func, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
@@ -25,13 +22,13 @@ from app.models.product import Product
 
 logger = logging.getLogger("startup")
 
-QDRANT_NAMESPACE = uuid.UUID("6ba7b810-9dad-11d1-80b4-00c04fd430c8")
 APP_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DATA_DIR_CANDIDATES = [
+    APP_ROOT / "data" / "products",
     APP_ROOT / "data" / "qdrant",
-    REPO_ROOT / "data" / "qdrant",
-    REPO_ROOT / "apps" / "data" / "qdrant",
+    REPO_ROOT / "data" / "products",
+    REPO_ROOT / "apps" / "data" / "products",
 ]
 JSONL_PATH = next(
     (
@@ -41,20 +38,18 @@ JSONL_PATH = next(
     ),
     DATA_DIR_CANDIDATES[0] / "products_expanded_100.jsonl",
 )
-MAX_RETRIES = 20
-RETRY_INTERVAL_S = 6
 
 
 @dataclass
 class StartupState:
-    phase: str = "initializing"  # initializing | downloading_model | seeding | warming_reranker | ready
+    phase: str = "initializing"
     db_done: bool = False
     collection_exists: bool = False
     item_count: int = 0
     reranker_warm: bool = False
     message: str = ""
-    model_source: str = ""  # "local" | "cache" | "download"
-    model_download_pct: int = 0  # 0-100 progress during download
+    model_source: str = ""
+    model_download_pct: int = 0
 
 
 _state = StartupState()
@@ -74,7 +69,7 @@ def get_startup_state() -> dict:
 
 
 def _product_id_to_uuid(product_id: str) -> str:
-    return str(uuid.uuid5(QDRANT_NAMESPACE, product_id))
+    return str(uuid.uuid5(uuid.UUID("6ba7b810-9dad-11d1-80b4-00c04fd430c8"), product_id))
 
 
 def _build_doc_text(prod: dict) -> str:
@@ -97,40 +92,6 @@ def _build_doc_text(prod: dict) -> str:
     )
 
 
-def _build_payload(prod: dict) -> dict:
-    return {
-        "product_id": prod["product_id"],
-        "title": prod["title"],
-        "category": prod["category"],
-        "brand": prod.get("brand", ""),
-        "price": prod.get("price", 0),
-        "rating": prod.get("rating", 3.0),
-        "rating_count": prod.get("rating_count", 0),
-        "attributes": prod.get("attributes", {}),
-        "highlights": prod.get("highlights", []),
-        "scenarios": prod.get("scenarios", []),
-        "image_url": prod.get("image_url") or (prod.get("image_urls", [None]) or [None])[0],
-        "image_urls": prod.get("image_urls", []),
-        "source": prod.get("source", ""),
-    }
-
-
-async def _wait_for_qdrant() -> bool:
-    """Wait until Qdrant health check passes or retries exhausted."""
-    import asyncio
-    for i in range(MAX_RETRIES):
-        try:
-            r = httpx.get(f"{settings.QDRANT_URL}/healthz", timeout=5.0)
-            if r.status_code == 200:
-                logger.info("Qdrant reachable after %d retry(s)", i)
-                return True
-        except Exception:
-            pass
-        logger.debug("Waiting for Qdrant... (%d/%d)", i + 1, MAX_RETRIES)
-        await asyncio.sleep(RETRY_INTERVAL_S)
-    return False
-
-
 def _load_products() -> list[dict]:
     """Load product records from the JSONL data file."""
     products = []
@@ -143,16 +104,12 @@ def _load_products() -> list[dict]:
 
 
 def _check_local_model(model_path: str) -> bool:
-    """Check if a local directory contains a valid SentenceTransformer model.
-
-    A valid model must have config.json AND at least one model weight file.
-    """
+    """Check if a local directory contains a valid SentenceTransformer model."""
     if not os.path.isdir(model_path):
         return False
     config = os.path.isfile(os.path.join(model_path, "config.json"))
     if not config:
         return False
-    # Check for model weights: pytorch_model.bin or model.safetensors or 1_Pooling/
     weight_files = [
         f for f in os.listdir(model_path)
         if os.path.isfile(os.path.join(model_path, f))
@@ -161,7 +118,6 @@ def _check_local_model(model_path: str) -> bool:
     ]
     if weight_files:
         return True
-    # SentenceTransformer models may store weights in subdirectories (e.g. 1_Pooling/)
     for entry in os.listdir(model_path):
         subdir = os.path.join(model_path, entry)
         if os.path.isdir(subdir) and os.path.isfile(os.path.join(subdir, "config.json")):
@@ -175,8 +131,6 @@ def _check_complete_cache(repo_id: str) -> bool:
         hf_cache = scan_cache_dir()
         for repo in hf_cache.repos:
             if repo.repo_id == repo_id and repo.size_on_disk > 0:
-                # Check the repo has at least the model weight files (>1MB total)
-                # This distinguishes complete from partially downloaded
                 return repo.size_on_disk > 1_000_000
         return False
     except Exception:
@@ -184,30 +138,22 @@ def _check_complete_cache(repo_id: str) -> bool:
 
 
 def _ensure_model_available():
-    """Resolve embedding model: local > cached > download with resume.
-
-    Uses settings.EMBEDDING_MODEL (resolved by config.py) to determine
-    the model path/repo. Returns the path/name to pass to SentenceTransformer.
-    """
-    model_ref = settings.EMBEDDING_MODEL  # Already resolved by resolve_model_path()
+    """Resolve embedding model: local > cached > download with resume."""
+    model_ref = settings.EMBEDDING_MODEL
     repo_id = "BAAI/bge-large-zh-v1.5"
 
-    # 1. Local path with valid model files — use directly, zero download
     if os.path.isdir(model_ref) and _check_local_model(model_ref):
         logger.info("Model found locally: %s", model_ref)
         _state.model_source = "local"
         _state.message = f"Model found locally"
         return model_ref
 
-    # 2. Check if already complete in HF cache
     if _check_complete_cache(repo_id):
         logger.info("Model found in HF cache: %s", repo_id)
         _state.model_source = "cache"
         _state.message = f"Model found in HF cache"
         return repo_id
 
-    # 3. Download with resume — snapshot_download handles:
-    #    - Fresh download, partial resume, or no-op if complete
     _state.phase = "downloading_model"
     _state.model_source = "download"
     _state.model_download_pct = 0
@@ -232,17 +178,38 @@ def _ensure_model_available():
 
 
 async def _seed_pg_products(products: list[dict]) -> int:
-    """将商品数据同时写入 PostgreSQL products 表（幂等：已存在则跳过）。"""
+    """将商品数据写入 PostgreSQL products 表（幂等：已存在则跳过）。"""
     if engine is None or AsyncSessionLocal is None:
         logger.warning("Database not configured, skipping PostgreSQL seed")
         return 0
 
-    # 确保表已创建
     async with engine.begin() as conn:
         await conn.run_sync(Product.metadata.create_all)
+        # 启用 pgvector 扩展
+        await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+        # 创建全文搜索 tsvector 生成列
+        await conn.execute(text("""
+            ALTER TABLE products
+            ADD COLUMN IF NOT EXISTS search_vector tsvector
+            GENERATED ALWAYS AS (
+                setweight(to_tsvector('simple', coalesce(title, '')), 'A') ||
+                setweight(to_tsvector('simple', coalesce(description, '')), 'B') ||
+                setweight(to_tsvector('simple', coalesce(category, '')), 'C')
+            ) STORED
+        """))
+        # 创建向量索引 (ivfflat for cosine distance)
+        await conn.execute(text("""
+            CREATE INDEX IF NOT EXISTS products_embedding_idx
+            ON products USING ivfflat (embedding vector_cosine_ops)
+            WITH (lists = 100)
+        """))
+        # 创建全文搜索索引
+        await conn.execute(text("""
+            CREATE INDEX IF NOT EXISTS products_search_vector_idx
+            ON products USING gin (search_vector)
+        """))
 
     async with AsyncSessionLocal() as db:
-        # 查询已有的 products 数量
         stmt = select(func.count(Product.id))
         result = await db.execute(stmt)
         existing_count = result.scalar()
@@ -251,7 +218,6 @@ async def _seed_pg_products(products: list[dict]) -> int:
             _state.db_done = True
             return 0
 
-        # 查询已有 ID 集合，避免重复插入
         existing_result = await db.execute(select(Product.id))
         existing_ids = {str(uid) for uid in existing_result.scalars().all()}
 
@@ -288,12 +254,70 @@ async def _seed_pg_products(products: list[dict]) -> int:
         return new_count
 
 
-async def ensure_qdrant_data() -> None:
-    """Ensure Qdrant collection exists and contains product vectors.
+async def _ensure_embeddings(products: list[dict], model) -> int:
+    """为缺少 embedding 的商品生成向量并写入 PostgreSQL。"""
+    if engine is None or AsyncSessionLocal is None:
+        logger.warning("Database not configured, skipping embedding generation")
+        return 0
 
-    Idempotent: if collection already has data, skips immediately.
+    import asyncio
+    loop = asyncio.get_running_loop()
+
+    async with AsyncSessionLocal() as db:
+        # 查找缺少 embedding 的商品
+        result = await db.execute(
+            text("SELECT source_product_id, title, category, brand, highlights, scenarios, attributes FROM products WHERE embedding IS NULL")
+        )
+        rows = result.fetchall()
+
+    if not rows:
+        logger.info("All products already have embeddings, skipping")
+        _state.item_count = len(products)
+        _state.collection_exists = True
+        return 0
+
+    logger.info("Generating embeddings for %d products...", len(rows))
+
+    batch_size = 32
+    total_done = 0
+    for i in range(0, len(rows), batch_size):
+        batch = rows[i:i + batch_size]
+        texts = []
+        for row in batch:
+            parts = [row.title or "", row.category or "", row.brand or ""]
+            parts.extend(list(row.highlights or [])[:5])
+            parts.extend(list(row.scenarios or []))
+            if row.attributes:
+                parts.extend(str(v) for v in row.attributes.values())
+            texts.append(" ".join(str(x) for x in parts if x))
+
+        embeddings = await loop.run_in_executor(
+            None,
+            lambda t=texts: model.encode(t, batch_size=batch_size, normalize_embeddings=True),
+        )
+
+        async with AsyncSessionLocal() as db:
+            for row, emb in zip(batch, embeddings):
+                await db.execute(
+                    text("UPDATE products SET embedding = :vec WHERE source_product_id = :pid"),
+                    {"vec": str(emb.tolist()), "pid": row.source_product_id},
+                )
+            await db.commit()
+
+        total_done += len(batch)
+        _state.item_count = total_done
+        _state.message = f"Vectorized {total_done}/{len(rows)} products"
+        logger.info("Auto-import: %s", _state.message)
+
+    _state.collection_exists = True
+    return total_done
+
+
+async def ensure_pgvector_data() -> None:
+    """Ensure PostgreSQL products table has embeddings.
+
+    Idempotent: if all products already have embeddings, skips immediately.
     """
-    # Apply HuggingFace endpoint override for model downloads (mirror for China)
     if settings.HF_ENDPOINT:
         os.environ.setdefault("HF_ENDPOINT", settings.HF_ENDPOINT)
         logger.info("HF_ENDPOINT=%s", settings.HF_ENDPOINT)
@@ -309,105 +333,65 @@ async def ensure_qdrant_data() -> None:
         _state.message = f"Data file missing: {JSONL_PATH}"
         return
 
-    # Wait for Qdrant
-    if not await _wait_for_qdrant():
-        logger.error("Qdrant unavailable after %d retries, skipping data import", MAX_RETRIES)
+    products = _load_products()
+    if not products:
+        logger.warning("No products to import")
         _state.phase = "ready"
-        _state.message = "Qdrant unreachable — data import skipped"
         return
 
-    client = QdrantClient(url=settings.QDRANT_URL, timeout=60)
+    _state.message = f"Loading {len(products)} products..."
+    logger.info("Auto-import: loading %d products from %s", len(products), JSONL_PATH)
+
+    # PostgreSQL 入库
+    _state.phase = "seeding"
     try:
-        # 先加载数据（Qdrant 和 PostgreSQL 共用）
-        products = _load_products()
-        if not products:
-            logger.warning("No products to import")
-            _state.phase = "ready"
-            return
+        pg_count = await _seed_pg_products(products)
+        if pg_count > 0:
+            logger.info("PostgreSQL seeded %d products", pg_count)
+    except Exception as e:
+        logger.warning("PostgreSQL seed failed (non-fatal): %s", e)
 
-        _state.message = f"Loading {len(products)} products..."
-        logger.info("Auto-import: loading %d products from %s", len(products), JSONL_PATH)
+    # 检查是否需要生成 embeddings
+    if engine is None or AsyncSessionLocal is None:
+        logger.warning("Database not configured, skipping embedding generation")
+        _state.phase = "ready"
+        return
 
-        # PostgreSQL 入库（独立于 Qdrant，始终尝试）
-        _state.phase = "seeding"
-        try:
-            pg_count = await _seed_pg_products(products)
-            if pg_count > 0:
-                logger.info("PostgreSQL seeded %d products", pg_count)
-        except Exception as e:
-            logger.warning("PostgreSQL seed failed (non-fatal): %s", e)
+    async with AsyncSessionLocal() as db:
+        result = await db.execute(text("SELECT COUNT(*) FROM products WHERE embedding IS NULL"))
+        missing_count = result.scalar()
+        total_result = await db.execute(text("SELECT COUNT(*) FROM products"))
+        total_count = total_result.scalar()
 
-        # Qdrant 入库
-        collection_exists = client.collection_exists(settings.QDRANT_COLLECTION)
-        if collection_exists:
-            count = client.count(collection_name=settings.QDRANT_COLLECTION, exact=True).count
-            _state.collection_exists = True
-            _state.item_count = count
-            if count > 0:
-                logger.info("Qdrant collection '%s' already has %d vectors, skipping import",
-                            settings.QDRANT_COLLECTION, count)
-                _state.phase = "ready"
-                _state.message += " (Qdrant already populated)"
-                return
-
-        # Need to create and/or populate Qdrant
-
-        # Resolve embedding model — local > HF cache > download with resume
-        model_source = _ensure_model_available()
-
-        # Load embedding model
-        import asyncio
-        loop = asyncio.get_running_loop()
-        model = await loop.run_in_executor(
-            None,
-            lambda: SentenceTransformer(model_source)
-        )
-        dim = model.get_sentence_embedding_dimension()
-        logger.info("Embedding model ready, dim=%d", dim)
-
-        # Create collection if needed
-        if not collection_exists:
-            client.create_collection(
-                collection_name=settings.QDRANT_COLLECTION,
-                vectors_config=qdrant_models.VectorParams(
-                    size=dim,
-                    distance=qdrant_models.Distance.COSINE,
-                ),
-            )
-            logger.info("Collection '%s' created (%d-dim)", settings.QDRANT_COLLECTION, dim)
-
-        # Vectorize + upsert in batches
-        batch_size = 32
-        for i in range(0, len(products), batch_size):
-            batch = products[i:i + batch_size]
-            texts = [_build_doc_text(p) for p in batch]
-            payloads = [_build_payload(p) for p in batch]
-
-            embeddings = await loop.run_in_executor(
-                None,
-                lambda t=texts: model.encode(
-                    t, batch_size=batch_size, normalize_embeddings=True
-                ),
-            )
-
-            points = [
-                qdrant_models.PointStruct(
-                    id=_product_id_to_uuid(p["product_id"]),
-                    vector=emb.tolist(),
-                    payload=pl,
-                )
-                for emb, p, pl in zip(embeddings, batch, payloads)
-            ]
-            client.upsert(collection_name=settings.QDRANT_COLLECTION, points=points)
-            _state.item_count = min(i + batch_size, len(products))
-            _state.message = f"Vectorized {_state.item_count}/{len(products)} products"
-            logger.info("Auto-import: %s", _state.message)
-
+    if missing_count == 0 and total_count > 0:
+        logger.info("All %d products already have embeddings, skipping", total_count)
+        _state.item_count = total_count
         _state.collection_exists = True
-        _state.item_count = client.count(
-            collection_name=settings.QDRANT_COLLECTION, exact=True
-        ).count
-        _state.message = f"Import complete: {_state.item_count} vectors in Qdrant"
-        logger.info("Auto-import: %s", _state.message)
-    finally:
-        client.close()
+        _state.phase = "ready"
+        _state.message = f"Import complete: {total_count} products with embeddings"
+        return
+
+    # 加载 embedding 模型
+    model_source = _ensure_model_available()
+    import asyncio
+    loop = asyncio.get_running_loop()
+    model = await loop.run_in_executor(None, lambda: SentenceTransformer(model_source))
+    dim = model.get_sentence_embedding_dimension()
+    logger.info("Embedding model ready, dim=%d", dim)
+
+    # 注入共享模型实例
+    from app.services.embedding import set_shared_model
+    set_shared_model(model)
+
+    # 生成并写入 embeddings
+    _state.phase = "embedding"
+    embedded_count = await _ensure_embeddings(products, model)
+
+    async with AsyncSessionLocal() as db:
+        total_result = await db.execute(text("SELECT COUNT(*) FROM products WHERE embedding IS NOT NULL"))
+        final_count = total_result.scalar()
+
+    _state.item_count = final_count
+    _state.message = f"Import complete: {final_count} products with embeddings"
+    logger.info("Auto-import: %s", _state.message)
+    _state.phase = "ready"

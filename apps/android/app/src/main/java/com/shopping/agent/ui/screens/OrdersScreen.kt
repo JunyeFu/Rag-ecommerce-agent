@@ -310,6 +310,10 @@ fun OrdersScreen(
                                 scope.launch {
                                     try {
                                         withContext(Dispatchers.IO) {
+                                            repository.updateOrderStatusOnBackend(
+                                                order.backendOrderNo,
+                                                UserRepository.OrderStatus.PENDING_REVIEW,
+                                            )
                                             repository.updateOrderStatus(
                                                 order.orderId,
                                                 UserRepository.OrderStatus.PENDING_REVIEW,
@@ -326,6 +330,10 @@ fun OrdersScreen(
                                 scope.launch {
                                     try {
                                         withContext(Dispatchers.IO) {
+                                            repository.updateOrderStatusOnBackend(
+                                                order.backendOrderNo,
+                                                UserRepository.OrderStatus.PENDING_RECEIPT,
+                                            )
                                             repository.updateOrderStatus(
                                                 order.orderId,
                                                 UserRepository.OrderStatus.PENDING_RECEIPT,
@@ -574,10 +582,14 @@ private fun OrderActionButtons(
                 }
                 Button(
                     onClick = onPayNow,
-                    colors = ButtonDefaults.buttonColors(containerColor = Primary),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.outlineVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    ),
                     shape = CircleShape,
+                    enabled = false,
                 ) {
-                    Text("去付款", color = OnPrimary, style = MaterialTheme.typography.bodySmall)
+                    Text("支付即将上线", style = MaterialTheme.typography.bodySmall)
                 }
             }
             // 待发货：取消订单 + 催发货
@@ -591,8 +603,16 @@ private fun OrderActionButtons(
             }
             // 待收货：确认收货（蓝色）— 已移除查看物流按钮
             UserRepository.OrderStatus.PENDING_RECEIPT -> {
-                OutlinedButton(onClick = onViewLogistics, shape = CircleShape) {
-                    Text("查看物流", style = MaterialTheme.typography.bodySmall)
+                OutlinedButton(
+                    onClick = {},
+                    shape = CircleShape,
+                    enabled = false,
+                ) {
+                    Text(
+                        "物流查询即将上线",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
                 Button(
                     onClick = onConfirmReceipt,

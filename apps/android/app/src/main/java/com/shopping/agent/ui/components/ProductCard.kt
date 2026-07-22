@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.shopping.agent.data.model.Citation
 import com.shopping.agent.data.model.Product
 import com.shopping.agent.ui.theme.*
 
@@ -71,6 +72,7 @@ fun ProductCard(
                             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
+                CitationSection(citations = product.citation)
             }
         }
     }
@@ -79,4 +81,51 @@ fun ProductCard(
 fun formatSalesCount(count: Int): String = when {
     count >= 10000 -> "${count / 10000}.${(count % 10000) / 1000}万人付款"
     else -> "${count}人付款"
+}
+
+/**
+ * F7 引用来源展示区 - 商品卡片底部的检索溯源信息。
+ *
+ * 当后端 ProductCardEvent.citation 非空时渲染：以小号弱化文本列出每条引用的描述，
+ * 不喧宾夺主，保持卡片主体内容的视觉优先级。
+ */
+@Composable
+fun CitationSection(
+    citations: List<Citation>,
+    modifier: Modifier = Modifier,
+) {
+    if (citations.isEmpty()) return
+    Column(modifier = modifier.fillMaxWidth().padding(top = Dimens.space2)) {
+        HorizontalDivider(
+            color = MaterialTheme.colorScheme.outlineVariant,
+            thickness = 0.5.dp,
+        )
+        Spacer(Modifier.height(Dimens.space1))
+        Text(
+            text = "引用来源",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontWeight = FontWeight.Medium,
+        )
+        citations.forEach { citation ->
+            Row(
+                modifier = Modifier.padding(top = 2.dp).fillMaxWidth(),
+                verticalAlignment = Alignment.Top,
+            ) {
+                Text(
+                    text = "·",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Neutral400,
+                )
+                Spacer(Modifier.width(Dimens.space1))
+                Text(
+                    text = citation.description.ifBlank { citation.sourceType },
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Neutral500,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
+    }
 }

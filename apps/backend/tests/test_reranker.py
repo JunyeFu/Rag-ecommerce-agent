@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.integration
+
 """Reranker 单元测试"""
 import pytest
 from app.services.reranker import rerank

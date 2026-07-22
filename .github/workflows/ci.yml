@@ -1,15 +1,61 @@
-name: CI — Backend Tests
+name: CI - Backend Quality Gate
 
 on:
   push:
-    branches: [main, develop]
-    paths: ['apps/backend/**']
+    branches: [main, develop, "feature/**"]
+    paths: ['apps/backend/**', 'infrastructure/**', '.github/workflows/ci.yml']
   pull_request:
     branches: [main]
-    paths: ['apps/backend/**']
+    paths: ['apps/backend/**', 'infrastructure/**', '.github/workflows/ci.yml']
 
 jobs:
-  test:
+  lint:
+    name: Lint (ruff + mypy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: apps/backend/requirements.txt
+      - name: Install lint tools
+        run: pip install ruff mypy
+      - name: Ruff check
+        run: cd apps/backend && ruff check app/ tests/
+      - name: Mypy type check
+        run: cd apps/backend && mypy app/ --ignore-missing-imports --no-error-summary || true
+
+  unit-tests:
+    name: Unit Tests + Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: apps/backend/requirements.txt
+      - name: Install CPU-only torch
+        run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Install dependencies
+        run: |
+          cd apps/backend
+          pip install -r requirements.txt
+          pip install pytest-cov
+      - name: Run unit tests with coverage
+        run: |
+          cd apps/backend
+          python -m pytest tests/ -m unit \
+            --cov=app --cov-report=term-missing --cov-report=xml \
+            --cov-fail-under=70 -v
+        env:
+          APP_ENV: testing
+          DEMO_MODE: "true"
+          AUTO_IMPORT_DATA: "false"
+
+  contract-tests:
+    name: API Contract Tests
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -21,17 +67,101 @@ jobs:
         ports: [5432:5432]
         options: >-
           --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      qdrant:
-        image: qdrant/qdrant:latest
-        ports: [6333:6333]
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: '3.11'}
-      - run: cd apps/backend && pip install -r requirements.txt
-      - run: cd apps/backend && python -m pytest tests/ -v
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: apps/backend/requirements.txt
+      - name: Install CPU-only torch
+        run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Install dependencies
+        run: cd apps/backend && pip install -r requirements.txt
+      - name: Run contract tests
+        run: cd apps/backend && python -m pytest tests/ -m contract -v --timeout=60
         env:
           DATABASE_URL: postgresql+asyncpg://shopping:shopping123@localhost:5432/shopping_agent
-          QDRANT_URL: http://localhost:6333
+          APP_ENV: testing
+          AUTO_IMPORT_DATA: "false"
+          HF_ENDPOINT: https://hf-mirror.com
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: shopping
+          POSTGRES_PASSWORD: shopping123
+          POSTGRES_DB: shopping_agent
+        ports: [5432:5432]
+        options: >-
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: apps/backend/requirements.txt
+      - name: Install CPU-only torch
+        run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Install dependencies
+        run: cd apps/backend && pip install -r requirements.txt
+      - name: Run integration tests
+        run: cd apps/backend && python -m pytest tests/ -m integration -v --timeout=60
+        env:
+          DATABASE_URL: postgresql+asyncpg://shopping:shopping123@localhost:5432/shopping_agent
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          APP_ENV: testing
+          AUTO_IMPORT_DATA: "false"
+          HF_ENDPOINT: https://hf-mirror.com
+
+  security:
+    name: Security Scan (bandit + pip-audit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install security tools
+        run: pip install bandit pip-audit
+      - name: Bandit scan
+        run: cd apps/backend && bandit -r app/ -f json -o bandit-report.json || true
+      - name: pip-audit
+        run: cd apps/backend && pip-audit -r requirements.txt --ignore-vuln GHSA-xxxx || true
+
+  migration-check:
+    name: Alembic Migration Check
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: shopping
+          POSTGRES_PASSWORD: shopping123
+          POSTGRES_DB: shopping_agent
+        ports: [5432:5432]
+        options: >-
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: apps/backend/requirements.txt
+      - name: Install dependencies
+        run: |
+          cd apps/backend
+          pip install -r requirements.txt
+          pip install alembic
+      - name: Run migrations on fresh DB
+        run: |
+          cd apps/backend
+          python -m alembic upgrade head
+        env:
+          DATABASE_URL: postgresql+asyncpg://shopping:shopping123@localhost:5432/shopping_agent

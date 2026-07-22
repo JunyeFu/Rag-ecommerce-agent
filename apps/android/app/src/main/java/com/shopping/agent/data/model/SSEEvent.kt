@@ -25,7 +25,8 @@ sealed class SSEEvent {
         val brand: String?,
         val category: String,
         val index: Int,
-        val total: Int
+        val total: Int,
+        val citation: List<Citation> = emptyList()
     ) : SSEEvent()
     
     data class Progress(val message: String) : SSEEvent()
@@ -82,7 +83,13 @@ data class ProductCardPayload(
     val brand: String?,
     val category: String?,
     val index: Int,
-    val total: Int
+    val total: Int,
+    val citation: List<CitationPayload>? = null
+)
+
+data class CitationPayload(
+    val source_type: String = "",
+    val description: String = ""
 )
 
 data class ProgressPayload(val message: String)

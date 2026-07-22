@@ -1,7 +1,9 @@
 # 性能基准报告
 
+> **⚠️ 辅助文档** - 开发权威入口为 [`DEV-CONTROL.md`](../DEV-CONTROL.md)，如有冲突以权威文档为准。
+>
 > 测评环境：WSL Ubuntu 22.04, Python 3.11, Doubao-Seed-2.0-lite (ep-20260514111645-lmgt2)
-> 商品索引：190 条 (Qdrant 1024-dim, bge-large-zh-v1.5)
+> 商品索引：287 条 (pgvector 1024-dim, bge-large-zh-v1.5)
 > 测量时间：2026-05-28
 
 ---
@@ -11,7 +13,7 @@
 | 阶段 | 时间 | 说明 |
 |------|------|------|
 | Embedding（BGE） | ~80ms | 单句 1024-dim 文本向量化 |
-| Qdrant 向量检索 | ~15ms | 190条 COSINE top-10 |
+| pgvector 向量检索 | ~15ms | 287条 COSINE top-10 |
 | Reranker 重排序 | ~900ms | bge-reranker-v2-m3 cross-encoder |
 | LLM 首 Token（TTFT） | ~1.5s | Doubao streaming first chunk |
 | LLM 总生成 | ~8-12s | 3商品含结构标记 full response |
@@ -48,7 +50,7 @@
 
 ---
 
-## 与竞赛目标对比
+## 与性能目标对比
 
 | 指标 | 目标 | 实测 | 状态 |
 |------|:--:|:--:|:--:|

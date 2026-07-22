@@ -1045,7 +1045,7 @@ query_engine = index.as_query_engine(
 
 | 模块 | 当前状态 | 业界参考 | 差距与建议 |
 |------|---------|---------|-----------|
-| **agent.py** | 全功能实现 (LangGraph 10节点，2780+ 行) | 淘宝问问 pipeline / LangGraph 最佳实践 | ✅ 9/9 场景完成 |
+| **agent.py** | 全功能实现（LangGraph 7 个显式主节点 + 条件路由，3000+ 行） | 淘宝问问 pipeline / LangGraph 最佳实践 | ✅ 9/9 场景完成 |
 | **intent.py** | 规划中 | 京东意图分类体系 | 建议定义6类 intent + slot schema |
 | **retriever.py** | 规划中 | Qdrant 混合检索 + RRF 融合 | 建议 MVP 先做向量检索，后续加 BM25 |
 | **reranker.py** | 全量 M9 | BGE-Reranker-v2-m3 | MVP 可先跳过，直接取 Top-N |

@@ -19,3 +19,8 @@ class Session(Base):
     is_active: Mapped[bool] = mapped_column(default=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+    # 认证字段（Phase 2 - Session Token）
+    auth_token: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True, comment="Session Token (UUID)")
+    auth_user_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True, comment="认证用户 ID")
+    auth_expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, comment="Token 过期时间")

@@ -1,5 +1,7 @@
 # API 接口文档 — Hermes 电商AI导购系统
 
+> **⚠️ 辅助文档** - 开发权威入口为 [`DEV-CONTROL.md`](DEV-CONTROL.md)，如有冲突以权威文档为准。
+>
 > Base URL: `http://localhost:8080/api/v1`
 > 所有业务端点挂载在 `/api/v1` 前缀下。
 
@@ -245,7 +247,7 @@ Body: `{ "session_id": "...", "address": "收货地址" }`
   "status": "ok",
   "version": "1.0.0",
   "database": "connected",
-  "qdrant": "ok"
+   "pgvector": "ok"
 }
 ```
 

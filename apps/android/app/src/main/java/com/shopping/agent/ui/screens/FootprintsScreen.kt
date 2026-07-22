@@ -284,6 +284,10 @@ private fun FilterFootprintDialog(
 ) {
     var selectedStartDate by remember { mutableStateOf("") }
     var selectedEndDate by remember { mutableStateOf("") }
+    val dateRegex = Regex("^\\d{4}-\\d{2}-\\d{2}$")
+    val startError = selectedStartDate.isNotEmpty() && !dateRegex.matches(selectedStartDate)
+    val endError = selectedEndDate.isNotEmpty() && !dateRegex.matches(selectedEndDate)
+    val hasError = startError || endError
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -306,6 +310,12 @@ private fun FilterFootprintDialog(
                     label = { Text("起始日期 (YYYY-MM-DD)") },
                     placeholder = { Text("2026-01-01") },
                     singleLine = true,
+                    isError = startError,
+                    supportingText = {
+                        if (startError) {
+                            Text("日期格式不正确，请使用 YYYY-MM-DD", color = ErrorColor)
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth(),
                 )
 
@@ -318,6 +328,12 @@ private fun FilterFootprintDialog(
                     label = { Text("结束日期 (YYYY-MM-DD)") },
                     placeholder = { Text("2026-12-31") },
                     singleLine = true,
+                    isError = endError,
+                    supportingText = {
+                        if (endError) {
+                            Text("日期格式不正确，请使用 YYYY-MM-DD", color = ErrorColor)
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
@@ -331,6 +347,7 @@ private fun FilterFootprintDialog(
                     onConfirm(startMs, endMs)
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Primary),
+                enabled = !hasError,
             ) {
                 Text("确定", color = OnPrimary)
             }

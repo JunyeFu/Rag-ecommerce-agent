@@ -5,6 +5,7 @@ import time
 import logging
 from app.services.retriever import hybrid_search
 from app.services.embedding import embed_text
+from app.core.config import settings
 
 logger = logging.getLogger("rag")
 
@@ -19,6 +20,7 @@ async def retrieve(
     exclude_categories: list[str] | None = None,
     exclude_attributes: dict[str, str] | None = None,
     strict_category: bool = False,
+    use_hybrid: bool | None = None,
 ) -> dict:
     """
     RAG 检索主入口:
@@ -27,6 +29,9 @@ async def retrieve(
     3. 返回 {'chunks': [...], 'latency_ms': float}
     """
     t0 = time.monotonic()
+
+    if use_hybrid is None:
+        use_hybrid = settings.HYBRID_SEARCH_ENABLED
 
     vector = await embed_text(query)
     chunks, search_ms = await hybrid_search(
@@ -39,6 +44,7 @@ async def retrieve(
         exclude_categories=exclude_categories,
         exclude_attributes=exclude_attributes,
         top_k=top_k,
+        use_hybrid=use_hybrid,
     )
 
     # 品类+价格 组合过滤无结果 → 分级回退
@@ -51,6 +57,7 @@ async def retrieve(
                 category=category, price_min=None, price_max=None,
                 exclude_brands=exclude_brands, exclude_categories=exclude_categories,
                 exclude_attributes=exclude_attributes, top_k=top_k,
+                use_hybrid=use_hybrid,
             )
 
     if not chunks and category:
@@ -65,6 +72,7 @@ async def retrieve(
                 price_min=price_min, price_max=price_max,
                 exclude_brands=exclude_brands, exclude_categories=exclude_categories,
                 exclude_attributes=exclude_attributes, top_k=top_k,
+                use_hybrid=use_hybrid,
             )
 
     total_ms = (time.monotonic() - t0) * 1000

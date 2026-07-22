@@ -151,7 +151,7 @@ SSEEvent.Error       → 显示错误
 1. `ChatInputBar` 相机按钮 → `ActivityResultContracts.GetContent("image/*")`
 2. Uri → tempFile (ContentResolver copy)
 3. `SseClient.connectVision(file)` → multipart POST
-4. 后端 Doubao 视觉 API 解析 → Qdrant 检索
+4. 后端 Doubao 视觉 API 解析 → pgvector 检索
 5. SSE 流返回识别结果 + 8 件相似商品
 
 ### 多轮上下文

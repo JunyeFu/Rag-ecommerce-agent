@@ -3,17 +3,18 @@
 """
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import AsyncSessionLocal
+from app.core.cache import InMemoryCache
 from app.models.session import Session
 from app.models.message import Message
 
 logger = logging.getLogger("state_manager")
 
-# 内存缓存 (减少 DB 查询)
-_cache: dict[str, dict] = {}
+# 内存缓存 (减少 DB 查询, TTL 1h)
+_cache = InMemoryCache(max_size=200, default_ttl=3600)
 
 # 检测数据库是否可用
 _HAS_DB = AsyncSessionLocal is not None
@@ -46,8 +47,9 @@ async def get_or_create_session(session_id: str | None = None) -> tuple[str, dic
     if valid_uuid:
         session_str = str(valid_uuid)
         # 尝试从缓存获取
-        if session_str in _cache:
-            return session_str, _cache[session_str]
+        cached = await _cache.get(session_str)
+        if cached is not None:
+            return session_str, cached
 
         # 从数据库获取 (仅当有DB时)
         if _HAS_DB:
@@ -57,7 +59,7 @@ async def get_or_create_session(session_id: str | None = None) -> tuple[str, dic
                     session = result.scalar_one_or_none()
                     if session:
                         state = session.state_json or {}
-                        _cache[str(session.id)] = state
+                        await _cache.set(str(session.id), state)
                         return str(session.id), state
             except Exception as e:
                 logger.warning("Session DB lookup failed, using memory fallback: %s", e)
@@ -75,18 +77,18 @@ async def get_or_create_session(session_id: str | None = None) -> tuple[str, dic
         except Exception as e:
             logger.warning("Session DB create failed, using memory fallback: %s", e)
 
-    _cache[new_id_str] = {}
+    await _cache.set(new_id_str, {})
     logger.info("Created session: %s (db=%s)", new_id_str[:8], _HAS_DB)
     return new_id_str, {}
 
 
 async def update_state(session_id: str, **kwargs) -> dict:
     """更新会话状态 (合并写入，自动持久化)"""
-    state = _cache.get(session_id, {})
+    state = await _cache.get(session_id) or {}
     state.update(kwargs)
 
     # 缓存更新
-    _cache[session_id] = state
+    await _cache.set(session_id, state)
 
     # 异步持久化 (仅当有DB时)
     if _HAS_DB:
@@ -97,7 +99,7 @@ async def update_state(session_id: str, **kwargs) -> dict:
                     .where(Session.id == session_id)
                     .values(
                         state_json=state,
-                        updated_at=datetime.utcnow(),
+                        updated_at=datetime.now(timezone.utc),
                     )
                 )
                 await db.commit()
@@ -126,15 +128,16 @@ async def increment_message_count(session_id: str):
 
 async def get_state(session_id: str) -> dict:
     """获取会话状态（优先缓存）"""
-    if session_id in _cache:
-        return _cache[session_id]
+    cached = await _cache.get(session_id)
+    if cached is not None:
+        return cached
     _, state = await get_or_create_session(session_id)
     return state
 
 
 async def clear_state(session_id: str) -> None:
     """清除会话状态"""
-    _cache.pop(session_id, None)
+    await _cache.delete(session_id)
     if not _HAS_DB:
         return
     try:

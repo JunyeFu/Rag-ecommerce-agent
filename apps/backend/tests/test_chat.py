@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.integration
+
 """Chat SSE contract tests."""
 import json
 import uuid

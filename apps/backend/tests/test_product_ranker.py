@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.unit
+
 """ProductRanker 单元测试"""
 import pytest
 from app.services.product_ranker import ProductRanker, Intent

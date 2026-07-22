@@ -229,8 +229,8 @@ private fun ProfileFeatureGrid(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            // 快递（占位）
-            FeatureItem(features[0].title, features[0].subtitle, Icons.Default.Settings, Modifier.weight(1f))
+            // 快递（占位 - 即将开放）
+            FeatureItem(features[0].title, "即将开放", Icons.Default.Settings, Modifier.weight(1f))
             // 收藏 — 显示真实数量
             FeatureItem(
                 title = features[1].title,
@@ -239,8 +239,8 @@ private fun ProfileFeatureGrid(
                 modifier = Modifier.weight(1f),
                 onClick = onFavoritesClick,
             )
-            // 关注店铺（占位）
-            FeatureItem(features[2].title, features[2].subtitle, Icons.Default.HeadsetMic, Modifier.weight(1f))
+            // 关注店铺（占位 - 即将开放）
+            FeatureItem(features[2].title, "即将开放", Icons.Default.HeadsetMic, Modifier.weight(1f))
         }
         Spacer(Modifier.height(12.dp))
         Row(
@@ -255,10 +255,10 @@ private fun ProfileFeatureGrid(
                 modifier = Modifier.weight(1f),
                 onClick = onFootprintsClick,
             )
-            // 想要（占位）
-            FeatureItem(features[4].title, features[4].subtitle, Icons.Default.Settings, Modifier.weight(1f))
-            // 我有（占位）
-            FeatureItem(features[5].title, features[5].subtitle, Icons.Default.HeadsetMic, Modifier.weight(1f))
+            // 想要（占位 - 即将开放）
+            FeatureItem(features[4].title, "即将开放", Icons.Default.Settings, Modifier.weight(1f))
+            // 我有（占位 - 即将开放）
+            FeatureItem(features[5].title, "即将开放", Icons.Default.HeadsetMic, Modifier.weight(1f))
         }
     }
 }

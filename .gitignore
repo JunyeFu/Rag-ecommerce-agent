@@ -33,6 +33,7 @@ Thumbs.db
 *.jks
 local.properties
 apps/android/.gradle/
+apps/android/app/.gradle/
 apps/android/build/
 apps/android/app/build/
 
@@ -94,7 +95,15 @@ docs/optimization/ttft_benchmark_*.json
 # Reference papers (cite by DOI, not stored as binary in repo)
 docs/background/papers/*.pdf
 
-# Temp / debug artifacts (keep repo clean for competition)
+# Competition binary documents (not useful in git, keep local copies)
+*.docx
+*.pptx
+
+# Defense PPT preview images and archived versions (competition artifacts)
+docs/defense-ppt/
+docs/archive/
+
+# Temp / debug artifacts
 /tmp_*
 /tmp_frames/
 /script_*.png

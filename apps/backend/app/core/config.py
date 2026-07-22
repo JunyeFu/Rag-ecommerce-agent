@@ -5,11 +5,15 @@ Configuration priority:
 2. apps/backend/.env
 3. Code defaults
 """
+import logging
 import os
+import warnings
 from pathlib import Path
 
-from pydantic import field_validator
+from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings
+
+logger = logging.getLogger("config")
 
 CONFIG_DIR = Path(__file__).resolve().parents[2]  # apps/backend/
 
@@ -30,9 +34,6 @@ class Settings(BaseSettings):
     APP_ENV: str = "development"
 
     DATABASE_URL: str = ""
-
-    QDRANT_URL: str = "http://localhost:6333"
-    QDRANT_COLLECTION: str = "products"
 
     DOUBAO_API_KEY: str = ""
     DOUBAO_BASE_URL: str = "https://ark.cn-beijing.volces.com/api/v3/"
@@ -55,6 +56,14 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["*"]
     MAX_UPLOAD_SIZE_MB: int = 10
 
+    # 检索配置
+    RETRIEVAL_TOP_K: int = 20
+    RERANKER_TOP_K: int = 10
+    HYBRID_SEARCH_ENABLED: bool = True
+
+    # Demo 模式 — 跳过 LLM 调用，仅检索 + 模板化回复
+    DEMO_MODE: bool = False
+
     @field_validator("EMBEDDING_MODEL", mode="after")
     @classmethod
     def _resolve_embedding(cls, v: str) -> str:
@@ -64,6 +73,35 @@ class Settings(BaseSettings):
     @classmethod
     def _resolve_reranker(cls, v: str) -> str:
         return resolve_model_path(v, _HF_RERANKER)
+
+    @model_validator(mode="after")
+    def _check_production(self):
+        if self.APP_ENV == "production":
+            if not self.DATABASE_URL:
+                raise ValueError("DATABASE_URL is required in production")
+            if not self.DOUBAO_API_KEY and not self.DEEPSEEK_API_KEY:
+                raise ValueError("At least one LLM API key is required in production")
+            if "*" in self.CORS_ORIGINS:
+                raise ValueError("CORS_ORIGINS cannot be '*' in production")
+        return self
+
+    @model_validator(mode="after")
+    def _warn_deprecated_fields(self):
+        """检测已废弃的环境变量，发出警告"""
+        _deprecated = {
+            "QDRANT_URL": "pgvector 迁移已移除 Qdrant 依赖",
+            "QDRANT_COLLECTION": "pgvector 迁移已移除 Qdrant 依赖",
+        }
+        for key, msg in _deprecated.items():
+            val = os.environ.get(key)
+            if val:
+                warnings.warn(
+                    f"环境变量 {key} 已废弃: {msg} (请从 .env 中删除)",
+                    DeprecationWarning,
+                    stacklevel=2,
+                )
+                logger.warning("废弃环境变量 %s=%s", key, val[:8] + "***")
+        return self
 
     model_config = {
         "env_file": str(CONFIG_DIR / ".env"),

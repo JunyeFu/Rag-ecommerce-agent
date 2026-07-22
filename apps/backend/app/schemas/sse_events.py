@@ -22,7 +22,7 @@ class TextDeltaEvent(BaseModel, SSEMixin):
 
 
 class ProductCardEvent(BaseModel, SSEMixin):
-    """单张商品卡片 — 对齐 DATA-CONTRACT.md v1.0 §2.2"""
+    """单张商品卡片 - 对齐 DATA-CONTRACT.md v1.0 §2.2"""
     type: str = "product_cards"
     product_id: str
     title: str
@@ -36,6 +36,7 @@ class ProductCardEvent(BaseModel, SSEMixin):
     category: str = ""
     index: int = 0
     total: int = 0
+    citation: list[dict] = []
 
 
 class DoneEvent(BaseModel, SSEMixin):

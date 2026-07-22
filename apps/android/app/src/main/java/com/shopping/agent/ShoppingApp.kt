@@ -5,6 +5,7 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
+import com.shopping.agent.data.local.AuthManager
 
 /**
  * Application 入口 — 全局初始化
@@ -14,6 +15,9 @@ class ShoppingApp : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        kotlin.concurrent.thread {
+            AuthManager.ensureToken(this)
+        }
     }
 
     override fun newImageLoader(): ImageLoader = ImageLoader.Builder(this)

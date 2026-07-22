@@ -2961,5 +2961,1091 @@
     "ground_truth_product_ids": [],
     "min_expected_results": 0,
     "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_rec_043",
+    "scenario": "commodity_recommend",
+    "query": "适合跑步的无线耳机",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100099038454",
+      "TB10000001",
+      "JD100038798465"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_rec_044",
+    "scenario": "commodity_recommend",
+    "query": "学生党千元手机",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100225615118",
+      "JD2718739",
+      "JD2718819"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_rec_045",
+    "scenario": "commodity_recommend",
+    "query": "便携蓝牙小音箱",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10050005",
+      "JD10070007",
+      "JD100099038454-S"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_rec_046",
+    "scenario": "commodity_recommend",
+    "query": "画画用的平板电脑",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100129381482",
+      "JD100209512296",
+      "JD174542270"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_rec_047",
+    "scenario": "commodity_recommend",
+    "query": "游泳记录用手表",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10010001",
+      "JD10020002",
+      "TB10000003"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_rec_048",
+    "scenario": "commodity_recommend",
+    "query": "大容量充电宝推荐",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100017986276",
+      "JD100197769762",
+      "JD100129381482-A"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_rec_049",
+    "scenario": "commodity_recommend",
+    "query": "入门级微单相机",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10080008",
+      "JD100009073095",
+      "JD10090009"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_rec_050",
+    "scenario": "commodity_recommend",
+    "query": "打字舒服的键盘",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TB16a6002f"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_rec_051",
+    "scenario": "commodity_recommend",
+    "query": "送女友的口红套装",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBa3a0add9",
+      "p_beauty_015",
+      "p_beauty_025"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_rec_052",
+    "scenario": "commodity_recommend",
+    "query": "冬天穿的棉鞋",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBb0adde4c",
+      "TB16892645",
+      "TB550f8056"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_rec_053",
+    "scenario": "commodity_recommend",
+    "query": "轻薄办公笔记本",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBa9bb1f4b"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_rec_054",
+    "scenario": "commodity_recommend",
+    "query": "办公室护腰垫",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBa990239e",
+      "TBcdf3e424",
+      "TBc0973fda"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_rec_055",
+    "scenario": "commodity_recommend",
+    "query": "秋冬加绒卫衣",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "p_clothes_015",
+      "p_clothes_013",
+      "p_clothes_012"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_rec_056",
+    "scenario": "commodity_recommend",
+    "query": "敏感肌用的面霜",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBcbbc0b11",
+      "p_beauty_006",
+      "p_beauty_010"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_rec_057",
+    "scenario": "commodity_recommend",
+    "query": "休闲零食大礼包",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD42ea6836",
+      "JDc01c8260",
+      "JD8e53becb"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_rec_058",
+    "scenario": "commodity_recommend",
+    "query": "运动时不容易掉的耳机",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100099038454",
+      "TB10000001",
+      "JD100038798465"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_rec_059",
+    "scenario": "commodity_recommend",
+    "query": "拍照好看的手机",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100225615118",
+      "JD2718739",
+      "JD2718819"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_rec_060",
+    "scenario": "commodity_recommend",
+    "query": "防水户外音箱",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10050005",
+      "JD10070007",
+      "JD100099038454-S"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_rec_061",
+    "scenario": "commodity_recommend",
+    "query": "给孩子上网课的平板",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100129381482",
+      "JD100209512296",
+      "JD174542270"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_rec_062",
+    "scenario": "commodity_recommend",
+    "query": "测心率的智能手表",
+    "expected_intent": "commodity_recommend",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10010001",
+      "JD10020002",
+      "TB10000003"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_dtl_031",
+    "scenario": "commodity_detail",
+    "query": "这款耳机支持多点连接吗",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100099038454",
+      "TB10000001",
+      "JD100038798465"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_dtl_032",
+    "scenario": "commodity_detail",
+    "query": "手机的电池容量多大",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100225615118",
+      "JD2718739",
+      "JD2718819"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_dtl_033",
+    "scenario": "commodity_detail",
+    "query": "音箱蓝牙版本是多少",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10050005",
+      "JD10070007",
+      "JD100099038454-S"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_dtl_034",
+    "scenario": "commodity_detail",
+    "query": "平板支持快充吗",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100129381482",
+      "JD100209512296",
+      "JD174542270"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_dtl_035",
+    "scenario": "commodity_detail",
+    "query": "手表屏幕尺寸多大",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10010001",
+      "JD10020002",
+      "TB10000003"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_dtl_036",
+    "scenario": "commodity_detail",
+    "query": "充电宝输出功率多少瓦",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100017986276",
+      "JD100197769762",
+      "JD100129381482-A"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_dtl_037",
+    "scenario": "commodity_detail",
+    "query": "相机连拍速度多快",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10080008",
+      "JD100009073095",
+      "JD10090009"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_dtl_038",
+    "scenario": "commodity_detail",
+    "query": "键盘背光颜色可以调吗",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TB16a6002f"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_dtl_039",
+    "scenario": "commodity_detail",
+    "query": "口红是什么色号",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBa3a0add9",
+      "p_beauty_015",
+      "p_beauty_025"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_dtl_040",
+    "scenario": "commodity_detail",
+    "query": "鞋底防滑吗",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBb0adde4c",
+      "TB16892645",
+      "TB550f8056"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_dtl_041",
+    "scenario": "commodity_detail",
+    "query": "笔记本重量多少",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBa9bb1f4b"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_dtl_042",
+    "scenario": "commodity_detail",
+    "query": "靠垫材质是什么",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBa990239e",
+      "TBcdf3e424",
+      "TBc0973fda"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_dtl_043",
+    "scenario": "commodity_detail",
+    "query": "卫衣起球吗",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "p_clothes_015",
+      "p_clothes_013",
+      "p_clothes_012"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_dtl_044",
+    "scenario": "commodity_detail",
+    "query": "面霜保质期多久",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBcbbc0b11",
+      "p_beauty_006",
+      "p_beauty_010"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_dtl_045",
+    "scenario": "commodity_detail",
+    "query": "零食保质期多长",
+    "expected_intent": "commodity_detail",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD42ea6836",
+      "JDc01c8260",
+      "JD8e53becb"
+    ],
+    "min_expected_results": 1,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_scn_035",
+    "scenario": "scenario_shopping",
+    "query": "考研党用的降噪耳机",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100099038454",
+      "TB10000001",
+      "JD100038798465"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_scn_036",
+    "scenario": "scenario_shopping",
+    "query": "学生党第一款手机",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100225615118",
+      "JD2718739",
+      "JD2718819"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_scn_037",
+    "scenario": "scenario_shopping",
+    "query": "露营聚会用的音箱",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10050005",
+      "JD10070007",
+      "JD100099038454-S"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_scn_038",
+    "scenario": "scenario_shopping",
+    "query": "设计师画图用的平板",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100129381482",
+      "JD100209512296",
+      "JD174542270"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_scn_039",
+    "scenario": "scenario_shopping",
+    "query": "跑步爱好者手表",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10010001",
+      "JD10020002",
+      "TB10000003"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_scn_040",
+    "scenario": "scenario_shopping",
+    "query": "出差备用充电宝",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100017986276",
+      "JD100197769762",
+      "JD100129381482-A"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_scn_041",
+    "scenario": "scenario_shopping",
+    "query": "旅行拍vlog相机",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10080008",
+      "JD100009073095",
+      "JD10090009"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_scn_042",
+    "scenario": "scenario_shopping",
+    "query": "电竞选手比赛键盘",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TB16a6002f"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_scn_043",
+    "scenario": "scenario_shopping",
+    "query": "情人节送口红",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBa3a0add9",
+      "p_beauty_015",
+      "p_beauty_025"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_scn_044",
+    "scenario": "scenario_shopping",
+    "query": "冬天保暖雪地靴",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBb0adde4c",
+      "TB16892645",
+      "TB550f8056"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_scn_045",
+    "scenario": "scenario_shopping",
+    "query": "大学生第一台笔记本",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBa9bb1f4b"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_scn_046",
+    "scenario": "scenario_shopping",
+    "query": "居家办公护腰神器",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBa990239e",
+      "TBcdf3e424",
+      "TBc0973fda"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_scn_047",
+    "scenario": "scenario_shopping",
+    "query": "秋天穿的外套",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "p_clothes_015",
+      "p_clothes_013",
+      "p_clothes_012"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_scn_048",
+    "scenario": "scenario_shopping",
+    "query": "冬天干皮保湿霜",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBcbbc0b11",
+      "p_beauty_006",
+      "p_beauty_010"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_scn_049",
+    "scenario": "scenario_shopping",
+    "query": "过年囤货零食",
+    "expected_intent": "scenario_shopping",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD42ea6836",
+      "JDc01c8260",
+      "JD8e53becb"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_cmp_025",
+    "scenario": "commodity_compare",
+    "query": "入耳式和半入耳式耳机哪个好",
+    "expected_intent": "commodity_compare",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100099038454",
+      "TB10000001",
+      "JD100038798465"
+    ],
+    "min_expected_results": 2,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_cmp_026",
+    "scenario": "commodity_compare",
+    "query": "安卓和苹果手机怎么选",
+    "expected_intent": "commodity_compare",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100225615118",
+      "JD2718739",
+      "JD2718819"
+    ],
+    "min_expected_results": 2,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_cmp_027",
+    "scenario": "commodity_compare",
+    "query": "有线和蓝牙音箱音质差多吗",
+    "expected_intent": "commodity_compare",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10050005",
+      "JD10070007",
+      "JD100099038454-S"
+    ],
+    "min_expected_results": 2,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_cmp_028",
+    "scenario": "commodity_compare",
+    "query": "iPad和安卓平板哪个好用",
+    "expected_intent": "commodity_compare",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100129381482",
+      "JD100209512296",
+      "JD174542270"
+    ],
+    "min_expected_results": 2,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_cmp_029",
+    "scenario": "commodity_compare",
+    "query": "圆形和方形表盘手表哪个好看",
+    "expected_intent": "commodity_compare",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10010001",
+      "JD10020002",
+      "TB10000003"
+    ],
+    "min_expected_results": 2,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_cmp_030",
+    "scenario": "commodity_compare",
+    "query": "10000和20000毫安充电宝选哪个",
+    "expected_intent": "commodity_compare",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100017986276",
+      "JD100197769762",
+      "JD100129381482-A"
+    ],
+    "min_expected_results": 2,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_cmp_031",
+    "scenario": "commodity_compare",
+    "query": "微单和单反哪个适合新手",
+    "expected_intent": "commodity_compare",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10080008",
+      "JD100009073095",
+      "JD10090009"
+    ],
+    "min_expected_results": 2,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_cmp_032",
+    "scenario": "commodity_compare",
+    "query": "青轴和红轴键盘哪个声音小",
+    "expected_intent": "commodity_compare",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TB16a6002f"
+    ],
+    "min_expected_results": 2,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_cmp_033",
+    "scenario": "commodity_compare",
+    "query": "哑光和亮光口红哪个好",
+    "expected_intent": "commodity_compare",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBa3a0add9",
+      "p_beauty_015",
+      "p_beauty_025"
+    ],
+    "min_expected_results": 2,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_cmp_034",
+    "scenario": "commodity_compare",
+    "query": "跑步鞋和休闲鞋哪个舒服",
+    "expected_intent": "commodity_compare",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "TBb0adde4c",
+      "TB16892645",
+      "TB550f8056"
+    ],
+    "min_expected_results": 2,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_as_021",
+    "scenario": "anti_selection",
+    "query": "推荐耳机不要入耳式的",
+    "expected_intent": "anti_selection",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100099038454",
+      "TB10000001",
+      "JD100038798465"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_as_022",
+    "scenario": "anti_selection",
+    "query": "买手机不要苹果的",
+    "expected_intent": "anti_selection",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100225615118",
+      "JD2718739",
+      "JD2718819"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_as_023",
+    "scenario": "anti_selection",
+    "query": "音箱除了JBL还有什么",
+    "expected_intent": "anti_selection",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10050005",
+      "JD10070007",
+      "JD100099038454-S"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_as_024",
+    "scenario": "anti_selection",
+    "query": "平板不要苹果的推荐",
+    "expected_intent": "anti_selection",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100129381482",
+      "JD100209512296",
+      "JD174542270"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_as_025",
+    "scenario": "anti_selection",
+    "query": "手表除了华为的还有什么",
+    "expected_intent": "anti_selection",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10010001",
+      "JD10020002",
+      "TB10000003"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_as_026",
+    "scenario": "anti_selection",
+    "query": "充电宝不要太重的",
+    "expected_intent": "anti_selection",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100017986276",
+      "JD100197769762",
+      "JD100129381482-A"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_as_027",
+    "scenario": "anti_selection",
+    "query": "相机除了索尼还有什么",
+    "expected_intent": "anti_selection",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10080008",
+      "JD100009073095",
+      "JD10090009"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_as_028",
+    "scenario": "anti_selection",
+    "query": "零食不要辣的",
+    "expected_intent": "anti_selection",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD42ea6836",
+      "JDc01c8260",
+      "JD8e53becb"
+    ],
+    "min_expected_results": 3,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_as_029",
+    "scenario": "after_sales",
+    "query": "耳机可以保修多久",
+    "expected_intent": "after_sales",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100099038454",
+      "TB10000001",
+      "JD100038798465"
+    ],
+    "min_expected_results": 0,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_as_030",
+    "scenario": "after_sales",
+    "query": "手机碎屏能修吗",
+    "expected_intent": "after_sales",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100225615118",
+      "JD2718739",
+      "JD2718819"
+    ],
+    "min_expected_results": 0,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_as_031",
+    "scenario": "after_sales",
+    "query": "音箱进水保修吗",
+    "expected_intent": "after_sales",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10050005",
+      "JD10070007",
+      "JD100099038454-S"
+    ],
+    "min_expected_results": 0,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_as_032",
+    "scenario": "after_sales",
+    "query": "平板屏幕坏了换一个多少钱",
+    "expected_intent": "after_sales",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100129381482",
+      "JD100209512296",
+      "JD174542270"
+    ],
+    "min_expected_results": 0,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_as_033",
+    "scenario": "after_sales",
+    "query": "手表表带可以换吗",
+    "expected_intent": "after_sales",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10010001",
+      "JD10020002",
+      "TB10000003"
+    ],
+    "min_expected_results": 0,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_as_034",
+    "scenario": "after_sales",
+    "query": "充电宝鼓包了怎么办",
+    "expected_intent": "after_sales",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD100017986276",
+      "JD100197769762",
+      "JD100129381482-A"
+    ],
+    "min_expected_results": 0,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_as_035",
+    "scenario": "after_sales",
+    "query": "相机镜头发霉保修吗",
+    "expected_intent": "after_sales",
+    "expected_slots": {},
+    "ground_truth_product_ids": [
+      "JD10080008",
+      "JD100009073095",
+      "JD10090009"
+    ],
+    "min_expected_results": 0,
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_new_cc_026",
+    "scenario": "chitchat",
+    "query": "讲个故事吧",
+    "expected_intent": "chitchat",
+    "expected_slots": {},
+    "ground_truth_product_ids": [],
+    "min_expected_results": 0,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_cc_027",
+    "scenario": "chitchat",
+    "query": "你多大了",
+    "expected_intent": "chitchat",
+    "expected_slots": {},
+    "ground_truth_product_ids": [],
+    "min_expected_results": 0,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_cc_028",
+    "scenario": "chitchat",
+    "query": "帮我算一下1加1",
+    "expected_intent": "chitchat",
+    "expected_slots": {},
+    "ground_truth_product_ids": [],
+    "min_expected_results": 0,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_cc_029",
+    "scenario": "chitchat",
+    "query": "你擅长什么",
+    "expected_intent": "chitchat",
+    "expected_slots": {},
+    "ground_truth_product_ids": [],
+    "min_expected_results": 0,
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_new_cc_030",
+    "scenario": "chitchat",
+    "query": "今天星期几",
+    "expected_intent": "chitchat",
+    "expected_slots": {},
+    "ground_truth_product_ids": [],
+    "min_expected_results": 0,
+    "difficulty": "easy"
   }
 ]

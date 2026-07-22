@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.integration
+
 """
 SSE event tests — 验证 SSE 事件流格式。DB-dependent tests use db_check fixture.
 """

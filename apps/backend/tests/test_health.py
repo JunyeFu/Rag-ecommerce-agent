@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.integration
+
 """Health endpoint tests."""
 import pytest
 
@@ -11,4 +14,4 @@ async def test_health_returns_object_and_status_code(client):
     assert isinstance(data, dict)
     assert data["status"] in {"ok", "degraded"}
     assert "database" in data
-    assert "qdrant" in data
+    assert "pgvector" in data

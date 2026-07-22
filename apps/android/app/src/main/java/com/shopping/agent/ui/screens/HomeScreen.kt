@@ -20,6 +20,7 @@ import com.shopping.agent.ui.navigation.LocalOnMenuClick
 import com.shopping.agent.ui.theme.*
 import com.shopping.agent.viewmodel.ChatViewModel
 import com.shopping.agent.viewmodel.GuideUiState
+import com.shopping.agent.viewmodel.ScreenState
 
 @Composable
 fun HomeScreen(
@@ -63,8 +64,49 @@ fun HomeScreen(
             }
         })
 
+        // ===== 演示模式横幅 =====
+        val themeState = LocalThemeState.current
+        if (themeState.isDemoMode.value) {
+            Surface(
+                color = Warning,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(
+                    "演示模式",
+                    color = OnPrimary,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                )
+            }
+        }
+
         // ===== 内容区 (占满剩余空间) =====
-        if (uiState.messages.isEmpty() && !uiState.isStreaming) {
+        if (uiState.screenState is ScreenState.Error && uiState.messages.isEmpty()) {
+            // 错误态：无历史消息时，居中展示错误信息和重试按钮
+            Box(
+                modifier = Modifier.weight(1f).fillMaxWidth(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    val errorMsg = (uiState.screenState as ScreenState.Error).message
+                    Text(
+                        errorMsg,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                        modifier = Modifier.padding(horizontal = 32.dp),
+                    )
+                    Spacer(Modifier.height(16.dp))
+                    OutlinedButton(onClick = { chatViewModel.retryLastMessage() }) {
+                        Text("重试", color = Primary)
+                    }
+                }
+            }
+        } else if (uiState.messages.isEmpty() && !uiState.isStreaming) {
             // 空态 — 在渐变条和搜索栏之间居中
             Box(
                 modifier = Modifier.weight(1f).fillMaxWidth(),
@@ -173,6 +215,33 @@ private fun ChatMessageList(
                                     )
                                 )
                             }
+                        }
+                    }
+                }
+            }
+        }
+        // 有历史消息时错误态展示为底部可重试提示
+        if (uiState.screenState is ScreenState.Error && uiState.messages.isNotEmpty()) {
+            item(key = "error_retry") {
+                Surface(
+                    shape = RadiusLg,
+                    color = MaterialTheme.colorScheme.surface,
+                    shadowElevation = 2.dp,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Row(
+                        modifier = Modifier.padding(Dimens.space3),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            (uiState.screenState as ScreenState.Error).message,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.weight(1f),
+                        )
+                        Spacer(Modifier.width(12.dp))
+                        OutlinedButton(onClick = { chatViewModel.retryLastMessage() }) {
+                            Text("重试", color = Primary)
                         }
                     }
                 }

@@ -1,35 +1,36 @@
 # 电商AI导购Agent — 开发总纲 DEV-GUIDE v3.2
 
-> **最高优先级参考：`docs/background/REQS-竞赛核心需求.md`**  
-> 本文档 = PRD + 竞品分析 + 架构分析 + 创新调研 + UI设计 + 比赛需求 的压缩版  
-> 每次编码前必读。冲突时以 REQS.md 为准。  
+> **⚠️ 辅助文档** - 开发权威入口为 [`DEV-CONTROL.md`](../DEV-CONTROL.md)，如有冲突以权威文档为准。
+>
+> 本文档 = PRD + 竞品分析 + 架构分析 + 创新调研 + UI设计 的压缩版  
+> 每次编码前必读。  
 > **新手入门**：先看 `docs/standards/SETUP.md` 从零搭建环境。
 
 ---
 
-## 一、系统目标（来自比赛题目）
+## 一、系统目标
 
 ```
 "意图理解 → 智能咨询 → 决策辅助 → 交易执行" 全链路闭环
 
-Android(Kotlin/Compose) ← SSE → FastAPI ← LangGraph → Qdrant/PostgreSQL → Doubao
+Android(Kotlin/Compose) ← SSE → FastAPI ← LangGraph → pgvector/PostgreSQL → Doubao
 ```
 
 **9 级场景覆盖**：单轮推荐 → 条件筛选 → 多轮追问 → 对比决策 → 主动反问 → 反选排除 → 场景化组合 → 购物车下单 → 拍照找货
 
 ---
 
-## 二、技术栈（比赛指定）
+## 二、技术栈
 
 | 层 | 技术 | 备注 |
 |----|------|------|
 | 客户端 | Android Kotlin + Jetpack Compose | 原生，不接受 Web |
 | 后端 | FastAPI + Uvicorn | |
 | Agent | LangGraph StateGraph | |
-| RAG | Qdrant (native Python client) | LlamaIndex 未实际使用 |
+| RAG | pgvector + SQLAlchemy | LlamaIndex 未实际使用 |
 | 数据库 | PostgreSQL + pgvector | |
-| LLM | **Doubao-Seed-2.0-lite** ✅ 已验证 | 比赛提供 Key（DeepSeek 保留降级） |
-| Embedding | BGE-large-zh-v1.5 | 比赛推荐 Doubao-embedding-vision，不强制 |
+| LLM | **DeepSeek-V4-Flash** ✅ 已验证 | Doubao 保留降级（reasoning disabled, TTFT ~0.6s） |
+| Embedding | BGE-large-zh-v1.5 | 中文电商领域 SOTA |
 
 ### Doubao API
 
@@ -53,7 +54,7 @@ LangGraph StateGraph (7 节点 — 全部已实现):
     ↓
   [missing_slots? → clarify] → 主动追问 (已实现)
     ↓
-  retrieve          → Qdrant向量检索 + 否定排除 + 场景多类目并行
+  retrieve          → pgvector向量检索 + 否定排除 + 场景多类目并行
     ↓
   [rank + validate] → ProductRanker 5维加权 + _validate_ranked_products
     ↓
@@ -70,35 +71,35 @@ LangGraph StateGraph (7 节点 — 全部已实现):
 
 ## 四、代码级创新约束
 
-### 4.1 否定语义处理（场景6 — 比赛核心加分项）
+### 4.1 否定语义处理（场景6 — 核心功能）
 ```
 必须: intent 检测否定关键词: "不要"、"除了"、"非"、"不含"、"拒绝"
 必须: extract_slots 输出 exclude_attributes: ["含酒精", "日系品牌"]
 必须: retriever 排除命中 exclude_attributes 的商品
 ```
 
-### 4.2 Agent 主动反问（场景5 — 比赛进阶项）
+### 4.2 Agent 主动反问（场景5 — 进阶功能）
 ```
 必须: 信息不足时 (missing_slots非空) 主动追问
 必须: clarify 节点输出引导性问题 (如"拍照、续航还是性价比？")
 禁止: 信息不足时强行推荐
 ```
 
-### 4.3 条件筛选（场景2 — 比赛基础项）
+### 4.3 条件筛选（场景2 — 基础功能）
 ```
 必须: 结构化参数提取 (price_range, brand, category)
 必须: retriever metadata 范围过滤
 必须: 整合同类商品按条件排序
 ```
 
-### 4.4 购物车 CRUD（场景8 — 比赛加分项，非阻塞）
+### 4.4 购物车 CRUD（场景8 — 扩展功能，非阻塞）
 
-> ⚠️ 加分项目标，不影响场景 1-5 交付。
+> ⚠️ 扩展功能目标，不影响场景 1-5 交付。
 
 ```
-加分项: 识别 cart_add/cart_remove/cart_modify/cart_checkout 意图
-加分项: 维护 session 级购物车状态
-加分项: 客户端实时展示购物车数量/状态
+扩展功能: 识别 cart_add/cart_remove/cart_modify/cart_checkout 意图
+扩展功能: 维护 session 级购物车状态
+扩展功能: 客户端实时展示购物车数量/状态
 ```
 
 ### 4.5 agent.py → generate_node (v0.3.1 交错输出)
@@ -107,7 +108,7 @@ LangGraph StateGraph (7 节点 — 全部已实现):
 SSE 推送: progress → (text_delta + product_cards) × N → closing_text → done
 每商品: 第1行=商品全名, 第2行=综合匹配度, ①②③ 三段理由
 禁止: "为您推荐以下几款：1. xxx 2. xxx 3. xxx"
-禁止: 编造不存在的优惠券/功能/价格（比赛红线）
+禁止: 编造不存在的优惠券/功能/价格（项目红线）
 缓存: 内存 LRU + CACHE_VERSION 版本校验自动过期 + 启动清空 + API 清空端点
 ```
 
@@ -127,26 +128,26 @@ SSE 流式速率 ≥ 20 tokens/s
 
 ---
 
-## 五、评测指标（比赛评分）
+## 五、评测指标
 
 | 维度 | 权重 | 指标 |
 |------|:---:|------|
 | 基础功能完整性 | 35% | 9场景中至少场景1-5跑通 |
 | 工程质量 | 25% | 代码结构清晰、错误处理完善、文档齐全 |
 | 效果与可靠性 | 20% | 无幻觉、检索准确、流畅美观 |
-| 加分项深度 | 20% | 购物车/多模态/性能优化/否定语义 |
+| 扩展功能深度 | 20% | 购物车/多模态/性能优化/否定语义 |
 
 ---
 
 ## 六、绝对禁止
 
 ```
-❌ 编造不存在的优惠券/功能/价格（比赛直接扣分）
+❌ 编造不存在的优惠券/功能/价格（项目红线）
 ❌ 用纯 Web/H5 客户端
 ❌ 泄露 API Key（GitHub 提交前检查 .gitignore）
 ❌ 忽略否定语义（"不要""除了""非"）
 ❌ Demo 无法正常运行或需要大量手动配置
-❌ 代码完全依赖 AI 生成而无法解释原理（答辩红线）
+❌ 代码完全依赖 AI 生成而无法解释原理（质量红线）
 ❌ generate_node 输出纯列表
 ❌ intent 只用品类规则
 ❌ slots 不全时强行推荐
@@ -231,24 +232,34 @@ tar -xzf huggingface-models.tar.gz -C ~/
 
 ## 八、模块完成度现状
 
+> 更新：2026-07-21（P0-P3 质量提升完成后同步）
+
 | 模块 | 完成度 | 备注 |
 |------|:---:|------|
-| agent.py | 95% | 全9场景 + 反幻觉 + 2步下单 + 场景分解 |
+| agent.py (facade) | 95% | 354行 facade + node_cart + route_after_intent + re-export |
+| pipeline.py (P3 D1) | 95% | 432行 - generate_response 调度器 + 9 个 handler 异步生成器 |
+| intent_router.py (P3 D1) | 95% | 81行 - 4 个意图修正函数（cart_keyword/negation/commerce/cart_confirm） |
+| agent_nodes/ (7节点) | 95% | classify/clarify/retrieve/generate/compare/web_search/safety_check 已模块化 |
+| slot_management.py | 90% | 品类推断 + 槽位合并 + 否定过滤（453行，最高 fan-in） |
+| cart_nlp.py | 95% | 购物车 NLP 解析（425行纯正则，14函数） |
+| llm/ (Strategy+Factory) | 95% | LLMProvider 接口 + Doubao/DeepSeek/Mimo 自动检测 + thinking disabled |
+| comparison/ (Template Method) | 95% | ComparisonPipeline + WinnerStrategy 4实现 |
+| core/cache/ (Protocol) | 95% | CacheBackend + InMemoryCache(LRU+TTL) + NoOpCache + QueryCache + SlidingWindowRateLimiter |
 | intent.py | 90% | 9类意图 + 否定检测 + 槽位提取 |
-| retriever.py | 95% | Qdrant + 否定排除 + 多类目并行检索 |
-| reranker.py | 90% | BGE-Reranker-v2-m3 线程安全加载 |
+| retriever.py | 95% | pgvector hybrid + 否定排除 + DB 错误兜底 |
+| reranker.py | 90% | BGE-Reranker-v2-m3 + 冷却重试（300s） |
 | product_ranker.py | 90% | 5维加权排序 |
 | image_parser.py | 85% | VLM 图像理解 + 结构化输出 |
-| cart_service.py | 90% | PostgreSQL 持久化 + CRUD |
-| state_manager.py | 90% | Session 状态 + 上下文递进 |
+| cart_service.py | 90% | PostgreSQL 持久化 + InMemoryCache(LRU+TTL) 替代模块级 dict |
+| auth_service.py | 90% | Session Token + InMemoryCache(LRU+TTL) + DB 持久化 |
+| state_manager.py | 90% | Session 状态 + InMemoryCache(LRU+TTL) |
 | chat.py | 100% | SSE 流式 + 全事件类型 |
-| upload.py | 90% | 图片上传 + vision-search |
-| 购物车模块 | 90% | 对话式 CRUD + 2步下单确认 |
-| 多模态模块 | 85% | VLM → Qdrant 相似检索 |
-| LLM | 100% | Doubao-Seed-2.0-lite 主路 + DeepSeek 快路 |
-| Android 前端 | 85% | 4页面 + SSE + 拍照找货 + 购物车UI |
+| upload.py | 95% | 图片上传 + vision-search + content-type 校验 |
+| schemas/ (15文件) | 95% | 内联 BaseModel 已全部提取 + 字段约束 |
+| LLM | 100% | DeepSeek-V4-Flash 主路（reasoning disabled） + Doubao/Mimo 备选 |
+| Android 前端 | 90% | 82 .kt 文件 + SSE + ApiClient + AuthInterceptor + AuthManager + 6 个 Repository Ext |
 
 ---
 
-> 详细展开: `docs/background/REQS-竞赛核心需求.md` (最高优先级)  
+> 详细展开: 参见 `docs/standards/DEV-CONTROL.md`
 > 进度跟踪: `docs/progress/开发进度控制表.md`
