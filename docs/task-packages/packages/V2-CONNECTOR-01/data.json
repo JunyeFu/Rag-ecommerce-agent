@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-CONNECTOR-01",
+  "owner": "commerce-integrations",
+  "objective": "建立授权报价连接器契约、夹具、新鲜度、requote与安全深链",
+  "inputs": ["V2-DATA-01 seed package", "V2-DOMAIN-01 offer contracts", "partner API documentation"],
+  "outputs": ["connector SPI", "three platform fixtures", "authorized adapters", "deep-link resolver", "connector health metrics"],
+  "acceptance": ["contract fixtures pass", "100% HTTPS allowlisted URLs", "no unverified price promotion", "safe failure degradation"],
+  "test_profiles": ["profiles.backend_contract", "profiles.backend_integration"],
+  "business_refs": ["offer_policy", "quality_targets"],
+  "development_refs": ["profiles.backend_contract", "profiles.backend_integration", "evidence_rules"],
+  "risk_refs": ["连接器与深链", "商业真相与 RAG", "安全与发布"]
+}

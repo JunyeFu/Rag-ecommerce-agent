@@ -1,28 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Material3 DayNight 主题 — Compose 主界面使用 -->
-    <style name="Theme.ShoppingAgent" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorOnPrimary">@color/on_primary</item>
-        <item name="colorPrimaryContainer">@color/primary_container</item>
-        <item name="colorOnPrimaryContainer">@color/on_primary_container</item>
-        <item name="colorSecondary">@color/secondary</item>
-        <item name="colorOnSecondary">@color/on_secondary</item>
-        <item name="android:statusBarColor">@color/primary</item>
+    <style name="Theme.RagCommerce" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">#EEF4EF</item>
     </style>
-
-    <!--
-        系统级冷启动 SplashScreen 主题。
-        - Android 12+: 白色背景 + 透明图标 = 纯白（无图标放大动画）
-        - Android 11-: windowBackground 显示开屏图
-        冷启动结束后 postSplashScreenTheme 切回主主题。
-    -->
-    <style name="Theme.ShoppingAgent.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon_empty</item>
-        <item name="postSplashScreenTheme">@style/Theme.ShoppingAgent</item>
-        <item name="android:windowBackground">@drawable/splash_screen</item>
-    </style>
-
-    <color name="white">#FFFFFFFF</color>
 </resources>

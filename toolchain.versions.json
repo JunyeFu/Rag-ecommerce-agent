@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "python": "3.12.11",
+  "uv": "0.11.13",
+  "node": "24.15.0",
+  "npm": "12.0.1",
+  "java": "17",
+  "gradle": "8.9",
+  "gradle_distribution_sha256": "d725d707bfabd4dfdc958c624003b3c80accc03f7037b5122c4b1d0ef15cecab",
+  "gradle_wrapper_sha256": "498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17",
+  "android_gradle_plugin": "8.7.0",
+  "kotlin": "2.0.21",
+  "android_compile_sdk": 35,
+  "contract_generator": "1",
+  "containers": {
+    "postgres": "pgvector/pgvector:0.8.1-pg16",
+    "qdrant": "qdrant/qdrant:v1.18.2",
+    "redis": "redis:8.2.2-alpine",
+    "object_storage": "minio/minio:RELEASE.2025-04-22T22-12-26Z"
+  },
+  "sources": {
+    "python": "https://github.com/astral-sh/python-build-standalone",
+    "python_packages": "https://pypi.org/simple",
+    "node": "https://nodejs.org/dist/",
+    "node_packages": "https://registry.npmjs.org/",
+    "gradle": "https://services.gradle.org/distributions/",
+    "android": "https://dl.google.com/dl/android/maven2/",
+    "containers": "https://hub.docker.com/"
+  }
+}

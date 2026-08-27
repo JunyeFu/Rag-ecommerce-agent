@@ -1,0 +1,103 @@
+{
+  "assertions": {
+    "commercial_fact_fields": 1,
+    "completed": true,
+    "evidence_supported_fields": 1,
+    "model_generated_commercial_fields": 0,
+    "replans": 0,
+    "tool_attempts": 1,
+    "unauthorized_actions": 0
+  },
+  "command": {
+    "input_kind": "text",
+    "media_count": 0,
+    "run_id": "00000000-0000-5000-8000-000000000003",
+    "thread_id": "00000000-0000-5000-8000-000000000002"
+  },
+  "events": [
+    {
+      "data": {
+        "agent_version": "shopping-agent-v1",
+        "contract_version": "0.1.0",
+        "model_version": "fake-v1",
+        "policy_version": "policy1",
+        "prompt_version": "p1",
+        "thread_id": "00000000-0000-5000-8000-000000000002"
+      },
+      "id": 1,
+      "type": "run_started"
+    },
+    {
+      "data": {
+        "argument_names": [
+          "query"
+        ],
+        "arguments_sha256": "a2bbc3323dd0422344f7726bf52392645ca5ec5046a753b7c2f53b5e23dd278d",
+        "idempotency_digest": "a2bbc3323dd0422344f7726bf52392645ca5ec5046a753b7c2f53b5e23dd278d",
+        "invocation_id": "3ae528dc-3979-51ad-96ee-f1fb5d46562f",
+        "risk": "READ",
+        "tool": "catalog.search"
+      },
+      "id": 2,
+      "type": "tool_started"
+    },
+    {
+      "data": {
+        "duration_ms": 5.0,
+        "idempotency_digest": "a2bbc3323dd0422344f7726bf52392645ca5ec5046a753b7c2f53b5e23dd278d",
+        "invocation_id": "3ae528dc-3979-51ad-96ee-f1fb5d46562f",
+        "tool": "catalog.search"
+      },
+      "id": 3,
+      "type": "tool_completed"
+    },
+    {
+      "data": {
+        "fields": [
+          "title"
+        ],
+        "invocation_id": "3ae528dc-3979-51ad-96ee-f1fb5d46562f",
+        "ref": "seed:fixture-product",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "id": 4,
+      "type": "evidence"
+    },
+    {
+      "data": {
+        "text": "已根据工具证据完成。"
+      },
+      "id": 5,
+      "type": "message"
+    },
+    {
+      "data": {
+        "reason": "COMPLETED",
+        "replans": 0,
+        "tool_attempts": 1,
+        "usage": {
+          "cost_minor": 0,
+          "currency": "CNY",
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "provider": "deterministic_fake"
+        }
+      },
+      "id": 6,
+      "type": "completed"
+    }
+  ],
+  "fixture": "deterministic_fake_model",
+  "normalization": [
+    "event timestamps omitted",
+    "tool duration uses deterministic clock"
+  ],
+  "runtime_identity": {
+    "agent_version": "shopping-agent-v1",
+    "contract_version": "0.1.0",
+    "model_version": "fake-v1",
+    "policy_version": "policy1",
+    "prompt_version": "p1"
+  },
+  "schema_version": 1
+}

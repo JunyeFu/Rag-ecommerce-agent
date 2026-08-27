@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-08-26T08:27:32.785103+00:00",
+  "standard": "WCAG 2 contrast formula; 4.5:1 small-text threshold",
+  "checks": [
+    {
+      "foreground": "TextPrimary",
+      "background": "Background",
+      "ratio": 15.63,
+      "required": 4.5,
+      "passed": true
+    },
+    {
+      "foreground": "TextPrimary",
+      "background": "Surface",
+      "ratio": 16.54,
+      "required": 4.5,
+      "passed": true
+    },
+    {
+      "foreground": "TextSecondary",
+      "background": "Background",
+      "ratio": 7.88,
+      "required": 4.5,
+      "passed": true
+    },
+    {
+      "foreground": "TextSecondary",
+      "background": "Surface",
+      "ratio": 8.34,
+      "required": 4.5,
+      "passed": true
+    },
+    {
+      "foreground": "Brand",
+      "background": "Surface",
+      "ratio": 6.51,
+      "required": 4.5,
+      "passed": true
+    },
+    {
+      "foreground": "Warning",
+      "background": "WarningContainer",
+      "ratio": 5.69,
+      "required": 4.5,
+      "passed": true
+    },
+    {
+      "foreground": "Danger",
+      "background": "Surface",
+      "ratio": 7.08,
+      "required": 4.5,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "TalkBack focus order still requires physical-device human acceptance."
+  ]
+}

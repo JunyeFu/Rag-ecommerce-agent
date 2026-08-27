@@ -1,0 +1,17 @@
+{
+  "cases": 226,
+  "decision": "excluded_from_competition_v1_pending_license_and_gold_review",
+  "duplicate_query_groups": 3,
+  "gold_statuses": {
+    "pending_review": 226
+  },
+  "ground_truth_references": 454,
+  "license_statuses": {
+    "pending_review": 226
+  },
+  "schema_version": 1,
+  "source": "evals/seed/evaluation.v1.json",
+  "source_sha256": "e83c919bb29c206c3edde5d1d845ce6e1ff3cdfc3d92d48036a6214882082732",
+  "unique_case_ids": 226,
+  "unique_queries": 223
+}

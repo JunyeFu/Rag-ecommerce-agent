@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-ANDROID-01",
+  "status": "passed",
+  "verified_at": "2026-08-26T17:10:00+08:00",
+  "scope": "four-tab Android shopping flow, multimodal turns, resumable SSE, requote/deep-link safety, process recovery, accessibility tokens and emulator performance",
+  "checks": [
+    {
+      "id": "android_build_unit_and_lint",
+      "command": "gradlew.bat testDebugUnitTest lintDebug assembleDebug assembleBenchmark -PapiUrl=https://ci.invalid/",
+      "exit_code": 0,
+      "counts": {
+        "unit_tests_passed": 14,
+        "unit_tests_failed": 0,
+        "lint_errors": 0,
+        "lint_warnings": 18,
+        "debug_apk_bytes": 11908475,
+        "benchmark_apk_bytes": 8336992
+      },
+      "artifacts": {
+        "apps/android/app/build/outputs/apk/debug/app-debug.apk": "e643e226f9aebaac7edf8a5b0b0ef5a9e79035704967acb0629999b8ddba3b34",
+        "apps/android/app/build/outputs/apk/benchmark/app-benchmark.apk": "89cbd8f7271cb0c508cfca77d09cebce85b7e93793459041adfb7cbdd1fb8edf"
+      },
+      "result": "passed"
+    },
+    {
+      "id": "offline_instrumentation_matrix",
+      "command": "gradlew.bat connectedDebugAndroidTest",
+      "exit_code": 0,
+      "counts": {
+        "tests": 14,
+        "passed": 13,
+        "failed": 0,
+        "skipped": 1,
+        "shopping_flow_scenarios": 12,
+        "process_recovery_seed_tests": 1,
+        "fixture_tests_skipped_when_server_absent": 1
+      },
+      "result": "passed"
+    },
+    {
+      "id": "fixture_api_agent_sse",
+      "command": "run_android_instrumentation_case.py FixtureApiFlowTest against android_fixture_api.py",
+      "exit_code": 0,
+      "counts": {
+        "instrumentation_tests_passed": 1,
+        "media_uploads_created": 2,
+        "turns_accepted": 1,
+        "event_streams_consumed": 1,
+        "evidence_references_rendered": 1
+      },
+      "artifacts": {
+        "docs/task-packages/packages/V2-ANDROID-01/evidence/emulator/fixture-api-instrumentation.json": "fixture integration summary",
+        "docs/task-packages/packages/V2-ANDROID-01/evidence/emulator/multimodal-summary.json": "UI-tree multimodal summary",
+        "docs/task-packages/packages/V2-ANDROID-01/evidence/emulator/multimodal-final.png": "final emulator screenshot"
+      },
+      "result": "passed"
+    },
+    {
+      "id": "recovery_and_runtime_safety",
+      "command": "UIAutomator tree process restart and rotation checks; adb cold launch with filtered logcat",
+      "exit_code": 0,
+      "counts": {
+        "process_restart_checks_passed": 1,
+        "rotation_checks_passed": 1,
+        "fatal_exceptions": 0,
+        "strict_mode_violations": 0,
+        "single_debug_cold_launch_ms": 2402
+      },
+      "result": "passed"
+    },
+    {
+      "id": "accessibility_and_performance",
+      "command": "check_android_accessibility_tokens.py; connectedBenchmarkAndroidTest; summarize_android_benchmark.py",
+      "exit_code": 0,
+      "counts": {
+        "contrast_pairs_passed": 7,
+        "contrast_pairs_failed": 0,
+        "macrobenchmark_iterations": 10,
+        "startup_p95_ms": 1510.9146,
+        "startup_threshold_ms": 2000
+      },
+      "result": "passed"
+    },
+    {
+      "id": "contract_and_repository_quality",
+      "command": "generate_contracts.py --check; ruff check; compileall; validate_task_packages.py",
+      "exit_code": 0,
+      "counts": {
+        "generated_contract_drift_files": 0,
+        "ruff_errors": 0,
+        "compile_errors": 0,
+        "task_package_errors": 0
+      },
+      "result": "passed"
+    }
+  ],
+  "external_gates": ["物理真机HTTPS/性能、真实联盟深链、Android TalkBack人工验收与真实模型/联盟结构化商品投影"],
+  "failure_summary": [
+    "Hilt 2.60.1 要求 AGP 9，与冻结 AGP 8.7 不兼容；使用 2.57.2。",
+    "Room 2.8.4、OkHttp 5.3 与冻结 Kotlin/KSP 组合出现元数据或 ABI 不兼容；冻结为 Room 2.7.2 与 OkHttp 4.12.0。",
+    "首轮 12 场景 instrumentation 有 2 个选择器失败，修正为稳定语义节点后全量通过；未删除失败事实。",
+    "初次 macrobenchmark 受 JVM target、测试签名和 EMULATOR 检查阻断；逐项修正后完成 10 次测量，模拟器限制仍明确保留。",
+    "两次 ADB 文本输入受 Unicode/输入法限制未能可靠播种进程恢复状态，改用 Compose instrumentation seed；失败尝试不作为通过证据。",
+    "直接使用系统 Python 校验生成物因缺少项目依赖失败，改用 uv 锁定环境后 OpenAPI 与 Agent artifact 校验通过。"
+  ],
+  "claims": {
+    "local_android_flow_complete": true,
+    "emulator_ui_tree_and_instrumentation_verified": true,
+    "emulator_multimodal_fixture_api_verified": true,
+    "emulator_startup_threshold_met": true,
+    "physical_device_verified": false,
+    "talkback_human_accepted": false,
+    "live_affiliate_deep_link_verified": false,
+    "real_provider_structured_product_projection_verified": false,
+    "production_signed": false
+  },
+  "notes": [
+    "模拟器证据通过 UIAutomator tree 选择控件；截图仅用于视觉留档，没有作为点击坐标来源。",
+    "deterministic fixture API 复用了真实 API/Agent runtime，但不包含真实模型或联盟报价，不能外推为 LIVE_E2E。",
+    "Debug APK 最终重新构建为 https://ci.invalid/，未把临时 fixture 地址固化到交付物。",
+    "Gradle UP-TO-DATE 任务与模拟器 CPU 未锁定限制如实保留，未描述为物理设备性能证据。"
+  ]
+}

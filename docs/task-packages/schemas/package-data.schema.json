@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.example/rag-commerce-v2/task-package-data.schema.json",
+  "title": "RAG Commerce V2 Task Package Data",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "package_id", "owner", "objective", "inputs", "outputs", "acceptance", "test_profiles", "business_refs", "development_refs", "risk_refs"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "package_id": {"type": "string", "pattern": "^V2-[A-Z]+-[0-9]{2}$"},
+    "owner": {"type": "string", "minLength": 1},
+    "objective": {"type": "string", "minLength": 1},
+    "inputs": {"type": "array", "items": {"type": "string"}},
+    "outputs": {"type": "array", "items": {"type": "string"}},
+    "acceptance": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "test_profiles": {"type": "array", "items": {"type": "string"}},
+    "business_refs": {"type": "array", "items": {"type": "string"}},
+    "development_refs": {"type": "array", "items": {"type": "string"}},
+    "risk_refs": {"type": "array", "items": {"type": "string"}}
+  }
+}

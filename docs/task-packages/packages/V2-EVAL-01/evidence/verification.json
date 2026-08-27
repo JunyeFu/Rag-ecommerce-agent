@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-EVAL-01",
+  "status": "passed",
+  "verified_at": "2026-08-26T00:00:00+08:00",
+  "checks": [
+    {
+      "name": "deterministic_dataset_generation",
+      "command": "uv run python scripts/generate_competition_eval.py --check",
+      "exit_code": 0,
+      "summary": "5个受管文件可确定性重放；600个唯一case与query指纹"
+    },
+    {
+      "name": "evaluation_suite_validation",
+      "command": "uv run python scripts/validate_evaluation_suite.py",
+      "exit_code": 0,
+      "summary": "errors=0；300购物/100多轮/80多模态/60报价故障/60安全隐私；dev=360/test=140/heldout=100"
+    },
+    {
+      "name": "reference_harness_replay",
+      "command": "uv run python scripts/run_evaluation_baseline.py --check",
+      "exit_code": 0,
+      "summary": "500/500公开case通过参考构造器；仅证明grader与harness自洽，不代表模型质量"
+    },
+    {
+      "name": "retrieval_ablations",
+      "command": "uv run python scripts/run_evaluation_ablations.py --check",
+      "exit_code": 0,
+      "summary": "结构化BM25 Recall@10=0.9444、NDCG@10=0.9168；其余3个低于目标的消融如实保留；provider_calls=0、heldout_cases=0"
+    },
+    {
+      "name": "evaluation_tests",
+      "command": "uv run pytest packages/evaluation/tests -q",
+      "exit_code": 0,
+      "summary": "5 passed"
+    },
+    {
+      "name": "nonintegration_regression",
+      "command": "uv run pytest -m \"not integration\" -q",
+      "exit_code": 0,
+      "summary": "56 passed, 6 deselected"
+    },
+    {
+      "name": "legacy_seed_audit",
+      "command": "uv run python scripts/validate_evaluation_suite.py",
+      "exit_code": 0,
+      "summary": "旧226条含223个唯一query、3组重复、226条许可待确认、226条gold待复核，未并入v1竞赛结论"
+    },
+    {
+      "name": "human_review_status",
+      "command": "uv run python scripts/summarize_human_review.py --check",
+      "exit_code": 0,
+      "summary": "0/100完成双评；不生成一致性或质量结论"
+    }
+  ],
+  "artifacts": {
+    "dataset_manifest_sha256": "de09b4fda53acf77f2ac8f7f6f745f5a394f622c68764b0986beb370be64c897",
+    "case_schema_sha256": "b339dd55aeeb84e5e6f441fd67218471dcf9872ad21d6cebd051da7eda2b5c5d",
+    "public_cases_sha256": "f04be24b5bda96e1d2844e61b37a58f0319bb54ebf9999245cd06bb8ab0dab0c",
+    "heldout_queue_sha256": "97b0e167a644dc82987c9bb4c915dfb0d1042aac36ed30644c53a83d37580ad3",
+    "reference_results_sha256": "af98d40ce698a20b64813d3311031a4ed38d660dded6a444fce684c8102111a0",
+    "reference_summary_sha256": "de960a39cb7bb9f8d0e0622db09dc525146150ff33e5f01acec028226d6e4716",
+    "reference_run_manifest_sha256": "bf85a4468c649066ce3bcc220f433f38ad782e5f4f3e4f8d5e5333a65b11c7e6",
+    "ablation_report_sha256": "7c31f524f7559d34c9eb0ffedf674489e381edf307ac1c5bc7bb70ed6f98da3f"
+  },
+  "external_gates": [
+    "获批模型提供方预算与真实模型评测",
+    "100条held-out双人盲评、仲裁与一致性报告",
+    "独立封存工作区以及旧226条种子的商业许可和gold复核"
+  ],
+  "notes": [
+    "held-out队列在仓库内可见，因此仅能证明runner隔离，不能声称外部保密封存",
+    "参考构造器结果与本地检索基线不得解释为生产Agent商业质量"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.example/rag-commerce-v2/task-package-manifest.schema.json",
+  "title": "RAG Commerce V2 Task Package Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "baseline_id", "authority", "source_baseline", "packages"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "baseline_id": {"type": "string", "minLength": 1},
+    "authority": {"type": "string", "minLength": 1},
+    "source_baseline": {"$ref": "#/$defs/relativePath"},
+    "packages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/package"}
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?![A-Za-z]:)(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "status", "priority", "autonomy", "dependencies", "path", "evidence", "external_gates"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^V2-[A-Z]+-[0-9]{2}$"},
+        "title": {"type": "string", "minLength": 1},
+        "status": {"enum": ["planned", "in_progress", "blocked", "complete"]},
+        "priority": {"enum": ["P0", "P1", "P2"]},
+        "autonomy": {"enum": ["full", "conditional", "human_gate"]},
+        "dependencies": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "path": {"$ref": "#/$defs/relativePath"},
+        "evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/relativePath"}},
+        "external_gates": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  }
+}

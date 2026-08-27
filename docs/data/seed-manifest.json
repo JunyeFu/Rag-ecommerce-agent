@@ -1,0 +1,38 @@
+{
+  "deterministic": true,
+  "generation_command": "python scripts/export_v1_seed.py --source <source-repository>",
+  "inputs": {
+    "evaluation": {
+      "path": "apps/backend/data/test_cases/eval_cases.json",
+      "sha256": "337b5b3c00c51b6d82b5bce14fab2e99f7f557806d7ee8c8a9448b39dbe4d514"
+    },
+    "products": {
+      "path": "apps/backend/data/qdrant/products_expanded_100.jsonl",
+      "sha256": "e11516a8012918d9f12f52c3d590d43d7a1299483935e3bb77f053ddf6322ad1"
+    }
+  },
+  "license_status": "development_only_pending_review",
+  "outputs": {
+    "catalog": {
+      "path": "data/seed/catalog.v1.jsonl",
+      "rows": 287,
+      "sha256": "6935a434cd7c5c66117b1f256c2c246839b190b07b25768eb00488b6c8ec4a3e"
+    },
+    "evaluation": {
+      "cases": 226,
+      "path": "evals/seed/evaluation.v1.json",
+      "sha256": "e83c919bb29c206c3edde5d1d845ce6e1ff3cdfc3d92d48036a6214882082732"
+    },
+    "license_ledger": {
+      "path": "docs/data/license-ledger.json",
+      "sha256": "ac7d0b1f39cba2b46c2ffd0fec21cb5f32270d5a6ae2f1dc3eb0caafe1636657"
+    },
+    "quality_report": {
+      "path": "docs/data/quality-report.json",
+      "sha256": "8b8ab35c86a0b254bcdb0295fecd40aed4e280e8238b54223dbd8dea9b5645a6"
+    }
+  },
+  "package_id": "V2-DATA-01-SEED-v1",
+  "schema_version": 1,
+  "source_head": "8df480f2264fc937ba156d2bc3e083cb07d3619f"
+}

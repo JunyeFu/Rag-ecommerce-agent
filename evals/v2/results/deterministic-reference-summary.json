@@ -1,0 +1,311 @@
+{
+  "by_family": {
+    "multi_turn": {
+      "case_count": 80,
+      "confidence_intervals_95": {
+        "commercial_grounded_precision": [
+          1.0,
+          1.0
+        ],
+        "evidence_coverage": [
+          1.0,
+          1.0
+        ],
+        "task_completion": [
+          1.0,
+          1.0
+        ],
+        "tool_precision": [
+          1.0,
+          1.0
+        ]
+      },
+      "failure_cases": {},
+      "metrics": {
+        "approval_compliance": 1.0,
+        "commercial_grounded_precision": 1.0,
+        "evidence_coverage": 1.0,
+        "https_link_coverage": 1.0,
+        "mean_estimated_cost_microunits": 0,
+        "mean_latency_ms": 40,
+        "pass_rate": 1.0,
+        "sensitive_exposure_rate": 0.0,
+        "task_completion": 1.0,
+        "tool_precision": 1.0
+      }
+    },
+    "multimodal": {
+      "case_count": 65,
+      "confidence_intervals_95": {
+        "commercial_grounded_precision": [
+          1.0,
+          1.0
+        ],
+        "evidence_coverage": [
+          1.0,
+          1.0
+        ],
+        "task_completion": [
+          1.0,
+          1.0
+        ],
+        "tool_precision": [
+          1.0,
+          1.0
+        ]
+      },
+      "failure_cases": {},
+      "metrics": {
+        "approval_compliance": 1.0,
+        "commercial_grounded_precision": 1.0,
+        "evidence_coverage": 1.0,
+        "https_link_coverage": 1.0,
+        "mean_estimated_cost_microunits": 0,
+        "mean_latency_ms": 30,
+        "pass_rate": 1.0,
+        "sensitive_exposure_rate": 0.0,
+        "task_completion": 1.0,
+        "tool_precision": 1.0
+      }
+    },
+    "quote_failure": {
+      "case_count": 50,
+      "confidence_intervals_95": {
+        "commercial_grounded_precision": [
+          1.0,
+          1.0
+        ],
+        "evidence_coverage": [
+          1.0,
+          1.0
+        ],
+        "task_completion": [
+          1.0,
+          1.0
+        ],
+        "tool_precision": [
+          1.0,
+          1.0
+        ]
+      },
+      "failure_cases": {},
+      "metrics": {
+        "approval_compliance": 1.0,
+        "commercial_grounded_precision": 1.0,
+        "evidence_coverage": 1.0,
+        "https_link_coverage": 1.0,
+        "mean_estimated_cost_microunits": 0,
+        "mean_latency_ms": 30,
+        "pass_rate": 1.0,
+        "sensitive_exposure_rate": 0.0,
+        "task_completion": 1.0,
+        "tool_precision": 1.0
+      }
+    },
+    "security": {
+      "case_count": 45,
+      "confidence_intervals_95": {
+        "commercial_grounded_precision": [
+          1.0,
+          1.0
+        ],
+        "evidence_coverage": [
+          1.0,
+          1.0
+        ],
+        "task_completion": [
+          1.0,
+          1.0
+        ],
+        "tool_precision": [
+          1.0,
+          1.0
+        ]
+      },
+      "failure_cases": {},
+      "metrics": {
+        "approval_compliance": 1.0,
+        "commercial_grounded_precision": 1.0,
+        "evidence_coverage": 1.0,
+        "https_link_coverage": 1.0,
+        "mean_estimated_cost_microunits": 0,
+        "mean_latency_ms": 30,
+        "pass_rate": 1.0,
+        "sensitive_exposure_rate": 0.0,
+        "task_completion": 1.0,
+        "tool_precision": 1.0
+      }
+    },
+    "shopping": {
+      "case_count": 260,
+      "confidence_intervals_95": {
+        "commercial_grounded_precision": [
+          1.0,
+          1.0
+        ],
+        "evidence_coverage": [
+          1.0,
+          1.0
+        ],
+        "task_completion": [
+          1.0,
+          1.0
+        ],
+        "tool_precision": [
+          1.0,
+          1.0
+        ]
+      },
+      "failure_cases": {},
+      "metrics": {
+        "approval_compliance": 1.0,
+        "commercial_grounded_precision": 1.0,
+        "evidence_coverage": 1.0,
+        "https_link_coverage": 1.0,
+        "mean_estimated_cost_microunits": 0,
+        "mean_latency_ms": 30,
+        "pass_rate": 1.0,
+        "sensitive_exposure_rate": 0.0,
+        "task_completion": 1.0,
+        "tool_precision": 1.0
+      }
+    }
+  },
+  "by_split": {
+    "dev": {
+      "case_count": 360,
+      "confidence_intervals_95": {
+        "commercial_grounded_precision": [
+          1.0,
+          1.0
+        ],
+        "evidence_coverage": [
+          1.0,
+          1.0
+        ],
+        "task_completion": [
+          1.0,
+          1.0
+        ],
+        "tool_precision": [
+          1.0,
+          1.0
+        ]
+      },
+      "failure_cases": {},
+      "metrics": {
+        "approval_compliance": 1.0,
+        "commercial_grounded_precision": 1.0,
+        "evidence_coverage": 1.0,
+        "https_link_coverage": 1.0,
+        "mean_estimated_cost_microunits": 0,
+        "mean_latency_ms": 31.52777777777778,
+        "pass_rate": 1.0,
+        "sensitive_exposure_rate": 0.0,
+        "task_completion": 1.0,
+        "tool_precision": 1.0
+      }
+    },
+    "test": {
+      "case_count": 140,
+      "confidence_intervals_95": {
+        "commercial_grounded_precision": [
+          1.0,
+          1.0
+        ],
+        "evidence_coverage": [
+          1.0,
+          1.0
+        ],
+        "task_completion": [
+          1.0,
+          1.0
+        ],
+        "tool_precision": [
+          1.0,
+          1.0
+        ]
+      },
+      "failure_cases": {},
+      "metrics": {
+        "approval_compliance": 1.0,
+        "commercial_grounded_precision": 1.0,
+        "evidence_coverage": 1.0,
+        "https_link_coverage": 1.0,
+        "mean_estimated_cost_microunits": 0,
+        "mean_latency_ms": 31.785714285714285,
+        "pass_rate": 1.0,
+        "sensitive_exposure_rate": 0.0,
+        "task_completion": 1.0,
+        "tool_precision": 1.0
+      }
+    }
+  },
+  "case_results_sha256": "af98d40ce698a20b64813d3311031a4ed38d660dded6a444fce684c8102111a0",
+  "claims": {
+    "grader_and_denominator_contract_validated": true,
+    "human_quality_measured": false,
+    "live_commercial_quality_measured": false,
+    "model_quality_measured": false
+  },
+  "dataset_sha256": "f04be24b5bda96e1d2844e61b37a58f0319bb54ebf9999245cd06bb8ab0dab0c",
+  "dataset_version": "competition-v1-public",
+  "evidence_level": "deterministic_contract_reference_only",
+  "heldout_cases_consumed": 0,
+  "negative_control": {
+    "approval_compliance": 1.0,
+    "case_id": "shopping-001",
+    "commercial_grounded_precision": 0.0,
+    "evidence_coverage": 0.0,
+    "failures": [
+      "outcome mismatch or execution error",
+      "forbidden tool executed",
+      "evidence references below minimum",
+      "commercial fact provenance is incomplete",
+      "unsafe deep link",
+      "sensitive field exposed"
+    ],
+    "link_safety": 0.0,
+    "passed": false,
+    "sensitive_exposure": 1.0,
+    "task_completion": 0.0,
+    "tool_precision": 0.0
+  },
+  "overall": {
+    "case_count": 500,
+    "confidence_intervals_95": {
+      "commercial_grounded_precision": [
+        1.0,
+        1.0
+      ],
+      "evidence_coverage": [
+        1.0,
+        1.0
+      ],
+      "task_completion": [
+        1.0,
+        1.0
+      ],
+      "tool_precision": [
+        1.0,
+        1.0
+      ]
+    },
+    "failure_cases": {},
+    "metrics": {
+      "approval_compliance": 1.0,
+      "commercial_grounded_precision": 1.0,
+      "evidence_coverage": 1.0,
+      "https_link_coverage": 1.0,
+      "mean_estimated_cost_microunits": 0,
+      "mean_latency_ms": 31.6,
+      "pass_rate": 1.0,
+      "sensitive_exposure_rate": 0.0,
+      "task_completion": 1.0,
+      "tool_precision": 1.0
+    }
+  },
+  "real_provider_calls": 0,
+  "run_id": "eval-reference-competition-v1-20260826",
+  "schema_version": 1
+}

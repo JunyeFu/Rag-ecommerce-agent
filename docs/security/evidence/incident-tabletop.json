@@ -1,0 +1,21 @@
+{
+  "external_actions_executed": false,
+  "external_gate": "Platform-side credential revocation and live recovery require connector owner authority",
+  "schema_version": 1,
+  "status": "passed_local_tabletop",
+  "steps": [
+    {
+      "connector_count": 3,
+      "name": "fixture_connectors_are_non_live",
+      "passed": true
+    },
+    {
+      "name": "private_dns_target_is_denied",
+      "passed": true
+    },
+    {
+      "name": "revocation_runbook_has_fail_closed_states",
+      "passed": true
+    }
+  ]
+}

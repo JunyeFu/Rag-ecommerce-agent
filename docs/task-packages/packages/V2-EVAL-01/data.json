@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-EVAL-01",
+  "owner": "evaluation-engineering",
+  "objective": "建立600条以上版本化Agent评测、消融、双人盲评和可复现实验",
+  "inputs": ["V2-DATA-01 evaluation seed", "V2-AGENT-01 traces", "V2-API-01 turn contract"],
+  "outputs": ["versioned eval datasets", "graders", "experiment manifests", "ablation report", "human review report"],
+  "acceptance": ["cases >= 600", "held-out leakage = 0", "quality targets met or fail closed", "100 held-out cases dual reviewed"],
+  "test_profiles": ["profiles.agent_trace", "profiles.backend_unit"],
+  "business_refs": ["quality_targets", "source_repo.evaluation"],
+  "development_refs": ["test_identity", "evidence_rules"],
+  "risk_refs": ["仓库与证据", "Agent", "商业真相与 RAG"]
+}

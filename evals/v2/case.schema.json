@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.rag-commerce.invalid/evaluation/v2/case.schema.json",
+  "title": "CompetitionEvaluationCaseV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "family",
+    "split",
+    "turns",
+    "media",
+    "injected_faults",
+    "risk_tags",
+    "query_sha256",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "case_id": {"type": "string", "pattern": "^[a-z_]+-[0-9]{3}$"},
+    "family": {"enum": ["shopping", "multi_turn", "multimodal", "quote_failure", "security"]},
+    "split": {"enum": ["dev", "test", "heldout"]},
+    "turns": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "media": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "fixture_ref"],
+        "properties": {
+          "kind": {"enum": ["image", "audio"]},
+          "fixture_ref": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "injected_faults": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "risk_tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "query_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome", "allowed_tools", "forbidden_tools", "requires_approval", "minimum_evidence_refs", "commercial_facts_allowed", "https_links_only"],
+      "properties": {
+        "outcome": {"enum": ["answer", "approval_required", "fail_closed", "refuse"]},
+        "allowed_tools": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "forbidden_tools": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "requires_approval": {"type": "boolean"},
+        "minimum_evidence_refs": {"type": "integer", "minimum": 0},
+        "commercial_facts_allowed": {"type": "boolean"},
+        "https_links_only": {"type": "boolean"}
+      }
+    },
+    "rubric_id": {"type": "string"},
+    "blind_token": {"type": "string", "pattern": "^[a-f0-9]{24}$"},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generator", "license_status", "gold_status", "use_scope"],
+      "properties": {
+        "generator": {"const": "competition-eval-generator-v1"},
+        "license_status": {"const": "project_generated"},
+        "gold_status": {"enum": ["machine_rule_frozen", "pending_dual_human"]},
+        "use_scope": {"const": "evaluation_only"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"split": {"const": "heldout"}}},
+      "then": {"required": ["rubric_id", "blind_token"], "not": {"required": ["expected"]}},
+      "else": {"required": ["expected"], "not": {"anyOf": [{"required": ["rubric_id"]}, {"required": ["blind_token"]}]}}
+    }
+  ]
+}

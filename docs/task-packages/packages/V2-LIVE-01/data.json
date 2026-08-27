@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-LIVE-01",
+  "owner": "release-validation",
+  "objective": "在授权小流量和物理设备上验证真实报价、Agent、降级、性能与深链",
+  "inputs": ["approved live credentials", "V2-EVAL-01 report", "V2-SECURITY-01 closure", "signed candidate build"],
+  "outputs": ["live run manifest", "quote sampling report", "device scenario evidence", "performance and cost report", "go/no-go"],
+  "acceptance": ["quote mismatch < 1%", "zero stale-as-live", "12 device scenarios pass", "latency targets pass", "zero P0"],
+  "test_profiles": ["profiles.android_instrumentation"],
+  "business_refs": ["offer_policy", "quality_targets"],
+  "development_refs": ["evidence_rules"],
+  "risk_refs": ["仓库与证据", "连接器与深链", "安全与发布"]
+}

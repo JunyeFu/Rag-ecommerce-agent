@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-API-01",
+  "status": "passed",
+  "verified_at": "2026-08-26T15:45:16.2294248+08:00",
+  "scope": "unified multimodal turns, resumable public SSE, media boundary, ownership, idempotency and generated client contracts",
+  "checks": [
+    {
+      "id": "api_contract_and_security",
+      "command": "uv run pytest apps/api/tests -m 'not integration' -q",
+      "exit_code": 0,
+      "counts": {
+        "api_tests_passed": 16,
+        "input_kinds_through_one_runtime": 3,
+        "idempotent_repeated_tool_actions": 0,
+        "cross_owner_access_accepts": 0,
+        "unsafe_media_accepts": 0,
+        "public_events_with_internal_argument_digests": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "postgresql_restart_replay",
+      "command": "alembic upgrade/check; pytest -m integration; downgrade 0003; upgrade/check",
+      "exit_code": 0,
+      "counts": {
+        "integration_tests_passed": 6,
+        "service_dependent_tests_skipped": 0,
+        "api_process_recreations": 1,
+        "tools_repeated_after_recreation": 0,
+        "migration_drift_operations": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "openapi_and_generated_clients",
+      "command": "export_openapi.py --check; generate_contracts.py --check",
+      "exit_code": 0,
+      "counts": {
+        "openapi_paths": 21,
+        "operations": 25,
+        "schemas": 33,
+        "generated_clients": 3,
+        "contract_drift_files": 0
+      },
+      "artifacts": {
+        "packages/contracts/openapi.json": "49880f2e8f25656d8edb5f7d8a5b5baf54896d0e026eb3e141d4824c8edd791d",
+        "packages/contracts/generated/python/ragcommerce_contracts/__init__.py": "726f5817c2f44815cd510b2f94fbe3464a648546cb62449a208c33a677919262",
+        "apps/android/app/src/main/java/com/ragcommerce/agent/generated/ApiContracts.kt": "0f51b30203babc06dfc54eea3927d9112d23e840d2694ec1bb19d7e702dc0152",
+        "apps/ops-web/src/generated/api-contracts.ts": "9ddfe95ef31f99e366fa6851ad2b2104a08593b095304663f7a747da4e072d1e"
+      },
+      "result": "passed"
+    },
+    {
+      "id": "generated_client_consumers",
+      "command": "npm check/test/build; Gradle compileDebugKotlin/testDebugUnitTest/lintDebug",
+      "exit_code": 0,
+      "counts": {
+        "web_test_files_passed": 1,
+        "web_tests_passed": 2,
+        "android_main_verification_tasks": 94,
+        "android_main_tasks_up_to_date": 62,
+        "android_debug_assemble_tasks": 41
+      },
+      "result": "passed"
+    },
+    {
+      "id": "repository_quality",
+      "command": "ruff; 61 non-integration tests; compileall; task package validation",
+      "exit_code": 0,
+      "counts": {
+        "repository_non_integration_tests_passed": 61,
+        "integration_tests_deselected": 6,
+        "lint_errors": 0,
+        "compile_errors": 0,
+        "task_package_errors": 0
+      },
+      "result": "passed"
+    }
+  ],
+  "external_gates": ["生产共享限流、对象存储生命周期与受信代理配置"],
+  "failure_summary": [
+    "首次 Android 契约编译从仓库根调用 .\\gradlew.bat，因 wrapper 实际位于 apps/android 未执行；改在正确工作目录后 32 个任务成功。"
+  ],
+  "claims": {
+    "local_api_contract_complete": true,
+    "postgresql_sse_restart_replay_verified": true,
+    "generated_client_drift_zero": true,
+    "production_authentication_configured": false,
+    "shared_production_rate_limit_configured": false,
+    "production_object_lifecycle_configured": false,
+    "live_commerce_provider_validated": false
+  },
+  "notes": [
+    "默认 app 未注入业务和商业端口时明确返回 503，不用 fixture 冒充生产能力。",
+    "X-User-ID 仅是开发身份适配器；生产身份由后续 SSO/RBAC 门禁提供。",
+    "媒体本地适配器验证签名、大小、TTL、所有权和删除；生产对象内容与生命周期仍需对象存储配置。",
+    "报价 DTO 强制携带验证级别、采集时间、失效时间和来源；API 路由不推导商业事实。",
+    "临时 PostgreSQL 容器经 rag-commerce.test-scope=V2-API-01 标签核验后删除。"
+  ]
+}

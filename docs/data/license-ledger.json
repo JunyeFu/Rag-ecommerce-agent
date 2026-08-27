@@ -1,0 +1,23 @@
+{
+  "assets": [
+    {
+      "commercial_use_allowed": false,
+      "id": "v1-products",
+      "license_status": "pending_review",
+      "sha256": "e11516a8012918d9f12f52c3d590d43d7a1299483935e3bb77f053ddf6322ad1",
+      "source_path": "apps/backend/data/qdrant/products_expanded_100.jsonl",
+      "use_scope": "development_only"
+    },
+    {
+      "commercial_use_allowed": false,
+      "id": "v1-evaluation",
+      "license_status": "pending_review",
+      "sha256": "337b5b3c00c51b6d82b5bce14fab2e99f7f557806d7ee8c8a9448b39dbe4d514",
+      "source_path": "apps/backend/data/test_cases/eval_cases.json",
+      "use_scope": "development_only"
+    }
+  ],
+  "decision": "No exported record is licensed for production or commercial distribution.",
+  "schema_version": 1,
+  "source_head": "8df480f2264fc937ba156d2bc3e083cb07d3619f"
+}

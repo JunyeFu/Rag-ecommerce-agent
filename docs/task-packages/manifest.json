@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "baseline_id": "RAG-COMMERCE-V2-BASELINE-20260826",
+  "authority": "current_v2_source_runtime_tests_and_named_validators",
+  "source_baseline": "docs/baseline/source-snapshot.json",
+  "packages": [
+    {
+      "id": "V2-BASE-00",
+      "title": "独立仓与工程治理基线",
+      "status": "complete",
+      "priority": "P0",
+      "autonomy": "full",
+      "dependencies": [],
+      "path": "docs/task-packages/packages/V2-BASE-00",
+      "evidence": ["docs/task-packages/packages/V2-BASE-00/evidence/verification.json"],
+      "external_gates": []
+    },
+    {
+      "id": "V2-DATA-01",
+      "title": "旧仓数据种子许可与确定性导出",
+      "status": "complete",
+      "priority": "P0",
+      "autonomy": "conditional",
+      "dependencies": ["V2-BASE-00"],
+      "path": "docs/task-packages/packages/V2-DATA-01",
+      "evidence": ["docs/task-packages/packages/V2-DATA-01/evidence/verification.json"],
+      "external_gates": ["商品、图片与评测数据的商业使用许可确认"]
+    },
+    {
+      "id": "V2-DOMAIN-01",
+      "title": "商品报价与Agent运行领域模型",
+      "status": "complete",
+      "priority": "P0",
+      "autonomy": "full",
+      "dependencies": ["V2-BASE-00"],
+      "path": "docs/task-packages/packages/V2-DOMAIN-01",
+      "evidence": ["docs/task-packages/packages/V2-DOMAIN-01/evidence/verification.json"],
+      "external_gates": []
+    },
+    {
+      "id": "V2-CONNECTOR-01",
+      "title": "授权报价连接器与深链安全",
+      "status": "complete",
+      "priority": "P0",
+      "autonomy": "conditional",
+      "dependencies": ["V2-DATA-01", "V2-DOMAIN-01"],
+      "path": "docs/task-packages/packages/V2-CONNECTOR-01",
+      "evidence": ["docs/task-packages/packages/V2-CONNECTOR-01/evidence/verification.json"],
+      "external_gates": ["淘宝/天猫、京东、拼多多联盟或开放平台主体授权与live凭据"]
+    },
+    {
+      "id": "V2-RAG-01",
+      "title": "可溯源商品RAG与实体解析",
+      "status": "complete",
+      "priority": "P0",
+      "autonomy": "full",
+      "dependencies": ["V2-DATA-01", "V2-DOMAIN-01"],
+      "path": "docs/task-packages/packages/V2-RAG-01",
+      "evidence": ["docs/task-packages/packages/V2-RAG-01/evidence/verification.json"],
+      "external_gates": ["生产embedding模型与生产商品数据启动验证"]
+    },
+    {
+      "id": "V2-AGENT-01",
+      "title": "类型化工具与持久化购物Agent",
+      "status": "complete",
+      "priority": "P0",
+      "autonomy": "full",
+      "dependencies": ["V2-CONNECTOR-01", "V2-RAG-01"],
+      "path": "docs/task-packages/packages/V2-AGENT-01",
+      "evidence": ["docs/task-packages/packages/V2-AGENT-01/evidence/verification.json"],
+      "external_gates": ["获批模型提供方的真实工具调用与质量评测"]
+    },
+    {
+      "id": "V2-API-01",
+      "title": "统一多模态Turn与可恢复SSE接口",
+      "status": "complete",
+      "priority": "P0",
+      "autonomy": "full",
+      "dependencies": ["V2-AGENT-01"],
+      "path": "docs/task-packages/packages/V2-API-01",
+      "evidence": ["docs/task-packages/packages/V2-API-01/evidence/verification.json"],
+      "external_gates": ["生产共享限流、对象存储生命周期与受信代理配置"]
+    },
+    {
+      "id": "V2-ANDROID-01",
+      "title": "四标签Android商业导购主流程",
+      "status": "complete",
+      "priority": "P1",
+      "autonomy": "full",
+      "dependencies": ["V2-API-01"],
+      "path": "docs/task-packages/packages/V2-ANDROID-01",
+      "evidence": ["docs/task-packages/packages/V2-ANDROID-01/evidence/verification.json"],
+      "external_gates": ["物理真机HTTPS/性能、真实联盟深链、Android TalkBack人工验收与真实模型/联盟结构化商品投影"]
+    },
+    {
+      "id": "V2-OPS-01",
+      "title": "连接器数据Trace与评测运营台",
+      "status": "complete",
+      "priority": "P1",
+      "autonomy": "full",
+      "dependencies": ["V2-API-01"],
+      "path": "docs/task-packages/packages/V2-OPS-01",
+      "evidence": ["docs/task-packages/packages/V2-OPS-01/evidence/verification.json"],
+      "external_gates": ["生产SSO/RBAC、持久化生产审计适配器与运营人员工作流验收"]
+    },
+    {
+      "id": "V2-EVAL-01",
+      "title": "竞赛级评测集与可复现实验",
+      "status": "complete",
+      "priority": "P1",
+      "autonomy": "conditional",
+      "dependencies": ["V2-AGENT-01", "V2-API-01"],
+      "path": "docs/task-packages/packages/V2-EVAL-01",
+      "evidence": ["docs/task-packages/packages/V2-EVAL-01/evidence/verification.json"],
+      "external_gates": [
+        "获批模型提供方预算与真实模型评测",
+        "100条held-out双人盲评、仲裁与一致性报告",
+        "独立封存工作区以及旧226条种子的商业许可和gold复核"
+      ]
+    },
+    {
+      "id": "V2-SECURITY-01",
+      "title": "Agent工具数据与深链安全闭环",
+      "status": "complete",
+      "priority": "P0",
+      "autonomy": "conditional",
+      "dependencies": ["V2-API-01", "V2-ANDROID-01", "V2-OPS-01"],
+      "path": "docs/task-packages/packages/V2-SECURITY-01",
+      "evidence": ["docs/task-packages/packages/V2-SECURITY-01/evidence/verification.json"],
+      "external_gates": [
+        "冻结advisory数据库的依赖扫描与候选镜像/对象存储扫描",
+        "生产事务型用户数据删除适配器与备份/日志删除证明",
+        "live凭据轮换、法律审核与独立渗透测试"
+      ]
+    },
+    {
+      "id": "V2-LIVE-01",
+      "title": "真实报价小流量与物理终端验证",
+      "status": "blocked",
+      "priority": "P0",
+      "autonomy": "human_gate",
+      "dependencies": ["V2-EVAL-01", "V2-SECURITY-01"],
+      "path": "docs/task-packages/packages/V2-LIVE-01",
+      "evidence": ["docs/task-packages/packages/V2-LIVE-01/evidence/verification.json"],
+      "external_gates": [
+        "真实模型评测、100条held-out双人盲评与外部安全门禁",
+        "live联盟/模型凭据、获批生产环境与真实运营流量",
+        "候选身份、物理Android设备、TalkBack验收与live回滚责任人"
+      ]
+    },
+    {
+      "id": "V2-RELEASE-01",
+      "title": "商业候选版本与发布门禁收口",
+      "status": "blocked",
+      "priority": "P0",
+      "autonomy": "human_gate",
+      "dependencies": ["V2-LIVE-01"],
+      "path": "docs/task-packages/packages/V2-RELEASE-01",
+      "evidence": ["docs/task-packages/packages/V2-RELEASE-01/evidence/verification.json"],
+      "external_gates": [
+        "V2-LIVE-01权威Go结论",
+        "唯一候选commit、清洁checkout与生产镜像digest",
+        "联盟/数据许可/隐私/推广披露/独立渗透与商业主体批准",
+        "正式签名与生产发布批准"
+      ]
+    }
+  ]
+}

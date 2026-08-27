@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-RELEASE-01",
+  "owner": "release-management",
+  "objective": "冻结商业候选身份并以权威证据输出发布Go/No-Go",
+  "inputs": ["V2-LIVE-01 go recommendation", "all task package evidence", "legal and business approvals", "signed artifacts"],
+  "outputs": ["release identity", "artifact hashes", "release gate matrix", "rollback and operations package", "Go or No-Go"],
+  "acceptance": ["all identities frozen", "clean checkout gates pass", "all external gates authoritative", "rollback drill passes"],
+  "test_profiles": ["profiles.full_local", "profiles.task_packages"],
+  "business_refs": ["business_model", "quality_targets"],
+  "development_refs": ["profiles.full_local", "evidence_rules"],
+  "risk_refs": ["安全与发布", "仓库与证据"]
+}

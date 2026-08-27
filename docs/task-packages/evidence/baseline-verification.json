@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "baseline_id": "RAG-COMMERCE-V2-BASELINE-20260826",
+  "status": "passed",
+  "verified_at": "2026-08-26T11:58:53.5581398+08:00",
+  "scope": "task_package_framework_and_source_repository_preservation",
+  "checks": [
+    {
+      "id": "python_compileall",
+      "command": "python -m compileall -q scripts",
+      "exit_code": 0,
+      "result": "passed"
+    },
+    {
+      "id": "task_package_validation",
+      "command": "python scripts/validate_task_packages.py",
+      "exit_code": 0,
+      "result": {"packages": 13, "errors": 0, "warnings": 0}
+    },
+    {
+      "id": "json_utf8_whitespace",
+      "command": "PowerShell read-only JSON, strict UTF-8 and trailing-whitespace scan",
+      "exit_code": 0,
+      "result": {"json_files_before_evidence": 34, "text_files_before_evidence": 69, "json_errors": 0, "utf8_errors": 0, "trailing_whitespace": 0}
+    },
+    {
+      "id": "source_repository_preservation",
+      "command": "capture source baseline twice and compare branch, HEAD, upstream and complete dirty file records",
+      "exit_code": 0,
+      "result": {
+        "branch_unchanged": true,
+        "head_unchanged": true,
+        "upstream_unchanged": true,
+        "dirty_snapshot_exact": true,
+        "source_dirty_file_items": 626,
+        "source_staged_items": 0
+      }
+    },
+    {
+      "id": "target_repository_state",
+      "command": "git status --short --untracked-files=all and git diff --cached --name-only",
+      "exit_code": 0,
+      "result": {"branch": "main", "head_exists": false, "staged_items": 0, "task_package_status": "planned", "planned_packages": 13}
+    }
+  ],
+  "claims": {
+    "task_package_baseline_created": true,
+    "development_tasks_implemented": false,
+    "commercial_readiness": false,
+    "release_status": "NO_GO"
+  },
+  "external_gates": [
+    "数据商业使用许可",
+    "联盟或开放平台主体授权与live凭据",
+    "真实模型与生产embedding评测",
+    "法律、隐私和推广披露审核",
+    "独立渗透测试",
+    "物理真机HTTPS与深链验证",
+    "商业主体和正式发布批准"
+  ]
+}

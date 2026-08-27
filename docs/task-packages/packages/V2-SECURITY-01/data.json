@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-SECURITY-01",
+  "owner": "product-security",
+  "objective": "关闭Agent工具、外部内容、媒体、记忆、运营台和深链的本地安全风险",
+  "inputs": ["completed API/Android/Ops flows", "tool policies", "connector allowlists", "data retention rules"],
+  "outputs": ["threat model", "security regression suite", "SBOM", "scan reports", "incident and connector revocation runbooks"],
+  "acceptance": ["zero unauthorized tool actions", "zero cross-user access", "zero prompt-driven redirects", "all P0/P1 locally controllable findings closed"],
+  "test_profiles": ["profiles.backend_unit", "profiles.backend_integration", "profiles.android_instrumentation", "profiles.ops_web"],
+  "business_refs": ["business_model", "offer_policy"],
+  "development_refs": ["ignored_sensitive_files", "evidence_rules"],
+  "risk_refs": ["安全与发布", "Agent", "连接器与深链"]
+}

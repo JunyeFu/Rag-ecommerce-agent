@@ -1,112 +1,31 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-dist/
-build/
-.venv/
-venv/
-
-# Environment (keep .env.example / .env.docker.example templates)
 .env
 .env.*
 !.env.example
-!.env.docker.example
-
-# IDE
 .idea/
 .vscode/
-*.swp
-/.vs
-
-# Claude
-.claude/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Android
-*.apk
-*.aab
-*.keystore
-*.jks
-local.properties
-apps/android/.gradle/
-apps/android/app/.gradle/
-apps/android/build/
-apps/android/app/build/
-
-# Runtime data
-apps/backend/data/hf_home/
-apps/backend/data/qdrant_storage/
-apps/uploads/*.jpg
-*.parquet
-*.arrow
-
-
-# Environment files with real keys (templates use .env.example / .env.docker.example)
-apps/backend/.env
-infrastructure/env/.env
-infrastructure/env/.env.docker
-
-# Android release binaries + local config
-/apps/android/app/release
-
-# Downloaded ML models (large files, download via SETUP.md)
-/apps/backend/data/models/bge-large-zh-v1.5
-/apps/backend/data/models/bge-reranker-v2-m3
-/apps/android/AGENTS.md
-/.agents/skills
-/skills-lock.json
-/apps/android/app/debug
-/apps/android/GENERATE_ERROR*.md
-/apps/android/LOGCAT.md
-/apps/android/CLAUDE.md
-
-# JVM crash logs
-hs_err_pid*.log
-replay_pid*.log
-
-# Kotlin compiler error logs
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+.coverage
+coverage.xml
+node_modules/
+.gradle/
+build/
+dist/
+apps/ops-web/coverage/
+.playwright-cli/
+output/playwright/
 apps/android/.kotlin/
+local.properties
+*.jks
+*.keystore
+*.log
+docs/task-packages/evidence/runtime/
+.verification/
 
-# Backup files and directories
-.backup_*/
-*.bak
-*.bak2_*
-*.bak_*
-
-# Garbage files
-products.*
-
-# Local validation reports with machine-specific absolute paths
-apps/backend/data/images/image_validation.json
-
-# User-specific MCP configuration
-.mcp.json
-
-# Auto-generated eval/benchmark outputs (source cases in eval_cases.json are tracked)
-apps/backend/data/test_cases/eval_quick_results.json
-apps/backend/data/test_cases/eval_results_*.json
-apps/backend/data/test_cases/p3_results.json
-docs/optimization/ttft_benchmark_*.json
-
-# Reference papers (cite by DOI, not stored as binary in repo)
-docs/background/papers/*.pdf
-
-# Competition binary documents (not useful in git, keep local copies)
-*.docx
-*.pptx
-
-# Defense PPT preview images and archived versions (competition artifacts)
-docs/defense-ppt/
-docs/archive/
-
-# Temp / debug artifacts
-/tmp_*
-/tmp_frames/
-/script_*.png
-/script_*.pdf
-/scripts/
-/hermes-demo.apk
+# Local service state and imported data are never source-controlled.
+infra/.state/
+data/imported/

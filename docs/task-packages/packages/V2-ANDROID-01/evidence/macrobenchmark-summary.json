@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-08-26T08:56:39.887033+00:00",
+  "source": "AndroidX Macrobenchmark StartupTimingMetric",
+  "evidence_level": "emulator_regression_only",
+  "device": {
+    "model": "sdk_gphone64_x86_64",
+    "sdk": 35,
+    "cpu_locked": false
+  },
+  "compilation_mode": "run-from-apk",
+  "configured_iterations": 10,
+  "measured_run_count": 10,
+  "time_to_initial_display_ms": {
+    "minimum": 1329.8364,
+    "median": 1374.48155,
+    "maximum": 1510.9146,
+    "p95_nearest_rank": 1510.9146,
+    "threshold": 2000.0,
+    "passed": true
+  },
+  "limitations": [
+    "EMULATOR was explicitly suppressed so this is a local regression gate, not physical-device evidence.",
+    "CPU frequency was not locked."
+  ]
+}

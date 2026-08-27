@@ -1,0 +1,21 @@
+{
+  "name": "rag-commerce-v2",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "npm@12.0.1",
+  "engines": {
+    "node": "24.15.0",
+    "npm": "12.0.1"
+  },
+  "workspaces": [
+    "apps/ops-web"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace @rag-commerce/ops-web",
+    "check": "npm run check --workspace @rag-commerce/ops-web",
+    "test": "npm run test --workspace @rag-commerce/ops-web",
+    "web:build": "npm run build --workspace @rag-commerce/ops-web",
+    "web:check": "npm run check --workspace @rag-commerce/ops-web",
+    "web:test": "npm run test --workspace @rag-commerce/ops-web"
+  }
+}

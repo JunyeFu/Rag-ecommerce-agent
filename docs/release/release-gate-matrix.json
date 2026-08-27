@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "decision": "NO_GO",
+  "candidate_identity": null,
+  "candidate_commit": null,
+  "clean_checkout_verified": false,
+  "production_artifact_digests": [],
+  "gates": [
+    {"id": "local_packages", "status": "PASSED", "summary": "11 autonomous packages complete"},
+    {"id": "live_e2e", "status": "BLOCKED", "summary": "V2-LIVE-01 not authorized or executed"},
+    {"id": "heldout_human", "status": "BLOCKED", "summary": "0 of 100 held-out cases dual-reviewed"},
+    {"id": "security_external", "status": "BLOCKED", "summary": "advisory/container scans, credential rotation and independent penetration missing"},
+    {"id": "legal_business", "status": "BLOCKED", "summary": "affiliate, privacy, disclosure, data license and business approvals missing"},
+    {"id": "formal_signing", "status": "BLOCKED", "summary": "no frozen commit, release image digest or formally signed artifact"},
+    {"id": "production_release", "status": "BLOCKED", "summary": "no production deployment or traffic authorization"}
+  ],
+  "release_actions_executed": false,
+  "commit_created": false,
+  "push_executed": false,
+  "deployment_executed": false,
+  "publication_executed": false
+}

@@ -1,0 +1,4412 @@
+{
+  "schema_version": 1,
+  "baseline_id": "RAG-COMMERCE-V2-BASELINE-20260826",
+  "captured_at": "2026-08-26T03:56:39.907363+00:00",
+  "source_root_hint": "D:/Agent/04-rag-ecommerce",
+  "branch": "main",
+  "head": "8df480f2264fc937ba156d2bc3e083cb07d3619f",
+  "upstream": {
+    "ref": "origin/main",
+    "behind": 18,
+    "ahead": 0
+  },
+  "dirty": {
+    "file_level_items": 626,
+    "status_counts": {
+      " D": 9,
+      " M": 138,
+      "??": 479
+    },
+    "files": [
+      {
+        "path": ".gitattributes",
+        "status": "??",
+        "exists": true,
+        "bytes": 141,
+        "sha256": "4fe615a3ec5a7a843cd8135a750c949edf8af0b14a6bbfaf62358e2622bc1c82"
+      },
+      {
+        "path": ".github/workflows/ci.yml",
+        "status": " M",
+        "exists": true,
+        "bytes": 3332,
+        "sha256": "09020903158977f5e4433ece80661effad917d326b40a30d5f20c72d1082b8c3"
+      },
+      {
+        "path": ".gitignore",
+        "status": " M",
+        "exists": true,
+        "bytes": 1890,
+        "sha256": "8df40a3fe83fce055a3d59425615292301e7f1fd7210e6df95a1675b81b8606c"
+      },
+      {
+        "path": "AI全栈挑战赛-白日梦酒店队.docx",
+        "status": "??",
+        "exists": true,
+        "bytes": 13904,
+        "sha256": "c6a46ac7bbd457f764ddcfd06086eb99a46f34bd51b2bd683418856f52b9bda6"
+      },
+      {
+        "path": "AI全栈挑战赛-项目文档模板.docx",
+        "status": "??",
+        "exists": true,
+        "bytes": 13905,
+        "sha256": "93f52df167e65ec03b9307a60ad350d376b4d9831f0483de2ae61fa21dfc2093"
+      },
+      {
+        "path": "CLAUDE.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 2392,
+        "sha256": "271519dea907e979d9b522e3af810fdb3da1787c3aedb7269fa00868f5c63d27"
+      },
+      {
+        "path": "Makefile",
+        "status": " M",
+        "exists": true,
+        "bytes": 1452,
+        "sha256": "2411a0a2cd38238660a725cb16e9ca67ddd0cf98e3ff374a9190de5132ffb725"
+      },
+      {
+        "path": "README.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 4662,
+        "sha256": "c0fcc26534a695adcca6129feb1737cfc54e1824119bc4d0122d9a9e65d6f844"
+      },
+      {
+        "path": "apps/android/app/build.gradle.kts",
+        "status": " M",
+        "exists": true,
+        "bytes": 8052,
+        "sha256": "b24053b74a02e2a4a183f67b238a002f0a14109a2d26470b1f1cf9a54c669eff"
+      },
+      {
+        "path": "apps/android/app/proguard-rules.pro",
+        "status": "??",
+        "exists": true,
+        "bytes": 2459,
+        "sha256": "c7aed424575464de95af6554c58905bcea6d1ac91a711b9f041a0fee1f3b3f2b"
+      },
+      {
+        "path": "apps/android/app/src/benchmark/AndroidManifest.xml",
+        "status": "??",
+        "exists": true,
+        "bytes": 269,
+        "sha256": "bc3c38d24cac004a65bf898a254bc67eb7e97c30caad0ef88c4b0b3ce6e1093e"
+      },
+      {
+        "path": "apps/android/app/src/debug/java/com/shopping/agent/data/demo/DemoData.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 2397,
+        "sha256": "5158c968237333b2b8ec64970a76d0fae1aa9d4a79a8a118e75b6157c8ccc859"
+      },
+      {
+        "path": "apps/android/app/src/debug/java/com/shopping/agent/data/mock/MockCategoryProducts.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 23284,
+        "sha256": "86c2ed8202dcb092e44d3b3f4cbc4339f05cef2fa66d8d9d76c8a28179acbfe4"
+      },
+      {
+        "path": "apps/android/app/src/debug/java/com/shopping/agent/data/mock/MockChats.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 3712,
+        "sha256": "f60ebda4504b873a845a53cf283baa24a8834c24fd5c0ae975beab13ad740e96"
+      },
+      {
+        "path": "apps/android/app/src/debug/java/com/shopping/agent/data/mock/MockCompareData.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 1035,
+        "sha256": "aa260331f0963dbc9b76e987141c8b5ab42e6b2a7b819a79ca0620c7d726521c"
+      },
+      {
+        "path": "apps/android/app/src/debug/java/com/shopping/agent/data/mock/MockExplorePosts.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 98844,
+        "sha256": "4fd9875d271a643a3b2f5a2710ce4043318a3afa78077e1e2788f1f6ee1e9015"
+      },
+      {
+        "path": "apps/android/app/src/debug/java/com/shopping/agent/data/mock/MockExploreProducts.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 305,
+        "sha256": "ec20b5e8f8cc2bc359ad2f04f3e8c326c0ffc6218c4ef1709b84a994811319fd"
+      },
+      {
+        "path": "apps/android/app/src/debug/java/com/shopping/agent/data/mock/MockProducts.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 34694,
+        "sha256": "60e5cf30b61f5cdb06a278b18966ff21b1b4607fdbe20cacf79a3b6ea07a5f7b"
+      },
+      {
+        "path": "apps/android/app/src/debug/java/com/shopping/agent/data/mock/MockProfile.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 2005,
+        "sha256": "f6f62f97932d15e38d2baa6cc430d16cec1819334b0f9587bd700110b6074e8c"
+      },
+      {
+        "path": "apps/android/app/src/main/AndroidManifest.xml",
+        "status": " M",
+        "exists": true,
+        "bytes": 1845,
+        "sha256": "c6712b2c41c0d76eb899597a374c0de1c7498400f633fe342c75f99206eb8871"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/MainActivity.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 5467,
+        "sha256": "da5e9cf98a7186be582813ec4bc564959053061e4e220da3ac64ec05a84c994b"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ShoppingApp.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 1215,
+        "sha256": "c3f6afb5ca1df741c023be6b31ff97905e38b174f4f6c0095a2e2f1b3eadd94f"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/core/auth/AuthTokenStore.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 7586,
+        "sha256": "6f577f357637bde244d1e3755d350c5932c2e3e20a2b56c050cf4a57ad151bcc"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/core/concurrency/SingleFlightGate.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 392,
+        "sha256": "e73f6f1e356b84da95b221c2b0b74c511b7b0c220689ea7f80cabaae4dbdb30c"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/core/network/AuthHttp.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 3707,
+        "sha256": "2a4a3bee8d869cb3c76de3b0391d3f8d10cdf8f177f3eb3412a66adc48f0fdd4"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/core/network/NetworkConfig.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 2529,
+        "sha256": "8ba38ec283c31d9c4fed22c3c8122367458690d718b12038b3943ed1e3678496"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/local/LocalDatabase.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 27327,
+        "sha256": "9f9e998b9466cda0dfe7eaf9670a0d23e1f060a76a4dee2b98cd1d99c2b22dfb"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/local/UserRepository.kt",
+        "status": " D",
+        "exists": false,
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/mock/MockCategoryProducts.kt",
+        "status": " D",
+        "exists": false,
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/mock/MockChats.kt",
+        "status": " D",
+        "exists": false,
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/mock/MockCompareData.kt",
+        "status": " D",
+        "exists": false,
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/mock/MockExplorePosts.kt",
+        "status": " D",
+        "exists": false,
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/mock/MockExploreProducts.kt",
+        "status": " D",
+        "exists": false,
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/mock/MockProducts.kt",
+        "status": " D",
+        "exists": false,
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/mock/MockProfile.kt",
+        "status": " D",
+        "exists": false,
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/model/CartItem.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 408,
+        "sha256": "37eb8f5fa294f891f1ac2406fc56dfa611e8a7df64b5cd4ffdc65d9014bc794b"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/model/Money.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 439,
+        "sha256": "535d6c39999de8526c204e38f8a70ddd475be73d21960e612ea3e76626dd3fb0"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/model/Product.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 1326,
+        "sha256": "5b88cf684967c357aa8b8173064137c95f6097138fb66fbd9c6bc88871b002c3"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/remote/AuthApi.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 4514,
+        "sha256": "f994e66041ae77ab04db50fb8337063428aa3066c9b55966cb139b55e2e20abb"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/remote/CartApi.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 7688,
+        "sha256": "795206f6a37892b6790e4d572c3ae21218c0a8a39bad7807c8b2b776e7e2b125"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/remote/ProductApi.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 5033,
+        "sha256": "47b773d2913a46f8b03f74629838ea11108efde717d16b9f93a8a78516dadffd"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/repository/AddressRepository.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 5718,
+        "sha256": "bedddb1e475179163f3b634346b8a617cf113389ec9f7c2a6c6a70528367a1d2"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/repository/AuthRepository.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 5629,
+        "sha256": "04a274160478b1b79d42150d48c775b2c7888a1a309cb18abe8d86fb13bc9752"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/repository/CartRepository.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 14382,
+        "sha256": "dafca0e403e2ee6843b78c2c78d86635bbb012d625b20121b0f388e03193845b"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/repository/ChatSessionRepository.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 9489,
+        "sha256": "9cd54ce82c8e3af7c6f6fa8f4960350ce06aacc56903da63a5662d8a4ea2c310"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/repository/CompareRepository.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 4674,
+        "sha256": "100e8834f8a2601011705209fce6a3d766029250f3f813187171df6b213e4946"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/repository/FavoritesRepository.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 10649,
+        "sha256": "a8d3c3b6af856f777de8b0358cb4d8c1f46326ee6a31d12b071157a0e5bd9d59"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/repository/FootprintsRepository.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 7936,
+        "sha256": "e4c87df047ca371c97f0feb9dfb1a0e4e94ec4a99629ab43718195ed1a0ce1ef"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/repository/OrderRepository.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 9431,
+        "sha256": "c28a64448d253563208e6fd9321492d63a30993f9ca7c18e47d60b9b8db9a32f"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/repository/PaymentRepository.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 3017,
+        "sha256": "12c39cc37b7021ba6114a544b8b6716ea811b01e524ba9dad98c04416fe2aa79"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/data/repository/UserRepository.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 12897,
+        "sha256": "8dfc785b6026ff0b69cc33cf8066229dbf2171053b435d5c7a404a7bc48b9594"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/di/AppContainer.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 4426,
+        "sha256": "fdf458c71cc93eecfb990e9e378d3b19ef14d74da14c465c137bf40f812a6401"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/di/ViewModelFactory.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 1113,
+        "sha256": "c4768383b3c145c27f95c43c8b7c16019430e112ff9de85a6d499b30a711fb78"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/ChatInputBar.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 16361,
+        "sha256": "84d9aa8eea8a1370fb387ce9480a868ee06667a3f95891f97ae00942135acef0"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/GradientScreenBackground.kt",
+        "status": " D",
+        "exists": false,
+        "bytes": null,
+        "sha256": null
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/HistoryDrawer.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 14133,
+        "sha256": "ce574a6848e00d649f343cf73da11a5e7feed7ffde7cd51c05fde2c190205715"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/MainBottomNavBar.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 3609,
+        "sha256": "7b997a568b277b2f8b647dd13abbd056864bbf8994a14385161b4ccb18f00f3d"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/MessageBubble.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 9594,
+        "sha256": "797a308f68f2e2ebd421e29b0a1d8292a4f63aad56d4052149a948ef4f98ff12"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/NeoCard.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 1927,
+        "sha256": "e6b959117c85834d8135b26462f37b493d672fbc7de6795bb85e873db06f2240"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/NeoControls.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 8645,
+        "sha256": "880b7e623da090686748c2885891d9805889ec8b5172361d5eab312971f7f11a"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/ProductCard.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 4190,
+        "sha256": "5e7915943696539d5a580c5cc83d84cb8bb7160cf7b0e1fc31e67b2d808f0e43"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/ProductCardHorizontal.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 4762,
+        "sha256": "e8c7432f21c7aabf5e83cc3ce37b151165d5cb79747651427062fdaf933ff964"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/ScreenBackground.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 1828,
+        "sha256": "b85861cb393e710ab9fe5df69d7cb1b2a8926d46208211707dab268e65c1b585"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/SharedProduct.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 1417,
+        "sha256": "e60320f7e356e576df21948e99570d49e6edbde6a60d7bde666aa5796d8bf568"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/Skeleton.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 4371,
+        "sha256": "ef80f845a69b87a8976512d3f682391db9758db1a48a90a47ca66918e437915b"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/components/StreamingBubble.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 5906,
+        "sha256": "66948cd8f70a8e3b82509cbdc08cb11514328bb9ed5484b64b30b9e4af2c0f10"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/navigation/NavGraph.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 22797,
+        "sha256": "e38573de7e9122ddbe86a02e9f95cc033fba8301d238cd96c538e3392f381ad1"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/navigation/Screen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 2411,
+        "sha256": "dd5c7c4caeb2add711eb6b321c88375f6af67ccb43398d81e780030a8f8fd37b"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/CartScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 49621,
+        "sha256": "38ae17efe418384050dd432f5234c79975d39039c19dc1db60b96b4eae9194a9"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/CategoryListScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 860,
+        "sha256": "84c562a04bcd46bff07f73277c6e4acd9fd641658cbb8e8eaf89452429d52c63"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/CheckoutScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 16928,
+        "sha256": "3138f4afa7b2cea0cb8b488f2198d21ad16a4c07864fa2ea4bb8dc7c4d232910"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/CompareScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 37356,
+        "sha256": "78db9b4f7d4480d1af1252370796453fc83abb281b54b2aa9c67b3e18abf09ec"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/CountryRegionScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 5390,
+        "sha256": "98fae837d4d1dc8d9a740a9e8bd149f2ecfe7bbae9816f43a0305131bf9cc2c6"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/CustomerServiceScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 27247,
+        "sha256": "3a3542351ebf09507b73590f39020c5973e8a69e6334d767b5685b721be23af1"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/ExploreProductPostScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 6237,
+        "sha256": "e07d1c9c556ef8b6ce88dd9c4e0de1613593d2f5536ff64f692fbee42a6ae710"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/ExploreScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 9511,
+        "sha256": "408780f8e298b86f66886d16ff3b7cfba329c784159c963693031e61314fcb53"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/FavoritesScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 17945,
+        "sha256": "2351f6d8402d757bfe543f96e70964650a10bea96df218e8088638a7ae0f33c1"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/FootprintsScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 16900,
+        "sha256": "2cdd253d8005f1655aaf26804cef3827ea6fc38be37e0c795e59256aec4bdd6b"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/ForgotPasswordScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 7118,
+        "sha256": "07b7c53e90ce2845f0bf36079288b602112be23605f4f0b2b1c5203c1c64eee1"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/HomeScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 9086,
+        "sha256": "8d3cd1f3aa7bfe65abcf718c13dbd5efc6496551878748fce5b2e29e9a1d27ee"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/LoginScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 12366,
+        "sha256": "1329e19448539c41929206d3c4e83bf48b603c1b2bcc2896c0e23c80c46ddf3d"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/OrderDetailScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 8210,
+        "sha256": "70889c3174558f5199d101b3a4069491ae093cc5d07ebbe029ecd53b51394903"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/OrdersScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 31968,
+        "sha256": "22555763cf36363db2e27208729dab1594e993d0b671da49634f061703dd3a20"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/PasswordResetScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 6673,
+        "sha256": "cf758346df4c5a545556da5b35a2a4faf82f9969a79d65413b25851f985239b0"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/PaymentSettingsScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 18876,
+        "sha256": "19d92860e48217e0c47fa170354d0eea2aa1b99df6e5f055cecfc54812d0148a"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/ProductDetailScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 36599,
+        "sha256": "f74a4db08436124ade66aa3ebb0667907448948e31e306ea882c9f69cc33b5b9"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/ProfileEditScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 36764,
+        "sha256": "c8c2436d70e114b2a5eb3317a7e054e2e5d19e8357b3650353f8ebda67463107"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/ProfileScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 27185,
+        "sha256": "8edf08ab94b97361040a61855c1ea539953b07a01fe5fe3ae651d27c063c87b6"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/RegisterScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 10221,
+        "sha256": "bb1791a451478cf1e573c0ce3f19688b33bb6fec8cdb2fbab64815a44bd9ddca"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/ReviewScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 24085,
+        "sha256": "6dccb6caeb00299ff0444b3efb9eb06505224a02495bdd83699057b480c1fbb4"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/SettingsScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 8043,
+        "sha256": "d7e95699a2aab0ba82697095c31201fc74f44e12d424492ed67a0918dd7e162b"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/screens/ShippingAddressScreen.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 18775,
+        "sha256": "5f45884dd4fb4f9aa8d7e6be3e08e39317f546225bf915655885f270b4bb925f"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/theme/AppIcons.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 12390,
+        "sha256": "d37e68b2c72fa0eb370ec277765001f7b832251d0b58c851cbb5488cc91fae1d"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/theme/Color.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 3100,
+        "sha256": "dd9bb5405a6e6aa616f12f430ef6b38aeda1148c7ffd0799e1079367348211f0"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/theme/Motion.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 6256,
+        "sha256": "f806a64ba938ffb47e25abb6ccc6d889b46c86df3bd344dd8745de7d67d5637a"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/theme/Shape.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 1823,
+        "sha256": "ee6a4a456511004fd991bc35179f7b9ed7e1161f1316cefc67ab00975053652a"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/theme/SharedTransition.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 1471,
+        "sha256": "3b65e5c643c9e25e4eef9c80e3232b4a4b84957097b9e1fab73856c29ebd31cb"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/theme/Theme.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 1599,
+        "sha256": "b53dc694913423d998f69b367f7ff1fc56923b1e8bc328963ab8ed712703c038"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/ui/theme/Type.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 2424,
+        "sha256": "1fc90659c55f1f70bb4f4441e71ef42fbd3043af9225aaa4cf118b053f558bd5"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/viewmodel/CartViewModel.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 26485,
+        "sha256": "55dd8ad0163fa562ca8218ca81e70abf89b2d1462ee5d09b697b230162c6350d"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/viewmodel/ChatViewModel.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 53393,
+        "sha256": "d0cbfdd2d795d5b4a05a8667e0913d7e8d4bd2d93ad593c6bcfa86218faa08c7"
+      },
+      {
+        "path": "apps/android/app/src/main/java/com/shopping/agent/viewmodel/ProductDetailViewModel.kt",
+        "status": " M",
+        "exists": true,
+        "bytes": 15899,
+        "sha256": "2a16013067a4774701194449d19123945c00070a5266708a2b6af1eff2380b91"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xhdpi/ill_empty_cart.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 100531,
+        "sha256": "77eeaf4d0da382b9d24a8388ffdde1ae7721e1527131245f138c2cbd6c11cf10"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xhdpi/ill_empty_favorites.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 94127,
+        "sha256": "59ad1ab94d8649d2e5c77e9798ba5173aded7b659a1b54c464c173672ad8ef0d"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xhdpi/ill_mascot.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 106809,
+        "sha256": "185300827f5e29c7a2495bceb70f1f07644a353571e4a2fc78f0af78a9eb537b"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xhdpi/ill_offline.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 115103,
+        "sha256": "c9ab21850473ee79cac3879e54d63a6f88476b258c6e2ff151625a28e47db7bd"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xxhdpi/ill_empty_cart.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 197430,
+        "sha256": "be9cf4f2fbba4b3139a8cbaa9f8c49a6e7e9603fa111701ca540f5d883e3a075"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xxhdpi/ill_empty_favorites.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 179557,
+        "sha256": "ce385837ce44926fdf46c756b469105591db11ed37b57a47dfec737f127678b9"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xxhdpi/ill_mascot.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 203605,
+        "sha256": "473282b21a1050a5f80a5364873b86faa8f2f94d8677a8d789a22cc51e33931d"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xxhdpi/ill_offline.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 221011,
+        "sha256": "6200691bab948565606e038f4ed3be023815e5d4652dead61f72eea645f0e484"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xxxhdpi/ill_empty_cart.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 329201,
+        "sha256": "b467d35789180e46931e2cfe48b2c1997f0d2658daaf1940ad9401045602dbf9"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xxxhdpi/ill_empty_favorites.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 308512,
+        "sha256": "8b0fd1d204a85059d85299b815d4457e6f018151b9941c6b82fb5cd3ec56ca60"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xxxhdpi/ill_mascot.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 327842,
+        "sha256": "e0d01a3b140118c80dfe1b9c78f3cd9e4c27aa672820c5be945689f6f41dd414"
+      },
+      {
+        "path": "apps/android/app/src/main/res/drawable-xxxhdpi/ill_offline.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 358050,
+        "sha256": "ecde043b733b21bc252a56ebef20d74251bb06a36ce21f1a7cca4ed247fc6f80"
+      },
+      {
+        "path": "apps/android/app/src/main/res/font/noto_sans_sc_bold.ttf",
+        "status": "??",
+        "exists": true,
+        "bytes": 10530408,
+        "sha256": "0066a522a1ac007c1d72bc4fccb114f80ff7294641c78cead9715bd14d43b9ea"
+      },
+      {
+        "path": "apps/android/app/src/release/java/com/shopping/agent/data/demo/DemoData.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 2019,
+        "sha256": "e021268c87d17dd397cf15c1e248f337267dbbb4b2c038f6b47f8d127ae2ecab"
+      },
+      {
+        "path": "apps/android/app/src/test/java/com/shopping/agent/core/auth/SecureAuthTokenStoreTest.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 2158,
+        "sha256": "32e64e5548d3455cc76b1247f36d2bcc3141406d5d88f7ea04877a9d34bb823d"
+      },
+      {
+        "path": "apps/android/app/src/test/java/com/shopping/agent/core/concurrency/SingleFlightGateTest.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 1387,
+        "sha256": "f7f7a902a6e189312ccc60aad9f01d114588cc4fe27f9b27f3b460972246dcda"
+      },
+      {
+        "path": "apps/android/app/src/test/java/com/shopping/agent/core/network/AuthHttpTest.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 3854,
+        "sha256": "3c57124d25de173475b21a88b2f031ddffda9058f5cb3277aab45f08efa06bfa"
+      },
+      {
+        "path": "apps/android/app/src/test/java/com/shopping/agent/data/local/LocalDatabaseMigrationTest.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 9003,
+        "sha256": "27b7dfac7593957de1cbb8ed4b53cdc9b18cf7c0ef6ec8dfc234c329f8f7bdc5"
+      },
+      {
+        "path": "apps/android/app/src/test/java/com/shopping/agent/data/model/MoneyTest.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 729,
+        "sha256": "151bc15ffe503a72996647838510303dd5efcf8d80b8a797ce118e521c79fee6"
+      },
+      {
+        "path": "apps/android/app/src/test/java/com/shopping/agent/data/remote/AuthApiTest.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 2207,
+        "sha256": "b0f6e16381bc16637bccf6e61510eff6e3151a79697e2a2185ec73cf61a1d2af"
+      },
+      {
+        "path": "apps/android/app/src/test/java/com/shopping/agent/data/remote/CartApiTest.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 1617,
+        "sha256": "b178a724915d92d2ee8e74728c88f3ebef1037ba0d9a205243b5c519bd75d3d2"
+      },
+      {
+        "path": "apps/android/app/src/test/java/com/shopping/agent/data/repository/AuthRepositoryTest.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 4018,
+        "sha256": "574308539ffc28cd1a80d022d5653af7450a7e8d2360fa20ca87a1cab25be952"
+      },
+      {
+        "path": "apps/android/app/src/test/java/com/shopping/agent/data/repository/OrderRepositoryTest.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 1833,
+        "sha256": "0defd395450616d4872929c4c8ae9ef5ae692035d309e574cdb5ced510bf5c2f"
+      },
+      {
+        "path": "apps/android/app/src/test/java/com/shopping/agent/ui/components/ProductCardScreenshotTest.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 2251,
+        "sha256": "a03d2ad95a1d2cf30fa64c1eb4c7975310d549b6450081443ca28609a2bd3c03"
+      },
+      {
+        "path": "apps/android/baselineprofile/build.gradle.kts",
+        "status": "??",
+        "exists": true,
+        "bytes": 971,
+        "sha256": "b9f3d9f6b456a8c69a07da64d90373d0025d6e0ec5b0549f3e1f4e0ea9b002f3"
+      },
+      {
+        "path": "apps/android/baselineprofile/src/main/AndroidManifest.xml",
+        "status": "??",
+        "exists": true,
+        "bytes": 111,
+        "sha256": "c8fe08b06e479efc7e3d00476fffe693a3e943e2b874b3c6a1ba5156fc180751"
+      },
+      {
+        "path": "apps/android/baselineprofile/src/main/java/com/shopping/agent/baselineprofile/BaselineProfileGenerator.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 1631,
+        "sha256": "a1b570125c0585a059180ef6ce174036a48bee620dfe63840f143f9eb701259c"
+      },
+      {
+        "path": "apps/android/build.gradle.kts",
+        "status": " M",
+        "exists": true,
+        "bytes": 452,
+        "sha256": "e12e9188b3a95268b339962984357dcfacd179ed85c784ff781c1bae99f5fed4"
+      },
+      {
+        "path": "apps/android/macrobenchmark/build.gradle.kts",
+        "status": "??",
+        "exists": true,
+        "bytes": 2329,
+        "sha256": "cae84fa635104aee009506bf6fe692ae00e16529617e6c1a2b61e37158f52c24"
+      },
+      {
+        "path": "apps/android/macrobenchmark/src/main/AndroidManifest.xml",
+        "status": "??",
+        "exists": true,
+        "bytes": 262,
+        "sha256": "faab2971e024f87dba2f7fa338673e34503fd2e624b9c76df5cb3ba691c9a8b7"
+      },
+      {
+        "path": "apps/android/macrobenchmark/src/main/java/com/shopping/agent/macrobenchmark/ColdStartupBenchmark.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 1423,
+        "sha256": "8a3f0bcf438f151de0de557834ed543fc67263228fc04c8e003f165b36491035"
+      },
+      {
+        "path": "apps/android/macrobenchmark/src/main/java/com/shopping/agent/macrobenchmark/MainScrollBenchmark.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 2691,
+        "sha256": "8bc8b3ea5332eaeed7746b4be9bf4989ddc279ca1bdc8d62eedcab0060af2b28"
+      },
+      {
+        "path": "apps/android/macrobenchmark/src/main/java/com/shopping/agent/macrobenchmark/TargetApp.kt",
+        "status": "??",
+        "exists": true,
+        "bytes": 156,
+        "sha256": "66e7920b5715a85ef22bd2ac812ac8d591c73b225cb4f6849e783173b757b830"
+      },
+      {
+        "path": "apps/android/settings.gradle.kts",
+        "status": " M",
+        "exists": true,
+        "bytes": 763,
+        "sha256": "fa5b7d06951edfdaee7a0fb368bba7d113d4ca195f08a0da00deaec8d4d67c38"
+      },
+      {
+        "path": "apps/backend/.dockerignore",
+        "status": " M",
+        "exists": true,
+        "bytes": 339,
+        "sha256": "af96e725c3d4d1e6c68ca49a892a0f793290a2a7d8288f6bf62a9ab27d3b2112"
+      },
+      {
+        "path": "apps/backend/.env.example",
+        "status": " M",
+        "exists": true,
+        "bytes": 1136,
+        "sha256": "c501cfe6329f20143c3758859f69f0feb1a58f128b39e5f0b251b4b2766603d6"
+      },
+      {
+        "path": "apps/backend/Dockerfile",
+        "status": " M",
+        "exists": true,
+        "bytes": 1103,
+        "sha256": "00b06137710284252ae2db34dafa03c29ef3a64c85f52ba66c01ed081cde6550"
+      },
+      {
+        "path": "apps/backend/README.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 495,
+        "sha256": "5832b81cac887ac234953534ddac6c689f81da5ce5dc9576ccabfea301bf2a27"
+      },
+      {
+        "path": "apps/backend/alembic/env.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 1539,
+        "sha256": "f7770eaf0705954abb0940a1ece271d679747790f13d2163688e8fce684b9956"
+      },
+      {
+        "path": "apps/backend/alembic/script.py.mako",
+        "status": "??",
+        "exists": true,
+        "bytes": 593,
+        "sha256": "c20f6ab92d4ed36d77fbccb82bc410cd2ced42f2c162eebb43ddd45ae93dd90e"
+      },
+      {
+        "path": "apps/backend/alembic/versions/20260812_0001_reproducible_baseline.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 10215,
+        "sha256": "7a1dab695a1e62de48e2c1f81a7d6910c6adbaa532cf7d72c0ae0c84beaffffd"
+      },
+      {
+        "path": "apps/backend/alembic/versions/20260812_0002_order_idempotency.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 665,
+        "sha256": "85893bd35596b341b07aca2cd79cc3e0615e340c701990c6c4436e74622a1270"
+      },
+      {
+        "path": "apps/backend/alembic/versions/20260812_0003_product_sync_outbox.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 2114,
+        "sha256": "a06d7606f8aac75bec00877f8f8718fc38f111904c96f44d85a291661889cb09"
+      },
+      {
+        "path": "apps/backend/alembic/versions/20260812_0004_accounts.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 2228,
+        "sha256": "e8b83637e3dc282c9795558b7baa734a814b641d00469c372bb1c7d87e400d2e"
+      },
+      {
+        "path": "apps/backend/alembic/versions/20260812_0005_money_and_idempotency_fingerprint.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 1742,
+        "sha256": "1d4d156476a80c1f1b9b432c5c18d6b26163549136158581f7a10dc591503d73"
+      },
+      {
+        "path": "apps/backend/alembic/versions/20260812_0006_resource_ownership.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 2587,
+        "sha256": "979d229f59939b4ab0e8b26a1a04a86f5d2cfb286b731f6dd4f3384c4496ba00"
+      },
+      {
+        "path": "apps/backend/alembic/versions/20260812_0007_legacy_constraints.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 776,
+        "sha256": "e2340fd5c49120291f2b467a0280a09eef237dd66f2494165e91e1326fe83452"
+      },
+      {
+        "path": "apps/backend/app/api/__init__.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 546,
+        "sha256": "6672f090a3e7d7fcf17017cfcd50d90cd046ee73eeaecd2c837ad8e9599e9742"
+      },
+      {
+        "path": "apps/backend/app/api/auth.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 4776,
+        "sha256": "2257018382bb112d82ee4c74fdb805d1cb97417559a67e5fa55364f286a87b5d"
+      },
+      {
+        "path": "apps/backend/app/api/cart.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 7201,
+        "sha256": "b55fa6d26cc78c9e5175c72736af9caceabc723462d0007c815006bb01b9fbe2"
+      },
+      {
+        "path": "apps/backend/app/api/chat.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 3152,
+        "sha256": "1d8975007001e703bb16086e9f355d7a8f170cbabe83a638e3127d6634ffdd78"
+      },
+      {
+        "path": "apps/backend/app/api/compare.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1295,
+        "sha256": "2d5ea47e01882f89d7c048b5e3a94e8ec41965787a63e83d65f53f8cb9a0c269"
+      },
+      {
+        "path": "apps/backend/app/api/evaluation.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1542,
+        "sha256": "290f756d9b52f2e9b14e905363828b8ef19808d885862bfdac5ac558257a36a3"
+      },
+      {
+        "path": "apps/backend/app/api/favorites.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 4885,
+        "sha256": "b623820642ddb986b7b7faa0e2b83d1ad9e5ebd855d028e26b1f9992c0aac973"
+      },
+      {
+        "path": "apps/backend/app/api/feedback.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1058,
+        "sha256": "d97de4c4ab6a4427e1a7f5e51db361e92393e42fb5a7bbb4f783d9cd656dc7b1"
+      },
+      {
+        "path": "apps/backend/app/api/footprints.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 4668,
+        "sha256": "9e75c671b9f022e3f61eb51663ad2299dac7d1c01af652339a266d0b164254ed"
+      },
+      {
+        "path": "apps/backend/app/api/knowledge.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 491,
+        "sha256": "fb7f62677cdf48432ef90e8b4861274125e6f29e5701bee5d7ce4e8fd0d759c6"
+      },
+      {
+        "path": "apps/backend/app/api/order.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 8675,
+        "sha256": "dd50c4652f421bae9154d053562955698dda06a4a17bd0b716d12cdc8b18025c"
+      },
+      {
+        "path": "apps/backend/app/api/products.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 3869,
+        "sha256": "5fb9ff106135153216125d4d0287036816afb8f685d26cdd9c42cfbecf7e2ffa"
+      },
+      {
+        "path": "apps/backend/app/api/review.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 8678,
+        "sha256": "e5bb61557f6050687d6c97ab91219e0601f117b40a482ad427879ea5c5944e01"
+      },
+      {
+        "path": "apps/backend/app/api/upload.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 6626,
+        "sha256": "ff7590d584cc8301a85678a928439b0711b3c57b4507153e7868e0112f10e98d"
+      },
+      {
+        "path": "apps/backend/app/api/user.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 2315,
+        "sha256": "3cc97e9e2ff3a8a0cbea60479cfddf48e55db279e7879b080177ab48e832db77"
+      },
+      {
+        "path": "apps/backend/app/api/voice.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 5697,
+        "sha256": "f8903581d8e6c9a40b661bc575f7807582ce41e232c53554455d38ca92711ded"
+      },
+      {
+        "path": "apps/backend/app/core/auth.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 8253,
+        "sha256": "3d49d8bebc6dedbb8d572193fb4a5bb913e47123d2044d996d8771bdba801986"
+      },
+      {
+        "path": "apps/backend/app/core/config.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 2561,
+        "sha256": "87aacd9f8449f7abebb104b59deb77af8a47916500b066de74296548d3054fa1"
+      },
+      {
+        "path": "apps/backend/app/core/database.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1150,
+        "sha256": "d134534ebd16fa74fcd91c46a3274eb625bf4d9a848ed965d680aeea234e998d"
+      },
+      {
+        "path": "apps/backend/app/core/rate_limit.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 1014,
+        "sha256": "c4c9a7275e5d70ae5deb476bc3260b2b589382d672a33246ff0174230a65f70f"
+      },
+      {
+        "path": "apps/backend/app/core/security.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 2286,
+        "sha256": "781372e341c16e06241490cc922a9cc50582ce8063d8308d687619d1de79ffef"
+      },
+      {
+        "path": "apps/backend/app/main.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 19690,
+        "sha256": "576aa2c1a6b93503044ebe2650913b78471ee30467445688ad92a0d7bf809baa"
+      },
+      {
+        "path": "apps/backend/app/models/__init__.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 820,
+        "sha256": "750f40c10379b648f8498ed55abda775355c0da04f4f545a5c147e2778815582"
+      },
+      {
+        "path": "apps/backend/app/models/account.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 1543,
+        "sha256": "b2dd9482cc12f44b02bdb940b2f1b55ead1e9446629ab43c1c05d4d28b4caa12"
+      },
+      {
+        "path": "apps/backend/app/models/cart.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1259,
+        "sha256": "aeee7f1925b8a30b3b053f12ebcf4121e9e3e709569d05d28711370475803756"
+      },
+      {
+        "path": "apps/backend/app/models/feedback.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1031,
+        "sha256": "53faa735a5b02a9510bbc7d6c539e97b54b15db7dd6f6d67d0d4f2f48a5e2d96"
+      },
+      {
+        "path": "apps/backend/app/models/order.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1857,
+        "sha256": "b495eb5b85acff60c16f6ce05316f76311032b958b916c6b7297eb0944da2db8"
+      },
+      {
+        "path": "apps/backend/app/models/product.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1808,
+        "sha256": "ed4bfb9af095719c1fb783b648acdc3391b9588d44243b86297b26ca86438186"
+      },
+      {
+        "path": "apps/backend/app/models/product_sync_event.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 1473,
+        "sha256": "91ff96f6a4e64464a950d388746de9e9d4c4814295d9e83d645c78468aaa29a4"
+      },
+      {
+        "path": "apps/backend/app/models/session.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1154,
+        "sha256": "b928d79ddda11a8fe1b664b2aad445aa392f1b18a92b06a97913c6ad105944eb"
+      },
+      {
+        "path": "apps/backend/app/schemas/compare.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1510,
+        "sha256": "4a6c3c53d18699110c856e730f51d6b276984e4344e035222361232ec0f19972"
+      },
+      {
+        "path": "apps/backend/app/schemas/product.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 2881,
+        "sha256": "ee7784606b406ea9cf3b168898035fad9848d3f35c71f58a8d04cc2dbc35b13e"
+      },
+      {
+        "path": "apps/backend/app/services/agent.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 138156,
+        "sha256": "cca1f518d4a0481e2020c48b54a1efe135a13f04d7e00e98662bac174a3e9994"
+      },
+      {
+        "path": "apps/backend/app/services/cache.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 4688,
+        "sha256": "900ba8a999da03bc689a522afa1cf96ed0015f5ea01b5f9ce279a255a6fe3b7f"
+      },
+      {
+        "path": "apps/backend/app/services/cart_service.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 4803,
+        "sha256": "7096da9a2c9333ef4329f84dd92cc8fcc08268feb884538f3dd9597b63369b8f"
+      },
+      {
+        "path": "apps/backend/app/services/comparator.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 12352,
+        "sha256": "8ba9bf8b20d5e4ab3125f525ef4d7df7a4da0bf4ab07146bd2df2450954ccf13"
+      },
+      {
+        "path": "apps/backend/app/services/embedding.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 2126,
+        "sha256": "09251fbfe507743f276127da89800b1fe87d367592c74c944651ac0e2e709f29"
+      },
+      {
+        "path": "apps/backend/app/services/evaluator.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 7874,
+        "sha256": "a2e25af4acc464d06e63f1abe281b8da5d7bde5b5b0090fdad15cef5af999a5e"
+      },
+      {
+        "path": "apps/backend/app/services/feedback_service.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1012,
+        "sha256": "2b5a790937a3631f71e5082349af2c06e6b8c5611c2d509b0138138939b44221"
+      },
+      {
+        "path": "apps/backend/app/services/image_parser.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 5177,
+        "sha256": "4dffb9b69e2fa34bde6cf3866b405a89596fd3832c7abb3e541635eb8a73b70d"
+      },
+      {
+        "path": "apps/backend/app/services/ingestion.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 4577,
+        "sha256": "b1341bc3b1d5ae5de83a2303700b51a66aa285865d2e7fbb1af8fa9dbdf5fdee"
+      },
+      {
+        "path": "apps/backend/app/services/llm_client.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 7541,
+        "sha256": "3acfd460a3d250ab97e478fae8b524f9c1ad681be508ab58227b304de5089e0d"
+      },
+      {
+        "path": "apps/backend/app/services/order_service.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 5893,
+        "sha256": "39e43c3a9aaf5e3f7ee7c413f6c3b10fe32318ffcd227f2347129b1ea9d8f92f"
+      },
+      {
+        "path": "apps/backend/app/services/product_service.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 7629,
+        "sha256": "2cd312227317ad3dc7ec0a3b6abad294ad29526767d4106f79f3f18ab2a6e5d1"
+      },
+      {
+        "path": "apps/backend/app/services/product_sync.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 13340,
+        "sha256": "13a4c02c898da942fa6d5f76354f13c8b9c1da6343ae505f1ed3dbd832d84f59"
+      },
+      {
+        "path": "apps/backend/app/services/rag.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 2280,
+        "sha256": "375f0b960d8e6b5cd9a5c5400ab44e1eaf4dea39c0d2963b238b85a9d32b00aa"
+      },
+      {
+        "path": "apps/backend/app/services/retriever.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 7652,
+        "sha256": "fae3c3b07c5ec72166130fa8c3098dd2393e27c0d0298e80256b08b789d933ea"
+      },
+      {
+        "path": "apps/backend/app/services/review_service.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 3798,
+        "sha256": "a3659f5059049bde5658d3fdc0bd579c44110c929d67bcbacbc309269ef6c66b"
+      },
+      {
+        "path": "apps/backend/app/services/state_manager.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 9201,
+        "sha256": "d4f54e44e95a8ad9c36266d90ecc6e0a67715a95ec0df45361466dee770602cd"
+      },
+      {
+        "path": "apps/backend/app/services/web_search.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 3293,
+        "sha256": "7647e127283c4ddd6c746c7dd1c6163f4dad39f2f7bbef8822880b136a012c6f"
+      },
+      {
+        "path": "apps/backend/app/startup.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 21192,
+        "sha256": "d9bf7d7c88f0c36509069531647c912452aaedaba260dc762083f9660ce097ee"
+      },
+      {
+        "path": "apps/backend/data/test_cases/eval_cases.json",
+        "status": " M",
+        "exists": true,
+        "bytes": 88069,
+        "sha256": "337b5b3c00c51b6d82b5bce14fab2e99f7f557806d7ee8c8a9448b39dbe4d514"
+      },
+      {
+        "path": "apps/backend/pyproject.toml",
+        "status": " M",
+        "exists": true,
+        "bytes": 1413,
+        "sha256": "6aabebe94b428058bd14df03c73dcfb356b55c0fc8d7a56bea7f7a2e9ede2ad2"
+      },
+      {
+        "path": "apps/backend/requirements.lock",
+        "status": "??",
+        "exists": true,
+        "bytes": 186686,
+        "sha256": "33fea4ea6f8bb076aa89efbfd3057eea3c6779ea445551c9f61bd762729a1cfc"
+      },
+      {
+        "path": "apps/backend/scripts/migrate.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 5819,
+        "sha256": "4a3953b15c45cf68c4008a2ee45a57192f819023170442d3c27c0c5c56ed3a16"
+      },
+      {
+        "path": "apps/backend/tests/conftest.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 969,
+        "sha256": "1e02da85fff34b835e48f4d0a01edc2249bf254b8bc519a96dd94ce601e5a2a9"
+      },
+      {
+        "path": "apps/backend/tests/e2e_scenarios.sh",
+        "status": " M",
+        "exists": true,
+        "bytes": 405,
+        "sha256": "eb22595405ca7cd25d9340ae12725f7d993afec3d195dc08f39fb098f93b50b1"
+      },
+      {
+        "path": "apps/backend/tests/test_agent_graph_routes.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 4904,
+        "sha256": "e8e9f673130d9a6d9e63f35262c65b59eac83d0fd21aa64959226a5d0fe15a76"
+      },
+      {
+        "path": "apps/backend/tests/test_auth_integration.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 9495,
+        "sha256": "8972d80a883402001aae7c6b1e65fc6fc5299eba59d56682130dfdbd46f75d6e"
+      },
+      {
+        "path": "apps/backend/tests/test_cache_epoch.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 2321,
+        "sha256": "2daeb04df9e6f08843991616d1bf768a5e5d71c46fa81233737209b0869c0999"
+      },
+      {
+        "path": "apps/backend/tests/test_chat.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 3357,
+        "sha256": "2a960c0c1de12d8d78d9d41f70fefbcf457544bfd5906d412532b4f5e3d563e6"
+      },
+      {
+        "path": "apps/backend/tests/test_compare_contract.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 744,
+        "sha256": "1a78ca93cfc2108b8eb5e9f05313a1b3e10b97e46a75c182d5de6d5b7a7d66b1"
+      },
+      {
+        "path": "apps/backend/tests/test_deploy_config.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 2428,
+        "sha256": "5269e47efd71be28a91534ec26c8258abf893cb996b5fa8a0d87b2070cbc053b"
+      },
+      {
+        "path": "apps/backend/tests/test_evaluation.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 248,
+        "sha256": "55a5a1a20f5014f18cd7d86daf9f3ff5695a2c835c61052a0edd4a16ed3b82ba"
+      },
+      {
+        "path": "apps/backend/tests/test_evaluation_data_quality.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 2868,
+        "sha256": "6f60906244b89c3da06861ce237c3d8e8908acbf94b204cf5342d9914bcf8291"
+      },
+      {
+        "path": "apps/backend/tests/test_evaluator.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 2288,
+        "sha256": "ae3fdbdfa8fb4b4ba6b1de2476125d4e6ebf358d6dc9def91100cd94016b18f8"
+      },
+      {
+        "path": "apps/backend/tests/test_health.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1284,
+        "sha256": "bdd19a259b303adbc2b5626c85a38c12906c7da7be33ee9fb6d31f6d774feb61"
+      },
+      {
+        "path": "apps/backend/tests/test_legacy_migration.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 8114,
+        "sha256": "257d2302593c91cf32e698809cf96c89e1bd50a13ae109b1d4da2408e2890501"
+      },
+      {
+        "path": "apps/backend/tests/test_order.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 912,
+        "sha256": "f2d9ec18d212da0dbc8ecb7bf2d47ba2afab62a37d140f585ef97bbf075ccae3"
+      },
+      {
+        "path": "apps/backend/tests/test_order_idempotency_integration.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 6969,
+        "sha256": "a49698658398a628012a5340cb1b036305f6117b71af35b6cdab18ec498a1c86"
+      },
+      {
+        "path": "apps/backend/tests/test_product_projection_fingerprint.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 1869,
+        "sha256": "ecd38034fd327d0745de047252f72dd34d17ad44f203e119827a1120c9f92665"
+      },
+      {
+        "path": "apps/backend/tests/test_product_ranker.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 5840,
+        "sha256": "cf2a3b7f38829e38af61fe6ba739e82c08c0fac04fba08fd34884078d4ecf17a"
+      },
+      {
+        "path": "apps/backend/tests/test_product_sync_integration.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 7324,
+        "sha256": "c9bb3b222a731a0e6d534f4fe4f43b793a94df02e931e72c5f9552aaee961fd0"
+      },
+      {
+        "path": "apps/backend/tests/test_product_sync_ordering.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 2552,
+        "sha256": "f830d17fb744b554a450e894f951adaf25e100ea04d651d02331e290071c51e6"
+      },
+      {
+        "path": "apps/backend/tests/test_products.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 1889,
+        "sha256": "10130ca9a932fb9f77b17d82672a0922f371f2e2550d6eb9ca73bb76ceae1e73"
+      },
+      {
+        "path": "apps/backend/tests/test_rag.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 4298,
+        "sha256": "b88e19300b199ce0e395aa32975a10bc59f8f0eee5d77b680c6f83768aba0a4e"
+      },
+      {
+        "path": "apps/backend/tests/test_rate_limit.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 573,
+        "sha256": "1106878d0dcb189e7c18a0a4d61ecfa07b87e9aff03df92b2ce821e30abf78f4"
+      },
+      {
+        "path": "apps/backend/tests/test_review_upload.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 3317,
+        "sha256": "e5f25efd7f041810714afaf60e118db7ba5fc8b2184f3816b225f8c7d1cf4cc0"
+      },
+      {
+        "path": "apps/backend/tests/test_startup_lock.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 1107,
+        "sha256": "a033b842b2e0dbd7588b420a47d635c4b39fa0471435cff15dfa2cbc806a1194"
+      },
+      {
+        "path": "apps/backend/tests/test_state_manager_cache.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 924,
+        "sha256": "f963a1905132eba1d6fc7a438a60791ff060f30469e967cb77a7faff752d73be"
+      },
+      {
+        "path": "apps/backend/tests/test_vision_status.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 2377,
+        "sha256": "9a97025438fae937d20e8588b2b79547703d7a21647f8f1e3ba0c984f8165e9f"
+      },
+      {
+        "path": "apps/backend/tests/test_voice.py",
+        "status": " M",
+        "exists": true,
+        "bytes": 4254,
+        "sha256": "a346a5244aff3dc3e28fac9fef6d9460f1e9b06e7999cb4604dc06f292859d18"
+      },
+      {
+        "path": "apps/backend/tests/test_web_search.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 865,
+        "sha256": "d48a0665e7ac3d27a7fcfcf2ed318edccacfc5ec27ca3febe533dcc4656abcb8"
+      },
+      {
+        "path": "apps/backend/uv.lock",
+        "status": " M",
+        "exists": true,
+        "bytes": 696772,
+        "sha256": "28f78a4e430349b31b3e11bf2cea9215957085d30226bf7052fff4d7d117dac8"
+      },
+      {
+        "path": "deploy.ps1",
+        "status": " M",
+        "exists": true,
+        "bytes": 8949,
+        "sha256": "988e01b4a4ed9307f436684547cfbb2810cf89da71d84f90183861794c0fb842"
+      },
+      {
+        "path": "deploy.sh",
+        "status": " M",
+        "exists": true,
+        "bytes": 10926,
+        "sha256": "d41b7a4ba239ded9a3d5d69e3bbf9a75b1ac119af7535c0fdfd7ab67174c00bd"
+      },
+      {
+        "path": "docs/API.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 7803,
+        "sha256": "2c8d8a27c25ea2bd39d31a4d90eed8c868bd9b4ce79eb9d0dfd92e8b3f86f88f"
+      },
+      {
+        "path": "docs/DEMO_SCRIPT.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 2930,
+        "sha256": "9f59d60b1a7d949af274b443b4ca664d6b98a1e910a379f153994ede4159f859"
+      },
+      {
+        "path": "docs/EVALUATION.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 2072,
+        "sha256": "5ffb1a718ba928720d0fc4ddca2351e138ee33b691a754e192bd0791c54b78f2"
+      },
+      {
+        "path": "docs/architecture/项目结构说明.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 20662,
+        "sha256": "e2772983c78f30ffd3e9ca3ae14b98e13717d3cbbb1cab5da5d3c4833f9a7029"
+      },
+      {
+        "path": "docs/archive/competition/CHANGELOG.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 8446,
+        "sha256": "320e56ed4d518a5365b711c44bd2c163fc8a2fd7fd75ac0371cced9312b2c55e"
+      },
+      {
+        "path": "docs/archive/competition/CLEANUP_REPORT.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2211,
+        "sha256": "efe469120ea56fb88f064141be8315ef7636fd571dc05e7e65954858ee535dcd"
+      },
+      {
+        "path": "docs/archive/competition/DEMO_SCRIPT.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2758,
+        "sha256": "bea43bbf17a76798fc463d4315f91c59d96847d8423206c9b7be10b424d87dfb"
+      },
+      {
+        "path": "docs/archive/competition/EVALUATION.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 5520,
+        "sha256": "8534dfaad9c166209e3b5f3751677e50fc291af750d87e0b5a29af236324ada9"
+      },
+      {
+        "path": "docs/archive/competition/PROJECT_STATUS.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3142,
+        "sha256": "ae12d2807e4a52148ab472512e5a871281cb798cf8f81d31cd2210aac466e038"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/01-基础功能完整性/场景覆盖矩阵.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3406,
+        "sha256": "a2d1cbe65bc63b169e2ea8eb84bff36eed9a01051a7849033bd408416a160e9e"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/01-基础功能完整性/数据工程.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2060,
+        "sha256": "e9152f116e6fa228425cc409b81e5c5db11221616eb72011f8cf5cd6aa34e52f"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/01-基础功能完整性/端到端链路证明.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3070,
+        "sha256": "e3b8efdf33e8a9ce9705157d8cdfe741d3fb1cbabeb00af5e6caad4fcc4a491c"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/02-工程质量/代码规模与规范.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3147,
+        "sha256": "24c2510897275b4d15a20bdf72d2ddadf4266a313929abd6dc3d83832d114ced"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/02-工程质量/架构设计.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2705,
+        "sha256": "93bb76a18900389e3705e99771428054394c679c984f418bea8a4d2af19c7f63"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/02-工程质量/部署与可维护性.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2295,
+        "sha256": "2f5515bf430866d4b8027888d55ac02136692b2bb3b1f56818285585d5c39266"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/03-效果与可靠性/性能指标卡.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2239,
+        "sha256": "b9ee72ce56e0c5c6ffbec5714142c3f6e371756f32a3c0266e7d1c1118f475a3"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/03-效果与可靠性/检索与生成质量.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2510,
+        "sha256": "be1654f876a394c98f12bc3582ad70f9c2ed5d97ab16e238b62056f6e7afafe7"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/03-效果与可靠性/降级与容错.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2023,
+        "sha256": "425462ca071869aa6a481c80b714b6f4da92c8610fd97ee5fd33f944af544501"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/04-加分项深度/否定语义与对话智能.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2417,
+        "sha256": "399ab92829a7ce5f9fbd3c4b4ed4b6b8c2fad57187d08062038f4eccb0bcab9f"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/04-加分项深度/多模态拍照找货.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 1852,
+        "sha256": "38c813664092049669bfa86f919a8c864d1743e52741c3fa2135bd6e64477337"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/04-加分项深度/性能优化实践.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3000,
+        "sha256": "5f0f11ff922d31efe83b798898838c024f384ecde4d4e7f2f75d5f17084f6b3f"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/04-加分项深度/购物车闭环.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2546,
+        "sha256": "6ba64b69ea2a0bdcc2041aa2ab664208b63510510e73cb55d2ea78bbfd844e1a"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/06-赛制备战/AI辅助开发说明.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2787,
+        "sha256": "75e6e5ad44a0118ab81d302b3770720b5242d7dfafe8bcd25be6a68255b0d354"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/06-赛制备战/团队分工与能力证明.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2989,
+        "sha256": "31968eb4d3034b5b6aa666381fd5d4c60721d86456f8fc03193102b4c9f18543"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/06-赛制备战/线上演示准备清单.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3919,
+        "sha256": "0d01862743014c428e02921711041a0991b1f36bba40067dfdb01d2c95a67525"
+      },
+      {
+        "path": "docs/archive/competition/defense-kb/README.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2852,
+        "sha256": "ed2a616d37ba9220b01fa9d89f3ee5440b1bc146bbf676a75f1a3c6c225052c7"
+      },
+      {
+        "path": "docs/archive/competition/notes/PPT-OUTLINE.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3678,
+        "sha256": "e34c013e94231fb20753d07735d77b155760cf84886130a83e3484855910baf3"
+      },
+      {
+        "path": "docs/archive/competition/progress/M0-M10-全项目规划.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 13678,
+        "sha256": "87faeab279640dc6afdbf417433298af30b680977af1ba38f68d4255ec414a5c"
+      },
+      {
+        "path": "docs/archive/competition/progress/开发进度控制表.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 17823,
+        "sha256": "b21eb584e4472f5aed7f57e2b266d7326a5eff6db890651321f9d94bf70d9e7c"
+      },
+      {
+        "path": "docs/archive/competition/requirements-based-rag-multimodal-ecommerce-ai-agent.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 13246,
+        "sha256": "19214490a681491533ea5e81f489071596a5c81ca3566d63a22141f862c4eda3"
+      },
+      {
+        "path": "docs/archive/competition/submission/DEMO_RUNBOOK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 1978,
+        "sha256": "ce92ce9a5b1c862512572f6bfc47828a51638149ad96dedfadb59f011b454eb9"
+      },
+      {
+        "path": "docs/archive/competition/submission/项目提交文档.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 10424,
+        "sha256": "36deaf1c8b7aa03358814c2e3f49534dd17b5aee8e5389f4dbca63a9c7374296"
+      },
+      {
+        "path": "docs/archive/defense-ppt-old/拾物-AI全栈挑战赛答辩-初稿.pptx.inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 124000,
+        "sha256": "92abc2741aaae3454321cab9b679807fb35076887507bb52b232abc34a638914"
+      },
+      {
+        "path": "docs/archive/defense-ppt-old/拾物-AI全栈挑战赛答辩-视觉修复版-v2.pptx.inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 112487,
+        "sha256": "e3d0bb0a732daa39b86a78a3a398e6bfcf611cfd7be801d5771bbb9aee99cf8f"
+      },
+      {
+        "path": "docs/archive/defense-ppt-old/拾物-AI全栈挑战赛答辩-视觉修复版-v3.pptx.inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 115115,
+        "sha256": "a0e12c9e37a407f7b409488c51df7265bc058c1bbcdeeb976446d66502a9d3d1"
+      },
+      {
+        "path": "docs/archive/defense-ppt-old/拾物-AI全栈挑战赛答辩-视觉修复版-v4.pptx.inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 113235,
+        "sha256": "f77205ea2cbfccb3ff550f81a5fbeec7483dc8adc3e367c771d2bbe6def0743c"
+      },
+      {
+        "path": "docs/archive/defense-ppt-old/拾物-AI全栈挑战赛答辩-视觉修复版-v5.pptx.inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 113236,
+        "sha256": "2209bd9d35348fba72b64614659b85180cc8df9332c9c37a96bd1a4ba7c8b717"
+      },
+      {
+        "path": "docs/archive/defense-ppt-old/拾物-AI全栈挑战赛答辩-视觉修复版-v6.pptx.inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 113236,
+        "sha256": "fd9d65ada77a68e142140490fe172a0c018bb942efe3c167e12098bf731eb1c3"
+      },
+      {
+        "path": "docs/archive/defense-ppt-old/拾物-AI全栈挑战赛答辩-视觉修复版-v7.pptx.inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 116097,
+        "sha256": "7132560fc8dd8f2014745821e6bcd2f797b69bf919dd811d7df8f5fd15d72e42"
+      },
+      {
+        "path": "docs/archive/defense-ppt-old/拾物-AI全栈挑战赛答辩-视觉修复版-v8.pptx.inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 110686,
+        "sha256": "f88afe07287c4667dd3dda682e485b6aa380f2589253408fd904945882c07909"
+      },
+      {
+        "path": "docs/archive/defense-ppt-old/拾物-AI全栈挑战赛答辩-视觉修复版.pptx.inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 112516,
+        "sha256": "6d8b89d2848ac8e9e23c58144f3821db8ab09c40b98a19a7dd1909a6a790a7c4"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/deck-montage.webp",
+        "status": "??",
+        "exists": true,
+        "bytes": 69584,
+        "sha256": "fef642b242abfc183f911193897ed5897908a5825263c1ccb04c1fc12207278b"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 20684,
+        "sha256": "a2d061ed62d496d1394b8d6a554a0b89ebb4f2f0c90385274bc1539d545a2a0d"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-01.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 16121,
+        "sha256": "cb621adcfb5d719fe2b0fbcd69308f9757309d5d87c09eda3b413bcca53f79b2"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-01.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 920575,
+        "sha256": "65ac0da31be78b942cccf93dd510f5ed2ab4da68060cb7c55c63208ed6c26f96"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-02.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 40539,
+        "sha256": "6d8cf9e54fc76c7477360a130bfb8593cf54a033ae58ac6486eb872e5e620d75"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-02.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 469857,
+        "sha256": "4cf539447e70cdf48cdff2fd98e4f1535b39178ae7d4f6de4a0b81d7ee40be76"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-03.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 42860,
+        "sha256": "b4e2f9843bddf2015a7bf94b3c56f52e202534d5adab81b2e5b82b9b94fbf90e"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-03.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 518142,
+        "sha256": "32f30271614102932151d2da5917792b0c7b6de878574e97a6baa0e12c5fa8a6"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-04.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 20880,
+        "sha256": "73f1f21b7b1043cb920aafa85b67626a61b5cd246a85d3edaf8508e4d066d692"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-04.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 581893,
+        "sha256": "7c7843569ae891b2c73b557862f9b818930a004b9d45390e0a14fadfbb634f29"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-05.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 73764,
+        "sha256": "2e30067a6e93adb27edae7d4f7daf4fbd59f72b5ba2c697df72544c27c5a2659"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-05.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 509734,
+        "sha256": "26c3a0e118603c9539c0f8c677149501b5a5484560dd4fdbf7b675c8ac49fe2c"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-06.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 33865,
+        "sha256": "c71f18e049e2779f50d6d46a9e5f91a53cd3b0b934bc1e59d26c241a50f57434"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-06.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 693903,
+        "sha256": "d9d232c87160f1b46e58585a5826324640c5e601af3953f5d0c293576c763927"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-07.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 25946,
+        "sha256": "6227eef4e6e0b421e3cefe717d16b3735e40fbc1e24696f759c0c99703732cd3"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-07.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 569791,
+        "sha256": "3aeac3aa56b9537bcd0b6bc50f7e6c17920ee21469d1107812091e4bdb509747"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-08.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 34569,
+        "sha256": "ab3aec72630a830ff277fa5cd45c18dc8f034bd63680b62d239c1443704b97ce"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-08.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 621556,
+        "sha256": "577ea69b474744b510f36416a223a38c5190449128d1938e464f2f8b44f88513"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-09.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 38931,
+        "sha256": "d37db0dce8ed89d95fe429049f659a830d042db4113964c350d86b74fb3bcc80"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-09.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 513206,
+        "sha256": "9f897b8c4b45a97af86d23dda880ca391bff82659c65372d5079999747490fea"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-10.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 34282,
+        "sha256": "98a2d6c0b54e8290254b225477fca17584cafc9d400de563fbd7b2da74f2960e"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-10.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 675517,
+        "sha256": "bdb36a670b8c6ca9a58f5f5a82541aca45c81f04f842f0a873f85ade5a9bf047"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-11.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 38948,
+        "sha256": "a7bb258526979c00526d18c9d2771a69ab5e50338d8caf5f69a7b39684ababdb"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-11.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 625657,
+        "sha256": "b008b1b2e74281d2aec825677d0e5dbe31d39562f17920f2175c21da2e0d1189"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-12.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 35696,
+        "sha256": "e1986c93f71a4769afb5c6c0f7a41b5e0394ffcd55ec668b0ccece43e8457450"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-12.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 625791,
+        "sha256": "cee07333ea027f5d9a36fc520cfe1b1010b60fdd8299b540db0c8c00efe332eb"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-13.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 27106,
+        "sha256": "e72ff6bfac6b5bd32d663c4735ea0ad559c27f93f20864aacf7c5822553420f8"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-13.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 588215,
+        "sha256": "63b509be0ee58887048f6d736f0a73b029d50ec751a0bbd07b3d5f657636db41"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-14.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 29218,
+        "sha256": "fc619d7596eb30fd967858dab12ae9b3f4ed96c79d00442278b383c2a6c4d637"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-14.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 650724,
+        "sha256": "53bb19146a9c351f0f36700aa1a7858a76632bce28862e5ad953bc9f41d432e6"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-15.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 42005,
+        "sha256": "3d22483ce424f40ee7827d0598a24a1ba4833d5209c5ce9e414530b90bcca504"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-15.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 587152,
+        "sha256": "bf37272c3f68e30712e80dfa9682a57f9978aa9331456d32914e2c78d777b0dd"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-16.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 30155,
+        "sha256": "9f276d61743364305e0f4e4101171dbe83040d9c2a2e55cf3dd824fac6e86638"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-16.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 635073,
+        "sha256": "845cb4e8816b37a7faec9a95b1420a517628234669afc84837209a74664fa7e7"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-17.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 31410,
+        "sha256": "30e859e5353c575ccda84c82089ceff5125a1e22f9a6d289d0a21cea96234942"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-17.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 569277,
+        "sha256": "4f3de706b91ad6bc3802b78692367097d950bf63f401e045c8cb5342af7bcbb4"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-18.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 35448,
+        "sha256": "04300b7649ca4e7702c8d611e8d37ecf24017ed50051751176bcf565353cb58a"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-18.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 630931,
+        "sha256": "c99f311f5f1437a686894182729c01b9ba835f58d8ca7614c74265ebbb677217"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-19.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 35065,
+        "sha256": "3133e36195cee2261f8a9443fa074a9b8b8001469553dfceb30ba9356b13db18"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-19.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 621039,
+        "sha256": "a6a5406aebf809dbfc2b303a33fa98c983ed40b38361cfd5f395ffef2591951a"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-20.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 29758,
+        "sha256": "93ed3e94fafb2156dc6883ba334d8b99ae9982fb7b3eb77a9060ed94dd43ba7a"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-20.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 622545,
+        "sha256": "8e4c19edf2799a1a7ba43643e03a4792a0b335ba5a8bae8d2d2dad4893cfe2ba"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-21.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 42978,
+        "sha256": "055936c9ba7eb96822d6d1e2771bf5d96a3876206f13c6d3f185dbc184e4fa9b"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-21.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 570466,
+        "sha256": "07bfa43621119281b1d7fced83d70f817172ca06f8cd6affcee5e2988a5a8872"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-22.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 31410,
+        "sha256": "84afba545b36c424026baa3ae41edd86f46c3775a2b032277ece6caac68edada"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-22.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 556298,
+        "sha256": "aa25f27a1afcc01146a3b54ae316d1ef0402e28546438f7da70b4ff918b22028"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-23.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 33421,
+        "sha256": "cb1edd87b136ca20c48387beecf355b9700ab48d87f99ebeddfa12a0d58c4e6b"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-23.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 646952,
+        "sha256": "ded34a633a46e5d2c3967654e1b319348871406e215bc55d04fb0b6f2c3fa052"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-24.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 48447,
+        "sha256": "1daf2cd9c38c37db227935868018eb681346ed8fd8445ea5c8206cb92245c74e"
+      },
+      {
+        "path": "docs/archive/defense-ppt-preview/preview/slide-24.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 505839,
+        "sha256": "31d75cd17f4c06e6efbba8beb43089d62994fbafde76bb2f9a66027dffde1a97"
+      },
+      {
+        "path": "docs/background/PRD-电商AI导购Agent-V1.0.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 52404,
+        "sha256": "bba7070b06c17c5ca3cd9b431d6b600c8c0d5a26377deb30c9c6065dfb178dc6"
+      },
+      {
+        "path": "docs/background/REQS-竞赛核心需求.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 9834,
+        "sha256": "da5291aa02a7c5c7e82601d2e8644d049cd9a0f7b212ca66cebf63aee6993743"
+      },
+      {
+        "path": "docs/background/电商RAG导购Agent案例分析.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 59266,
+        "sha256": "e2e6851423a20b2e308896052d638069a9769b238eaf7d131c9cb4b947c2ff91"
+      },
+      {
+        "path": "docs/defense-ppt/PPT制作说明.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3268,
+        "sha256": "69a4a2847d45fec408a21a2a261955f21f1c3074e9e5736f363f23de2b85ff5f"
+      },
+      {
+        "path": "docs/defense-ppt/assets/content-bg.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 1056318,
+        "sha256": "99dfba4b3d7e812b508f226930317187c7ba7863eeccee73217f655e2eb14982"
+      },
+      {
+        "path": "docs/defense-ppt/assets/cover-bg.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 1407576,
+        "sha256": "7b15f360fc85ac0f6a71a72e1f603834c82c497b9241e76508cf8812bb55f240"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/contact-sheet-5x5-v7.jpg",
+        "status": "??",
+        "exists": true,
+        "bytes": 316854,
+        "sha256": "82d2743357b23114b60772c037c7d72c753f8be754e61003bf308e52588c80fa"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/contact-sheet-5x5.jpg",
+        "status": "??",
+        "exists": true,
+        "bytes": 308629,
+        "sha256": "8b33f3acf07d8851f6c3ab19ac76351febebb5de728954c54292cfbe631c30b9"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/deck-montage.webp",
+        "status": "??",
+        "exists": true,
+        "bytes": 72204,
+        "sha256": "e6ddc1db5318e12eaead2aa308effc80fea59f41e34198b0c2416ee9787a2f01"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 20944,
+        "sha256": "131de7f7f7628124171ab3ed31853950a1108791bb606e077a70c7a2352c8499"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-01.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 16193,
+        "sha256": "67605f63b724818fea9b7e77d06876fc67dd01f158ab62cdde06dd2710c50eab"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-01.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 920807,
+        "sha256": "4ce212de49184016ec6c8cfe62f0a8a20a3fff83fb379e1d3c7be7cc95d95bfc"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-02.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 39170,
+        "sha256": "2bbad2a71144a8e0117d788834cdeafb8a540530696b382eeca6fa8f0808ecd5"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-02.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 475944,
+        "sha256": "516aae09bc0ed2eea701ccd0831f4cb0135292f12ee9c32f6a636402834d8408"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-03.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 41718,
+        "sha256": "fc51fec8612f53f87f60d8191df0b011030e59deb9275f89f652dec2a0e32140"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-03.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 523982,
+        "sha256": "febb1d5c57a750a04c3ff7d17ea5286e56763c441753d31b7cd70089e82812e7"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-04.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 19355,
+        "sha256": "67d03f481cf03dcf5172301cefba58f94fd8d76c168cb85b1647b2e7b6c43bd5"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-04.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 583213,
+        "sha256": "2e40b3a2e64a1ffb248621de5bee866d82ef59e750e23e56477bf03247f29b77"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-05.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 25664,
+        "sha256": "a9c5572466ddeda42437c98b13c968cbc393995ddc543bb442c2e315f0754861"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-05.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 579441,
+        "sha256": "d795a6b4a25cbebedd798d31b65220ea57fc89f91ee8de597239bea1ae44ed31"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-06.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 32335,
+        "sha256": "6e31870285588b1fcd1dbe5ec66238985e11a609341514a6ed98164c27c1971b"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-06.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 695043,
+        "sha256": "88ab1cbfaca226590b5c318631a0e2501e1f87f9b63d81caaaa475008a8e92a9"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-07.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 24491,
+        "sha256": "b31c7d394c9af32b86f4465b09b9755c811856c0059e15020f27d95127f86e53"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-07.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 571217,
+        "sha256": "b47c156aad46292ebe09fd411e59af857857416101919eac6d940e6d4849a7c6"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-08.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 34534,
+        "sha256": "763c528a13cb867a7da33b1e4b7d5e5e45e8023e3fbf6d8602c31ea05564cd21"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-08.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 506832,
+        "sha256": "46aba3f8843d2daf05efea1f2e06d6305a5e55acdfdfa7001f38ef8967737b74"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-09.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 30013,
+        "sha256": "a367a2a50a2fd73eb9f192925723cf7b99934fa6db79bcec5e668aca733c4ca0"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-09.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 687964,
+        "sha256": "f7ed17ed57a7014ee6b56a492a39fddacac91a16e9ad8bffa699609d31f968a1"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-10.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 37329,
+        "sha256": "7891e43b0f721f290f164b601746e768b5f3321ce337d670a6bf076a22d17765"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-10.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 610708,
+        "sha256": "ae4b6cd3b07c4e2c1f27fec5330025990072a310544d8e58131a137771859c87"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-11.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 24952,
+        "sha256": "e50b2e0ae58e8bea5ba04280f23fe7d34de1a11f8958c1aec03bc5a9962ebd84"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-11.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 615952,
+        "sha256": "939a9548ec5b69c7ae830a88c852c82358582659ad2879241d0d3ec6e379480e"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-12.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 36154,
+        "sha256": "bb2e3851c00a6477ca6e7c285fe7f5174c1d6cbc4bef2a2c4be74b88843a06bb"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-12.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 669615,
+        "sha256": "42a8cfb44e568860ec9ee03fae382a6c8cdbb9730fdba0abd48c1b8c0d7d444a"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-13.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 25749,
+        "sha256": "6a33b43c75f8908fe1db56489fb31f127180e022795887578b4ec99288021a32"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-13.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 590614,
+        "sha256": "b319b359718c53b5644eae04d6b29f68f7c9284887046bc1e87372f77725ba18"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-14.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 24030,
+        "sha256": "8a51cc077085696de88ec7da055e333449da74aeae80cbbab93b1c3850f4d25f"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-14.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 488967,
+        "sha256": "378b69dfec942f6bb5e8c39533bb2c9a370735a68ae8c5cbde911588113d1007"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-15.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 33438,
+        "sha256": "4ab219eb65e238fc3f0081e1681b09f03827c68e287f0a2b4576049e93378574"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-15.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 618712,
+        "sha256": "0d6576d3745ac9285411bddeaaf4121958a81410d9bc8993e7d5b3fd0a31f9e9"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-16.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 31697,
+        "sha256": "d535de1fd8c7efd0f9a60b43851776834d211bb36aa957d691861572603ac3d1"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-16.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 601337,
+        "sha256": "f27e0547e60bb14b9c08d0969c3b749a26b5e9310b87823f6530c311c3ac8001"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-17.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 35502,
+        "sha256": "5ee91847902230eb8b19ce4ba490c4fc3af66db72680ebc5e3c0dfd6cd41aa8c"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-17.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 505132,
+        "sha256": "c96e4039518f54b3f2c7b9b79c6f72a36513cb777a0699939ed3b8e54533c40e"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-18.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 29761,
+        "sha256": "dbe504f7572e4631978405d90d6d855290967e78e1f7097d646f0918618b9c22"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-18.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 683367,
+        "sha256": "ad1664f90a801088b19937624297ed69e0bb885738fdff9b1788d09be3d6fc4e"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-19.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 35486,
+        "sha256": "2c45e2b63db7ebda74de2f7f1868457a0a670ef571166adbbb163a1b632a731d"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-19.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 569134,
+        "sha256": "815ea9bfab22badf04470b8597079ee93a119cc7e3a918d19444c40435bc5527"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-20.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 29290,
+        "sha256": "d8f69ca0a69791ea6ef5bd764a636d13109b6744fefbb3700ca04c6f4c177601"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-20.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 550267,
+        "sha256": "50079b9c4b52258460737e49cc634a0d5abb4911ecf902fafe059a4131cf373f"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-21.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 34419,
+        "sha256": "1e31d236781d900378f1a64c1172baccaf1a939eb7c69980c1c163831aa91181"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-21.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 611006,
+        "sha256": "f032e97631c5aa677ea7af20d963b59d06da1bd836f23d1ef2ea27cf1363fed6"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-22.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 48245,
+        "sha256": "0cc91c73dfc84fe57d1608e26d4cabca9decc35b4c304b618e2595cc74405424"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-22.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 577899,
+        "sha256": "5926a6bdb7d818d536a5ef616e4d4b873a683127c9d2ad4e7f82f38f1e7839d8"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-23.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 31841,
+        "sha256": "8d8db874087a12bc3bdd1fabaca53ce81b4f12580005c68e915d64596124fc63"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-23.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 646694,
+        "sha256": "119b4703501d7131d316190cb936c145908f3ded67404a3ac4f9da4379e53644"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-24.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 38939,
+        "sha256": "f8270f5522ee2f2b432f7ff760dc59efd92f2c8e74737d63204e33b535088426"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-24.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 515246,
+        "sha256": "4c658fbf8fd03a412062f7be43b99d2a4d7da637b98e47e836b0628524c7ef98"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-25.layout.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 18381,
+        "sha256": "1a2e7dbb86ea9d5b291289fe0af7a0486a801d1b13002878f9ae7123c413b59f"
+      },
+      {
+        "path": "docs/defense-ppt/preview-visual-fix/slide-25.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 897892,
+        "sha256": "4084660f409c3f7e5403500a1d3dc6a2d5293b3c86068f8ac12124b6d7a89e61"
+      },
+      {
+        "path": "docs/defense-ppt/拾物-AI全栈挑战赛答辩-视觉修复版-v9.pptx.inspect.ndjson",
+        "status": "??",
+        "exists": true,
+        "bytes": 120641,
+        "sha256": "54d16e4ee4f0969c9dca95fda567b3cf85a6ddd1b43e6acecf774237edc2e51f"
+      },
+      {
+        "path": "docs/notes/PERFORMANCE.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 2588,
+        "sha256": "56e554dda52a4335fd3a22fc0e1c1b706365faeff233d47c27776fafe087dc68"
+      },
+      {
+        "path": "docs/notes/PPT-OUTLINE.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 4009,
+        "sha256": "b810eb24fea0ad510654604a867f4ada943167baa52ed8e6c5e8282220137da8"
+      },
+      {
+        "path": "docs/progress/M0-M10-全项目规划.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 13958,
+        "sha256": "749c81e273e8cf3238207b55dd6581109bd5de8d50812a779640eec68eccb3b6"
+      },
+      {
+        "path": "docs/progress/开发进度控制表.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 18105,
+        "sha256": "6af78b00c4f854ee87677dbdedb46c19ae4f6c896a11c512074929a5a96d2ecf"
+      },
+      {
+        "path": "docs/redesign/assets/fonts/NotoSansSC-Bold.ttf",
+        "status": "??",
+        "exists": true,
+        "bytes": 10530408,
+        "sha256": "0066a522a1ac007c1d72bc4fccb114f80ff7294641c78cead9715bd14d43b9ea"
+      },
+      {
+        "path": "docs/redesign/assets/fonts/NotoSansSC-Regular.ttf",
+        "status": "??",
+        "exists": true,
+        "bytes": 10540644,
+        "sha256": "450625c8d46ab3df97b7904ded955ec2746d17ec76740cb1e91d1ba63a0f89af"
+      },
+      {
+        "path": "docs/redesign/assets/fonts/README.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 616,
+        "sha256": "3f7730ddc4cceb3d9f3422c9a0449a81aa99b1ed2d635b916de9a952a0fb193b"
+      },
+      {
+        "path": "docs/redesign/assets/icons-manifest.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2513,
+        "sha256": "33f88419d2fd9ff20ed00b8d96cff84d54df8a01b3b4ea152dc841faaa17f926"
+      },
+      {
+        "path": "docs/redesign/assets/illustrations/empty-cart.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 2382401,
+        "sha256": "9e4c8d965a466eb5f43ef1fb0607b23f3fe8e500197007afc4bf734a7bd0c9f5"
+      },
+      {
+        "path": "docs/redesign/assets/illustrations/empty-favorites.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 2296533,
+        "sha256": "f4b17cdf9552807af4c23a2c6913b08edb1f5dc7a451e73a81201a77f4bcb0a3"
+      },
+      {
+        "path": "docs/redesign/assets/illustrations/mascot.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 2295091,
+        "sha256": "36264c9f5123ebc121db263472bbb301bbda968c5bb5d4425aae0953fd61c16d"
+      },
+      {
+        "path": "docs/redesign/assets/illustrations/offline.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 2465990,
+        "sha256": "d619bdea2d9de21487bfcf9380b9acdf8e8b64d12d07ab2dc431e7256195b23c"
+      },
+      {
+        "path": "docs/redesign/baseline/01-launch.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 171085,
+        "sha256": "6f94d4aad1a5112c57fcfec709e9a5609fafabd900c880c007926ec60df682b5"
+      },
+      {
+        "path": "docs/redesign/baseline/02-compare.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 654420,
+        "sha256": "19db0da6607c4c64e19a7955e0493a958935ff241e6858f048bc420fa98d49ca"
+      },
+      {
+        "path": "docs/redesign/baseline/03-explore.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 1329002,
+        "sha256": "b82c252fa63ab59a74777a86e77eaa4323e13bf28a93b7424f7de11b999b0121"
+      },
+      {
+        "path": "docs/redesign/baseline/04-cart.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 67924,
+        "sha256": "ea9a915682f9eb678963162e89899c10a505bb835f830056b27fe06177974a6a"
+      },
+      {
+        "path": "docs/redesign/baseline/05-profile.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 181051,
+        "sha256": "b960e270b20829d6de38e25b583808e7629ad7cd5842de41dede3e3f537a9923"
+      },
+      {
+        "path": "docs/redesign/baseline/06-compare-panel.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 178790,
+        "sha256": "7711ab159ece82001672847bd7d46e09c8e1c8e948be06da06713cb5ee9d4502"
+      },
+      {
+        "path": "docs/redesign/baseline/07-product-detail.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 501974,
+        "sha256": "73afe848223ff9a04fc28602f89189411e43122d741656669f17b817b75fc97b"
+      },
+      {
+        "path": "docs/redesign/baseline/README.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2588,
+        "sha256": "a5c95598447a7ba7d455b5d04a293e03f4b06fcbe6527e6be361cf5ae7f91463"
+      },
+      {
+        "path": "docs/redesign/mockups/cart/v1.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 3477370,
+        "sha256": "a0d7f57af6988f9fe6ef362eccdbddcad57f6e2eb7f89656887896d08bb85a1a"
+      },
+      {
+        "path": "docs/redesign/mockups/compare/v1.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 3796765,
+        "sha256": "dcc131ae990751525cb4148d4aa152b61f01e1598cf8199c8b907c1f2b7989c9"
+      },
+      {
+        "path": "docs/redesign/mockups/explore/v1.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 4367407,
+        "sha256": "f8f6c52bb0ff1e8315388c8dfb44b022c083dcea73162272cc7a11eb2bbb6906"
+      },
+      {
+        "path": "docs/redesign/mockups/explore/v2-scattered-map.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 4369726,
+        "sha256": "68f78ec3340d7c3a740e6107b7f7fdff2231faa15f21f8bd038dafdb626b5d26"
+      },
+      {
+        "path": "docs/redesign/mockups/product-detail/v1.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 3923473,
+        "sha256": "592f087392ea5ef72516e9de357b57cc6f4d25a6740847ddf297ed96661d913d"
+      },
+      {
+        "path": "docs/redesign/mockups/profile/v1.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 3521003,
+        "sha256": "5568c02966bcbebaa4ee3149edc94e6c6f3dd4d39952f4c4b00d835fa757aa97"
+      },
+      {
+        "path": "docs/redesign/moodboards/G1-V1-经典新野兽派.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 3704632,
+        "sha256": "3919e237890f3cfae1263417f0de279dbfd2cad55738114e8796a0cc5ecd47f6"
+      },
+      {
+        "path": "docs/redesign/moodboards/G1-V2-酸性潮流.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 3600053,
+        "sha256": "4086a8af030f34aadf4af8efb9694ff429135b7e537b3506de757cdcf4233888"
+      },
+      {
+        "path": "docs/redesign/moodboards/G1-V3-粉彩野兽派.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 3195071,
+        "sha256": "aa0cb6798a177c99a4acf9903c3482df734ef4a1f73c3c4febc1d05e48b01edd"
+      },
+      {
+        "path": "docs/redesign/moodboards/G1-V4-单色墨线.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 5674115,
+        "sha256": "f417a527f1c0cada21e237e25434f49f1553733136eec787cd93ea6c09b33158"
+      },
+      {
+        "path": "docs/redesign/moodboards/prompts-G1.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 4690,
+        "sha256": "4dd57606301cf46f431db34e145a195466dcce66c8722ce53fbff30357e485a4"
+      },
+      {
+        "path": "docs/redesign/tasks/0B-345-实施备忘.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2967,
+        "sha256": "b2b1f7eeb3b2e8af22f130cf311f775e35498709eee5808bd64ba87e664805d3"
+      },
+      {
+        "path": "docs/redesign/tasks/0B-架构还债任务分解.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 4193,
+        "sha256": "df745e59e9f479140a52b8fb1fbbd168d46f50bf9b5f2e154d8cd74de1e71040"
+      },
+      {
+        "path": "docs/redesign/tasks/P0任务卡.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 7683,
+        "sha256": "9a7d0bc1867c60eed38e028d081a279f9861772993453235292fd7c03b6cbd60"
+      },
+      {
+        "path": "docs/redesign/tasks/T-theme-01-实施备忘.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2182,
+        "sha256": "7471a4d171aadd7ff71b2ce1e0350d3c25fad9e7169b081ff1a7985be2b3f1f3"
+      },
+      {
+        "path": "docs/redesign/tokens/tokens.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 3249,
+        "sha256": "ff4cb11734bb2b8f9b270cd3c47f12ca84a9d0b7fdb4212abeea4d8bbc2393be"
+      },
+      {
+        "path": "docs/redesign/walkthrough-0B/01-home.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 90025,
+        "sha256": "2fb0d834dad469e0ef3792aaec335e7a00b25531cff068f7a85f6323a2d69f2f"
+      },
+      {
+        "path": "docs/redesign/walkthrough-0B/02-compare.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 676265,
+        "sha256": "8c07069940ad506c5297d431895d96eeddbf5e0e0625f0965fa612baaca338b8"
+      },
+      {
+        "path": "docs/redesign/walkthrough-0B/03-explore.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 1786107,
+        "sha256": "b28d8620d7aee46ab7519071dbc3deb607123475945e90bd74d7d78c3e87c953"
+      },
+      {
+        "path": "docs/redesign/walkthrough-0B/04-cart.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 67440,
+        "sha256": "c6515cbc38e02357fc35bd9e6d880411f040af8a7cddc3c33f021307a30c6c7e"
+      },
+      {
+        "path": "docs/redesign/walkthrough-0B/05-profile.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 181011,
+        "sha256": "730c2d06f7521936b971ce668e6c6969f8ebb422d34db3885ca62ce46ae6cc93"
+      },
+      {
+        "path": "docs/redesign/walkthrough-0B/06-drawer.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 197195,
+        "sha256": "78bd5bef6de25d502265fa60c502f0b73ec9b2778daaf02b56691a005b62a984"
+      },
+      {
+        "path": "docs/redesign/walkthrough-0B/README.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 1009,
+        "sha256": "2736fbb9c9c7c53f6923a3abc52d747c451a43286e51df705841c6bc6c0d6e6c"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/01-single-recommend.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 2409,
+        "sha256": "1357eb285c79f21ae8628d48e7672d53b9b7c27c52835ebac6192e9f85b1cb16"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/02-filter-price.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 3707,
+        "sha256": "739caefb2d2d6793b62565613ca992b3a26edb5e1b67fcc975946efb66c01d6c"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/03-multi-turn-r1.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 3702,
+        "sha256": "1844290df05738b7fd70fac90baa25ccdc749751390c231e2b898c942b35a875"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/03-multi-turn-r2.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 3893,
+        "sha256": "a7edee33c529b0fccbf8c31ed3882ca8e567f69be509dc50772875e3ee782012"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/03-multi-turn-r3.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 4462,
+        "sha256": "411844b8af020ed2adb32189016950138bf0af721d2ec5e3448b7208cd3d9525"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/04-compare.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 3736,
+        "sha256": "0542ca783b21c511aeac373c63ed06dba4d514e9853b95100c52af1c856cad24"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/05-clarify.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 3661,
+        "sha256": "a9044c00430463d593df95e2f22db0af6aafcbc9e3fecc57ad971586b9e9c5f8"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/06-exclude.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 3716,
+        "sha256": "d0543da876aa2bf200bd7afc42284f08702bb41804d6a04dbc7b56464e2c29b3"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/07-scenario.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 4621,
+        "sha256": "550f349ef734acec5ec5949b8e7348f8c72672ab8ac4548519a55dcc2fbf8fc1"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/08-cart-loop-s1.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 591,
+        "sha256": "17187df5d8f607d448d12f416708a308c60ca120b2a0ebe4f6e7de8103aff4be"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/08-cart-loop-s2.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 667,
+        "sha256": "9ac920477a1bb2f5472a6fe93f3068b9bc53459dd9e4b798a79bf9e1d5d2ee08"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/08-cart-loop-s3.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 557,
+        "sha256": "7c57972d709692f1faff8d413d454807cf232f0ed7238fd2057cb116e13239fe"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/09-vision-search.sse",
+        "status": "??",
+        "exists": true,
+        "bytes": 277,
+        "sha256": "8629d01368d42c2338804485551c472d9619a50a5840555876af806380d2cd64"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/README.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2139,
+        "sha256": "e5e2f500be1ef22634a09407d32b1c38e7db4bca7372b1a9a9aff1e4a2a29d34"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/plan.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2451,
+        "sha256": "bc83bf38e0f941b2810bd73d01571b29e9362817ca2562e35a867a900ff34f7b"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/run_verify.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 2205,
+        "sha256": "f294830cd3fcbe80d9e2c88d2c44f389655f2805cdcf047c0dedbad63916204b"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/run_verify_s9.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 1177,
+        "sha256": "423845a94927dc4eb71ca3b38a5884c190c493664527202eb00b11212178888b"
+      },
+      {
+        "path": "docs/redesign/walkthrough-9scenarios/test-photo-headphone.jpg",
+        "status": "??",
+        "exists": true,
+        "bytes": 92085,
+        "sha256": "c8940495d63b520570ea1a1624ad87bfe15292e43145860338b562d27627360d"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/00-launch.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 79157,
+        "sha256": "425d7e31d6c03cf9cd4f16fecea903b66be93b5b90c528dc6abc08d0576f049e"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/01-profile.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 254626,
+        "sha256": "2251126b46590e3700c5ce0cbf1831f7be170b156f3a8d59e55cffc976d2d130"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/02-settings.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 144037,
+        "sha256": "2b3ed69a129f3e0a6a1c0587b2b70db1f1e890d08f45a6d8b6ecb13d3571c108"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/03-profile-edit.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 75915,
+        "sha256": "be7d9901b5727e89f72d036bba1305d5fdd1b8c158cfa019d8fd0985ecb7619b"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/04-shipping-address.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 53176,
+        "sha256": "102114fa4df8258200e904dcf65d222c31a8ba2a3fca04eba234d132e78508c6"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/05-orders.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 220941,
+        "sha256": "f3b507ee5a2133227438c55852ae8371b94b61d5f56fe99c9087104cb70bc047"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/06-favorites-empty.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 244574,
+        "sha256": "392b6fd91166d3d7ccc5c4e9257dc963f13aa7bec14c3d2cd925e118b0a455c9"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/07-footprints.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 665931,
+        "sha256": "d57dcd129bac8e2c054207c435b0c9fcfbd6eca4375f34397faf47b2ba6c552d"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/09-checkout.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 202342,
+        "sha256": "74875b730539d46c227b2e2a5b45b1dbee94747a8708badeb125f951dde38ce0"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/10-order-detail.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 135674,
+        "sha256": "c41d91f6a40d230981eed658047422b874e5ccb6e68e8c70c1568410fe4b1171"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/11-login.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 92944,
+        "sha256": "54a338153103c1f6af9b8cf63bdd7677942327e8273f63037c1149b9eca53867"
+      },
+      {
+        "path": "docs/redesign/walkthrough-batch/README.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3549,
+        "sha256": "78961c1cc320f79c35a9ef47a15044e0ab4343c2f20ac22263ca8e7fa02b822f"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/00-home.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 100799,
+        "sha256": "dd45b04eb0edb002af35dce923c964e053568c8d2750a4354a9f9c982c2dd6a9"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/01-cart-empty.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 289784,
+        "sha256": "640f2a44bd47dc6ecf4a29451e414b73c1c5ebc5bb819a957ad83f573d35e18b"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/02-compare.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 665262,
+        "sha256": "09771aff812b8e8ad952eb35b7964830ac1365dd99d5d52a18e7283a4154dad7"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/03-compare-panel.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 209513,
+        "sha256": "2bfd3213e2748f1a2f7822dc5578ec6fdca170681a723ba2f78578abeb43511c"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/04-home-chat.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 446592,
+        "sha256": "e66e3cda93e83179b35eb253794e58cc0c95e561286b2b90780a5b7b205d2a9b"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/05-detail.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 461109,
+        "sha256": "03430faa4e2e0ca55c60c5720d776e72ba3d5ef5f96d4b243e1657f796b8872d"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/06-detail2.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 457540,
+        "sha256": "c953d2dfe5013a8ca8d9283b445d72307407d678efdf3313fad33500ca2f8e46"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/07-cart-item.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 248256,
+        "sha256": "7a3af208a69dfcd23ef89b0bcafa3fffc1da4a154c7a99d8603fc7e4629e62ea"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/08-addcart-feedback.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 464056,
+        "sha256": "5d07efe85f552867447b9db2c08cc9298da2cb6632a0f0b56684229d153e9cf6"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/08-stepper.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 249424,
+        "sha256": "7b4e31ee9d580690a8d786ec6d0a81b810247c7be34abc1d14cbd31a87f7271a"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/09-cart-seeded-check.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 248547,
+        "sha256": "3605855a68b9630f6c20212ac6030b4703f2e1d86c2cab0dea5692803da9f6b8"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/09-manage.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 227683,
+        "sha256": "e342d428c26b66213ac4ab15cf7f3b89cb02631a08d5569ca91cb4b261ff187b"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/10-profile-top.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 255357,
+        "sha256": "d9192030ac3267176387ab7de9bd67e23b64b88d0bc311476ed7226014ceeb12"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/11-profile-bottom.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 244871,
+        "sha256": "6cf95655ac2757c93a4bd6b8d3548b7a8a293e3e72db7de917474f12e2d17aec"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/12-cart-offline.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 286935,
+        "sha256": "5dfe09c9bae95ff488c133a8723155e604a7b40c8622e1500da80d9acf95c5da"
+      },
+      {
+        "path": "docs/redesign/walkthrough-cart/13-cart-recovered.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 250251,
+        "sha256": "84a5fb15526cddb221a78221c5468a59cc3b0477a492a287df4610678a332279"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/00-launch.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 1897790,
+        "sha256": "ae928c503cf0142c1a99e9994a5bf210d0ead202c83cac31492ec3fe072cd4db"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/01-home.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 432430,
+        "sha256": "267d7365484ce822ad94e90599eeecb888916c12338baf51bcd6d908313c537e"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/02-compare-grid.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 665163,
+        "sha256": "6ffed7c068badb77171b6435c94ff1a126aca262e2cbe8dd8cc56c6b0d80d52a"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/03-panel-sparkline-mid.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 207284,
+        "sha256": "705dfb42e2bea15e1ce9ec700d663ce986e24c9e041847d13e8d929ea84cee71"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/04-panel-final.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 209899,
+        "sha256": "c6673f4d07f323531bfa6bf27bc02fd8cfce75ad7fcd74d89c8e2aa1e5d23f45"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/05-grid-after-close.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 665151,
+        "sha256": "59099254c2b07bbb039c5aaa8f378277a3de8edc777752cbf2f39803c5695a10"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/06-explore-map.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 1791577,
+        "sha256": "7d5ad0542de412c6c66132b6171a825aebe8031f9a7513b64562eadffa3ab2c9"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/06b-sticker-closeup.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 735561,
+        "sha256": "3fa2a6d99eb5678ae0c64a75c6e3a267c804e17a08a5311caf7a7d71e463f773"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/07-explore-scrolled.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 1904712,
+        "sha256": "0165cf03cdbcc51b8c5c9a5fa0f299cf842e1ea0f11ff86d386954e3f4f5a735"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/08-post-detail.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 610908,
+        "sha256": "feecda221044b879728844a22b54dced80a23d9c1ad74695f00a6e8c114c09a7"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/09-search-typed.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 679845,
+        "sha256": "d60c9ecbbed979098d3c34bfbfddf35dd684a3ea1c037296c3631c5ce7fc43c3"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/10-explore-scattered-gap40.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 1648316,
+        "sha256": "7ff7b801b9ef4b16a5e07c0b8f44c666953081cdc69947583f145d7ac57e548f"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/10-search-results.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 278072,
+        "sha256": "171a556539411de97e30cf7aa232e9b0d802321cd580335cb186668296a827b7"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/11-category-tab.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 641804,
+        "sha256": "bc2e2c689d9fead4ac82d1bc9d8e4eff224d4cda8092455b0aad8e55369be500"
+      },
+      {
+        "path": "docs/redesign/walkthrough-compare/11-explore-topbar-divider.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 1682155,
+        "sha256": "6ead170bf593f50ebea2cf0266982877075e584b64838274c75279c24a96a4d0"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/00-current-state.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 182246,
+        "sha256": "7ff22f90ca1a8be01994a41a3aa4f74ec950b99a36bd1f6d90f32ee054895438"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/01-tab-home.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 468708,
+        "sha256": "29a04132e87520b1dc745bfe35aa47ebe145d0c0c7ba8f4896f596291b49c919"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/02-drawer.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 202568,
+        "sha256": "5facd96c8497300cc7c1294b1778ed7167da02e6897afd42ae335f858940b5a7"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/03-empty-state.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 100322,
+        "sha256": "5345822cc91445d1e2b498c05348d997e1e4a87a0162da55465842da5c566e62"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/04-streaming-early.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 103527,
+        "sha256": "b7d884be4cdd76f6fd1961656e8a0158950235ce4234b1a2259f931684341f37"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/05-streaming-mid.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 103290,
+        "sha256": "b24538e3d68149851e31e3ffbe77697b070f65029fec77bf629c065807886c49"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/06-conversation-done.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 250161,
+        "sha256": "fb7cc6b4f4e82771d0bfac9fc3e9c07eda13562372577ca77a29ec78f16c22c9"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/07-product-detail.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 460028,
+        "sha256": "b2dfd9ba8887c488eefa449b35fd73517b4256ed93625e9dd072322ae467a9ad"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/08-tab-compare.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 677600,
+        "sha256": "65f2a9c8d493a126b263a31c308f07f85e26d74b7d662cfab2cc29bdc823d615"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/09-compare-panel.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 192395,
+        "sha256": "51a28e8cc87e3899aa0119d998cd43aa56b6959d4179891c2a8db48a0515eae4"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/10-footprints.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 73518,
+        "sha256": "9c81c6ab4ce3750bef8a3cae73a3f48701854b2f7625759dbf657521616d8df5"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/11-product-detail-full.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 158544,
+        "sha256": "8e5599235b5cfacc016630a3685c740806edcd4168b3704e111b460ca2b2819b"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/12-detail-specs.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 201444,
+        "sha256": "579ac28debecd9fd2a6e93e2e672a18854de93a6d31ff65dea8133435f92105d"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/13-spec-chip-selected.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 201529,
+        "sha256": "539d980c17ce122d031a57cfb2a8937e1731313cb16fe9b85dcffe3b19594032"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/14-add-to-cart.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 216664,
+        "sha256": "c3fbc4b7c5f8ecfb5a55892055e1637d130e3e5a1892462c5b09692e5158bc43"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/15-tab-explore.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 2560877,
+        "sha256": "e5358f0f0eb6c9a2e09ea3f24a0b5ebced5384333f9d4de546e77317e30c6569"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/16-tab-cart.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 67255,
+        "sha256": "6287de2739350f3b5ff74505b2b3cd671340a93ca35fea78ddc47be7aaa73484"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/17-tab-profile.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 182203,
+        "sha256": "4bf3f14e3a43a86cd9fa801c98e9e88680c89bb08620c5a3a9da23121b0f78b4"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/18-fly-catch1.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 476218,
+        "sha256": "e43e73d7ad88b2bba86987796c8697aa72e2ca8fb0abbe284451b4d59554a8e1"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/19-fly-catch2.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 466169,
+        "sha256": "a24bb36931d54f636adf4c4b2a907d68ee102965486104d265bb052d6b1a0cd4"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/20-shared-catch1.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 465657,
+        "sha256": "6d566b16e233d5c5d72dc80321d6d72c30c293034df3a78f8a8e0ed46e02eaaa"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/21-shared-catch2.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 462860,
+        "sha256": "670a8984068c62e7b2cc5091aabeb4f32564958df668f06b2ad247c3ab544daf"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/21-topbar-green.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 100241,
+        "sha256": "88a8281b761b149184e9ce243c87ba5e76bfe5a9e81be3967dbb0e2c9e7c635a"
+      },
+      {
+        "path": "docs/redesign/walkthrough-home/22-inputbar-even.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 99843,
+        "sha256": "32b3e52b2bf5fb94f29a7155a97397e0f6dfa8e5ac8edf3544fe007a34e0f639"
+      },
+      {
+        "path": "docs/redesign/walkthrough-theme/01-home.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 470041,
+        "sha256": "b89d6cb750214ab3a05af29dc208652f39f60bd7812cdf8b874a1a2e0f0fbc42"
+      },
+      {
+        "path": "docs/redesign/walkthrough-theme/02-compare.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 678009,
+        "sha256": "57c29099ef52ad412e1759735188666569a146d908eb74cbcc4948c6cab65a24"
+      },
+      {
+        "path": "docs/redesign/walkthrough-theme/03-explore.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 2249112,
+        "sha256": "12e2916d329dc3199946e3b8add036ac90b1f1c6deda73f2a471f150975eaa67"
+      },
+      {
+        "path": "docs/redesign/walkthrough-theme/04-cart.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 67552,
+        "sha256": "bc645111b6139f3e89edfe2c92ac0b63b581324066926e75ed7d7396f2e65ba7"
+      },
+      {
+        "path": "docs/redesign/walkthrough-theme/05-profile.png",
+        "status": "??",
+        "exists": true,
+        "bytes": 182502,
+        "sha256": "26dc20f9dcc4594f75163d9cf27a834992c0a0cd14f49b1e6c8877052b0e7f27"
+      },
+      {
+        "path": "docs/redesign/前端重构协作方案.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 15146,
+        "sha256": "4b97574b863f8392ccc10c33801697e1eefcd6b4f2353ceecdba22a4270475fb"
+      },
+      {
+        "path": "docs/redesign/收口报告.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 7400,
+        "sha256": "c7398c04db9e6c5e55618d44e202761107c34ab8d602205df5f5e8e9be34e02e"
+      },
+      {
+        "path": "docs/redesign/设计方向确认书.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2608,
+        "sha256": "e76fcb44d4b9627779138cef583b7ea5f3aaa0792d86e40455013cfebc46c21b"
+      },
+      {
+        "path": "docs/redesign/风格化增强设计规约.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 8402,
+        "sha256": "64450d660d58fc31d4341eb21c95e9132a9bd20828cb3bfbc6edfb8affbec7de"
+      },
+      {
+        "path": "docs/standards/DESIGN.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 8664,
+        "sha256": "293069cef9e039896d83ea4a892a28e68cba30a43102a340485d43f0f09f6adc"
+      },
+      {
+        "path": "docs/standards/DEV-GUIDE.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 8984,
+        "sha256": "33b99b84e823b98c82e6e34caeb733a25736f28e568ea31a1c2889853835301e"
+      },
+      {
+        "path": "docs/submission/DEMO_RUNBOOK.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 2300,
+        "sha256": "855c75ff837cd01495dd946211acb7c9711d9ba576aa8f5a02cae49e4ff44658"
+      },
+      {
+        "path": "docs/submission/项目提交文档.md",
+        "status": " M",
+        "exists": true,
+        "bytes": 5984,
+        "sha256": "3892f309b63fd0fd51abe0c885ddcfc7f563998cd7fcbc4610f8e278ff430177"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/README.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2472,
+        "sha256": "8768c0d340006c7a1441170b29125f45fca05570da4acd26a1fa18809015ad96"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/manifest.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 9481,
+        "sha256": "4fb22cc7ed61573efa1e48679576f81b823e30caa243174cc68b71d302e66578"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/AGENT-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 4037,
+        "sha256": "c438a5f3eab3aee7e8bebfa88653550642344cae7a9acaf5ccdd882bb3708d15"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/AGENT-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 593,
+        "sha256": "da99b0509d8c8dc34656259b307e3000f526aaad4c9069660d3e1e67fa40e27f"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/AGENT-01/evidence/routing-contract.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1148,
+        "sha256": "95e4897d216d29469be2a5ca2992984324e917e4c955b851c7860ada502f3f8d"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/AGENT-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1971,
+        "sha256": "310457c5950d5a7a741a19da3cbf7f84201a025545748df717267aabca9b1ff8"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/AGENT-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 1081,
+        "sha256": "8d1e57149763d45d8ecb0e0f9d2a9f4a880a4be9ec4a72306851e7cc4349e318"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/ANDROID-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2179,
+        "sha256": "5b111f472b7bcc2bf784bcd4e9d586cc1106871faf2b23761f2624324b923efa"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/ANDROID-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 310,
+        "sha256": "e92b03e94b7e7f4d85756533c507d78cc54b61a67fca4ee332eb98872dd87fe5"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/ANDROID-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 961,
+        "sha256": "5220fc210191239a28298b3fa225bf67087d877e05c2511b3e32eac8e9c80ba6"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/ANDROID-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 383,
+        "sha256": "d6b07e8e1dfb6581c98792d5579fb9fba3325f8e08ab656096ad9ae4e8e16b6c"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/AUTH-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 4027,
+        "sha256": "9592f23f464a67879fbe092fbdafecaaa899944540124e4b4c0e21412bf746a0"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/AUTH-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 636,
+        "sha256": "be0e35175d74c415fbae813b0db2ee9d24e1e7b1a2d4f571e0f978806f60a14d"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/AUTH-01/evidence/auth-contract.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 2336,
+        "sha256": "d0a9a672fd7368512d38f1ff5ca5634f802a0fe7b9f3aeac0d479b292df378bb"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/AUTH-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 2000,
+        "sha256": "62a0b2e990d63ec85f1d3c9871d9ee30fd562446bf14e912b7dafc25632bfd95"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/AUTH-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 1083,
+        "sha256": "819d53873cc6a0e6899def84f6f5bfbb813239c17f0234855b8525a38e640121"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/BASE-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3098,
+        "sha256": "902770f5973d5cd5b1f68154f1c6cd6462d02801d8efe640216e9b318bb8085b"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/BASE-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 670,
+        "sha256": "a2ef726f30aaf7059bf8569661d6afd45b7e10340fcc985c02f71b1a112dd7d8"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/BASE-01/evidence/current-state.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 121863,
+        "sha256": "cc049e49ec06370e05fa0f8475bb735a5bc2eb1d52d73197cf26029bbcf13c06"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/BASE-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 2127,
+        "sha256": "409b86411074f724a9a38a81610ec64e946c9923a86fa9af3c6b674b027227e5"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/BASE-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 836,
+        "sha256": "c0b03ed954be6572c983e9dd8bf4952f51de1d0f39e89e019a306fd93ed36a74"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/CACHE-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3090,
+        "sha256": "e58469a60ecc10fb2d79efd6d410cf5b4e2e28d089b46707134a51e8376931df"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/CACHE-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 435,
+        "sha256": "7b4d4606f61ccd68f1f97679a8d1585bc7bbb59f5c523a4e91bd2cb79818cfd9"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/CACHE-01/evidence/cache-contract.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 640,
+        "sha256": "3a3f6184b6828d22cecc39a82c366fc103aabfa8c392c15cdcc20fbf27e0ca91"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/CACHE-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1248,
+        "sha256": "76a5e7b9b2a835d31ae72f7c9afd057c088f2f58521e70bab6f386d96f4b2945"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/CACHE-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 592,
+        "sha256": "f55b02f774c39547fa309666fd6c0a71c639c9c31e82a403dccc3f46a0b78f2f"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/CLOSE-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2687,
+        "sha256": "c62f737a6d2595d47aea83b6628d960ed3970821ca6cdc44b87d5a5e333d843e"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/CLOSE-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 424,
+        "sha256": "0efacebe85e6a2ee352867b579488065a25afbe3b95e8126087698388847a425"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/CLOSE-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1781,
+        "sha256": "b30db0c1b4a36542f2e505da977504ed3f9c36f50a7d88f2de1cc6fd324382e8"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/CLOSE-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 544,
+        "sha256": "6a5899b5255412e97d4c923f74a047e41a17ddc1b74189974d189d59fbbd8e99"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DATA-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3684,
+        "sha256": "609dcdd1e16661551ee6f7216dec07764fc7e36b7cac9b9e50f691fa9b06f6ea"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DATA-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 614,
+        "sha256": "2c64f04aa4dafb0cee7af3354d507b7e2a9f5e247fac66f950425062ed7a882b"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DATA-01/evidence/profile-after.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 771,
+        "sha256": "1b4bb60f4851fa04d7e497e0e888b85be391b5179638bfeee096adaa6a1fb3f7"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DATA-01/evidence/profile-before.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 855,
+        "sha256": "82b567f4a8315c988a14064f352dceb7125d6b24bcc6993cd27056a87a88bb00"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DATA-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1395,
+        "sha256": "c22576bc84be7f52c260e531169f35e84a8374fcc8c33b923c03f6e899b56f72"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DATA-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 969,
+        "sha256": "0c547c17eef93ad47f832fc173d2b9852f4739a4c6ed219fdecf001c28b9c2d0"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DEPLOY-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 4548,
+        "sha256": "cb4ef928f468f55359b43cfb16365877a21fb2163ee6a5fec6ce211a90d05566"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DEPLOY-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 651,
+        "sha256": "cf55226ba6a1aad87bce14279d51135c6e639d10dbf0ffbda896f1bc66b2b2ef"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DEPLOY-01/evidence/configuration.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 693,
+        "sha256": "fae523fb19903a3f6756f19c5920cc374a6a84289f477fde4bb3bf358bb551a7"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DEPLOY-01/evidence/runtime-smoke.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1167,
+        "sha256": "e17b03d1e145128d31833ca3c22fe78569d11724d6f9926dfb7ce30a854c756c"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DEPLOY-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 2027,
+        "sha256": "f6a1bad9a00ba062c91517c78a1f9429b866ff313f9d5afd1ffc17f68c540e1d"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DEPLOY-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 1139,
+        "sha256": "89c2616ec348d6105dacd9f6c36a0bcd077a2e691664a0de9c030110f3fbaf59"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DOCS-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2337,
+        "sha256": "de4959c6c84443f605f91fd498962c501e87c7441de762124f8d6de99f5f14e8"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DOCS-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 319,
+        "sha256": "f84efcedb7ad13e17a05c892d572c527b0bab13e6c23e4b59ab9a3ec87e0cc6f"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DOCS-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 703,
+        "sha256": "8b65bfeec865ba8baf141669a9f43ad8757bf6facc23d1599c72947a11d7870d"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/DOCS-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 417,
+        "sha256": "ff34ec2dd14eb7bc95fb6218700a2113814743ec16b77bbeda75bdc2edf434a6"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/EVAL-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2174,
+        "sha256": "928062353d1e02da90bbcb1866dffe469dcfc1877321f50cc31ee3e4df10d698"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/EVAL-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 284,
+        "sha256": "7dbd35e3227a47ebf733eb78fcf353ce8091032fef535488ab84180a62832700"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/EVAL-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 987,
+        "sha256": "f2cc55f5d15ef6241af12b4f11b26fedcd1dc839613ce93f30e3e71f390ed34c"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/EVAL-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 420,
+        "sha256": "59bb2af39142ad72d1e9be7d23d3856029c6e9f87bbcf9ec6a0337f0575b115a"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MEDIA-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 4353,
+        "sha256": "b2042f5774a6f39ed45b5d86150943f65ee76696d974659c715415792f766bbf"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MEDIA-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 507,
+        "sha256": "1284f45e35f008ccb6dd73354ce909b49bbc93a4c9fac64ad8f2b05cf3962c86"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MEDIA-01/evidence/media-contract.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1875,
+        "sha256": "ef745b09969c233a1d28d36a4210752e6887ce3074f09c1233950084ee671691"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MEDIA-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1935,
+        "sha256": "787babae330823b62c8ff04e8c2027b45aac72c663b265f06986ec446efab6d0"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MEDIA-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 1035,
+        "sha256": "59be835b876a4a514ebc1ab416556cd48478f4959cbc9d10a97894122b7bee11"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MIGRATION-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3906,
+        "sha256": "b08f3782c5c21e86be4b8574783f9f53d1aa675137fa2200bc8db3b5fddc2a62"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MIGRATION-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 569,
+        "sha256": "835c5791d95d814bbf1868815a4ed1e184b15692c883fd9f04c31d00bbdd8918"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MIGRATION-01/evidence/schema-authority.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 769,
+        "sha256": "a9d0ba7fcf134102cf1ce6e07929142aec1e15529539a412b9aafa8d3aabcc57"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MIGRATION-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 2314,
+        "sha256": "311a9c1eb3c01027f2402499b36ceb191db87d4035ed7196bcc0818be00a9a5d"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MIGRATION-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 1067,
+        "sha256": "3534276d5852392dabcf2743de5fadb8af6957b35cac8aba06e8b09858c0a681"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MONEY-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2642,
+        "sha256": "fdef27573db68c7b011d8250d89edcf2fc7444fb0e7efa8d7d6eee20ed17f324"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MONEY-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 359,
+        "sha256": "52542da3e4b7d5ddc124492f91f9ef4b9aa4c0859edfcfc31fbf8baba7e218bd"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MONEY-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1253,
+        "sha256": "6c3f1cf6d001d4e165260d8fb8c1e330a56a4c273a605259850be1d3de3c2299"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/MONEY-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 530,
+        "sha256": "c8e9f65eafe97f57086e26cc31693a1d81035b5aa38e5147a790d233b35c80f3"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/READINESS-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 4029,
+        "sha256": "ec84b65f3bfa4473d6059fb1a00ea6e2d09581622b743ee8e762e06926a4ee54"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/READINESS-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 564,
+        "sha256": "2d5643335158e6148c630f5a753c1e3780dad44a3207396da08eb5a7cb0c4a3a"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/READINESS-01/evidence/projection-contract.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1598,
+        "sha256": "e3c26d9b5925fd3f79d3888bcb3432a7e08983e510a10d5c3a7a24e9763eb751"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/READINESS-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1667,
+        "sha256": "e7b641516ac6e2885c5fd1d05a0435c6d281a66db9d3929ba5646269a0708803"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/READINESS-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 1041,
+        "sha256": "fdf1d001c96680a1ec6d33912fcce19ae5fc045f3e414bf264bae6dfdeb819f1"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/SECURITY-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 2837,
+        "sha256": "f32191c88c767494bc512644276458109c8c42ccfd65303b568a7ea5a6c7bdbb"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/SECURITY-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 263,
+        "sha256": "573274b0ca1e01276edc023a9e15f94af9fa4256128ff8c1a4fdcfef65953add"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/SECURITY-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 969,
+        "sha256": "1b14c10bf5012795b15a69608031df194dec552b1605008a9f40eaa0a138d459"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/SECURITY-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 435,
+        "sha256": "7b2096c5bb443b477f0a0353ca37091aa079c90c6d526b0170b7bf39678d1b86"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/STARTUP-01/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 1875,
+        "sha256": "237204f858af9a0419fd09afc124e9adc434adaec3b2c8eae6d8fbb2737e279b"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/STARTUP-01/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 296,
+        "sha256": "aae6d17862bd5c35ead320f490569a1d860c348d1de240c0576b96e17b01efa7"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/STARTUP-01/evidence/verification.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 847,
+        "sha256": "94aa69acec793a383173c5f1b261a7ec1b10966a908686d7b0987613456800f1"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/packages/STARTUP-01/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 402,
+        "sha256": "d5c63fab0f6f8459269f34a367f4b9f4d4cabe4c001e157dca484f1f648977ac"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/schemas/manifest.schema.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1259,
+        "sha256": "9bb05be5babe25cfa9e82d132ccae0b0d07745dae7bd0eade0466239ed8ad0c2"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/schemas/package-data.schema.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 606,
+        "sha256": "1bb7bc2a5b1daadec0eda0f9f388152b6967c13db944bd6b67e7504cd9b39e7f"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/shared/business-data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 1211,
+        "sha256": "d48ac6f9c9c5c5f917993c121d299a805118ef0fc4dee0e28695d55387f87727"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/shared/development-data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 7591,
+        "sha256": "35543264231de740b1a36fa5df7a5acc466b3ba996e78d06145a233df4fdb04b"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/shared/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 3673,
+        "sha256": "cfb579fc4026b9fe4e9ff8c03220b0b373969592f66caa99fec2f63cd89d771d"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/templates/TASK.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 828,
+        "sha256": "bbe18b740d6cd8509b80fc37dd4654b912172f21886fe3ee775d30983a4d2738"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/templates/data.json",
+        "status": "??",
+        "exists": true,
+        "bytes": 124,
+        "sha256": "5486dfee1c3afef37379669d9ba516919449987bd2b2e8a86d8ff44990cb871d"
+      },
+      {
+        "path": "docs/task-packages/current-mainline/templates/pitfalls.md",
+        "status": "??",
+        "exists": true,
+        "bytes": 218,
+        "sha256": "f86a7ac839875bddca38f299d0993b20409216ce117624090621cd028c8f7f44"
+      },
+      {
+        "path": "infrastructure/docker-compose.yml",
+        "status": " M",
+        "exists": true,
+        "bytes": 2467,
+        "sha256": "86d2dc8d004949f5c4977a7e2734459740172aa5a72aa6e8dfed8450e046c2b8"
+      },
+      {
+        "path": "infrastructure/env/.env.docker.example",
+        "status": " M",
+        "exists": true,
+        "bytes": 896,
+        "sha256": "a05f480e74e83e225257a32bc041b784c7cc63aea67e3493cd02ab6f0db893e0"
+      },
+      {
+        "path": "scripts/capture_task_baseline.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 7339,
+        "sha256": "32bb09ddeb9ef207a5f68954505919480545cc1b489374fa76c6256b2aceac2d"
+      },
+      {
+        "path": "scripts/run_container_smoke.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 8935,
+        "sha256": "863c781b597f67dcf35d22be239ec7f90d491794228e0b989178f095366a53da"
+      },
+      {
+        "path": "scripts/validate_deploy_config.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 5353,
+        "sha256": "f2a669b37ac9dcf60f8861b740ba2866f6917b4598cb2ea8be919553d6a51af8"
+      },
+      {
+        "path": "scripts/validate_evaluation_data.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 15925,
+        "sha256": "22475f8e7a3b39d5dd37371c5572c792c850d2a4e7b57244a10612cf06d1e154"
+      },
+      {
+        "path": "scripts/validate_status_claims.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 2761,
+        "sha256": "501d0b4dbf995998112ef0089524617d3c2ccd84df20daea7072d8457be66ab0"
+      },
+      {
+        "path": "scripts/validate_task_packages.py",
+        "status": "??",
+        "exists": true,
+        "bytes": 9448,
+        "sha256": "d89f07504a0cb1b16b964a56f04b8fc5ac47532a5045c180dfc5a93354793efb"
+      },
+      {
+        "path": "tests/e2e_test.sh",
+        "status": " M",
+        "exists": true,
+        "bytes": 2387,
+        "sha256": "55d3d9365eadfffde62be3b1601c00e1a8ca391d3f191d2b9d2e68d96a90166e"
+      },
+      {
+        "path": "tests/fixtures/deploy.production.test.env",
+        "status": "??",
+        "exists": true,
+        "bytes": 613,
+        "sha256": "d65177fdb3d4c3e6f9fb08423cef9e47811f03f4fa0321fe4825ccc810b16b32"
+      },
+      {
+        "path": "拾物AI导购Agent_设计文档.docx",
+        "status": "??",
+        "exists": true,
+        "bytes": 360717,
+        "sha256": "92faa89126f51b3e56675d8ea3bdecab508d15177afbb7eff9e869a83602cae8"
+      },
+      {
+        "path": "拾物AI导购Agent_说明文档.docx",
+        "status": "??",
+        "exists": true,
+        "bytes": 60610,
+        "sha256": "da208614c3e0412a753dc7d60e33b67e23273b398f09b01162fd955c79b55b2c"
+      },
+      {
+        "path": "电商智能导购App_UI与前端开发框架融合说明书_V2.docx",
+        "status": "??",
+        "exists": true,
+        "bytes": 8741929,
+        "sha256": "e8e0e2db29416c4da87882de70e51b266b05ca1019c780c36e7b16b1f5ccc01b"
+      }
+    ]
+  },
+  "collection_policy": {
+    "untracked_mode": "file_level",
+    "ignored_files_collected": false,
+    "environment_values_collected": false,
+    "file_contents_collected": false,
+    "hash_algorithm": "sha256"
+  }
+}

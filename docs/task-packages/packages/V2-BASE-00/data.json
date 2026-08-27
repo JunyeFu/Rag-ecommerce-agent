@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-BASE-00",
+  "owner": "platform-engineering",
+  "objective": "建立独立V2单仓、版本锁、契约入口、清洁CI和任务包门禁",
+  "inputs": ["docs/baseline/V2-REDEVELOPMENT-BASELINE.md", "docs/baseline/source-snapshot.json"],
+  "outputs": ["apps/packages/infra工程骨架", "OpenAPI与代码生成入口", "清洁checkout CI", "ADR与贡献规范"],
+  "acceptance": ["clean bootstrap <= 30 minutes", "task package validation passes", "no credentials read or emitted"],
+  "test_profiles": ["profiles.task_packages"],
+  "business_refs": ["business_model"],
+  "development_refs": ["profiles.task_packages", "ports", "ignored_sensitive_files"],
+  "risk_refs": ["仓库与证据", "安全与发布"]
+}

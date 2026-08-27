@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.rag-commerce.invalid/seed/v1/evaluation.schema.json",
+  "title": "DevelopmentEvaluationSeedPackage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "cases"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["schema_version", "case_id", "scenario", "query", "difficulty", "expected_intent", "expected_slots", "ground_truth_seed_ids", "min_expected_results", "provenance"],
+        "properties": {
+          "schema_version": {"const": 1}, "case_id": {"type": "string", "minLength": 1},
+          "scenario": {"type": "string"}, "query": {"type": "string"}, "difficulty": {"type": "string"},
+          "expected_intent": {"type": "string"}, "expected_slots": {"type": "object"},
+          "ground_truth_seed_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "min_expected_results": {"type": "integer", "minimum": 0},
+          "provenance": {"type": "object", "properties": {"license_status": {"const": "pending_review"}, "gold_status": {"const": "pending_review"}, "use_scope": {"const": "development_only"}}, "required": ["source_path", "source_sha256", "license_status", "gold_status", "use_scope"], "additionalProperties": false}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-08-26T17:31:00+08:00",
+  "method": "Playwright CLI Chromium fallback because the in-app browser tool was unavailable",
+  "url": "http://127.0.0.1:4173/",
+  "identity": {
+    "environment": "production rehearsal / non-production",
+    "role": "reviewer fixture",
+    "data": "deterministic local fixtures"
+  },
+  "viewports": [
+    {"width": 1536, "height": 1024, "passed": true},
+    {"width": 390, "height": 844, "passed": true}
+  ],
+  "workflow": {
+    "five_navigation_areas_opened": true,
+    "entity_conflict_transition_verified": true,
+    "evaluation_queue_transition_verified": true,
+    "release_gate_separation_verified": true,
+    "console_errors": 0,
+    "console_warnings": 0
+  },
+  "artifacts": {
+    "connectors-desktop.png": "69225c73c189b4f8f36a83b0f43ed0b357c48ad05572f601f8236ceeffbefb02",
+    "connectors-mobile.png": "c725e6976bbe0743cbaf430005a7741288c46e9476798b1dfd83b70428376fdc",
+    "conflict-resolved.png": "fb0cdb7dc58e22b038c75f2f484c2bb069f6cc1fc9cad320fc84059c0d756c30",
+    "release-gates.png": "7739adcfe2309ae1aa789b8872966a456edd71709ace41d6b92f2d0be464672f"
+  },
+  "evidence_level": "local_browser_fixture",
+  "limitations": [
+    "This is not production SSO/RBAC evidence.",
+    "This is not a live connector, real operator or formal release acceptance."
+  ]
+}

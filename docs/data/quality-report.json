@@ -1,0 +1,36 @@
+{
+  "catalog": {
+    "blank_source_fields_in_v1": 287,
+    "brands": 182,
+    "categories": 100,
+    "image_references": 287,
+    "image_references_existing": 287,
+    "image_references_missing": 0,
+    "price_max_minor": 2199900,
+    "price_min_minor": 400,
+    "rows": 287,
+    "unique_ids": 287
+  },
+  "evaluation": {
+    "cases": 226,
+    "ground_truth_references": 454,
+    "ground_truth_seed_ids_missing_from_catalog": 0,
+    "unique_ground_truth_seed_ids": 77,
+    "unique_ids": 226
+  },
+  "known_gaps": [
+    "commercial_license_pending",
+    "evaluation_gold_review_pending",
+    "historical_price_has_no_observed_at",
+    "image_binary_license_not_exported",
+    "rating_fields_are_development_rank_prior_not_commercial_facts"
+  ],
+  "safety": {
+    "credential_records": 0,
+    "forbidden_keys": 0,
+    "order_records": 0,
+    "pii_matches": 0,
+    "user_records": 0
+  },
+  "schema_version": 1
+}

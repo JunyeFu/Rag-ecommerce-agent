@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-DATA-01",
+  "status": "passed",
+  "verified_at": "2026-08-26T14:25:37.4002623+08:00",
+  "reverified_at": "2026-08-26T14:48:58.1324449+08:00",
+  "scope": "read-only V1 fixture export into deterministic development-only V2 seed packages",
+  "checks": [
+    {
+      "id": "source_hash_gate",
+      "command": "export_v1_seed.py verifies frozen SHA-256 before parsing",
+      "exit_code": 0,
+      "counts": {"inputs": 2, "hash_matches": 2, "hash_drift": 0},
+      "result": "passed"
+    },
+    {
+      "id": "deterministic_replay",
+      "command": "export; hash outputs; export; compare; export --check",
+      "exit_code": 0,
+      "counts": {"exports": 2, "outputs_compared": 5, "byte_differences": 0},
+      "result": "passed"
+    },
+    {
+      "id": "seed_validation",
+      "command": "uv run python scripts/validate_seed_exports.py --source <source-repository>",
+      "exit_code": 0,
+      "counts": {
+        "catalog_rows": 287,
+        "categories": 100,
+        "brands": 182,
+        "evaluation_cases": 226,
+        "ground_truth_references": 454,
+        "missing_ground_truth_seed_ids": 0,
+        "image_references": 287,
+        "missing_image_references": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "privacy_and_scope",
+      "command": "recursive forbidden-key and PII pattern scan plus license-ledger policy",
+      "exit_code": 0,
+      "counts": {
+        "forbidden_keys": 0,
+        "pii_matches": 0,
+        "user_records": 0,
+        "order_records": 0,
+        "credential_records": 0,
+        "commercially_allowed_assets": 0
+      },
+      "result": "passed"
+    }
+  ],
+  "external_gates": ["商品、图片与评测数据的商业使用许可确认"],
+  "failure_summary": [],
+  "claims": {
+    "deterministic_development_seed_complete": true,
+    "commercial_data_license_confirmed": false,
+    "production_catalog_ready": false,
+    "evaluation_gold_review_complete": false
+  },
+  "notes": [
+    "287 条旧商品 source 字段为空，历史价格没有观测时间，因此不得升级为 OfferQuote。",
+    "图片仅导出相对引用，未复制图片二进制；图片商业许可仍需独立确认。",
+    "rating/rating_count 只导出为 development_rank_prior，不是可展示商业事实；扩展字段后再次双重导出逐字节一致。",
+    "任务包 complete 只表示开发种子导出与验证完成，external_gates 仍开放。"
+  ]
+}

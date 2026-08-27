@@ -1,0 +1,2852 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.activity/activity-compose",
+      "purl": "pkg:maven/androidx.activity/activity-compose@1.9.3",
+      "type": "library",
+      "version": "1.9.3"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.browser/browser",
+      "purl": "pkg:maven/androidx.browser/browser@1.8.0",
+      "type": "library",
+      "version": "1.8.0"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.compose.material/material-icons-core",
+      "purl": "pkg:maven/androidx.compose.material/material-icons-core@BOM-managed",
+      "type": "library",
+      "version": "BOM-managed"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.compose.material3/material3",
+      "purl": "pkg:maven/androidx.compose.material3/material3@BOM-managed",
+      "type": "library",
+      "version": "BOM-managed"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.compose.ui/ui-test-junit4",
+      "purl": "pkg:maven/androidx.compose.ui/ui-test-junit4@BOM-managed",
+      "type": "library",
+      "version": "BOM-managed"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.compose.ui/ui-test-manifest",
+      "purl": "pkg:maven/androidx.compose.ui/ui-test-manifest@BOM-managed",
+      "type": "library",
+      "version": "BOM-managed"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.compose.ui/ui-tooling-preview",
+      "purl": "pkg:maven/androidx.compose.ui/ui-tooling-preview@BOM-managed",
+      "type": "library",
+      "version": "BOM-managed"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.compose.ui/ui-tooling",
+      "purl": "pkg:maven/androidx.compose.ui/ui-tooling@BOM-managed",
+      "type": "library",
+      "version": "BOM-managed"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.compose/compose-bom",
+      "purl": "pkg:maven/androidx.compose/compose-bom@2024.12.01",
+      "type": "library",
+      "version": "2024.12.01"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.core/core-ktx",
+      "purl": "pkg:maven/androidx.core/core-ktx@1.15.0",
+      "type": "library",
+      "version": "1.15.0"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.datastore/datastore-preferences",
+      "purl": "pkg:maven/androidx.datastore/datastore-preferences@1.2.1",
+      "type": "library",
+      "version": "1.2.1"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.hilt/hilt-navigation-compose",
+      "purl": "pkg:maven/androidx.hilt/hilt-navigation-compose@1.2.0",
+      "type": "library",
+      "version": "1.2.0"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.lifecycle/lifecycle-runtime-compose",
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-runtime-compose@2.8.7",
+      "type": "library",
+      "version": "2.8.7"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.lifecycle/lifecycle-viewmodel-compose",
+      "purl": "pkg:maven/androidx.lifecycle/lifecycle-viewmodel-compose@2.8.7",
+      "type": "library",
+      "version": "2.8.7"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.navigation/navigation-compose",
+      "purl": "pkg:maven/androidx.navigation/navigation-compose@2.8.5",
+      "type": "library",
+      "version": "2.8.5"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.profileinstaller/profileinstaller",
+      "purl": "pkg:maven/androidx.profileinstaller/profileinstaller@1.4.1",
+      "type": "library",
+      "version": "1.4.1"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.room/room-compiler",
+      "purl": "pkg:maven/androidx.room/room-compiler@2.7.2",
+      "type": "library",
+      "version": "2.7.2"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.room/room-ktx",
+      "purl": "pkg:maven/androidx.room/room-ktx@2.7.2",
+      "type": "library",
+      "version": "2.7.2"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.room/room-runtime",
+      "purl": "pkg:maven/androidx.room/room-runtime@2.7.2",
+      "type": "library",
+      "version": "2.7.2"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.room/room-testing",
+      "purl": "pkg:maven/androidx.room/room-testing@2.7.2",
+      "type": "library",
+      "version": "2.7.2"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.test.ext/junit",
+      "purl": "pkg:maven/androidx.test.ext/junit@1.2.1",
+      "type": "library",
+      "version": "1.2.1"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "androidx.test/runner",
+      "purl": "pkg:maven/androidx.test/runner@1.6.2",
+      "type": "library",
+      "version": "1.6.2"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "com.google.dagger/hilt-android",
+      "purl": "pkg:maven/com.google.dagger/hilt-android@2.57.2",
+      "type": "library",
+      "version": "2.57.2"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "com.google.dagger/hilt-compiler",
+      "purl": "pkg:maven/com.google.dagger/hilt-compiler@2.57.2",
+      "type": "library",
+      "version": "2.57.2"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "com.squareup.okhttp3/mockwebserver",
+      "purl": "pkg:maven/com.squareup.okhttp3/mockwebserver@4.12.0",
+      "type": "library",
+      "version": "4.12.0"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "com.squareup.okhttp3/okhttp",
+      "purl": "pkg:maven/com.squareup.okhttp3/okhttp@4.12.0",
+      "type": "library",
+      "version": "4.12.0"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "com.squareup.retrofit2/retrofit",
+      "purl": "pkg:maven/com.squareup.retrofit2/retrofit@3.0.0",
+      "type": "library",
+      "version": "3.0.0"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "junit/junit",
+      "purl": "pkg:maven/junit/junit@4.13.2",
+      "type": "library",
+      "version": "4.13.2"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "org.jetbrains.kotlinx/kotlinx-coroutines-android",
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-android@1.10.2",
+      "type": "library",
+      "version": "1.10.2"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "org.jetbrains.kotlinx/kotlinx-coroutines-test",
+      "purl": "pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-test@1.10.2",
+      "type": "library",
+      "version": "1.10.2"
+    },
+    {
+      "group": "gradle",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "org.json/json",
+      "purl": "pkg:maven/org.json/json@20240303",
+      "type": "library",
+      "version": "20240303"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@jridgewell/sourcemap-codec",
+      "purl": "pkg:npm/@jridgewell/sourcemap-codec@1.5.5",
+      "type": "library",
+      "version": "1.5.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@oxc-project/types",
+      "purl": "pkg:npm/@oxc-project/types@0.146.0",
+      "type": "library",
+      "version": "0.146.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-android-arm-eabi",
+      "purl": "pkg:npm/@rolldown/binding-android-arm-eabi@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-android-arm64",
+      "purl": "pkg:npm/@rolldown/binding-android-arm64@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-darwin-arm64",
+      "purl": "pkg:npm/@rolldown/binding-darwin-arm64@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-darwin-x64",
+      "purl": "pkg:npm/@rolldown/binding-darwin-x64@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-freebsd-x64",
+      "purl": "pkg:npm/@rolldown/binding-freebsd-x64@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-linux-arm-gnueabihf",
+      "purl": "pkg:npm/@rolldown/binding-linux-arm-gnueabihf@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-linux-arm64-gnu",
+      "purl": "pkg:npm/@rolldown/binding-linux-arm64-gnu@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-linux-arm64-musl",
+      "purl": "pkg:npm/@rolldown/binding-linux-arm64-musl@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-linux-ppc64-gnu",
+      "purl": "pkg:npm/@rolldown/binding-linux-ppc64-gnu@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-linux-s390x-gnu",
+      "purl": "pkg:npm/@rolldown/binding-linux-s390x-gnu@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-linux-x64-gnu",
+      "purl": "pkg:npm/@rolldown/binding-linux-x64-gnu@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-linux-x64-musl",
+      "purl": "pkg:npm/@rolldown/binding-linux-x64-musl@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-openharmony-arm64",
+      "purl": "pkg:npm/@rolldown/binding-openharmony-arm64@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-win32-arm64-msvc",
+      "purl": "pkg:npm/@rolldown/binding-win32-arm64-msvc@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/binding-win32-x64-msvc",
+      "purl": "pkg:npm/@rolldown/binding-win32-x64-msvc@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@rolldown/pluginutils",
+      "purl": "pkg:npm/@rolldown/pluginutils@1.0.1",
+      "type": "library",
+      "version": "1.0.1"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@standard-schema/spec",
+      "purl": "pkg:npm/@standard-schema/spec@1.1.0",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@types/chai",
+      "purl": "pkg:npm/@types/chai@5.2.3",
+      "type": "library",
+      "version": "5.2.3"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@types/deep-eql",
+      "purl": "pkg:npm/@types/deep-eql@4.0.2",
+      "type": "library",
+      "version": "4.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@types/estree",
+      "purl": "pkg:npm/@types/estree@1.0.9",
+      "type": "library",
+      "version": "1.0.9"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@types/react-dom",
+      "purl": "pkg:npm/@types/react-dom@19.2.5",
+      "type": "library",
+      "version": "19.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@types/react",
+      "purl": "pkg:npm/@types/react@19.2.18",
+      "type": "library",
+      "version": "19.2.18"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-aix-ppc64",
+      "purl": "pkg:npm/@typescript/typescript-aix-ppc64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-darwin-arm64",
+      "purl": "pkg:npm/@typescript/typescript-darwin-arm64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-darwin-x64",
+      "purl": "pkg:npm/@typescript/typescript-darwin-x64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-freebsd-arm64",
+      "purl": "pkg:npm/@typescript/typescript-freebsd-arm64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-freebsd-x64",
+      "purl": "pkg:npm/@typescript/typescript-freebsd-x64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-linux-arm64",
+      "purl": "pkg:npm/@typescript/typescript-linux-arm64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-linux-arm",
+      "purl": "pkg:npm/@typescript/typescript-linux-arm@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-linux-loong64",
+      "purl": "pkg:npm/@typescript/typescript-linux-loong64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-linux-mips64el",
+      "purl": "pkg:npm/@typescript/typescript-linux-mips64el@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-linux-ppc64",
+      "purl": "pkg:npm/@typescript/typescript-linux-ppc64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-linux-riscv64",
+      "purl": "pkg:npm/@typescript/typescript-linux-riscv64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-linux-s390x",
+      "purl": "pkg:npm/@typescript/typescript-linux-s390x@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-linux-x64",
+      "purl": "pkg:npm/@typescript/typescript-linux-x64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-netbsd-arm64",
+      "purl": "pkg:npm/@typescript/typescript-netbsd-arm64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-netbsd-x64",
+      "purl": "pkg:npm/@typescript/typescript-netbsd-x64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-openbsd-arm64",
+      "purl": "pkg:npm/@typescript/typescript-openbsd-arm64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-openbsd-x64",
+      "purl": "pkg:npm/@typescript/typescript-openbsd-x64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-sunos-x64",
+      "purl": "pkg:npm/@typescript/typescript-sunos-x64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-win32-arm64",
+      "purl": "pkg:npm/@typescript/typescript-win32-arm64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@typescript/typescript-win32-x64",
+      "purl": "pkg:npm/@typescript/typescript-win32-x64@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@vitejs/plugin-react",
+      "purl": "pkg:npm/@vitejs/plugin-react@6.1.0",
+      "type": "library",
+      "version": "6.1.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@vitest/expect",
+      "purl": "pkg:npm/@vitest/expect@4.1.11",
+      "type": "library",
+      "version": "4.1.11"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@vitest/mocker",
+      "purl": "pkg:npm/@vitest/mocker@4.1.11",
+      "type": "library",
+      "version": "4.1.11"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@vitest/pretty-format",
+      "purl": "pkg:npm/@vitest/pretty-format@4.1.11",
+      "type": "library",
+      "version": "4.1.11"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@vitest/runner",
+      "purl": "pkg:npm/@vitest/runner@4.1.11",
+      "type": "library",
+      "version": "4.1.11"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@vitest/snapshot",
+      "purl": "pkg:npm/@vitest/snapshot@4.1.11",
+      "type": "library",
+      "version": "4.1.11"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@vitest/spy",
+      "purl": "pkg:npm/@vitest/spy@4.1.11",
+      "type": "library",
+      "version": "4.1.11"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@vitest/utils",
+      "purl": "pkg:npm/@vitest/utils@4.1.11",
+      "type": "library",
+      "version": "4.1.11"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "assertion-error",
+      "purl": "pkg:npm/assertion-error@2.0.1",
+      "type": "library",
+      "version": "2.0.1"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "chai",
+      "purl": "pkg:npm/chai@6.2.2",
+      "type": "library",
+      "version": "6.2.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "convert-source-map",
+      "purl": "pkg:npm/convert-source-map@2.0.0",
+      "type": "library",
+      "version": "2.0.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "csstype",
+      "purl": "pkg:npm/csstype@3.2.3",
+      "type": "library",
+      "version": "3.2.3"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "detect-libc",
+      "purl": "pkg:npm/detect-libc@2.1.2",
+      "type": "library",
+      "version": "2.1.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "es-module-lexer",
+      "purl": "pkg:npm/es-module-lexer@2.3.2",
+      "type": "library",
+      "version": "2.3.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "estree-walker",
+      "purl": "pkg:npm/estree-walker@3.0.3",
+      "type": "library",
+      "version": "3.0.3"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "expect-type",
+      "purl": "pkg:npm/expect-type@1.4.0",
+      "type": "library",
+      "version": "1.4.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "fdir",
+      "purl": "pkg:npm/fdir@6.5.0",
+      "type": "library",
+      "version": "6.5.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "fsevents",
+      "purl": "pkg:npm/fsevents@2.3.3",
+      "type": "library",
+      "version": "2.3.3"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss-android-arm64",
+      "purl": "pkg:npm/lightningcss-android-arm64@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss-darwin-arm64",
+      "purl": "pkg:npm/lightningcss-darwin-arm64@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss-darwin-x64",
+      "purl": "pkg:npm/lightningcss-darwin-x64@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss-freebsd-x64",
+      "purl": "pkg:npm/lightningcss-freebsd-x64@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss-linux-arm-gnueabihf",
+      "purl": "pkg:npm/lightningcss-linux-arm-gnueabihf@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss-linux-arm64-gnu",
+      "purl": "pkg:npm/lightningcss-linux-arm64-gnu@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss-linux-arm64-musl",
+      "purl": "pkg:npm/lightningcss-linux-arm64-musl@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss-linux-x64-gnu",
+      "purl": "pkg:npm/lightningcss-linux-x64-gnu@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss-linux-x64-musl",
+      "purl": "pkg:npm/lightningcss-linux-x64-musl@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss-win32-arm64-msvc",
+      "purl": "pkg:npm/lightningcss-win32-arm64-msvc@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss-win32-x64-msvc",
+      "purl": "pkg:npm/lightningcss-win32-x64-msvc@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "name": "lightningcss",
+      "purl": "pkg:npm/lightningcss@1.33.0",
+      "type": "library",
+      "version": "1.33.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "magic-string",
+      "purl": "pkg:npm/magic-string@0.30.21",
+      "type": "library",
+      "version": "0.30.21"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "nanoid",
+      "purl": "pkg:npm/nanoid@3.3.18",
+      "type": "library",
+      "version": "3.3.18"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "obug",
+      "purl": "pkg:npm/obug@2.1.4",
+      "type": "library",
+      "version": "2.1.4"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "pathe",
+      "purl": "pkg:npm/pathe@2.0.3",
+      "type": "library",
+      "version": "2.0.3"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "name": "picocolors",
+      "purl": "pkg:npm/picocolors@1.1.1",
+      "type": "library",
+      "version": "1.1.1"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "picomatch",
+      "purl": "pkg:npm/picomatch@4.0.7",
+      "type": "library",
+      "version": "4.0.7"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "postcss",
+      "purl": "pkg:npm/postcss@8.5.26",
+      "type": "library",
+      "version": "8.5.26"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "react-dom",
+      "purl": "pkg:npm/react-dom@19.2.8",
+      "type": "library",
+      "version": "19.2.8"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "react",
+      "purl": "pkg:npm/react@19.2.8",
+      "type": "library",
+      "version": "19.2.8"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "rolldown",
+      "purl": "pkg:npm/rolldown@1.2.5",
+      "type": "library",
+      "version": "1.2.5"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "scheduler",
+      "purl": "pkg:npm/scheduler@0.27.0",
+      "type": "library",
+      "version": "0.27.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "name": "siginfo",
+      "purl": "pkg:npm/siginfo@2.0.0",
+      "type": "library",
+      "version": "2.0.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "name": "source-map-js",
+      "purl": "pkg:npm/source-map-js@1.2.1",
+      "type": "library",
+      "version": "1.2.1"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "stackback",
+      "purl": "pkg:npm/stackback@0.0.2",
+      "type": "library",
+      "version": "0.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "std-env",
+      "purl": "pkg:npm/std-env@4.2.0",
+      "type": "library",
+      "version": "4.2.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "tinybench",
+      "purl": "pkg:npm/tinybench@2.9.0",
+      "type": "library",
+      "version": "2.9.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "tinyexec",
+      "purl": "pkg:npm/tinyexec@1.3.0",
+      "type": "library",
+      "version": "1.3.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "tinyglobby",
+      "purl": "pkg:npm/tinyglobby@0.2.17",
+      "type": "library",
+      "version": "0.2.17"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "tinyrainbow",
+      "purl": "pkg:npm/tinyrainbow@3.1.1",
+      "type": "library",
+      "version": "3.1.1"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "typescript",
+      "purl": "pkg:npm/typescript@7.0.2",
+      "type": "library",
+      "version": "7.0.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "vite",
+      "purl": "pkg:npm/vite@8.2.2",
+      "type": "library",
+      "version": "8.2.2"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "vitest",
+      "purl": "pkg:npm/vitest@4.1.11",
+      "type": "library",
+      "version": "4.1.11"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "why-is-node-running",
+      "purl": "pkg:npm/why-is-node-running@2.3.0",
+      "type": "library",
+      "version": "2.3.0"
+    },
+    {
+      "group": "container",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "minio/minio",
+      "purl": "pkg:oci/minio/minio@RELEASE.2025-04-22T22-12-26Z",
+      "type": "container",
+      "version": "RELEASE.2025-04-22T22-12-26Z"
+    },
+    {
+      "group": "container",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "pgvector/pgvector",
+      "purl": "pkg:oci/pgvector/pgvector@0.8.1-pg16",
+      "type": "container",
+      "version": "0.8.1-pg16"
+    },
+    {
+      "group": "container",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "qdrant/qdrant",
+      "purl": "pkg:oci/qdrant/qdrant@v1.18.2",
+      "type": "container",
+      "version": "v1.18.2"
+    },
+    {
+      "group": "container",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "redis",
+      "purl": "pkg:oci/redis@8.2.2-alpine",
+      "type": "container",
+      "version": "8.2.2-alpine"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "alembic",
+      "purl": "pkg:pypi/alembic@1.19.1",
+      "type": "library",
+      "version": "1.19.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "annotated-doc",
+      "purl": "pkg:pypi/annotated-doc@0.0.5",
+      "type": "library",
+      "version": "0.0.5"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "annotated-types",
+      "purl": "pkg:pypi/annotated-types@0.8.0",
+      "type": "library",
+      "version": "0.8.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "anyio",
+      "purl": "pkg:pypi/anyio@4.14.2",
+      "type": "library",
+      "version": "4.14.2"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "certifi",
+      "purl": "pkg:pypi/certifi@2026.7.22",
+      "type": "library",
+      "version": "2026.7.22"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "charset-normalizer",
+      "purl": "pkg:pypi/charset-normalizer@3.5.1",
+      "type": "library",
+      "version": "3.5.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "click",
+      "purl": "pkg:pypi/click@8.4.2",
+      "type": "library",
+      "version": "8.4.2"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "colorama",
+      "purl": "pkg:pypi/colorama@0.4.6",
+      "type": "library",
+      "version": "0.4.6"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "distro",
+      "purl": "pkg:pypi/distro@1.9.0",
+      "type": "library",
+      "version": "1.9.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "fastapi",
+      "purl": "pkg:pypi/fastapi@0.141.1",
+      "type": "library",
+      "version": "0.141.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "greenlet",
+      "purl": "pkg:pypi/greenlet@3.5.5",
+      "type": "library",
+      "version": "3.5.5"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "grpcio",
+      "purl": "pkg:pypi/grpcio@1.83.0",
+      "type": "library",
+      "version": "1.83.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "h11",
+      "purl": "pkg:pypi/h11@0.16.0",
+      "type": "library",
+      "version": "0.16.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "h2",
+      "purl": "pkg:pypi/h2@4.4.1",
+      "type": "library",
+      "version": "4.4.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "hpack",
+      "purl": "pkg:pypi/hpack@4.2.0",
+      "type": "library",
+      "version": "4.2.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "httpcore2",
+      "purl": "pkg:pypi/httpcore2@2.12.0",
+      "type": "library",
+      "version": "2.12.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "httpcore",
+      "purl": "pkg:pypi/httpcore@1.0.9",
+      "type": "library",
+      "version": "1.0.9"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "httpx2-jsfetch",
+      "purl": "pkg:pypi/httpx2-jsfetch@1.0",
+      "type": "library",
+      "version": "1.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "httpx2",
+      "purl": "pkg:pypi/httpx2@2.12.0",
+      "type": "library",
+      "version": "2.12.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "httpx",
+      "purl": "pkg:pypi/httpx@0.28.1",
+      "type": "library",
+      "version": "0.28.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "hyperframe",
+      "purl": "pkg:pypi/hyperframe@6.1.0",
+      "type": "library",
+      "version": "6.1.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "hypothesis",
+      "purl": "pkg:pypi/hypothesis@6.165.10",
+      "type": "library",
+      "version": "6.165.10"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "idna",
+      "purl": "pkg:pypi/idna@3.19",
+      "type": "library",
+      "version": "3.19"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "iniconfig",
+      "purl": "pkg:pypi/iniconfig@2.3.0",
+      "type": "library",
+      "version": "2.3.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "jsonpatch",
+      "purl": "pkg:pypi/jsonpatch@1.33",
+      "type": "library",
+      "version": "1.33"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "jsonpointer",
+      "purl": "pkg:pypi/jsonpointer@3.1.1",
+      "type": "library",
+      "version": "3.1.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "langchain-core",
+      "purl": "pkg:pypi/langchain-core@1.6.0",
+      "type": "library",
+      "version": "1.6.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "langchain-protocol",
+      "purl": "pkg:pypi/langchain-protocol@0.0.18",
+      "type": "library",
+      "version": "0.0.18"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "langgraph-checkpoint",
+      "purl": "pkg:pypi/langgraph-checkpoint@4.2.0",
+      "type": "library",
+      "version": "4.2.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "langgraph-prebuilt",
+      "purl": "pkg:pypi/langgraph-prebuilt@1.1.0",
+      "type": "library",
+      "version": "1.1.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "langgraph-sdk",
+      "purl": "pkg:pypi/langgraph-sdk@0.4.3",
+      "type": "library",
+      "version": "0.4.3"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "langgraph",
+      "purl": "pkg:pypi/langgraph@1.2.11",
+      "type": "library",
+      "version": "1.2.11"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "langsmith",
+      "purl": "pkg:pypi/langsmith@0.11.1",
+      "type": "library",
+      "version": "0.11.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "mako",
+      "purl": "pkg:pypi/mako@1.4.1",
+      "type": "library",
+      "version": "1.4.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "markupsafe",
+      "purl": "pkg:pypi/markupsafe@3.0.3",
+      "type": "library",
+      "version": "3.0.3"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "numpy",
+      "purl": "pkg:pypi/numpy@2.5.2",
+      "type": "library",
+      "version": "2.5.2"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "orjson",
+      "purl": "pkg:pypi/orjson@3.12.0",
+      "type": "library",
+      "version": "3.12.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "ormsgpack",
+      "purl": "pkg:pypi/ormsgpack@1.12.2",
+      "type": "library",
+      "version": "1.12.2"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "packaging",
+      "purl": "pkg:pypi/packaging@26.3",
+      "type": "library",
+      "version": "26.3"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "pluggy",
+      "purl": "pkg:pypi/pluggy@1.6.0",
+      "type": "library",
+      "version": "1.6.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "portalocker",
+      "purl": "pkg:pypi/portalocker@3.2.0",
+      "type": "library",
+      "version": "3.2.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "protobuf",
+      "purl": "pkg:pypi/protobuf@7.36.0",
+      "type": "library",
+      "version": "7.36.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "psycopg-binary",
+      "purl": "pkg:pypi/psycopg-binary@3.3.4",
+      "type": "library",
+      "version": "3.3.4"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "psycopg",
+      "purl": "pkg:pypi/psycopg@3.3.4",
+      "type": "library",
+      "version": "3.3.4"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "pydantic-core",
+      "purl": "pkg:pypi/pydantic-core@2.46.4",
+      "type": "library",
+      "version": "2.46.4"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "pydantic",
+      "purl": "pkg:pypi/pydantic@2.13.4",
+      "type": "library",
+      "version": "2.13.4"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "pygments",
+      "purl": "pkg:pypi/pygments@2.21.0",
+      "type": "library",
+      "version": "2.21.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "pytest",
+      "purl": "pkg:pypi/pytest@9.1.1",
+      "type": "library",
+      "version": "9.1.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "pywin32",
+      "purl": "pkg:pypi/pywin32@312",
+      "type": "library",
+      "version": "312"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "pyyaml",
+      "purl": "pkg:pypi/pyyaml@6.0.3",
+      "type": "library",
+      "version": "6.0.3"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "qdrant-client",
+      "purl": "pkg:pypi/qdrant-client@1.19.0",
+      "type": "library",
+      "version": "1.19.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "rag-commerce-v2-workspace",
+      "purl": "pkg:pypi/rag-commerce-v2-workspace@0.1.0",
+      "type": "library",
+      "version": "0.1.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "requests-toolbelt",
+      "purl": "pkg:pypi/requests-toolbelt@1.0.0",
+      "type": "library",
+      "version": "1.0.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "requests",
+      "purl": "pkg:pypi/requests@2.34.2",
+      "type": "library",
+      "version": "2.34.2"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "ruff",
+      "purl": "pkg:pypi/ruff@0.16.4",
+      "type": "library",
+      "version": "0.16.4"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "sniffio",
+      "purl": "pkg:pypi/sniffio@1.3.1",
+      "type": "library",
+      "version": "1.3.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "sortedcontainers",
+      "purl": "pkg:pypi/sortedcontainers@2.4.0",
+      "type": "library",
+      "version": "2.4.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "sqlalchemy",
+      "purl": "pkg:pypi/sqlalchemy@2.0.52",
+      "type": "library",
+      "version": "2.0.52"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "starlette",
+      "purl": "pkg:pypi/starlette@1.6.0",
+      "type": "library",
+      "version": "1.6.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "tenacity",
+      "purl": "pkg:pypi/tenacity@9.1.4",
+      "type": "library",
+      "version": "9.1.4"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "truststore",
+      "purl": "pkg:pypi/truststore@0.10.4",
+      "type": "library",
+      "version": "0.10.4"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "typing-extensions",
+      "purl": "pkg:pypi/typing-extensions@4.16.0",
+      "type": "library",
+      "version": "4.16.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "typing-inspection",
+      "purl": "pkg:pypi/typing-inspection@0.4.4",
+      "type": "library",
+      "version": "0.4.4"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "tzdata",
+      "purl": "pkg:pypi/tzdata@2026.3",
+      "type": "library",
+      "version": "2026.3"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "urllib3",
+      "purl": "pkg:pypi/urllib3@2.7.0",
+      "type": "library",
+      "version": "2.7.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "uuid-utils",
+      "purl": "pkg:pypi/uuid-utils@0.17.0",
+      "type": "library",
+      "version": "0.17.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "uvicorn",
+      "purl": "pkg:pypi/uvicorn@0.52.4",
+      "type": "library",
+      "version": "0.52.4"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "websockets",
+      "purl": "pkg:pypi/websockets@16.1.1",
+      "type": "library",
+      "version": "16.1.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "xxhash",
+      "purl": "pkg:pypi/xxhash@4.0.1",
+      "type": "library",
+      "version": "4.0.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "zstandard",
+      "purl": "pkg:pypi/zstandard@0.25.0",
+      "type": "library",
+      "version": "0.25.0"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "name": "rag-commerce-v2",
+      "type": "application",
+      "version": "0.1.0"
+    },
+    "properties": [
+      {
+        "name": "evidence.scope",
+        "value": "locked local dependency inventory"
+      },
+      {
+        "name": "evidence.boundary",
+        "value": "not a vulnerability, provenance, or legal license conclusion"
+      }
+    ]
+  },
+  "specVersion": "1.6",
+  "version": 1
+}

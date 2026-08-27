@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "profiles": {
+    "task_packages": {
+      "command": "python scripts/validate_task_packages.py",
+      "expected": "packages=13 errors=0"
+    },
+    "backend_unit": {
+      "command": "python -m pytest tests/unit -q",
+      "environment": "no external providers, no persistent database"
+    },
+    "backend_contract": {
+      "command": "python -m pytest tests/contracts -q",
+      "environment": "recorded connector fixtures only"
+    },
+    "backend_integration": {
+      "command": "python -m pytest tests/integration -q",
+      "services": ["temporary_postgresql", "temporary_qdrant", "temporary_redis", "temporary_object_storage"]
+    },
+    "agent_trace": {
+      "command": "python -m pytest tests/agent -q",
+      "environment": "deterministic fake model and typed tools"
+    },
+    "android_static": {
+      "command": "gradlew.bat :app:compileDebugKotlin :app:testDebugUnitTest :app:lintDebug :app:assembleBenchmark",
+      "environment": "no production signing"
+    },
+    "android_instrumentation": {
+      "command": "gradlew.bat :app:connectedDebugAndroidTest",
+      "environment": "managed emulator or physical device"
+    },
+    "android_fixture_integration": {
+      "command": "gradlew.bat :app:connectedDebugAndroidTest -PapiUrl=http://10.0.2.2:8080/",
+      "environment": "debug-only cleartext to deterministic local fixture API; not LIVE"
+    },
+    "android_macrobenchmark": {
+      "command": "gradlew.bat :benchmark:connectedBenchmarkAndroidTest",
+      "environment": "emulator regression evidence uses explicit EMULATOR suppression; physical-device gate remains open"
+    },
+    "ops_web": {
+      "command": "npm run typecheck && npm run test && npm run build",
+      "environment": "generated API client and fixture backend"
+    },
+    "full_local": {
+      "command": "python scripts/verify_local.py",
+      "environment": "clean checkout; temporary services; no live credentials"
+    }
+  },
+  "ports": {
+    "api": 8080,
+    "postgresql": 5433,
+    "qdrant_http": 6333,
+    "qdrant_grpc": 6334,
+    "redis": 6379,
+    "object_storage": 9000,
+    "ops_web": 5173,
+    "android_emulator_api_host": "10.0.2.2"
+  },
+  "test_identity": {
+    "uuid_rule": "uuid5(package_id + case_id)",
+    "user_rule": "test-user-<case-id>",
+    "idempotency_rule": "test-<package-id>-<case-id>",
+    "address_rule": "TEST ONLY; never a real name, phone or address"
+  },
+  "ignored_sensitive_files": [".env", ".env.docker", "local.properties", "*.jks", "*.keystore"],
+  "evidence_rules": {
+    "record": ["command", "started_at", "finished_at", "exit_code", "counts", "failure_summary"],
+    "forbid": ["complete_logs_with_secrets", "environment_values", "signing_passwords", "absolute_user_media_paths"]
+  }
+}

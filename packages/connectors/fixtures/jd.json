@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "platform": "jd",
+  "fixture_kind": "synthetic_contract",
+  "allowed_hosts": ["item.jd.com", "u.jd.com"],
+  "offers": [{
+    "offer_id": "10000000-0000-4000-8000-000000000001",
+    "variant_id": "20000000-0000-4000-8000-000000000001",
+    "merchant_id": "30000000-0000-4000-8000-000000000001",
+    "external_key": "fixture-jd-001",
+    "quote_id": "40000000-0000-4000-8000-000000000001",
+    "verification": "FEED_VERIFIED", "availability": "AVAILABLE",
+    "price_minor": 99900, "shipping_minor": 0,
+    "collected_at": "2026-08-26T00:00:00Z", "expires_at": "2026-08-26T01:00:00Z",
+    "redirect_chain": ["https://u.jd.com/fixture-001", "https://item.jd.com/fixture-001.html"],
+    "link_id": "50000000-0000-4000-8000-000000000001",
+    "link_expires_at": "2026-08-27T00:00:00Z", "disclosure": "推广链接；成交以京东页面为准"
+  }]
+}
