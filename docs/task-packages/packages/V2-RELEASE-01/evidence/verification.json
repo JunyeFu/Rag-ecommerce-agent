@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-RELEASE-01",
+  "status": "blocked",
+  "verified_at": "2026-08-26T18:02:01.4885590+08:00",
+  "checks": [
+    {
+      "id": "candidate_identity",
+      "command": "git rev-parse HEAD and release artifact identity audit",
+      "exit_code": 1,
+      "result": "blocked: independent repository has no HEAD/candidate commit; no commit was created"
+    },
+    {
+      "id": "release_gate_matrix",
+      "command": "aggregate local, LIVE, human, security, legal, signing and production gates",
+      "exit_code": 0,
+      "result": "NO_GO: local packages passed, all named external release gates remain blocked"
+    }
+  ],
+  "artifacts": {"docs/release/release-gate-matrix.json": "c54bcdfe247586d9b727ee927c3262d20f702e7f5a6bd83328e887a1735bed67"},
+  "external_gates": [
+    "V2-LIVE-01权威Go结论",
+    "唯一候选commit、清洁checkout与生产镜像digest",
+    "联盟/数据许可/隐私/推广披露/独立渗透与商业主体批准",
+    "正式签名与生产发布批准"
+  ],
+  "notes": [
+    "未提交、推送、部署、签名或发布。",
+    "本地complete不等于商业发布；当前唯一正式结论是NO-GO。"
+  ]
+}

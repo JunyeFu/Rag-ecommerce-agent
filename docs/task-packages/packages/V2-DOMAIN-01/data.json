@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-DOMAIN-01",
+  "owner": "backend-domain",
+  "objective": "建立商品报价购物任务与Agent运行证据的深领域模型",
+  "inputs": ["business_model", "offer_policy", "V2 public contract baseline"],
+  "outputs": ["domain types", "database migrations", "domain JSON schemas", "invariant tests"],
+  "acceptance": ["no Product/Offer conflation", "exact money semantics", "quote freshness state machine", "migrations have no drift"],
+  "test_profiles": ["profiles.backend_unit", "profiles.backend_integration"],
+  "business_refs": ["business_model", "offer_policy", "quality_targets"],
+  "development_refs": ["profiles.backend_unit", "profiles.backend_integration", "test_identity"],
+  "risk_refs": ["商业真相与 RAG", "Agent"]
+}

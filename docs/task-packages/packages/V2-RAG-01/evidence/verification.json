@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-RAG-01",
+  "status": "passed",
+  "verified_at": "2026-08-26T14:48:58.1324449+08:00",
+  "scope": "development-seed retrieval, entity resolution, PostgreSQL Outbox and Qdrant projection",
+  "checks": [
+    {
+      "id": "retrieval_benchmark",
+      "command": "PYTHONPATH=packages/retrieval/src python evals/retrieval/benchmark.py --write",
+      "exit_code": 0,
+      "counts": {
+        "seed_cases": 226,
+        "eligible_independent_retrieval_cases": 144,
+        "excluded_non_retrieval_cases": 52,
+        "excluded_requires_context_cases": 30
+      },
+      "result": {
+        "recall_at_10": 0.9444444444444444,
+        "ndcg_at_10": 0.916779540373086,
+        "hard_constraint_satisfaction": 1.0,
+        "deterministic_replay": true,
+        "held_out_claim": false,
+        "development_rank_prior_used": true,
+        "production_embedding_used": false
+      }
+    },
+    {
+      "id": "postgresql_qdrant_integration",
+      "command": "alembic upgrade/check; pytest -m integration; downgrade 0001; upgrade/check",
+      "exit_code": 0,
+      "counts": {
+        "integration_tests_passed": 3,
+        "outbox_tables": 2,
+        "qdrant_update_delete_rebuild_cases": 1,
+        "migration_drift_operations": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "unit_contracts",
+      "command": "uv run pytest -q -m 'not integration'",
+      "exit_code": 0,
+      "counts": {"repository_tests_passed": 27, "integration_tests_deselected": 3},
+      "result": "passed"
+    },
+    {
+      "id": "entity_and_evidence_safety",
+      "command": "identifier conflict, provenance and untrusted-content tests",
+      "exit_code": 0,
+      "counts": {
+        "identifier_conflict_merge_accepts": 0,
+        "retrieval_payloads_with_current_price": 0,
+        "qdrant_payloads_with_untrusted_description": 0,
+        "instruction_roles_from_external_content": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "quality_and_task_packages",
+      "command": "ruff check/format and validate_task_packages.py",
+      "exit_code": 0,
+      "counts": {"task_packages": 13, "task_package_errors": 0, "lint_errors": 0},
+      "result": "passed"
+    }
+  ],
+  "external_gates": ["生产embedding模型与生产商品数据启动验证"],
+  "failure_summary": [
+    "首次 226 条无差别基线 Recall@10=0.8322、NDCG@10=0.7020；诊断发现非检索意图、缺失多轮上下文及结构化约束未建模。",
+    "引入结构化约束、明确用例资格并复现旧评测的 development_rank_prior 后，144 条合格开发用例达到门槛。"
+  ],
+  "claims": {
+    "local_projection_rebuild_complete": true,
+    "development_retrieval_targets_met": true,
+    "production_embedding_validated": false,
+    "held_out_competition_result": false,
+    "production_data_license_confirmed": false
+  },
+  "notes": [
+    "Qdrant fixture 镜像标签显示 v1.18.2，镜像 ID 为 sha256:75eab8c4ba42096724fdcfde8b4de0b5713d529dde32f285a1f86fdcb2c9e50c。",
+    "两个临时服务容器均经 V2-RAG-01 标签核对后删除。",
+    "development_rank_prior 来自旧评测生成逻辑，只用于复现开发门禁，不得用于商业排序或竞赛 held-out 声明。"
+  ]
+}

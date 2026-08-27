@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-API-01",
+  "owner": "api-platform",
+  "objective": "建立统一多模态Turn、可恢复SSE、媒体生命周期和生成客户端契约",
+  "inputs": ["V2-AGENT-01 runtime and events", "V2-DOMAIN-01 public schemas"],
+  "outputs": ["versioned OpenAPI", "REST/SSE endpoints", "MediaRef lifecycle", "Kotlin and TypeScript clients"],
+  "acceptance": ["idempotent turns", "lossless SSE resume", "owner isolation", "generated clients have no drift"],
+  "test_profiles": ["profiles.backend_contract", "profiles.backend_integration"],
+  "business_refs": ["business_model", "offer_policy"],
+  "development_refs": ["profiles.backend_contract", "profiles.backend_integration", "ports", "evidence_rules"],
+  "risk_refs": ["Agent", "Android 与运营台", "安全与发布"]
+}

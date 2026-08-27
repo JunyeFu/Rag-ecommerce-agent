@@ -1,0 +1,26 @@
+name: Task package work
+description: Propose or track a bounded task-package change.
+title: "[PACKAGE-ID] "
+body:
+  - type: input
+    id: package
+    attributes:
+      label: Task package ID
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Required outcome
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Acceptance evidence
+    validations:
+      required: true
+  - type: textarea
+    id: gates
+    attributes:
+      label: External or human gates

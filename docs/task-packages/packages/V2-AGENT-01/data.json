@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-AGENT-01",
+  "owner": "agent-platform",
+  "objective": "实现单一入口、类型化工具、持久化、护栏、恢复和证据验证的购物Agent",
+  "inputs": ["V2-CONNECTOR-01 tool adapters", "V2-RAG-01 retrieval tools", "V2-DOMAIN-01 mission and trace contracts"],
+  "outputs": ["ShoppingAgent runtime", "typed tool registry", "PostgreSQL checkpoints", "tool policies", "agent traces"],
+  "acceptance": ["one runtime for every entrypoint", "100% schema-valid tool calls", "zero unauthorized actions", "checkpoint resume passes"],
+  "test_profiles": ["profiles.agent_trace", "profiles.backend_integration"],
+  "business_refs": ["business_model", "offer_policy", "quality_targets"],
+  "development_refs": ["profiles.agent_trace", "profiles.backend_integration", "evidence_rules"],
+  "risk_refs": ["Agent", "商业真相与 RAG", "安全与发布"]
+}

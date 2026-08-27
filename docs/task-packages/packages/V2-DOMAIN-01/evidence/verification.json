@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-DOMAIN-01",
+  "status": "passed",
+  "verified_at": "2026-08-26T14:20:04.2650341+08:00",
+  "scope": "pure domain, frozen PostgreSQL v1 schema, public domain Schema and migration fixture",
+  "checks": [
+    {
+      "id": "domain_unit_and_property",
+      "command": "uv run pytest -q -m 'not integration'",
+      "exit_code": 0,
+      "counts": {"tests_passed": 10, "integration_tests_deselected": 2, "property_tests": 1},
+      "result": "passed"
+    },
+    {
+      "id": "postgresql_migration_cycle",
+      "command": "alembic upgrade head; current; check; integration; downgrade base; upgrade head; check",
+      "exit_code": 0,
+      "counts": {
+        "schema_tables": 17,
+        "integration_tests_passed": 2,
+        "upgrade_operations_pending_after_head": 0,
+        "downgrade_upgrade_cycles": 1
+      },
+      "result": "passed"
+    },
+    {
+      "id": "commercial_boundary_schema",
+      "command": "strict JSON parse and SQLAlchemy metadata boundary inspection",
+      "exit_code": 0,
+      "counts": {
+        "json_schema_definitions": 7,
+        "public_union_variants": 5,
+        "forbidden_transaction_tables": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "python_quality",
+      "command": "ruff check apps packages scripts; ruff format --check apps packages scripts",
+      "exit_code": 0,
+      "counts": {"python_files_formatted": 34, "lint_errors": 0},
+      "result": "passed"
+    },
+    {
+      "id": "task_package_validation",
+      "command": "uv run python scripts/validate_task_packages.py",
+      "exit_code": 0,
+      "counts": {"packages": 13, "errors": 0, "warnings": 0},
+      "result": "passed"
+    }
+  ],
+  "external_gates": [],
+  "failure_summary": [
+    "首次迁移发现冻结 Schema 的 id 列缺少主键约束，PostgreSQL 事务 DDL 回滚；补齐主键后完整周期通过。",
+    "锁定 pgvector 镜像的 Docker Hub 拉取两次因代理 unexpected EOF 失败；迁移验证改用本机缓存的 PostgreSQL 16/pgvector fixture 镜像，不影响本包不使用 vector 的 17 表关系模式验证。"
+  ],
+  "claims": {
+    "domain_invariants_complete": true,
+    "migration_cycle_complete": true,
+    "provider_or_rag_implemented": false,
+    "platform_order_payment_refund_ledger": false,
+    "commercial_readiness": false
+  },
+  "notes": [
+    "临时 PostgreSQL 容器使用 V2-DOMAIN-01 标签确认后已删除。",
+    "公共 Schema 不暴露内部表结构；数据库迁移与公共契约分别版本化。"
+  ]
+}

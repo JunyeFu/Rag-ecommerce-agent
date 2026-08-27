@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-BASE-00",
+  "status": "passed",
+  "verified_at": "2026-08-26T14:07:01.3068590+08:00",
+  "scope": "V2-BASE-00 local engineering baseline only",
+  "checks": [
+    {
+      "id": "clean_room_bootstrap",
+      "command": "isolated source copy -> scripts/bootstrap.ps1 -Quick",
+      "exit_code": 0,
+      "duration_seconds": 18.1,
+      "counts": {
+        "python_packages_installed": 20,
+        "node_packages_added": 54,
+        "verification_commands": 6,
+        "npm_known_vulnerabilities": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "full_local_verification",
+      "command": "uv run python scripts/verify_local.py",
+      "exit_code": 0,
+      "counts": {
+        "commands": 12,
+        "python_tests_passed": 2,
+        "web_tests_passed": 1,
+        "contract_generated_files": 3,
+        "task_packages": 13,
+        "task_package_errors": 0,
+        "task_package_warnings": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "toolchain_and_dependency_locks",
+      "command": "uv lock; npm ci; python scripts/verify_versions.py",
+      "exit_code": 0,
+      "counts": {
+        "locked_python_packages": 21,
+        "locked_node_install_packages": 54,
+        "locked_container_images": 4,
+        "toolchain_checks": 7
+      },
+      "result": "passed"
+    },
+    {
+      "id": "contract_drift",
+      "command": "uv run python scripts/generate_contracts.py --check",
+      "exit_code": 0,
+      "counts": {
+        "authoritative_openapi_documents": 1,
+        "authoritative_json_schemas": 1,
+        "generated_clients": 3,
+        "drifted_files": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "python_quality",
+      "command": "ruff check + ruff format --check + pytest -q",
+      "exit_code": 0,
+      "counts": {
+        "formatted_python_files": 27,
+        "lint_errors": 0,
+        "tests_passed": 2
+      },
+      "result": "passed"
+    },
+    {
+      "id": "web_static_unit_and_build",
+      "command": "npm run check && npm run test && npm run build",
+      "exit_code": 0,
+      "counts": {
+        "test_files_passed": 1,
+        "tests_passed": 1,
+        "vite_modules_transformed": 17,
+        "build_bytes_javascript": 191100
+      },
+      "result": "passed"
+    },
+    {
+      "id": "android_compile_unit_lint",
+      "command": "gradlew :app:compileDebugKotlin :app:testDebugUnitTest :app:lintDebug",
+      "exit_code": 0,
+      "counts": {
+        "cold_build_tasks_executed": 32,
+        "cold_build_seconds": 186,
+        "final_run_tasks_executed": 1,
+        "final_run_tasks_up_to_date": 31
+      },
+      "result": "passed"
+    },
+    {
+      "id": "compose_contract",
+      "command": "docker compose -f infra/compose.yaml config --quiet",
+      "exit_code": 0,
+      "counts": {
+        "services": 4,
+        "config_errors": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "ci_secret_input_policy",
+      "command": "uv run python scripts/check_ci_policy.py",
+      "exit_code": 0,
+      "counts": {
+        "required_gates": 8,
+        "forbidden_input_references": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "syntax_and_json",
+      "command": "compileall; bash -n; PowerShell parser; strict JSON parse",
+      "exit_code": 0,
+      "counts": {
+        "json_files_parsed": 42,
+        "json_errors": 0,
+        "script_syntax_errors": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "source_repository_preservation",
+      "command": "read-only git status comparison",
+      "exit_code": 0,
+      "counts": {
+        "source_dirty_file_items": 626,
+        "source_staged_items": 0
+      },
+      "result": {
+        "branch": "main",
+        "head": "8df480f2264fc937ba156d2bc3e083cb07d3619f",
+        "baseline_unchanged": true
+      }
+    },
+    {
+      "id": "target_repository_state",
+      "command": "git status --porcelain=v1 -uall",
+      "exit_code": 0,
+      "counts": {
+        "untracked_file_items_before_evidence_finalization": 141,
+        "staged_items": 0
+      },
+      "result": {
+        "branch": "main",
+        "head_exists": false,
+        "commit_or_push_performed": false
+      }
+    }
+  ],
+  "external_gates": [],
+  "failure_summary": [
+    "首次 Android 探针因本机未导出 SDK 位置失败；改为仅在当前进程发现标准 SDK，未创建或读取 local.properties。",
+    "首次统一 Windows 探针无法直接解析 gradlew.bat；改为内部解析工作目录中的 wrapper，命令展示仍保持相对且不输出本机路径。",
+    "以上问题修复后的最终全量验证退出码为 0。"
+  ],
+  "claims": {
+    "local_engineering_baseline_complete": true,
+    "business_features_implemented": false,
+    "live_provider_evidence": false,
+    "physical_device_evidence": false,
+    "commercial_readiness": false,
+    "release_status": "NO_GO"
+  },
+  "notes": [
+    "CI workflow 已定义并通过本地策略检查，但因未获提交或推送授权，没有远端 CI run 证据。",
+    "清洁源副本验证目录已在验证后删除；其中仅含本轮复制的源码、依赖缓存和构建临时文件。"
+  ]
+}

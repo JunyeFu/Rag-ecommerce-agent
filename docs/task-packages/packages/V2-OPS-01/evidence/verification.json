@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-OPS-01",
+  "status": "passed",
+  "verified_at": "2026-08-26T17:34:00+08:00",
+  "scope": "connector/data/trace/evaluation/release operations UI, redacted Ops API, RBAC, idempotent mutations and append-only audit schema",
+  "checks": [
+    {
+      "id": "ops_api_rbac_redaction_and_audit",
+      "command": "uv run pytest apps/api/tests/test_ops_api.py -q",
+      "exit_code": 0,
+      "counts": {
+        "tests_passed": 6,
+        "viewer_write_accepts": 0,
+        "duplicate_audit_events_on_replay": 0,
+        "raw_sensitive_trace_fields": 0,
+        "fixture_connectors_claimed_authorized": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "postgresql_schema_and_integration",
+      "command": "alembic upgrade/current/check; pytest -m integration; downgrade 0004; upgrade/check",
+      "exit_code": 0,
+      "counts": {
+        "integration_tests_passed": 6,
+        "qdrant_tests_skipped_without_service": 0,
+        "migration_drift_operations": 0,
+        "temporary_containers_removed": 1
+      },
+      "result": "passed"
+    },
+    {
+      "id": "web_type_unit_build",
+      "command": "npm run check; npm test; npm run build",
+      "exit_code": 0,
+      "counts": {
+        "typescript_errors": 0,
+        "test_files_passed": 1,
+        "tests_passed": 2,
+        "vite_modules_transformed": 20,
+        "production_build_errors": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "browser_workflow_and_visual_fidelity",
+      "command": "Playwright CLI Chromium at 1536x1024 and 390x844; view_image concept/render comparison",
+      "exit_code": 0,
+      "counts": {
+        "navigation_areas_opened": 5,
+        "controlled_conflict_transitions": 1,
+        "controlled_evaluation_transitions": 1,
+        "viewports_verified": 2,
+        "console_errors": 0,
+        "console_warnings": 0,
+        "fidelity_comparison_points": 6
+      },
+      "artifacts": {
+        "docs/task-packages/packages/V2-OPS-01/evidence/design/ops-dashboard-concept.png": "573273bd5e786a66f0a039f47aad4b740a4e4884f2be417355087ac247c408b5",
+        "docs/task-packages/packages/V2-OPS-01/evidence/browser/connectors-desktop.png": "69225c73c189b4f8f36a83b0f43ed0b357c48ad05572f601f8236ceeffbefb02",
+        "docs/task-packages/packages/V2-OPS-01/evidence/browser/connectors-mobile.png": "c725e6976bbe0743cbaf430005a7741288c46e9476798b1dfd83b70428376fdc"
+      },
+      "result": "passed"
+    },
+    {
+      "id": "openapi_and_generated_contracts",
+      "command": "export_openapi.py --check; generate_contracts.py --check",
+      "exit_code": 0,
+      "counts": {
+        "openapi_paths": 21,
+        "operations": 25,
+        "schemas": 33,
+        "generated_clients": 3,
+        "contract_drift_files": 0
+      },
+      "artifacts": {
+        "packages/contracts/openapi.json": "49880f2e8f25656d8edb5f7d8a5b5baf54896d0e026eb3e141d4824c8edd791d",
+        "apps/ops-web/src/generated/api-contracts.ts": "9ddfe95ef31f99e366fa6851ad2b2104a08593b095304663f7a747da4e072d1e"
+      },
+      "result": "passed"
+    },
+    {
+      "id": "repository_quality",
+      "command": "ruff check; pytest -m 'not integration'; task package validation",
+      "exit_code": 0,
+      "counts": {
+        "repository_non_integration_tests_passed": 61,
+        "integration_tests_deselected": 6,
+        "ruff_errors": 0,
+        "task_package_errors": 0
+      },
+      "result": "passed"
+    }
+  ],
+  "external_gates": ["生产SSO/RBAC、持久化生产审计适配器与运营人员工作流验收"],
+  "failure_summary": [
+    "Playwright 初次加载仅出现 favicon.ico 404；加入 data favicon 后全新浏览器会话为 0 errors/0 warnings。",
+    "首个排队评测前端状态错误继承 smoke PASS 的本地证据；改为 pending:runner 并保留外部 held-out 门禁。",
+    "PostgreSQL 首轮 alembic check 发现复合主键重复声明唯一约束；删除冗余约束后漂移为 0。",
+    "首次 integration 命令只设置 DATABASE_URL 导致 6 个按设计跳过；补齐三个测试专用 URL 后 5 通过、仅 Qdrant 无服务场景 1 跳过。",
+    "postgres:17-alpine 镜像拉取因注册表连接 EOF 失败；使用本机已有 postgres:16 镜像完成相同迁移验证。"
+  ],
+  "claims": {
+    "local_ops_console_complete": true,
+    "development_header_rbac_verified": true,
+    "append_only_schema_and_idempotency_verified": true,
+    "public_trace_redaction_verified": true,
+    "browser_fixture_workflow_verified": true,
+    "production_sso_rbac_configured": false,
+    "production_persistent_ops_adapter_configured": false,
+    "real_operator_accepted": false,
+    "live_commerce_verified": false
+  },
+  "notes": [
+    "内置浏览器工具不可用，因此按技能规范使用 Playwright CLI Chromium 回退，并记录 URL、角色、数据身份和视口。",
+    "概念中的非权威额外来源与无功能通知/帮助按钮未实现，避免发明事实或提供空操作。",
+    "临时 PostgreSQL 容器经 rag-commerce.test-scope=V2-OPS-01 标签核验后删除。",
+    "浏览器 fixture 状态与 API fixture 状态均明确标记，不构成生产 SSO、真实运营或 LIVE_E2E 证据。"
+  ]
+}

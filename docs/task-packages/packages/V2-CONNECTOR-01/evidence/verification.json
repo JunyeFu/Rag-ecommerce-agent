@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-CONNECTOR-01",
+  "status": "passed",
+  "verified_at": "2026-08-26T14:34:07.5192445+08:00",
+  "scope": "connector SPI, synthetic contract fixtures, discovery boundary, requote and safe-link policy",
+  "checks": [
+    {
+      "id": "connector_contracts",
+      "command": "uv run pytest -q packages/connectors/tests",
+      "exit_code": 0,
+      "counts": {"tests_passed": 12, "platform_fixtures": 3, "frozen_fixture_hashes": 3},
+      "result": "passed"
+    },
+    {
+      "id": "verification_level_and_requote",
+      "command": "fixture and discovery contract tests",
+      "exit_code": 0,
+      "counts": {"requote_outcomes_covered": 4, "live_enabled_connectors": 0, "discovery_quotes_with_price": 0},
+      "result": "passed"
+    },
+    {
+      "id": "safe_link_policy",
+      "command": "HTTPS, host, redirect, SSRF, authority and port tests",
+      "exit_code": 0,
+      "counts": {"fixture_links_validated": 3, "denial_vectors": 5, "unsafe_links_accepted": 0},
+      "result": "passed"
+    },
+    {
+      "id": "resilience_policy",
+      "command": "bounded retry and deterministic circuit state tests",
+      "exit_code": 0,
+      "counts": {"retryable_error_classes": 3, "max_attempts": 3, "circuit_states": 3},
+      "result": "passed"
+    },
+    {
+      "id": "python_quality",
+      "command": "ruff check and format --check packages/connectors",
+      "exit_code": 0,
+      "counts": {"lint_errors": 0},
+      "result": "passed"
+    }
+  ],
+  "external_gates": ["淘宝/天猫、京东、拼多多联盟或开放平台主体授权与live凭据"],
+  "failure_summary": [],
+  "claims": {
+    "fixture_contracts_complete": true,
+    "live_api_authorized": false,
+    "real_price_accuracy_verified": false,
+    "affiliate_settlement_verified": false
+  },
+  "notes": [
+    "三个夹具均为 synthetic_contract，只能证明映射和失败策略。",
+    "未读取、配置或调用任何 live 凭据和联盟接口。"
+  ]
+}

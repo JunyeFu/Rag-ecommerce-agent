@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-RAG-01",
+  "owner": "retrieval-engineering",
+  "objective": "建立可重建、可溯源、支持硬约束和实体解析的混合商品RAG",
+  "inputs": ["V2-DATA-01 seed package", "V2-DOMAIN-01 product and evidence contracts"],
+  "outputs": ["hybrid retrieval", "Qdrant projection", "entity resolution", "evidence bundle", "retrieval benchmark"],
+  "acceptance": ["Recall@10 >= 0.90", "NDCG@10 >= 0.80", "hard constraints >= 0.90", "projection rebuild is deterministic"],
+  "test_profiles": ["profiles.backend_unit", "profiles.backend_integration"],
+  "business_refs": ["quality_targets", "source_repo"],
+  "development_refs": ["profiles.backend_unit", "profiles.backend_integration", "ports"],
+  "risk_refs": ["商业真相与 RAG", "Agent"]
+}

@@ -1,0 +1,28 @@
+{
+  "artifacts": {
+    "evals/v2/results/deterministic-reference-cases.jsonl": "af98d40ce698a20b64813d3311031a4ed38d660dded6a444fce684c8102111a0",
+    "evals/v2/results/deterministic-reference-summary.json": "de960a39cb7bb9f8d0e0622db09dc525146150ff33e5f01acec028226d6e4716"
+  },
+  "command": "uv run python scripts/run_evaluation_baseline.py --check",
+  "contract_version": "0.1.0",
+  "dataset_sha256": "f04be24b5bda96e1d2844e61b37a58f0319bb54ebf9999245cd06bb8ab0dab0c",
+  "dataset_version": "competition-v1",
+  "grader_version": "policy-grounding-grader-v1",
+  "heldout_consumed": false,
+  "model_version": "none-reference-constructor",
+  "policy_version": "agent-policy-v1",
+  "prompt_version": "none",
+  "replay_environment": [
+    "Python 3.12.11",
+    "uv.lock",
+    "pyproject.toml"
+  ],
+  "run_id": "eval-reference-competition-v1-20260826",
+  "runner_version": "deterministic-reference-v1",
+  "schema_version": 1,
+  "seed": 20260826,
+  "splits_consumed": [
+    "dev",
+    "test"
+  ]
+}

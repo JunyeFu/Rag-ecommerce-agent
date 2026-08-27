@@ -1,0 +1,58 @@
+{
+  "case_count": 600,
+  "claims": {
+    "heldout_dual_review_complete": false,
+    "old_seed_license_clear": false,
+    "real_provider_evaluated": false,
+    "synthetic_cases_license_clear": true
+  },
+  "dataset_version": "competition-v1",
+  "family_counts": {
+    "multi_turn": 100,
+    "multimodal": 80,
+    "quote_failure": 60,
+    "security": 60,
+    "shopping": 300
+  },
+  "files": {
+    "evals/v2/case.schema.json": {
+      "records": 1,
+      "sha256": "b339dd55aeeb84e5e6f441fd67218471dcf9872ad21d6cebd051da7eda2b5c5d"
+    },
+    "evals/v2/heldout/human-review-status.json": {
+      "records": 1,
+      "sha256": "d367aa24be2ae9ce623c568ab79470adcb3e255a127e9b925c45f4e035fb31a6"
+    },
+    "evals/v2/heldout/review-queue.v1.jsonl": {
+      "records": 100,
+      "sha256": "97b0e167a644dc82987c9bb4c915dfb0d1042aac36ed30644c53a83d37580ad3"
+    },
+    "evals/v2/public-cases.v1.jsonl": {
+      "records": 500,
+      "sha256": "f04be24b5bda96e1d2844e61b37a58f0319bb54ebf9999245cd06bb8ab0dab0c"
+    },
+    "evals/v2/seed-audit.json": {
+      "records": 1,
+      "sha256": "0539a3dc6b2cbd67b2a5a380a8986d771ed5636e803bc21922a4c44693102b8a"
+    }
+  },
+  "generator_version": "competition-eval-generator-v1",
+  "heldout_consumers": [
+    "dual_human_review_only"
+  ],
+  "old_seed_decision": "excluded_from_competition_v1_pending_license_and_gold_review",
+  "schema_version": 1,
+  "seed": 20260826,
+  "selection_inputs": [
+    "dev",
+    "test"
+  ],
+  "split_counts": {
+    "dev": 360,
+    "heldout": 100,
+    "test": 140
+  },
+  "tuning_inputs": [
+    "dev"
+  ]
+}

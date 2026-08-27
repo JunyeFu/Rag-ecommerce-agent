@@ -1,0 +1,59 @@
+{
+  "agent_state_ablations": {
+    "memory": {
+      "evidence": "packages/agent-runtime/tests/test_runtime.py",
+      "status": "CONTRACT_TESTED_NOT_PROVIDER_SCORED"
+    },
+    "production_embedding": {
+      "evidence": null,
+      "status": "NOT_RUN_EXTERNAL_GATE"
+    },
+    "tool_planning": {
+      "evidence": "packages/agent-runtime/tests/test_runtime.py",
+      "status": "DETERMINISTIC_FAKE_TESTED_NOT_PROVIDER_SCORED"
+    }
+  },
+  "dataset": "V2-DATA-01-SEED-v1-pending-license-and-gold-review",
+  "evidence_level": "development_seed_ablation_only",
+  "heldout_consumed": false,
+  "limitations": [
+    "Sparse token overlap is an offline vector-shaped baseline, not a production embedding model.",
+    "The old 226-case seed remains development-only pending license and gold review.",
+    "No score in this report is a held-out, LIVE or human-quality result."
+  ],
+  "numeric_guard": {
+    "all_metrics_finite": true
+  },
+  "real_provider_calls": 0,
+  "schema_version": 1,
+  "variants": {
+    "bm25_structured_with_development_prior": {
+      "cases": 144,
+      "ndcg_at_10": 0.9167795403730861,
+      "ndcg_target_met": true,
+      "recall_at_10": 0.9444444444444444,
+      "recall_target_met": true
+    },
+    "bm25_structured_without_development_prior": {
+      "cases": 144,
+      "ndcg_at_10": 0.6363593476964416,
+      "ndcg_target_met": false,
+      "recall_at_10": 0.7974537037037037,
+      "recall_target_met": false
+    },
+    "rrf_lexical_sparse_vector": {
+      "cases": 144,
+      "ndcg_at_10": 0.6626871167245227,
+      "ndcg_target_met": false,
+      "recall_at_10": 0.8321759259259259,
+      "recall_target_met": false
+    },
+    "sparse_token_vector_without_production_embedding": {
+      "cases": 144,
+      "ndcg_at_10": 0.6681104218021632,
+      "ndcg_target_met": false,
+      "recall_at_10": 0.8605324074074074,
+      "recall_target_met": false
+    }
+  }
+}

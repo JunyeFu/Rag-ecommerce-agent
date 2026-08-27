@@ -1,0 +1,257 @@
+{
+  "registry_version": "agent-tools-v1",
+  "schema_version": 1,
+  "tools": [
+    {
+      "arguments_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Query",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "title": "QueryArgs",
+        "type": "object"
+      },
+      "name": "catalog.search",
+      "risk": "READ"
+    },
+    {
+      "arguments_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "title": "IdsArgs",
+        "type": "object"
+      },
+      "name": "catalog.get_product_facts",
+      "risk": "READ"
+    },
+    {
+      "arguments_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "title": "IdsArgs",
+        "type": "object"
+      },
+      "name": "offer.find",
+      "risk": "READ"
+    },
+    {
+      "arguments_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "offer_id": {
+            "title": "Offer Id",
+            "type": "string"
+          },
+          "quote_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Quote Id"
+          }
+        },
+        "required": [
+          "offer_id"
+        ],
+        "title": "OfferArgs",
+        "type": "object"
+      },
+      "name": "offer.requote",
+      "risk": "READ"
+    },
+    {
+      "arguments_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "title": "IdsArgs",
+        "type": "object"
+      },
+      "name": "comparison.build",
+      "risk": "READ"
+    },
+    {
+      "arguments_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "item_id": {
+            "title": "Item Id",
+            "type": "string"
+          },
+          "operation": {
+            "title": "Operation",
+            "type": "string"
+          },
+          "quantity": {
+            "default": 1,
+            "maximum": 99,
+            "minimum": 1,
+            "title": "Quantity",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "operation",
+          "item_id"
+        ],
+        "title": "UpdateArgs",
+        "type": "object"
+      },
+      "name": "list.update",
+      "risk": "REVERSIBLE"
+    },
+    {
+      "arguments_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "item_id": {
+            "title": "Item Id",
+            "type": "string"
+          },
+          "operation": {
+            "title": "Operation",
+            "type": "string"
+          },
+          "quantity": {
+            "default": 1,
+            "maximum": 99,
+            "minimum": 1,
+            "title": "Quantity",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "operation",
+          "item_id"
+        ],
+        "title": "UpdateArgs",
+        "type": "object"
+      },
+      "name": "cart.update",
+      "risk": "REVERSIBLE"
+    },
+    {
+      "arguments_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "offer_id": {
+            "title": "Offer Id",
+            "type": "string"
+          },
+          "quote_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Quote Id"
+          }
+        },
+        "required": [
+          "offer_id"
+        ],
+        "title": "OfferArgs",
+        "type": "object"
+      },
+      "name": "link.resolve",
+      "risk": "EXTERNAL_NAVIGATION"
+    },
+    {
+      "arguments_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "media_ref": {
+            "title": "Media Ref",
+            "type": "string"
+          }
+        },
+        "required": [
+          "media_ref"
+        ],
+        "title": "MediaArgs",
+        "type": "object"
+      },
+      "name": "vision.identify",
+      "risk": "CONSENT"
+    },
+    {
+      "arguments_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "title": "IdsArgs",
+        "type": "object"
+      },
+      "name": "merchant.get_policy",
+      "risk": "READ"
+    }
+  ],
+  "transaction_tools": []
+}

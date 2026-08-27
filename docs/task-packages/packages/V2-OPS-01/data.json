@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-OPS-01",
+  "owner": "ops-product",
+  "objective": "建立连接器、报价、实体、Trace、评测与发布门禁运营台",
+  "inputs": ["V2-API-01 generated TypeScript client", "AgentRun and connector metrics", "release gate contracts"],
+  "outputs": ["ops web app", "RBAC matrix", "entity review queue", "trace viewer", "evaluation and release dashboards"],
+  "acceptance": ["no sensitive trace fields", "all writes audited", "gate evidence levels remain separate", "web E2E passes"],
+  "test_profiles": ["profiles.ops_web", "profiles.backend_contract"],
+  "business_refs": ["offer_policy", "quality_targets"],
+  "development_refs": ["profiles.ops_web", "evidence_rules"],
+  "risk_refs": ["Android 与运营台", "仓库与证据", "安全与发布"]
+}

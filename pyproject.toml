@@ -1,0 +1,52 @@
+[project]
+name = "rag-commerce-v2-workspace"
+version = "0.1.0"
+description = "Commercial RAG shopping Agent V2 monorepo"
+requires-python = ">=3.12.11,<3.13"
+dependencies = [
+    "alembic==1.19.1",
+    "fastapi==0.141.1",
+    "langgraph==1.2.11",
+    "pydantic==2.13.4",
+    "psycopg[binary]==3.3.4",
+    "qdrant-client==1.19.0",
+    "sqlalchemy==2.0.52",
+    "uvicorn==0.52.4",
+]
+
+[dependency-groups]
+dev = [
+    "httpx2==2.12.0",
+    "hypothesis==6.165.10",
+    "pytest==9.1.1",
+    "ruff==0.16.4",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["apps/api/tests", "apps/worker/tests", "packages/domain/tests", "packages/connectors/tests", "packages/retrieval/tests", "packages/agent-runtime/tests", "packages/evaluation/tests"]
+markers = ["integration: requires explicitly provided temporary services"]
+pythonpath = [
+    "apps/api/src",
+    "apps/worker/src",
+    "packages/domain/src",
+    "packages/agent-runtime/src",
+    "packages/connectors/src",
+    "packages/retrieval/src",
+    "packages/evaluation/src",
+    "packages/contracts/generated/python",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["apps", "packages", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"

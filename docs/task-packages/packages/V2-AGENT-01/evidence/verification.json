@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-AGENT-01",
+  "status": "passed",
+  "verified_at": "2026-08-26T15:19:44.8342563+08:00",
+  "scope": "single LangGraph runtime, frozen typed tools, PostgreSQL checkpoint replay, consented preferences and auditable Agent evidence",
+  "checks": [
+    {
+      "id": "agent_unit_policy",
+      "command": "uv run pytest -m 'not integration' -q",
+      "exit_code": 0,
+      "counts": {
+        "repository_tests_passed": 38,
+        "integration_tests_deselected": 5,
+        "frozen_tools": 10,
+        "schema_valid_examples": 10,
+        "unauthorized_action_executions": 0,
+        "max_tools_per_turn": 8,
+        "max_replans_per_turn": 2
+      },
+      "result": "passed"
+    },
+    {
+      "id": "postgresql_checkpoint_and_audit",
+      "command": "alembic upgrade/check; pytest -m integration; downgrade 0002; upgrade/check",
+      "exit_code": 0,
+      "counts": {
+        "integration_tests_passed": 4,
+        "service_dependent_tests_skipped": 1,
+        "checkpoint_repeated_actions": 0,
+        "migration_drift_operations": 0,
+        "agent_audit_entity_types": 4
+      },
+      "result": "passed"
+    },
+    {
+      "id": "agent_trace_and_registry",
+      "command": "uv run python scripts/generate_agent_artifacts.py --check",
+      "exit_code": 0,
+      "counts": {
+        "generated_artifacts": 2,
+        "registry_tools": 10,
+        "trace_events": 6,
+        "model_generated_commercial_fields": 0
+      },
+      "artifacts": {
+        "packages/contracts/agent/tool-registry.json": "d43c2892ddddf4b36ccaff2cc45fdbc0f333782a983579cd5adbf9d2424b37cb",
+        "evals/agent/fake-trace.json": "fb24a27dada689bcf1d629aaf88be08516c9326301c3d2df05e8c22f8c2a3afc"
+      },
+      "result": "passed"
+    },
+    {
+      "id": "privacy_and_evidence",
+      "command": "consent, preference load/delete, prompt-injection authorization and commercial evidence tests",
+      "exit_code": 0,
+      "counts": {
+        "unconsented_preferences_persisted": 0,
+        "verified_preference_deletions": 1,
+        "unsupported_commercial_facts_accepted": 0,
+        "raw_tool_argument_values_in_audit_summary": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "quality_and_task_packages",
+      "command": "ruff check/format; compileall; validate_task_packages.py",
+      "exit_code": 0,
+      "counts": {
+        "lint_errors": 0,
+        "compile_errors": 0,
+        "task_packages": 13,
+        "task_package_errors": 0,
+        "task_package_warnings": 0
+      },
+      "result": "passed"
+    }
+  ],
+  "external_gates": ["获批模型提供方的真实工具调用与质量评测"],
+  "failure_summary": [],
+  "claims": {
+    "single_runtime_complete": true,
+    "postgresql_checkpoint_resume_verified": true,
+    "agent_run_step_invocation_evidence_audit_verified": true,
+    "real_model_provider_validated": false,
+    "live_commercial_quality_validated": false,
+    "production_credentials_configured": false
+  },
+  "notes": [
+    "公开事件只保存脱敏参数摘要、证据引用、版本、耗时和 fake-model 用量，不保存思维链、凭据或原始提供方响应。",
+    "第一次复验的 Docker Desktop 端口绑定未生效；临时容器经任务标签核验后重建，并在确认实际端口映射后完成验证。",
+    "最终临时 PostgreSQL 容器经 rag-commerce.test-scope=V2-AGENT-01 标签核验后删除。",
+    "complete 只表示本地确定性与 PostgreSQL 集成门禁完成；真实模型提供方门禁仍开放。"
+  ]
+}

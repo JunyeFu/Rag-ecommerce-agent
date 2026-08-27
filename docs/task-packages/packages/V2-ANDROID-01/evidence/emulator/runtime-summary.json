@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-08-26T08:56:58.196915+00:00",
+  "command": "adb -s <serial> shell am start -W -n <package>/<activity>",
+  "device": {
+    "kind": "emulator",
+    "model": "sdk_gphone64_x86_64",
+    "sdk": 35,
+    "resolution": "1080x2424"
+  },
+  "launch": {
+    "status": "ok",
+    "launchstate": "COLD",
+    "activity": "com.ragcommerce.agent/.MainActivity",
+    "totaltime_ms": 2402,
+    "waittime_ms": 2406
+  },
+  "process_running": true,
+  "fatal_exception_count": 0,
+  "strict_mode_violation_count": 0,
+  "failure_summary": [],
+  "log_policy": "Only fatal and StrictMode violation markers were retained; full logcat and local paths were not stored."
+}

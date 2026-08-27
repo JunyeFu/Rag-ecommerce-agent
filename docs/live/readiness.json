@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_NOT_AUTHORIZED",
+  "local_prerequisites": {
+    "V2-EVAL-01": "complete_local_scope_external_human_and_provider_gates_open",
+    "V2-SECURITY-01": "complete_local_scope_external_security_gates_open",
+    "V2-ANDROID-01": "emulator_verified_physical_device_gate_open",
+    "V2-CONNECTOR-01": "fixture_verified_live_authorization_gate_open"
+  },
+  "live_actions_executed": false,
+  "live_requests": 0,
+  "physical_devices_tested": 0,
+  "real_provider_cases": 0,
+  "quote_samples": 0,
+  "required_inputs": [
+    "approved affiliate and model-provider principals and credentials",
+    "approved production-like environment, domains, traffic ceiling and rollback owner",
+    "held-out human-review result and external security approvals",
+    "physical Android device matrix and TalkBack reviewer",
+    "candidate identity and signed test build"
+  ],
+  "decision": "NO_GO_TO_LIVE"
+}

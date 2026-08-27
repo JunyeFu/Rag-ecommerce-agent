@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-DATA-01",
+  "owner": "data-engineering",
+  "objective": "确定性导出旧仓商品与评测开发种子并冻结来源许可和质量",
+  "inputs": ["source_repo.products", "source_repo.evaluation", "source_repo.ui_tokens"],
+  "outputs": ["data/seed catalog package", "evals/seed evaluation package", "license ledger", "quality report"],
+  "acceptance": ["deterministic hashes", "zero user or credential records", "all outputs have provenance and license status"],
+  "test_profiles": ["profiles.task_packages"],
+  "business_refs": ["source_repo", "quality_targets"],
+  "development_refs": ["test_identity", "evidence_rules"],
+  "risk_refs": ["仓库与证据", "商业真相与 RAG", "安全与发布"]
+}

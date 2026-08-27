@@ -1,0 +1,11 @@
+{
+  "adjudicated": 0,
+  "cohen_kappa": null,
+  "dataset_version": "competition-v1",
+  "external_gate": "freeze reviewer identities, rubric, budget and blinded review workspace",
+  "heldout_cases": 100,
+  "reviewed_by_reviewer_a": 0,
+  "reviewed_by_reviewer_b": 0,
+  "schema_version": 1,
+  "status": "BLOCKED_PENDING_DUAL_HUMAN_REVIEW"
+}

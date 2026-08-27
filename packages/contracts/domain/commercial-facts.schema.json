@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.rag-commerce.invalid/v0.1.0/commercial-facts.schema.json",
+  "title": "CommercialFacts",
+  "oneOf": [
+    {"$ref": "#/$defs/Product"},
+    {"$ref": "#/$defs/ProductVariant"},
+    {"$ref": "#/$defs/Offer"},
+    {"$ref": "#/$defs/OfferQuote"},
+    {"$ref": "#/$defs/AgentRunEvidence"}
+  ],
+  "$defs": {
+    "Id": {"type": "string", "format": "uuid"},
+    "Money": {
+      "type": "object", "additionalProperties": false,
+      "required": ["amount_minor", "currency"],
+      "properties": {"amount_minor": {"type": "integer"}, "currency": {"const": "CNY"}}
+    },
+    "Product": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "canonical_name", "category_key"],
+      "properties": {"id": {"$ref": "#/$defs/Id"}, "canonical_name": {"type": "string", "minLength": 1}, "category_key": {"type": "string", "minLength": 1}, "brand_key": {"type": ["string", "null"]}}
+    },
+    "ProductVariant": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "product_id", "variant_key", "attributes"],
+      "properties": {"id": {"$ref": "#/$defs/Id"}, "product_id": {"$ref": "#/$defs/Id"}, "variant_key": {"type": "string", "minLength": 1}, "attributes": {"type": "object", "additionalProperties": {"type": "string"}}}
+    },
+    "Offer": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "variant_id", "merchant_id", "external_key"],
+      "properties": {"id": {"$ref": "#/$defs/Id"}, "variant_id": {"$ref": "#/$defs/Id"}, "merchant_id": {"$ref": "#/$defs/Id"}, "external_key": {"type": "string", "minLength": 1}}
+    },
+    "OfferQuote": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "offer_id", "verification", "availability", "collected_at", "expires_at", "source_ref"],
+      "properties": {"id": {"$ref": "#/$defs/Id"}, "offer_id": {"$ref": "#/$defs/Id"}, "verification": {"enum": ["LIVE_AUTHORIZED", "FEED_VERIFIED", "DISCOVERY_ONLY"]}, "availability": {"enum": ["AVAILABLE", "UNAVAILABLE", "UNKNOWN"]}, "price": {"oneOf": [{"$ref": "#/$defs/Money"}, {"type": "null"}]}, "shipping": {"oneOf": [{"$ref": "#/$defs/Money"}, {"type": "null"}]}, "collected_at": {"type": "string", "format": "date-time"}, "expires_at": {"type": "string", "format": "date-time"}, "source_ref": {"type": "string", "minLength": 1}}
+    },
+    "AgentRunEvidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["run_id", "step_id", "evidence_type", "source_ref", "content_sha256"],
+      "properties": {"run_id": {"$ref": "#/$defs/Id"}, "step_id": {"$ref": "#/$defs/Id"}, "evidence_type": {"type": "string"}, "source_ref": {"type": "string"}, "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    }
+  }
+}

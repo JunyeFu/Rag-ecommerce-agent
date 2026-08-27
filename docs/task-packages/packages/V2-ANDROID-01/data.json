@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-ANDROID-01",
+  "owner": "android-product",
+  "objective": "实现四标签原生Android导购、证据商品卡、比较、requote和深链主流程",
+  "inputs": ["V2-API-01 generated Kotlin client", "V2 design baseline", "contract fixtures"],
+  "outputs": ["four-tab Android app", "comparison workspace", "requote confirmation", "UI test suite", "baseline profiles"],
+  "acceptance": ["12 instrumentation scenarios", "zero fabricated commerce facts", "accessibility thresholds pass", "cold start p95 <= 2 seconds"],
+  "test_profiles": ["profiles.android_static", "profiles.android_instrumentation"],
+  "business_refs": ["business_model", "offer_policy", "quality_targets"],
+  "development_refs": ["profiles.android_static", "profiles.android_instrumentation", "ports.android_emulator_api_host"],
+  "risk_refs": ["Android 与运营台", "商业真相与 RAG", "安全与发布"]
+}

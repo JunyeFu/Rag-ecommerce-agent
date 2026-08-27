@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-EXAMPLE-00",
+  "owner": "unassigned",
+  "objective": "replace before use",
+  "inputs": [],
+  "outputs": [],
+  "acceptance": ["replace before use"],
+  "test_profiles": [],
+  "business_refs": ["shared.business_model"],
+  "development_refs": ["profiles.task_packages"],
+  "risk_refs": ["shared.pitfalls"]
+}

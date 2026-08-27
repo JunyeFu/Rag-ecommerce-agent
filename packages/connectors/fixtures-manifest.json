@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "fixture_kind": "synthetic_contract_only",
+  "live_evidence": false,
+  "files": [
+    {"path": "packages/connectors/fixtures/jd.json", "sha256": "c551e40ae3eaa883ddc1f410e63839134ad4d68cc5d367366b78821ed54bd46f", "bytes": 874},
+    {"path": "packages/connectors/fixtures/pdd.json", "sha256": "8ff4046d704d0609227a293dd5cda632f872f7e1f19b475fa22364a2ea7a40ad", "bytes": 868},
+    {"path": "packages/connectors/fixtures/taobao.json", "sha256": "70387b2adb0061f11bd254ff24881b5804607697d039b9ff7a1688afd2713f35", "bytes": 929}
+  ]
+}

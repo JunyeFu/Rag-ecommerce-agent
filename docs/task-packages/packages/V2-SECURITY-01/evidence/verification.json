@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "package_id": "V2-SECURITY-01",
+  "status": "passed",
+  "verified_at": "2026-08-26T18:02:01.4885590+08:00",
+  "scope": "local Agent/tool/content/media/ownership/RBAC/deep-link security, deletion boundary, deterministic supply-chain inventory and fail-closed release gates",
+  "checks": [
+    {
+      "id": "security_regression",
+      "command": "uv run pytest apps/api/tests/test_security_regression.py packages/connectors/tests/test_connector_contract.py packages/agent-runtime/tests/test_runtime.py -q",
+      "exit_code": 0,
+      "counts": {
+        "tests_passed": 28,
+        "unauthorized_tool_actions": 0,
+        "cross_user_deletion_effects": 0,
+        "prompt_authorized_navigation_or_writes": 0,
+        "private_dns_targets_accepted": 0,
+        "unicode_homographs_accepted": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "data_erasure_and_contract",
+      "command": "pytest API security; export_openapi.py --check; generate_contracts.py --check",
+      "exit_code": 0,
+      "counts": {
+        "confirmation_required": 1,
+        "unconfigured_production_erasure_accepts": 0,
+        "openapi_paths": 21,
+        "openapi_operations": 25,
+        "generated_contract_drift_files": 0
+      },
+      "result": "passed"
+    },
+    {
+      "id": "sbom_license_secret_and_sast",
+      "command": "generate_sbom.py --check; security_gate.py --check",
+      "exit_code": 0,
+      "counts": {
+        "sbom_components": 202,
+        "secret_findings": 0,
+        "sast_pattern_findings": 0,
+        "commercial_release_eligible": 0,
+        "external_fail_closed_gates": 5
+      },
+      "artifacts": {
+        "docs/security/evidence/sbom.json": "641c01cbc191b098ea7c5e6168a6773598ea03bea945114b4bb70127d70c23d4",
+        "docs/security/evidence/license-report.json": "2e94d06e3e6c13b1a75d7b842ca00c37ac9671d7536e4ca9e5380481f97bdaa3",
+        "docs/security/evidence/security-gate.json": "25eea3af660e88f84d2ee3498433677335ea596cadd65857b1cf71647914b8c2"
+      },
+      "result": "passed_with_external_fail_closed"
+    },
+    {
+      "id": "incident_and_connector_revocation_tabletop",
+      "command": "uv run python scripts/run_security_tabletop.py --check",
+      "exit_code": 0,
+      "counts": {
+        "fixture_connectors_non_live": 3,
+        "private_dns_targets_accepted": 0,
+        "platform_credentials_revoked": 0
+      },
+      "artifacts": {
+        "docs/security/evidence/incident-tabletop.json": "9cf7be970f3154450dd61166fd81e2a46647763acb917a3aab09e5ab286e36ae"
+      },
+      "result": "passed_local_tabletop"
+    },
+    {
+      "id": "repository_and_integration_regression",
+      "command": "pytest -m 'not integration'; temporary PostgreSQL/Qdrant alembic upgrade/current/check; pytest -m integration",
+      "exit_code": 0,
+      "counts": {
+        "nonintegration_tests_passed": 61,
+        "integration_tests_passed": 6,
+        "integration_tests_skipped": 0,
+        "migration_drift_operations": 0,
+        "temporary_containers_removed": 2
+      },
+      "result": "passed"
+    }
+  ],
+  "external_gates": [
+    "冻结advisory数据库的依赖扫描与候选镜像/对象存储扫描",
+    "生产事务型用户数据删除适配器与备份/日志删除证明",
+    "live凭据轮换、法律审核与独立渗透测试"
+  ],
+  "failure_summary": [
+    "安全扫描器首轮把自身的dangerous-html规则文本识别为命中；明确排除扫描器规则文件后对产品源码重新扫描为0命中。",
+    "最终集成首轮使用无驱动限定的SQLAlchemy PostgreSQL URL触发缺失psycopg2，第二轮仅修正Alembic URL但domain测试仍沿用旧scheme；第三轮区分SQLAlchemy与psycopg DSN后6项全通过。",
+    "Android最终验证首轮未设置SDK进程路径而失败；显式使用已存在SDK且不写local.properties后94任务成功。"
+  ],
+  "claims": {
+    "local_security_controls_complete": true,
+    "local_user_data_erasure_verified": true,
+    "local_secret_and_sast_findings_zero": true,
+    "sbom_inventory_generated": true,
+    "dependency_advisory_scan_executed": false,
+    "candidate_container_scan_executed": false,
+    "production_transactional_erasure_verified": false,
+    "credentials_rotated": false,
+    "independent_penetration_passed": false,
+    "legal_review_passed": false,
+    "commercial_release_eligible": false
+  },
+  "notes": [
+    "security-gate.json故意保持commercial_release_eligible=false；本地通过不能替代生产或外部结论。",
+    "DELETE /v1/users/me/data在未注入单一事务删除适配器时返回503，避免把局部删除冒充完整删除。",
+    "桌面演练未读取、撤销或轮换任何live凭据。"
+  ]
+}
