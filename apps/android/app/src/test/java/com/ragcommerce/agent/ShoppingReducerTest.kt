@@ -2,6 +2,7 @@ package com.ragcommerce.agent
 
 import com.ragcommerce.agent.ui.CartGroupUi
 import com.ragcommerce.agent.ui.ConnectionState
+import com.ragcommerce.agent.ui.EvidenceProductUi
 import com.ragcommerce.agent.ui.OfferUi
 import com.ragcommerce.agent.ui.PrimaryTab
 import com.ragcommerce.agent.ui.QuoteState
@@ -49,8 +50,8 @@ class ShoppingReducerTest {
     }
 
     @Test
-    fun fourTabsHaveOnlyTheApprovedPrimaryInformationArchitecture() {
-        assertEquals(listOf("导购", "清单", "购物车", "我的"), PrimaryTab.entries.map { it.label })
+    fun threeTabsHaveOnlyTheAgentFirstInformationArchitecture() {
+        assertEquals(listOf("任务", "决策", "我的"), PrimaryTab.entries.map { it.label })
     }
 
     @Test
@@ -60,9 +61,41 @@ class ShoppingReducerTest {
             ShoppingAction.UpdateDraft("预算 2000，通勤降噪"),
         )
         val submitted = ShoppingReducer.reduce(drafted, ShoppingAction.SubmitMission)
-        val cart = ShoppingReducer.reduce(submitted, ShoppingAction.SelectTab(PrimaryTab.CART))
-        assertEquals("预算 2000，通勤降噪", cart.missionGoal)
-        assertEquals(PrimaryTab.CART, cart.selectedTab)
+        val decisions = ShoppingReducer.reduce(submitted, ShoppingAction.SelectTab(PrimaryTab.DECISIONS))
+        assertEquals("预算 2000，通勤降噪", decisions.missionGoal)
+        assertEquals(PrimaryTab.DECISIONS, decisions.selectedTab)
+    }
+
+    @Test
+    fun typedMissionUpdateReplacesThePublicGoal() {
+        val state = ShoppingReducer.reduce(
+            ShoppingUiState(missionGoal = "旧目标"),
+            ShoppingAction.MissionUpdated("预算 1000 元的通勤耳机"),
+        )
+        assertEquals("预算 1000 元的通勤耳机", state.missionGoal)
+        assertEquals("Mission 已更新", state.statusMessage)
+    }
+
+    @Test
+    fun typedProductEventReplacesCandidatesAndCollectsEvidence() {
+        val product = EvidenceProductUi(
+            id = "product-1",
+            variantId = "variant-1",
+            title = "Fixture Headphones",
+            fitSummary = "符合通勤降噪",
+            matchedConstraints = listOf("预算内"),
+            unmetConstraints = emptyList(),
+            risks = listOf("演示报价"),
+            evidenceRefs = listOf("demo:product-1"),
+        )
+
+        val state = ShoppingReducer.reduce(
+            ShoppingUiState(),
+            ShoppingAction.TurnProducts(listOf(product)),
+        )
+
+        assertEquals(listOf(product), state.products)
+        assertEquals(listOf("demo:product-1"), state.evidenceRefs)
     }
 
     @Test

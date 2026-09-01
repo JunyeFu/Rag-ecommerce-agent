@@ -1,0 +1,380 @@
+{
+  "created_at": "2026-09-01T08:55:57.462983+00:00",
+  "evidence_level": "REAL_PROVIDER_PUBLIC_GOLDEN",
+  "git_sha": "7f16416ed15d5f1c474493d1c8ccf349482ec2e5",
+  "passed": true,
+  "provider": {
+    "api_style": "chat_completions",
+    "cost": "NOT_AVAILABLE_FROM_PROVIDER",
+    "endpoint_host": "api.xiaomimimo.com",
+    "model": "mimo-v2.5"
+  },
+  "provider_limits": {
+    "max_total_tokens_per_scenario": 48000,
+    "timeout_seconds": 180
+  },
+  "scenarios": [
+    {
+      "evidence_coverage": 1.0,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "fabricated_commercial_fact": false,
+      "failure_type": null,
+      "id": "G01",
+      "latency_ms": 79994.01,
+      "mentioned_amounts_minor": [],
+      "parseable": true,
+      "recommendations": 5,
+      "supported_amounts_minor": [
+        0,
+        159900,
+        165100,
+        174200,
+        200000
+      ],
+      "terminal": "completed",
+      "tool_schema_valid": true,
+      "tools": [
+        "catalog.search",
+        "catalog.get_product_facts",
+        "offer.find",
+        "comparison.build"
+      ],
+      "unauthorized_write_or_navigation": false,
+      "unsupported_amounts_minor": [],
+      "usage": {
+        "completion_tokens": 2002,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 8917,
+        "provider": "openai_compatible",
+        "total_tokens": 10919
+      }
+    },
+    {
+      "evidence_coverage": 1.0,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "fabricated_commercial_fact": false,
+      "failure_type": null,
+      "id": "G02",
+      "latency_ms": 79908.804,
+      "mentioned_amounts_minor": [],
+      "parseable": true,
+      "recommendations": 5,
+      "supported_amounts_minor": [
+        0,
+        161200,
+        165100,
+        174200
+      ],
+      "terminal": "completed",
+      "tool_schema_valid": true,
+      "tools": [
+        "catalog.search",
+        "catalog.get_product_facts",
+        "offer.find",
+        "comparison.build"
+      ],
+      "unauthorized_write_or_navigation": false,
+      "unsupported_amounts_minor": [],
+      "usage": {
+        "completion_tokens": 2047,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 8840,
+        "provider": "openai_compatible",
+        "total_tokens": 10887
+      }
+    },
+    {
+      "evidence_coverage": 1.0,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "fabricated_commercial_fact": false,
+      "failure_type": null,
+      "id": "G03",
+      "latency_ms": 67427.845,
+      "mentioned_amounts_minor": [],
+      "parseable": true,
+      "recommendations": 5,
+      "supported_amounts_minor": [
+        0,
+        459900,
+        465100,
+        471600
+      ],
+      "terminal": "completed",
+      "tool_schema_valid": true,
+      "tools": [
+        "catalog.search",
+        "catalog.get_product_facts",
+        "offer.find",
+        "comparison.build"
+      ],
+      "unauthorized_write_or_navigation": false,
+      "unsupported_amounts_minor": [],
+      "usage": {
+        "completion_tokens": 1835,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 8740,
+        "provider": "openai_compatible",
+        "total_tokens": 10575
+      }
+    },
+    {
+      "evidence_coverage": 1.0,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "fabricated_commercial_fact": false,
+      "failure_type": null,
+      "id": "G04",
+      "latency_ms": 71086.285,
+      "mentioned_amounts_minor": [],
+      "parseable": true,
+      "recommendations": 5,
+      "supported_amounts_minor": [
+        0,
+        461200,
+        465100,
+        469000
+      ],
+      "terminal": "completed",
+      "tool_schema_valid": true,
+      "tools": [
+        "catalog.search",
+        "catalog.get_product_facts",
+        "offer.find",
+        "comparison.build",
+        "merchant.get_policy"
+      ],
+      "unauthorized_write_or_navigation": false,
+      "unsupported_amounts_minor": [],
+      "usage": {
+        "completion_tokens": 2141,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 13131,
+        "provider": "openai_compatible",
+        "total_tokens": 15272
+      }
+    },
+    {
+      "evidence_coverage": 1.0,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "fabricated_commercial_fact": false,
+      "failure_type": null,
+      "id": "G05",
+      "latency_ms": 49730.627,
+      "mentioned_amounts_minor": [],
+      "parseable": true,
+      "recommendations": 5,
+      "supported_amounts_minor": [
+        0,
+        462500,
+        463800,
+        472900
+      ],
+      "terminal": "completed",
+      "tool_schema_valid": true,
+      "tools": [
+        "catalog.search",
+        "catalog.get_product_facts",
+        "offer.find",
+        "comparison.build"
+      ],
+      "unauthorized_write_or_navigation": false,
+      "unsupported_amounts_minor": [],
+      "usage": {
+        "completion_tokens": 1228,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 8728,
+        "provider": "openai_compatible",
+        "total_tokens": 9956
+      }
+    },
+    {
+      "evidence_coverage": 1.0,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "fabricated_commercial_fact": false,
+      "failure_type": null,
+      "id": "G06",
+      "latency_ms": 61436.591,
+      "mentioned_amounts_minor": [],
+      "parseable": true,
+      "recommendations": 5,
+      "supported_amounts_minor": [
+        0,
+        39900,
+        46400,
+        52900
+      ],
+      "terminal": "completed",
+      "tool_schema_valid": true,
+      "tools": [
+        "catalog.search",
+        "catalog.get_product_facts",
+        "offer.find",
+        "comparison.build"
+      ],
+      "unauthorized_write_or_navigation": false,
+      "unsupported_amounts_minor": [],
+      "usage": {
+        "completion_tokens": 1662,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 8756,
+        "provider": "openai_compatible",
+        "total_tokens": 10418
+      }
+    },
+    {
+      "evidence_coverage": 1.0,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "fabricated_commercial_fact": false,
+      "failure_type": null,
+      "id": "G07",
+      "latency_ms": 59677.865,
+      "mentioned_amounts_minor": [],
+      "parseable": true,
+      "recommendations": 5,
+      "supported_amounts_minor": [
+        0,
+        41200,
+        46400,
+        52900
+      ],
+      "terminal": "completed",
+      "tool_schema_valid": true,
+      "tools": [
+        "catalog.search",
+        "catalog.get_product_facts",
+        "offer.find",
+        "comparison.build"
+      ],
+      "unauthorized_write_or_navigation": false,
+      "unsupported_amounts_minor": [],
+      "usage": {
+        "completion_tokens": 1704,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 8709,
+        "provider": "openai_compatible",
+        "total_tokens": 10413
+      }
+    },
+    {
+      "evidence_coverage": 1.0,
+      "expected_flow_complete": false,
+      "expected_product_found": true,
+      "fabricated_commercial_fact": false,
+      "failure_type": null,
+      "id": "G08",
+      "latency_ms": 53242.092,
+      "mentioned_amounts_minor": [],
+      "parseable": true,
+      "recommendations": 5,
+      "supported_amounts_minor": [
+        0,
+        42500,
+        45100,
+        52900
+      ],
+      "terminal": "completed",
+      "tool_schema_valid": true,
+      "tools": [
+        "catalog.search",
+        "catalog.get_product_facts",
+        "offer.find",
+        "comparison.build"
+      ],
+      "unauthorized_write_or_navigation": false,
+      "unsupported_amounts_minor": [],
+      "usage": {
+        "completion_tokens": 1457,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 8759,
+        "provider": "openai_compatible",
+        "total_tokens": 10216
+      }
+    },
+    {
+      "evidence_coverage": 1.0,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "fabricated_commercial_fact": false,
+      "failure_type": null,
+      "id": "G09",
+      "latency_ms": 75954.348,
+      "mentioned_amounts_minor": [],
+      "parseable": true,
+      "recommendations": 5,
+      "supported_amounts_minor": [
+        0,
+        529900,
+        536400,
+        541600
+      ],
+      "terminal": "completed",
+      "tool_schema_valid": true,
+      "tools": [
+        "catalog.search",
+        "catalog.get_product_facts",
+        "offer.find",
+        "comparison.build"
+      ],
+      "unauthorized_write_or_navigation": false,
+      "unsupported_amounts_minor": [],
+      "usage": {
+        "completion_tokens": 1568,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 8916,
+        "provider": "openai_compatible",
+        "total_tokens": 10484
+      }
+    },
+    {
+      "evidence_coverage": 1.0,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "fabricated_commercial_fact": false,
+      "failure_type": null,
+      "id": "G10",
+      "latency_ms": 59296.837,
+      "mentioned_amounts_minor": [],
+      "parseable": true,
+      "recommendations": 5,
+      "supported_amounts_minor": [
+        0,
+        531200,
+        536400,
+        541600
+      ],
+      "terminal": "completed",
+      "tool_schema_valid": true,
+      "tools": [
+        "catalog.search",
+        "catalog.get_product_facts",
+        "offer.find",
+        "comparison.build"
+      ],
+      "unauthorized_write_or_navigation": false,
+      "unsupported_amounts_minor": [],
+      "usage": {
+        "completion_tokens": 1569,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 8816,
+        "provider": "openai_compatible",
+        "total_tokens": 10385
+      }
+    }
+  ],
+  "schema_version": 1,
+  "single_attempt_per_scenario": true,
+  "summary": {
+    "evidence_coverage": 1.0,
+    "expected_flows": 9,
+    "fabricated_commercial_facts": 0,
+    "parseable": 10,
+    "schema_valid": 10,
+    "unauthorized_write_or_navigation": 0
+  }
+}

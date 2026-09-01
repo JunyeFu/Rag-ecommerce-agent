@@ -41,21 +41,27 @@ from ragcommerce_contracts import (
 IDENTITY = RuntimeIdentity("shopping-agent-v1", "fake-api-v1", "p1", "policy1", "0.1.0")
 USER_A = UUID("00000000-0000-5000-8000-000000000101")
 USER_B = UUID("00000000-0000-5000-8000-000000000102")
+PRODUCT_ID = UUID("00000000-0000-5000-8000-000000000204")
 
 
 class RecordingPlanner:
-    def __init__(self, call: ToolCall) -> None:
+    def __init__(self, call: ToolCall, clarify_first: bool = False) -> None:
         self.call = call
+        self.clarify_first = clarify_first
         self.commands: list[TurnCommand] = []
 
-    def plan(
+    async def plan(
         self, command: TurnCommand, prior_results: tuple[ToolResult, ...], replan: int
     ) -> tuple[ToolCall, ...]:
+        if prior_results:
+            return ()
         self.commands.append(command)
+        if self.clarify_first and len(self.commands) == 1:
+            return ()
         return (self.call,)
 
-    def respond(self, command: TurnCommand, results: tuple[ToolResult, ...]) -> str:
-        return "fixture response"
+    async def respond(self, command: TurnCommand, results: tuple[ToolResult, ...]) -> str:
+        return "请补充预算。" if not results else "fixture response"
 
     def usage(self) -> dict[str, int | str]:
         return {"provider": "deterministic_fake", "cost_minor": 0, "currency": "CNY"}
@@ -66,12 +72,24 @@ def build_client(
     override: Callable[[ToolExecutionContext, BaseModel], ToolResult] | None = None,
     limiter: SlidingWindowLimiter | None = None,
     commerce: Any | None = None,
+    clarify_first: bool = False,
 ) -> tuple[TestClient, RecordingPlanner, InMemoryMediaStore]:
-    planner = RecordingPlanner(call or ToolCall("catalog.search", {"query": "fixture"}))
+    planner = RecordingPlanner(
+        call or ToolCall("catalog.search", {"query": "fixture"}),
+        clarify_first,
+    )
 
     def read(_: ToolExecutionContext, __: BaseModel) -> ToolResult:
         return ToolResult(
-            {"title": "fixture"},
+            {
+                "products": [
+                    {
+                        "product_id": str(PRODUCT_ID),
+                        "variant_id": "00000000-0000-5000-8000-000000000203",
+                        "title": "Fixture Product",
+                    }
+                ]
+            },
             (ToolEvidence("seed:fixture", "0" * 64, ("title",)),),
             frozenset({"title"}),
         )
@@ -144,6 +162,41 @@ def test_turn_idempotency_and_lossless_sse_cursor_resume() -> None:
     assert "arguments_sha256" not in complete.text
     assert "idempotency_digest" not in complete.text
     assert "invocation_id" not in complete.text
+    assert "event: mission_updated" in complete.text
+    assert "event: products" in complete.text
+    assert f'"product_id":"{PRODUCT_ID}"' in complete.text
+
+
+def test_clarification_answer_updates_mission_before_retrieval() -> None:
+    client, planner, _ = build_client(clarify_first=True)
+    thread_id = create_thread(client)
+    first = client.post(
+        f"/v1/threads/{thread_id}/turns",
+        json={"text": "通勤降噪耳机", "media_ids": []},
+        headers=headers(**{"Idempotency-Key": "clarification-1"}),
+    )
+    first_events = client.get(
+        f"/v1/agent-runs/{first.json()['run_id']}/events",
+        headers=headers(),
+    )
+    waiting = client.get(f"/v1/threads/{thread_id}", headers=headers())
+    assert "event: clarification_required" in first_events.text
+    assert waiting.json()["status"] == "WAITING_CLARIFICATION"
+
+    second = client.post(
+        f"/v1/threads/{thread_id}/turns",
+        json={"text": "预算 1000 元", "media_ids": []},
+        headers=headers(**{"Idempotency-Key": "clarification-2"}),
+    )
+    second_events = client.get(
+        f"/v1/agent-runs/{second.json()['run_id']}/events",
+        headers=headers(),
+    )
+    completed = client.get(f"/v1/threads/{thread_id}", headers=headers())
+    assert "event: completed" in second_events.text
+    assert completed.json()["status"] == "COMPLETED"
+    assert completed.json()["goal"] == "fixture shopping; 预算 1000 元"
+    assert planner.commands[-1].text == "fixture shopping; 预算 1000 元"
 
 
 def test_text_image_and_audio_use_the_same_turn_command_and_runtime() -> None:
@@ -259,6 +312,40 @@ def test_explicit_decision_resumes_the_same_agent_run() -> None:
     assert calls == 1
     assert "event: completed" in completed.text
 
+    repeated = client.post(
+        f"/v1/agent-runs/{run_id}/decisions",
+        json={"tool_name": "cart.update", "approved": True},
+        headers=headers(),
+    )
+    assert repeated.status_code == 200
+    assert calls == 1
+
+
+def test_cancelled_decision_has_no_tool_side_effect() -> None:
+    calls = 0
+
+    def update(_: ToolExecutionContext, __: BaseModel) -> ToolResult:
+        nonlocal calls
+        calls += 1
+        return ToolResult()
+
+    client, _, _ = build_client(
+        ToolCall("cart.update", {"operation": "add", "item_id": "o1"}), update
+    )
+    thread_id = create_thread(client)
+    turn = client.post(
+        f"/v1/threads/{thread_id}/turns",
+        json={"text": "add fixture", "media_ids": []},
+        headers=headers(**{"Idempotency-Key": "decision-cancel-1"}),
+    )
+    cancelled = client.post(
+        f"/v1/agent-runs/{turn.json()['run_id']}/decisions",
+        json={"tool_name": "cart.update", "approved": False},
+        headers=headers(),
+    )
+    assert cancelled.status_code == 200
+    assert calls == 0
+
 
 def test_unconfigured_business_api_is_explicitly_unavailable() -> None:
     client = TestClient(create_app())
@@ -295,6 +382,18 @@ class FixtureCommerce:
                 )
             ],
         )
+
+    def get_product(self, user_id: UUID, product_id: UUID) -> dict[str, object]:
+        return {
+            "product_id": str(product_id),
+            "variant_id": str(self.variant_id),
+            "title": "Fixture Product",
+            "category": "耳机",
+            "brand": "Demo Audio",
+            "attributes": {"降噪": "支持"},
+            "image_ref": None,
+            "evidence_refs": ["fixture:catalog-product-1"],
+        }
 
     def resolve_offer(
         self, user_id: UUID, offer_id: UUID, request: ResolveOfferRequest
@@ -341,7 +440,7 @@ class FixtureCommerce:
 def test_commerce_routes_delegate_grounded_facts_lists_and_cart() -> None:
     commerce = FixtureCommerce()
     client, _, _ = build_client(commerce=commerce)
-    product_id = UUID("00000000-0000-5000-8000-000000000204")
+    product_id = PRODUCT_ID
     offers = client.get(f"/v1/products/{product_id}/offers?fresh=true", headers=headers())
     offer = offers.json()["offers"][0]
     assert offers.status_code == 200
@@ -377,3 +476,31 @@ def test_commerce_routes_delegate_grounded_facts_lists_and_cart() -> None:
     )
     assert cart.json()["items"] == [{"offer_id": str(commerce.offer_id), "quantity": 2}]
     assert client.get("/v1/cart", headers=headers()).json() == cart.json()
+
+
+def test_thread_snapshot_and_product_fact_are_hydratable() -> None:
+    commerce = FixtureCommerce()
+    client, _, _ = build_client(commerce=commerce)
+    thread_id = create_thread(client)
+
+    empty = client.get(f"/v1/threads/{thread_id}", headers=headers())
+    assert empty.status_code == 200
+    assert empty.json()["status"] == "IDLE"
+    assert empty.json()["candidates"] == []
+
+    accepted = client.post(
+        f"/v1/threads/{thread_id}/turns",
+        json={"text": "通勤降噪耳机", "media_ids": []},
+        headers=headers(**{"Idempotency-Key": "snapshot-1"}),
+    )
+    assert accepted.status_code == 202
+    snapshot = client.get(f"/v1/threads/{thread_id}", headers=headers())
+    assert snapshot.status_code == 200
+    assert snapshot.json()["status"] == "COMPLETED"
+    assert snapshot.json()["candidates"][0]["title"] == "Fixture Product"
+    assert snapshot.json()["last_event_id"] > 0
+
+    product_id = PRODUCT_ID
+    product = client.get(f"/v1/products/{product_id}", headers=headers())
+    assert product.status_code == 200
+    assert product.json()["evidence_refs"] == ["fixture:catalog-product-1"]

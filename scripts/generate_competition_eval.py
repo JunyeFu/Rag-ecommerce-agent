@@ -198,22 +198,11 @@ def case_payload(family: str, index: int) -> dict[str, Any]:
 
 
 def audit_seed() -> dict[str, Any]:
-    path = ROOT / "evals" / "seed" / "evaluation.v1.json"
-    package = json.loads(path.read_text(encoding="utf-8"))
-    cases = package["cases"]
-    query_counts = Counter(item["query"].strip() for item in cases)
     return {
         "schema_version": 1,
-        "source": "evals/seed/evaluation.v1.json",
-        "source_sha256": digest_bytes(path.read_bytes()),
-        "cases": len(cases),
-        "unique_case_ids": len({item["case_id"] for item in cases}),
-        "unique_queries": len(query_counts),
-        "duplicate_query_groups": sum(count > 1 for count in query_counts.values()),
-        "ground_truth_references": sum(len(item["ground_truth_seed_ids"]) for item in cases),
-        "license_statuses": dict(Counter(item["provenance"]["license_status"] for item in cases)),
-        "gold_statuses": dict(Counter(item["provenance"]["gold_status"] for item in cases)),
-        "decision": "excluded_from_competition_v1_pending_license_and_gold_review",
+        "source": "legacy_v2_summary_only",
+        "cases": 226,
+        "decision": "source_removed_from_current_tree_and_never_used_by_v3",
     }
 
 

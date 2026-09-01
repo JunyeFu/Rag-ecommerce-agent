@@ -1,0 +1,21 @@
+{
+  "claims": {
+    "fixture_concurrency_verified": true,
+    "human_quality_measured": false,
+    "live_commerce_quality_measured": false,
+    "real_model_quality_measured": false
+  },
+  "duplicate_terminal_events": 0,
+  "evidence_level": "fixture_load_only",
+  "first_sse_response_p95_ms": 38.053,
+  "lost_missions": 0,
+  "missions": 30,
+  "provider": "deterministic_demo",
+  "schema_version": 1,
+  "terminal_events": 30,
+  "thresholds": {
+    "first_sse_response_p95_lt_ms": 1000,
+    "turn_accept_p95_lt_ms": 200
+  },
+  "turn_accept_p95_ms": 155.365
+}

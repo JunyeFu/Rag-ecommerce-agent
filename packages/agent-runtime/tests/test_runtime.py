@@ -8,6 +8,7 @@ from ragcommerce_agent_runtime import (
     FROZEN_TOOL_TYPES,
     EventType,
     InMemoryCheckpointStore,
+    ProviderRateLimited,
     RuntimeIdentity,
     ScriptedPlanner,
     ShoppingAgent,
@@ -102,6 +103,24 @@ def test_single_runtime_emits_tool_evidence_and_completion() -> None:
     assert [event.id for event in result] == list(range(1, len(result) + 1))
     assert EventType.EVIDENCE in {event.type for event in result}
     assert result[-1].type is EventType.COMPLETED
+
+
+def test_turn_emits_typed_mission_and_product_events() -> None:
+    turn = command(text="预算 2000 元, 推荐通勤降噪耳机")
+    agent = ShoppingAgent(
+        ScriptedPlanner((ToolCall("catalog.search", {"query": "通勤降噪耳机"}),)),
+        registry(),
+        InMemoryCheckpointStore(),
+        IDENTITY,
+    )
+
+    result = events(agent, turn)
+
+    mission = next(event for event in result if event.type is EventType.MISSION_UPDATED)
+    products = next(event for event in result if event.type is EventType.PRODUCTS)
+    assert mission.data == {"goal": turn.text, "status": "IN_PROGRESS"}
+    assert products.data == {"products": ["p1"]}
+    assert products.id < result[-1].id
 
 
 def test_same_run_and_idempotency_key_never_repeats_successful_action() -> None:
@@ -202,6 +221,23 @@ def test_preference_memory_requires_consent_and_deletion_is_verifiable() -> None
     assert store.delete_user(user_id) == 0
 
 
+def test_empty_plan_requests_one_clarification_without_completing() -> None:
+    result = events(
+        ShoppingAgent(
+            ScriptedPlanner((), "请补充预算。"),
+            registry(),
+            InMemoryCheckpointStore(),
+            IDENTITY,
+        ),
+        command(text="通勤耳机"),
+    )
+    assert [event.type for event in result[-2:]] == [
+        EventType.MESSAGE,
+        EventType.CLARIFICATION_REQUIRED,
+    ]
+    assert all(event.type is not EventType.COMPLETED for event in result)
+
+
 def test_approval_checkpoint_can_resume_without_bypassing_policy() -> None:
     calls = 0
 
@@ -266,3 +302,64 @@ def test_input_and_evidence_contracts_fail_closed() -> None:
         command(text="x" * 10_001)
     with pytest.raises(ValueError, match="SHA-256"):
         ToolEvidence("seed:p1", "not-a-digest", ("title",))
+
+
+def test_provider_failure_is_a_terminal_public_event() -> None:
+    class RateLimitedProvider:
+        async def plan(self, command, prior_results, replan):
+            raise ProviderRateLimited("secret provider response")
+
+        async def respond(self, command, results):
+            raise AssertionError("respond must not run")
+
+        def usage(self):
+            return {"provider": "openai_compatible"}
+
+    result = events(
+        ShoppingAgent(
+            RateLimitedProvider(),
+            registry(),
+            InMemoryCheckpointStore(),
+            IDENTITY,
+        ),
+        command(),
+    )
+
+    assert result[-1].type is EventType.FAILED
+    assert result[-1].data == {
+        "reason": StopReason.PROVIDER_FAILURE,
+        "summary": "ProviderRateLimited",
+    }
+    assert "secret provider response" not in str(result[-1].data)
+
+
+def test_agent_replans_after_tool_results_until_provider_finishes() -> None:
+    class IterativeProvider:
+        async def plan(self, command, prior_results, replan):
+            if not prior_results:
+                return (ToolCall("catalog.search", {"query": "耳机"}),)
+            if len(prior_results) == 1:
+                return (ToolCall("comparison.build", {"ids": ["p1", "p2"]}),)
+            return ()
+
+        async def respond(self, command, results):
+            return f"已完成 {len(results)} 个工具步骤"
+
+        def usage(self):
+            return {"provider": "iterative-test"}
+
+    result = events(
+        ShoppingAgent(
+            IterativeProvider(),
+            registry(),
+            InMemoryCheckpointStore(),
+            IDENTITY,
+        ),
+        command(),
+    )
+
+    assert [
+        event.type for event in result if event.type in {EventType.PRODUCTS, EventType.COMPARISON}
+    ] == [EventType.PRODUCTS, EventType.COMPARISON]
+    assert result[-2].data["text"] == "已完成 2 个工具步骤"
+    assert result[-1].type is EventType.COMPLETED

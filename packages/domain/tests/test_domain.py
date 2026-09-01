@@ -63,6 +63,13 @@ def test_discovery_and_live_ttl_cannot_claim_false_price() -> None:
         quote(expires_at=datetime(2026, 8, 26, tzinfo=UTC) + timedelta(minutes=6))
 
 
+def test_demo_fixture_quote_carries_money_without_claiming_live_authorization() -> None:
+    value = quote(verification=VerificationLevel.DEMO_FIXTURE)
+    assert value.price is not None
+    assert value.state_at(value.collected_at) is QuoteState.FRESH
+    assert value.verification is not VerificationLevel.LIVE_AUTHORIZED
+
+
 def test_product_variant_offer_boundaries_use_distinct_ids() -> None:
     product = Product(uuid4(), "Phone X", "phones")
     variant = ProductVariant(uuid4(), product.id, "phone-x-256-black", {"storage": "256GB"})

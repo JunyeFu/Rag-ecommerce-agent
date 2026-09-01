@@ -4,7 +4,7 @@
     "evals/v2/results/deterministic-reference-summary.json": "de960a39cb7bb9f8d0e0622db09dc525146150ff33e5f01acec028226d6e4716"
   },
   "command": "uv run python scripts/run_evaluation_baseline.py --check",
-  "contract_version": "0.1.0",
+  "contract_version": "0.2.0",
   "dataset_sha256": "f04be24b5bda96e1d2844e61b37a58f0319bb54ebf9999245cd06bb8ab0dab0c",
   "dataset_version": "competition-v1",
   "grader_version": "policy-grounding-grader-v1",

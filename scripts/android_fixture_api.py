@@ -46,7 +46,7 @@ agent = ShoppingAgent(
         "deterministic-fixture",
         "fixture-prompt",
         "fixture-policy",
-        "0.1.0",
+        "0.2.0",
     ),
 )
 app = create_app(TurnService(agent, media), media)

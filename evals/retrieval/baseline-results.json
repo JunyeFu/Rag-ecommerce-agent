@@ -1,14 +1,12 @@
 {
-  "cases": 144,
-  "dataset": "V2-DATA-01-SEED-v1",
-  "development_rank_prior_used": true,
-  "excluded_non_retrieval_cases": 52,
-  "excluded_requires_context_cases": 30,
+  "cases": 10,
+  "dataset": "data/demo/catalog.v3.jsonl",
+  "evaluation": "evals/v3/golden-scenarios.json",
   "hard_constraint_satisfaction": 1.0,
   "held_out_claim": false,
-  "ndcg_at_10": 0.916779540373086,
-  "production_embedding_used": false,
-  "recall_at_10": 0.9444444444444444,
-  "retriever": "deterministic_bm25_structured_v1",
+  "ndcg_at_10": 1.0,
+  "real_embedding_used": false,
+  "recall_at_10": 1.0,
+  "retriever": "deterministic_bm25_v3",
   "schema_version": 1
 }
