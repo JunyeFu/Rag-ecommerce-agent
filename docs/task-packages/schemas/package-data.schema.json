@@ -7,7 +7,7 @@
   "required": ["schema_version", "package_id", "owner", "objective", "inputs", "outputs", "acceptance", "test_profiles", "business_refs", "development_refs", "risk_refs"],
   "properties": {
     "schema_version": {"const": 1},
-    "package_id": {"type": "string", "pattern": "^V2-[A-Z]+-[0-9]{2}$"},
+    "package_id": {"type": "string", "pattern": "^V[23]-[A-Z]+(?:-[A-Z]+)*-[0-9]{2}$"},
     "owner": {"type": "string", "minLength": 1},
     "objective": {"type": "string", "minLength": 1},
     "inputs": {"type": "array", "items": {"type": "string"}},

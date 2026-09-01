@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-DEMO-01",
+  "status": "passed",
+  "verified_at": "2026-09-01T10:30:00+08:00",
+  "checks": [
+    {"command": "scripts/bootstrap.ps1 -Quick in a clean workspace copy", "exit_code": 0, "result": "passed", "summary": "Fresh Python and Node dependencies installed, Java 17 selected, 17 verification commands passed; backend reported 78 passed and 10 environment integrations skipped."},
+    {"command": "scripts/start_v3_demo.ps1 from empty Docker volumes", "exit_code": 0, "result": "passed", "summary": "PostgreSQL, Qdrant, Redis, MinIO, API, Worker and Ops became healthy; migrations reached 20260831_0007."},
+    {"command": "Pixel_9 connectedDebugAndroidTest for GoldenScenarioApiFlowTest and TrustCenterApiFlowTest", "exit_code": 0, "result": "passed", "summary": "3 instrumentation tests passed; the golden test completed 8 API-driven Missions and trust tests exercised consent and deletion through the real API."},
+    {"command": "Android compileDebugKotlin testDebugUnitTest lintDebug", "exit_code": 0, "result": "passed", "summary": "41 Gradle tasks completed successfully."},
+    {"command": "Ops Playwright persistence and observability walkthrough", "exit_code": 0, "result": "passed", "summary": "No console errors; conflict resolution and queued evaluation survived reload; retrieval, Trace and release-gate evidence rendered from APIs."},
+    {"command": "debug APK artifact verification", "exit_code": 0, "result": "passed", "summary": "app-debug.apk size 13460602 bytes, SHA-256 180315e377d2faad115021dc47d86cc7afe432ebed6aafcf38cc496b83f56352."},
+    {"command": "demo documentation review", "exit_code": 0, "result": "passed", "summary": "Five-minute eight-shot script, system-design outline, architecture and evidence boundaries are present under docs/demo and docs/architecture."},
+    {"command": "temporary runtime cleanup", "exit_code": 0, "result": "passed", "summary": "Demo and verification service processes, containers, networks and volumes were removed; three system-temp clean verification copies remain because recursive cleanup was blocked by host execution policy."}
+  ],
+  "external_gates": ["真实联盟授权、正式签名、发布批准"]
+}

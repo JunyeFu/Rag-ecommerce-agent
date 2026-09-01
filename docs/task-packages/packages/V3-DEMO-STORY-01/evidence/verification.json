@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-DEMO-STORY-01",
+  "status": "passed",
+  "verified_at": "2026-09-01T10:30:00+08:00",
+  "checks": [
+    {"command": "user visual confirmation", "exit_code": 0, "result": "passed", "summary": "The editorial-tech art direction and eight-shot storyboard were explicitly confirmed."},
+    {"command": "python -m pytest apps/api/tests/test_demo_flow.py -q", "exit_code": 0, "result": "passed", "summary": "3 tests passed, including vague-task clarification, Mission constraint merge, RAG results and safe action flow."},
+    {"command": "Android GoldenScenarioApiFlowTest and recovery evidence", "exit_code": 0, "result": "passed", "summary": "8 golden Missions completed through Android/API/Worker/SSE; snapshot, checkpoint, cursor and lease-recovery paths have executable coverage."},
+    {"command": "Ops Playwright evidence walkthrough", "exit_code": 0, "result": "passed", "summary": "Retrieval hits, EvidenceRef, Trace metrics, persisted evaluation state and explicit LOCAL/LIVE/HUMAN gates were reproduced."},
+    {"command": "scripts/bootstrap.ps1 -Quick in a clean workspace copy", "exit_code": 0, "result": "passed", "summary": "17 checks passed after fresh dependency installation; 78 tests passed and 10 environment integrations were explicitly skipped."},
+    {"command": "eight-shot evidence map review", "exit_code": 0, "result": "passed", "summary": "Every shot in docs/demo/V3-FIVE-MINUTE-DEMO.md binds a concrete operation to an observable state and evidence level."}
+  ],
+  "artifacts": [
+    {"path": "docs/task-packages/previews/art-direction/selected-editorial-tech.png", "sha256": "cb90a83a03edc80df850a17f36f2a4fba95521fe7222541e4532f45b7b946f07"},
+    {"path": "docs/task-packages/previews/generated/08-five-minute-demo-storyboard-editorial-v1.png", "sha256": "a0d7656d6e033f414aa52efc3730b79bcf6f86927da2bfd144c8ee28a98b35a7"},
+    {"path": "docs/task-packages/previews/prompts/08-demo-story.md"},
+    {"path": "docs/task-packages/previews/confirmations/08-demo-story.md"},
+    {"path": "docs/demo/V3-FIVE-MINUTE-DEMO.md"},
+    {"path": "docs/demo/V3-SYSTEM-DESIGN-INTERVIEW.md"}
+  ],
+  "external_gates": ["真实模型公开集评测、100条held-out双人盲评和正式发布批准仍缺失"]
+}

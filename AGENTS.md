@@ -1,17 +1,17 @@
-# V2 Engineering Agreements
+# V3 Engineering Agreements
 
 ## Authority
 
 1. 当前用户指令。
 2. 本仓源码、Git、运行态、测试和命名验证器。
-3. `docs/baseline/V2-REDEVELOPMENT-BASELINE.md` 与当前任务包。
+3. `docs/baseline/V3-AGENT-FIRST-BASELINE.md` 与当前任务包。
 4. 旧仓源码与历史任务包，仅作为输入证据。
 5. 历史文档、截图和固定测试数字。
 
 ## Repository Boundaries
 
 - `D:\Agent\04-rag-ecommerce` 是只读来源仓。不得 reset、clean、暂存、提交、覆盖或移动其文件。
-- V2 不复制旧仓业务实现形成第二个单体；只迁移经审查的契约、数据、测试思想和领域规则。
+- V3 不复制旧仓业务实现形成第二个单体；只迁移经审查的契约、数据、测试思想和领域规则。
 - 不读取、复制或输出 `.env`、`.env.docker`、`local.properties`、签名文件或凭据内容。
 - 未经明确授权，不提交、不推送、不部署、不启用真实联盟连接器。
 

@@ -1,66 +1,42 @@
 {
-  "schema_version": 1,
-  "baseline_id": "RAG-COMMERCE-V2-BASELINE-20260826",
+  "schema_version": 3,
+  "baseline_id": "RAG-COMMERCE-V3-PORTFOLIO",
   "business_model": {
-    "market": "CN_MAINLAND",
     "locale": "zh-CN",
     "currency": "CNY",
-    "timezone": "Asia/Shanghai",
-    "channel": "multi_merchant_b2c_affiliate_deep_link",
     "clients": ["native_android", "ops_web"],
-    "primary_navigation": ["导购", "清单", "购物车", "我的"],
+    "primary_navigation": ["任务", "决策", "我的"],
     "transaction_boundary": "merchant_checkout_handoff",
-    "excluded_capabilities": ["platform_payment", "platform_order_fulfillment", "platform_refund", "payment_password_storage"]
-  },
-  "offer_policy": {
-    "levels": {
-      "LIVE_AUTHORIZED": "本次请求调用官方或联盟API；无来源TTL时最多有效5分钟",
-      "FEED_VERIFIED": "授权Feed；显示采集时间和有效期，不标实时",
-      "DISCOVERY_ONLY": "只提供链接，价格为空或待商家确认，不参与最低价排序"
-    },
-    "requote_before_deep_link": true,
-    "price_change_requires_confirmation": true,
-    "allowed_scheme": "https",
-    "web_scraping_bypass_forbidden": true,
-    "affiliate_disclosure_required": true
+    "excluded_capabilities": ["platform_payment", "platform_order_fulfillment", "platform_refund"]
   },
   "source_repo": {
-    "root_hint": "D:/Agent/04-rag-ecommerce",
-    "branch": "main",
-    "head": "8df480f2264fc937ba156d2bc3e083cb07d3619f",
-    "products": {
-      "path": "apps/backend/data/qdrant/products_expanded_100.jsonl",
-      "sha256": "e11516a8012918d9f12f52c3d590d43d7a1299483935e3bb77f053ddf6322ad1",
-      "rows": 287,
-      "categories": 100,
-      "brands": 182,
-      "price_min": 4.0,
-      "price_max": 21999.0,
-      "use": "development_seed_pending_license_review"
-    },
-    "evaluation": {
-      "path": "apps/backend/data/test_cases/eval_cases.json",
-      "sha256": "337b5b3c00c51b6d82b5bce14fab2e99f7f557806d7ee8c8a9448b39dbe4d514",
-      "cases": 226,
-      "ground_truth_references": 454,
-      "use": "evaluation_seed_pending_gold_review"
-    },
-    "ui_tokens": {
-      "path": "docs/redesign/tokens/tokens.json",
-      "sha256": "ff4cb11734bb2b8f9b270cd3c47f12ca84a9d0b7fdb4212abeea4d8bbc2393be",
-      "use": "brand_accent_reference_only"
-    }
+    "root_hint": ".",
+    "products": {"path":"data/demo/catalog.v3.jsonl","sha256":"70122f467bbac0b32a1d1f3a6b6338d0854b3c1870db06bd0a248849be0dc909"},
+    "evaluation": {"path":"evals/v3/golden-scenarios.json","sha256":"b65506f821f6982e8eb35211e3ffc46a110a7bd8ceadf432998735ffe1390ad5"},
+    "ui_tokens": {"path":"apps/android/app/src/main/java/com/ragcommerce/agent/ui/DesignTokens.kt","sha256":"d872984b019e70df419dc05b346e554b2c6e13d41510abc2dbbc5060c0352968"}
+  },
+  "catalog": {
+    "path": "data/demo/catalog.v3.jsonl",
+    "sha256": "70122f467bbac0b32a1d1f3a6b6338d0854b3c1870db06bd0a248849be0dc909",
+    "rows": 60,
+    "categories": 4,
+    "brands": 4,
+    "price_minor_min": 39900,
+    "price_minor_max": 548100,
+    "trust": "PROJECT_AUTHORED_DEMO",
+    "offer_verification": "DEMO_FIXTURE"
+  },
+  "evaluation": {
+    "path": "evals/v3/golden-scenarios.json",
+    "sha256": "b65506f821f6982e8eb35211e3ffc46a110a7bd8ceadf432998735ffe1390ad5",
+    "cases": 10,
+    "held_out": false
   },
   "quality_targets": {
     "fabricated_commercial_facts": 0,
-    "visible_price_provenance_coverage": 1.0,
-    "allowed_https_deep_link_coverage": 1.0,
-    "commercial_grounded_precision_min": 0.98,
-    "overall_grounded_precision_min": 0.95,
+    "recommendation_evidence_coverage": 1.0,
     "retrieval_recall_at_10_min": 0.90,
     "retrieval_ndcg_at_10_min": 0.80,
-    "hard_constraint_satisfaction_min": 0.90,
-    "task_completion_min": 0.85,
-    "evaluation_cases_min": 600
+    "expected_agent_flows_min": 8
   }
 }

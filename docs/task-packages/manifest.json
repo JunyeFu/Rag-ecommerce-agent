@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "baseline_id": "RAG-COMMERCE-V2-BASELINE-20260826",
-  "authority": "current_v2_source_runtime_tests_and_named_validators",
-  "source_baseline": "docs/baseline/source-snapshot.json",
+  "baseline_id": "RAG-COMMERCE-V3-AGENT-FIRST-20260830",
+  "authority": "current_v3_source_runtime_tests_and_named_validators",
+  "source_baseline": "docs/baseline/V3-AGENT-FIRST-BASELINE.md",
   "packages": [
     {
       "id": "V2-BASE-00",
@@ -163,6 +163,163 @@
         "联盟/数据许可/隐私/推广披露/独立渗透与商业主体批准",
         "正式签名与生产发布批准"
       ]
+    },
+    {
+      "id": "V3-BASE-00", "title": "Agent-first权威基线", "status": "complete",
+      "priority": "P0", "autonomy": "full", "dependencies": [],
+      "path": "docs/task-packages/packages/V3-BASE-00",
+      "evidence": ["docs/task-packages/packages/V3-BASE-00/evidence/verification.json"], "external_gates": []
+    },
+    {
+      "id": "V3-CONTRACT-01", "title": "公共契约0.2.0", "status": "complete",
+      "priority": "P0", "autonomy": "full", "dependencies": ["V3-BASE-00"],
+      "path": "docs/task-packages/packages/V3-CONTRACT-01",
+      "evidence": ["docs/task-packages/packages/V3-CONTRACT-01/evidence/verification.json"], "external_gates": []
+    },
+    {
+      "id": "V3-DATA-RAG-01", "title": "演示数据与混合检索", "status": "complete",
+      "priority": "P0", "autonomy": "full", "dependencies": ["V3-CONTRACT-01"],
+      "path": "docs/task-packages/packages/V3-DATA-RAG-01",
+      "evidence": ["docs/task-packages/packages/V3-DATA-RAG-01/evidence/verification.json"], "external_gates": []
+    },
+    {
+      "id": "V3-AGENT-01", "title": "单管理Agent与十工具闭环", "status": "complete",
+      "priority": "P0", "autonomy": "conditional", "dependencies": ["V3-DATA-RAG-01"],
+      "path": "docs/task-packages/packages/V3-AGENT-01",
+      "evidence": ["docs/task-packages/packages/V3-AGENT-01/evidence/verification.json"],
+      "external_gates": ["真实模型凭据、预算与人工触发公开测试集评测"]
+    },
+    {
+      "id": "V3-PLATFORM-01", "title": "Durable平台运行链", "status": "complete",
+      "priority": "P0", "autonomy": "full", "dependencies": ["V3-AGENT-01"],
+      "path": "docs/task-packages/packages/V3-PLATFORM-01",
+      "evidence": ["docs/task-packages/packages/V3-PLATFORM-01/evidence/verification.json"], "external_gates": []
+    },
+    {
+      "id": "V3-ANDROID-01", "title": "Agent-first Android", "status": "complete",
+      "priority": "P0", "autonomy": "conditional", "dependencies": ["V3-PLATFORM-01"],
+      "path": "docs/task-packages/packages/V3-ANDROID-01",
+      "evidence": ["docs/task-packages/packages/V3-ANDROID-01/evidence/verification.json"],
+      "external_gates": ["物理设备性能、TalkBack人工验收与真实联盟深链"]
+    },
+    {
+      "id": "V3-OPS-01", "title": "真实运营API控制台", "status": "complete",
+      "priority": "P1", "autonomy": "conditional", "dependencies": ["V3-ANDROID-01"],
+      "path": "docs/task-packages/packages/V3-OPS-01",
+      "evidence": ["docs/task-packages/packages/V3-OPS-01/evidence/verification.json"],
+      "external_gates": ["生产SSO/RBAC与运营人员验收", "数据库服务重启后的持久化验证", "真实联盟授权、live报价及发布批准"]
+    },
+    {
+      "id": "V3-QUALITY-01", "title": "量化质量与可观测性", "status": "complete",
+      "priority": "P0", "autonomy": "conditional", "dependencies": ["V3-OPS-01"],
+      "path": "docs/task-packages/packages/V3-QUALITY-01",
+      "evidence": ["docs/task-packages/packages/V3-QUALITY-01/evidence/verification.json"],
+      "external_gates": ["真实模型公开集评测预算与100条held-out双人盲评"]
+    },
+    {
+      "id": "V3-DEMO-01", "title": "一键演示与面试资产", "status": "complete",
+      "priority": "P0", "autonomy": "conditional", "dependencies": ["V3-QUALITY-01"],
+      "path": "docs/task-packages/packages/V3-DEMO-01",
+      "evidence": ["docs/task-packages/packages/V3-DEMO-01/evidence/verification.json"],
+      "external_gates": ["真实联盟授权、正式签名、发布批准"]
+    },
+    {
+      "id": "V3-PRODUCT-CONTROL-01", "title": "产品结果总控（大层）", "status": "complete",
+      "priority": "P0", "autonomy": "human_gate", "dependencies": ["V3-BASE-00"],
+      "path": "docs/task-packages/packages/V3-PRODUCT-CONTROL-01",
+      "evidence": ["docs/task-packages/packages/V3-PRODUCT-CONTROL-01/evidence/verification.json"],
+      "external_gates": ["八个小层业务实现与自动化实测；REAL_MODEL、HUMAN、LIVE 与 RELEASE 继续按各包门禁"]
+    },
+    {
+      "id": "V3-EXPERIENCE-CONTROL-01", "title": "Android体验控制（中层）", "status": "complete",
+      "priority": "P0", "autonomy": "human_gate", "dependencies": ["V3-PRODUCT-CONTROL-01"],
+      "path": "docs/task-packages/packages/V3-EXPERIENCE-CONTROL-01",
+      "evidence": ["docs/task-packages/packages/V3-EXPERIENCE-CONTROL-01/evidence/verification.json"],
+      "external_gates": ["任务、决策、我的及恢复体验由用户逐图确认"]
+    },
+    {
+      "id": "V3-INTELLIGENCE-CONTROL-01", "title": "Agent决策控制（中层）", "status": "complete",
+      "priority": "P0", "autonomy": "human_gate", "dependencies": ["V3-PRODUCT-CONTROL-01"],
+      "path": "docs/task-packages/packages/V3-INTELLIGENCE-CONTROL-01",
+      "evidence": ["docs/task-packages/packages/V3-INTELLIGENCE-CONTROL-01/evidence/verification.json"],
+      "external_gates": ["真实模型评测预算与Agent交互方案逐图确认"]
+    },
+    {
+      "id": "V3-PLATFORM-CONTROL-01", "title": "运行与恢复控制（中层）", "status": "complete",
+      "priority": "P0", "autonomy": "conditional", "dependencies": ["V3-PRODUCT-CONTROL-01"],
+      "path": "docs/task-packages/packages/V3-PLATFORM-CONTROL-01",
+      "evidence": ["docs/task-packages/packages/V3-PLATFORM-CONTROL-01/evidence/verification.json"],
+      "external_gates": ["Docker集成环境恢复与Ops信息架构确认"]
+    },
+    {
+      "id": "V3-QUALITY-CONTROL-01", "title": "质量与演示控制（中层）", "status": "complete",
+      "priority": "P0", "autonomy": "human_gate", "dependencies": ["V3-PRODUCT-CONTROL-01"],
+      "path": "docs/task-packages/packages/V3-QUALITY-CONTROL-01",
+      "evidence": ["docs/task-packages/packages/V3-QUALITY-CONTROL-01/evidence/verification.json"],
+      "external_gates": ["100条held-out双人盲评、物理设备验收与正式发布批准"]
+    },
+    {
+      "id": "V3-MISSION-WORKBENCH-01", "title": "对话后推荐结果栈（小层01）", "status": "complete",
+      "priority": "P0", "autonomy": "human_gate", "dependencies": ["V3-EXPERIENCE-CONTROL-01", "V3-ANDROID-01"],
+      "path": "docs/task-packages/packages/V3-MISSION-WORKBENCH-01",
+      "evidence": ["docs/task-packages/packages/V3-MISSION-WORKBENCH-01/evidence/verification.json"],
+      "external_gates": []
+    },
+    {
+      "id": "V3-AGENT-PROGRESS-01", "title": "对话、澄清与公开分析（小层02）", "status": "complete",
+      "priority": "P0", "autonomy": "human_gate", "dependencies": ["V3-INTELLIGENCE-CONTROL-01", "V3-AGENT-01"],
+      "path": "docs/task-packages/packages/V3-AGENT-PROGRESS-01",
+      "evidence": ["docs/task-packages/packages/V3-AGENT-PROGRESS-01/evidence/verification.json"],
+      "external_gates": []
+    },
+    {
+      "id": "V3-DECISION-WORKBENCH-01", "title": "决策比较工作台（小层03）", "status": "complete",
+      "priority": "P0", "autonomy": "human_gate", "dependencies": ["V3-EXPERIENCE-CONTROL-01", "V3-ANDROID-01"],
+      "path": "docs/task-packages/packages/V3-DECISION-WORKBENCH-01",
+      "evidence": ["docs/task-packages/packages/V3-DECISION-WORKBENCH-01/evidence/verification.json"],
+      "external_gates": []
+    },
+    {
+      "id": "V3-ACTION-APPROVAL-01", "title": "审批询价与安全外跳（小层04）", "status": "complete",
+      "priority": "P0", "autonomy": "human_gate", "dependencies": ["V3-INTELLIGENCE-CONTROL-01", "V3-AGENT-01", "V3-ANDROID-01"],
+      "path": "docs/task-packages/packages/V3-ACTION-APPROVAL-01",
+      "evidence": ["docs/task-packages/packages/V3-ACTION-APPROVAL-01/evidence/verification.json"],
+      "external_gates": ["真实联盟授权、LIVE 报价与生产深链仍未提供"]
+    },
+    {
+      "id": "V3-TRUST-CENTER-01", "title": "我的与信任中心（小层05）", "status": "complete",
+      "priority": "P1", "autonomy": "human_gate", "dependencies": ["V3-EXPERIENCE-CONTROL-01", "V3-ANDROID-01"],
+      "path": "docs/task-packages/packages/V3-TRUST-CENTER-01",
+      "evidence": ["docs/task-packages/packages/V3-TRUST-CENTER-01/evidence/verification.json"],
+      "external_gates": []
+    },
+    {
+      "id": "V3-RECOVERY-EXPERIENCE-01", "title": "离线与恢复体验（小层06）", "status": "complete",
+      "priority": "P0", "autonomy": "human_gate", "dependencies": ["V3-PLATFORM-CONTROL-01", "V3-PLATFORM-01", "V3-ANDROID-01"],
+      "path": "docs/task-packages/packages/V3-RECOVERY-EXPERIENCE-01",
+      "evidence": ["docs/task-packages/packages/V3-RECOVERY-EXPERIENCE-01/evidence/verification.json"],
+      "external_gates": []
+    },
+    {
+      "id": "V3-OPS-OBSERVABILITY-01", "title": "Ops可观测运营台（小层07）", "status": "complete",
+      "priority": "P1", "autonomy": "human_gate", "dependencies": ["V3-PLATFORM-CONTROL-01", "V3-OPS-01"],
+      "path": "docs/task-packages/packages/V3-OPS-OBSERVABILITY-01",
+      "evidence": ["docs/task-packages/packages/V3-OPS-OBSERVABILITY-01/evidence/verification.json"],
+      "external_gates": ["生产 SSO/RBAC、真实联盟授权与运营人员验收"]
+    },
+    {
+      "id": "V3-DEMO-STORY-01", "title": "五分钟演示故事板（小层08）", "status": "complete",
+      "priority": "P0", "autonomy": "human_gate", "dependencies": ["V3-QUALITY-CONTROL-01", "V3-DEMO-01"],
+      "path": "docs/task-packages/packages/V3-DEMO-STORY-01",
+      "evidence": ["docs/task-packages/packages/V3-DEMO-STORY-01/evidence/verification.json"],
+      "external_gates": ["真实模型公开集评测、100条held-out双人盲评和正式发布批准仍缺失"]
+    },
+    {
+      "id": "V3-PORTFOLIO-CLOSE-01", "title": "求职作品集收口", "status": "blocked",
+      "priority": "P0", "autonomy": "conditional", "dependencies": ["V3-DEMO-STORY-01"],
+      "path": "docs/task-packages/packages/V3-PORTFOLIO-CLOSE-01",
+      "evidence": ["docs/task-packages/packages/V3-PORTFOLIO-CLOSE-01/evidence/verification.json"],
+      "external_gates": ["远端 PR CI 全绿并从 main 合入 SHA 发布 v0.3.0"]
     }
   ]
 }

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "product": "RAG Commerce Shopping Agent V3",
+  "product_version": "0.3.0",
+  "contract_version": "0.2.0",
+  "generated_at": "2026-09-01T16:56:17+08:00",
+  "portfolio_ready": "BLOCKED",
+  "local_evidence": {
+    "python": {"passed": 86, "integration_passed": 10, "environment_skipped": 10},
+    "retrieval": {"cases": 10, "recall_at_10": 1.0, "ndcg_at_10": 1.0, "evidence_level": "DEMO_FIXTURE"},
+    "ops": {"tests_passed": 2, "typecheck": "passed", "build": "passed"},
+    "android": {"instrumentation_passed": 25, "instrumentation_failed": 0, "avd": "Pixel_9 API 35", "build": "passed"},
+    "minimality": "passed",
+    "task_packages": {"packages": 36, "errors": 0, "warnings": 0}
+  },
+  "real_model": {
+    "provider": "MiMo",
+    "endpoint_host": "api.xiaomimimo.com",
+    "model": "mimo-v2.5",
+    "status": "PASSED",
+    "report": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-009.json",
+    "report_sha256": "2739084db2ad7e29f9c418ef2b8e504683d3b41b62d0aa87ec9bbc2f07c61ba7",
+    "parseable": 10,
+    "schema_valid": 10,
+    "expected_flows": 9,
+    "evidence_coverage": 1.0,
+    "unauthorized_write_or_navigation": 0,
+    "fabricated_commercial_facts": 0,
+    "total_tokens": 109525,
+    "average_latency_ms": 65775.53,
+    "maximum_latency_ms": 79994.01,
+    "fixture_substitution": false
+  },
+  "release_assets": {
+    "apk": {"name":"RAG-Commerce-Agent-V3-v0.3.0-debug.apk","sha256":"748dcc17c737b56280c4e85a107d7a7f1bd6e6ae00f8fa3ba1da979dfd86d5eb"},
+    "video": {"name":"RAG-Commerce-Agent-V3-demo.mp4","sha256":"3b4361d62f30722658ef1685b69802f762eec35b5e315cf221607420566c2964","duration":"00:01:27"},
+    "screenshots": {"name":"RAG-Commerce-Agent-V3-screenshots.zip","sha256":"6d99065a1e89dcb5b03685434c559d7014ed40f256d7e8d858c2b0ae709052e9"}
+  },
+  "publication": {"branch_pushed": false, "pr_created": false, "main_merged": false, "release_created": false},
+  "commercial_release": "NO_GO"
+}

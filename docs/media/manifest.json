@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "evidence_level": "SELECTED_RUNTIME_SCREENSHOTS",
+  "assets": [
+    {"path":"docs/media/android-agent-recommendation.png","sha256":"1e71b5ba25c233438a619ea51eef8c4b926cec2f1ef9a40f03c13e8d461c8ef0","bytes":410842},
+    {"path":"docs/media/android-recovery.png","sha256":"3bfcc0b7455bdf88e92a168187388475bafcf07256e958d6afe92c1c81f58f26","bytes":431890},
+    {"path":"docs/media/ops-agent-trace.png","sha256":"3d4b01f2fd2fc59bfd05fa894dfbcf79053cae583acf2c19f52672ef656b2574","bytes":72910},
+    {"path":"docs/media/ops-release-gates.png","sha256":"74dc9fdb572621597ec1c9a0ca2cc676eba58f931c4685e9d3abae64d3d7ba5a","bytes":84596}
+  ],
+  "video": {"status":"captured_from_android_emulator","path":"docs/media/rag-commerce-v3-demo.mp4","duration":"00:01:27","sha256":"3b4361d62f30722658ef1685b69802f762eec35b5e315cf221607420566c2964","bytes":4852295},
+  "apk": {"status":"built_for_emulator_demo","release_name":"RAG-Commerce-Agent-V3-v0.3.0-debug.apk","sha256":"748dcc17c737b56280c4e85a107d7a7f1bd6e6ae00f8fa3ba1da979dfd86d5eb","bytes":13263665,"api_base_url":"http://10.0.2.2:8080/"}
+}

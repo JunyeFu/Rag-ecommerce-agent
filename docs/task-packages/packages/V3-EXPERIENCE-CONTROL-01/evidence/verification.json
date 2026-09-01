@@ -1,0 +1,1 @@
+{"schema_version":1,"package_id":"V3-EXPERIENCE-CONTROL-01","status":"passed","verified_at":"2026-08-30T13:10:00+08:00","checks":[{"command":"python scripts/validate_task_packages.py","exit_code":0,"result":"experience control decomposition and child prompt paths validated"}],"external_gates":["任务、决策、我的及恢复体验由用户逐图确认"]}

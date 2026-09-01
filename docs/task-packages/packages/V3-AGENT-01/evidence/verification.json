@@ -1,0 +1,1 @@
+{"schema_version":1,"package_id":"V3-AGENT-01","status":"passed","verified_at":"2026-08-30T11:15:00+08:00","checks":[{"command":"pytest packages/agent-runtime/tests apps/api/tests/test_demo_flow.py","exit_code":0,"result":"passed"}],"external_gates":["真实模型凭据、预算与人工触发公开测试集评测"]}
