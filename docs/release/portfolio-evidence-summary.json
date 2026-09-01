@@ -3,8 +3,8 @@
   "product": "RAG Commerce Shopping Agent V3",
   "product_version": "0.3.0",
   "contract_version": "0.2.0",
-  "generated_at": "2026-09-01T16:56:17+08:00",
-  "portfolio_ready": "BLOCKED",
+  "generated_at": "2026-09-01T17:11:01+08:00",
+  "portfolio_ready": "GO",
   "local_evidence": {
     "python": {"passed": 86, "integration_passed": 10, "environment_skipped": 10},
     "retrieval": {"cases": 10, "recall_at_10": 1.0, "ndcg_at_10": 1.0, "evidence_level": "DEMO_FIXTURE"},
@@ -36,6 +36,16 @@
     "video": {"name":"RAG-Commerce-Agent-V3-demo.mp4","sha256":"3b4361d62f30722658ef1685b69802f762eec35b5e315cf221607420566c2964","duration":"00:01:27"},
     "screenshots": {"name":"RAG-Commerce-Agent-V3-screenshots.zip","sha256":"6d99065a1e89dcb5b03685434c559d7014ed40f256d7e8d858c2b0ae709052e9"}
   },
-  "publication": {"branch_pushed": false, "pr_created": false, "main_merged": false, "release_created": false},
+  "publication": {
+    "branch_pushed": true,
+    "pr_created": true,
+    "pr_url": "https://github.com/JunyeFu/Rag-ecommerce-agent/pull/26",
+    "remote_ci": {"status":"PASSED","jobs":["android","compose-contract","python-and-governance","web"]},
+    "main_merged": true,
+    "merge_sha": "858b62ec2d6a6daae3038bd6ad3415c1a17ecc60",
+    "release_created": true,
+    "release_url": "https://github.com/JunyeFu/Rag-ecommerce-agent/releases/tag/v0.3.0",
+    "anonymous_access": "HTTP_200"
+  },
   "commercial_release": "NO_GO"
 }

@@ -32,7 +32,7 @@ Android → API 写入 Turn/Job → Worker 领取
 |---|---:|---|
 | 60 SKU / 10 黄金场景 fixture | Recall@10 `1.00`、NDCG@10 `1.00` | 项目自有数据上的确定性开发基线，不是真实模型结论 |
 | MiMo `mimo-v2.5` 真实评测 | `PASS — 10/10 parseable` | Schema 100%、流程 9/10、证据 100%、零越权、零商业事实伪造；平均场景延迟 65.8 秒 |
-| 作品集发布 | `BLOCKED` | 仍需真实评测、远端 CI、main 合入和 `v0.3.0` Release |
+| 作品集发布 | `GO` | [PR #26](https://github.com/JunyeFu/Rag-ecommerce-agent/pull/26) 四项 CI 全绿，已合入 `main` 并发布 [v0.3.0](https://github.com/JunyeFu/Rag-ecommerce-agent/releases/tag/v0.3.0) |
 | 商业发布 | `NO_GO` | 缺联盟授权、LIVE 报价、物理设备、双人盲评与生产安全/法律门禁 |
 
 真实评测与 fixture 使用不同报告；Provider 失败不会静默切换 fake。通过报告见 [MiMo run-009](docs/evidence/v3/mimo-v2.5-real-evaluation-run-009.json)，详细边界见 [发布矩阵](docs/release/release-gate-matrix.json) 和 [求职收口任务包](docs/task-packages/packages/V3-PORTFOLIO-CLOSE-01/TASK.md)。
