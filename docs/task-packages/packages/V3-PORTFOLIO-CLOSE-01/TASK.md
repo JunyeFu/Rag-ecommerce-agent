@@ -4,7 +4,7 @@
 把 `RAG Commerce Shopping Agent V3` 收口为唯一可公开复核的 GitHub 求职入口，并在全部作品集门禁通过后标记 `PORTFOLIO_READY=GO`。
 
 ## 状态
-`blocked`：MiMo `run-009` 已通过；等待远端 CI、main 合入、Release 与匿名访问验证。
+`complete`：`PORTFOLIO_READY=GO`。MiMo `run-009`、PR #26 四项 CI、main merge commit、`v0.3.0` Release 与匿名访问验证均已通过。
 
 ## 范围
 - 删除无生产调用者的旧 UI、静态 Ops 数据、连接器通用韧性占位和旧 seed 运行输入。
@@ -36,9 +36,9 @@
 ## 验收
 - [x] MiMo 10/10 可解析、工具 Schema 100%、预期流程至少 8/10、推荐证据 100%、未授权写入与商业事实伪造均为 0。
 - [x] Python、集成、契约、Ops、Android、任务包、安全和 diff 门禁通过。
-- [ ] PR CI 全绿并以 merge commit 合入 main。
-- [ ] `v0.3.0` Release 的 APK、MP4、截图包、证据摘要和校验和均可匿名下载。
-- [ ] 仅在以上条件全部满足后写入 `PORTFOLIO_READY=GO`。
+- [x] PR CI 全绿并以 merge commit 合入 main。
+- [x] `v0.3.0` Release 的 APK、MP4、截图包、证据摘要和校验和均可匿名下载。
+- [x] 仅在以上条件全部满足后写入 `PORTFOLIO_READY=GO`。
 
 ## 回滚
 - 发布前撤销本包的显式路径提交；发布后通过新提交与新 Release 修正，不重写公开历史。

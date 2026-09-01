@@ -315,11 +315,11 @@
       "external_gates": ["真实模型公开集评测、100条held-out双人盲评和正式发布批准仍缺失"]
     },
     {
-      "id": "V3-PORTFOLIO-CLOSE-01", "title": "求职作品集收口", "status": "blocked",
+      "id": "V3-PORTFOLIO-CLOSE-01", "title": "求职作品集收口", "status": "complete",
       "priority": "P0", "autonomy": "conditional", "dependencies": ["V3-DEMO-STORY-01"],
       "path": "docs/task-packages/packages/V3-PORTFOLIO-CLOSE-01",
       "evidence": ["docs/task-packages/packages/V3-PORTFOLIO-CLOSE-01/evidence/verification.json"],
-      "external_gates": ["远端 PR CI 全绿并从 main 合入 SHA 发布 v0.3.0"]
+      "external_gates": []
     }
   ]
 }

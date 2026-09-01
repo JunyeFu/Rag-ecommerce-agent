@@ -2,8 +2,8 @@
   "schema_version": 3,
   "product_version": "0.3.0",
   "portfolio_release": {
-    "decision": "BLOCKED",
-    "reason": "MiMo run-009 passed; remote CI, main merge, release assets and anonymous verification remain",
+    "decision": "GO",
+    "reason": "MiMo run-009 passed; PR #26 CI passed; merge commit 858b62ec2d6a6daae3038bd6ad3415c1a17ecc60 is on main; v0.3.0 assets and selected media returned HTTP 200 without authentication",
     "required": ["mimo_v2_5_golden_pass", "remote_ci_green", "main_merge_sha", "v0.3.0_assets", "anonymous_access"]
   },
   "commercial_release": {
