@@ -122,7 +122,7 @@ def render() -> dict[Path, bytes]:
         "model_version": "none-reference-constructor",
         "prompt_version": "none",
         "policy_version": "agent-policy-v1",
-        "contract_version": "0.1.0",
+        "contract_version": "0.2.0",
         "seed": 20260826,
         "splits_consumed": ["dev", "test"],
         "heldout_consumed": False,

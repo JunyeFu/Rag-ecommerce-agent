@@ -16,12 +16,23 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.json.JSONArray
+import org.json.JSONObject
 import javax.inject.Inject
 import java.net.URI
+import java.time.Instant
 
 internal fun isSafeMerchantUrl(value: String): Boolean = runCatching {
     val uri = URI(value)
     uri.scheme.equals("https", ignoreCase = true) && !uri.host.isNullOrBlank()
+}.getOrDefault(false)
+
+internal fun isFreshMerchantResolution(
+    url: String,
+    expiresAt: String?,
+    now: Instant = Instant.now(),
+): Boolean = isSafeMerchantUrl(url) && runCatching {
+    expiresAt != null && Instant.parse(expiresAt).isAfter(now)
 }.getOrDefault(false)
 
 @HiltViewModel
@@ -32,8 +43,8 @@ class ShoppingViewModel @Inject constructor(
     private val mutableState = MutableStateFlow(
         ShoppingUiState(
             selectedTab = savedStateHandle.get<String>("selected_tab")
-                ?.let { runCatching { PrimaryTab.valueOf(it) }.getOrNull() }
-                ?: PrimaryTab.GUIDE,
+                ?.let(PrimaryTab::valueOf)
+                ?: PrimaryTab.TASK,
         ),
     )
     val state: StateFlow<ShoppingUiState> = mutableState.asStateFlow()
@@ -43,19 +54,24 @@ class ShoppingViewModel @Inject constructor(
     private var currentRunId: String? = null
     private var currentCursor = 0L
     private var submittingTurn = false
+    private var identityGeneration = 0L
+    private var deletingData = false
 
     init {
         viewModelScope.launch {
-            dispatch(
-                ShoppingAction.SetConnection(
-                    if (repository.probeConnection()) ConnectionState.ONLINE else ConnectionState.OFFLINE,
-                ),
-            )
+            val online = repository.probeConnection()
+            if (online) {
+                restoreCompletedThread()
+                if (mutableState.value.connection == ConnectionState.CHECKING) {
+                    dispatch(ShoppingAction.SetConnection(ConnectionState.ONLINE))
+                }
+            } else {
+                dispatch(ShoppingAction.SetConnection(ConnectionState.OFFLINE))
+            }
         }
         viewModelScope.launch {
             repository.observeLocal().collect { snapshot ->
-                val tab = runCatching { PrimaryTab.valueOf(snapshot.selectedTab) }
-                    .getOrDefault(mutableState.value.selectedTab)
+                val tab = PrimaryTab.valueOf(snapshot.selectedTab)
                 mutableState.update { current ->
                     current.copy(
                         selectedTab = tab,
@@ -63,6 +79,7 @@ class ShoppingViewModel @Inject constructor(
                         savedProducts = snapshot.items
                             .filter { it.kind == "LIST" }
                             .map { SavedProductUi(it.externalId, it.title, it.sourceRef) },
+                        qualityDataConsent = snapshot.qualityDataConsent,
                     )
                 }
                 snapshot.pendingApprovalTool?.let {
@@ -75,6 +92,7 @@ class ShoppingViewModel @Inject constructor(
                     currentCursor = snapshot.lastEventId
                     if (
                         !submittingTurn &&
+                        !deletingData &&
                         snapshot.pendingApprovalTool == null &&
                         activeRuns.add(runId)
                     ) {
@@ -86,9 +104,41 @@ class ShoppingViewModel @Inject constructor(
         }
     }
 
+    private suspend fun restoreCompletedThread() {
+        val snapshot = repository.restoreThread() ?: return
+        if (snapshot.products.isNotEmpty()) {
+            mutableState.update { state ->
+                ShoppingReducer.reduce(
+                    state.copy(missionGoal = snapshot.goal),
+                    ShoppingAction.TurnProducts(snapshot.products),
+                )
+            }
+        }
+        if (snapshot.offers.isNotEmpty()) {
+            mutableState.update { state ->
+                ShoppingReducer.reduce(state, ShoppingAction.TurnOffers(snapshot.offers))
+            }
+        }
+        when (snapshot.status) {
+            "COMPLETED" -> mutableState.update { state ->
+                ShoppingReducer.reduce(
+                    ShoppingReducer.reduce(state, ShoppingAction.TurnCompleted()),
+                    ShoppingAction.SetConnection(ConnectionState.RECOVERED),
+                )
+            }
+            "WAITING_APPROVAL" -> snapshot.pendingAction?.let { tool ->
+                mutableState.update { state ->
+                    ShoppingReducer.reduce(state, ShoppingAction.ApprovalRequired(tool))
+                }
+            }
+        }
+        currentCursor = maxOf(currentCursor, snapshot.lastEventId)
+    }
+
     fun dispatch(action: ShoppingAction) {
         when (action) {
             ShoppingAction.SubmitMission -> submitCurrentTurn()
+            ShoppingAction.RetryConnection -> retryConnection()
             is ShoppingAction.ResolveApproval -> resolveApproval(action.approved)
             else -> {
                 mutableState.update { ShoppingReducer.reduce(it, action) }
@@ -117,9 +167,9 @@ class ShoppingViewModel @Inject constructor(
                     return@launch
                 }
                 val url = resolved.url
-                if (url == null || !isSafeMerchantUrl(url)) {
+                if (url == null || !isFreshMerchantResolution(url, resolved.expiresAt)) {
                     mutableState.update {
-                        ShoppingReducer.reduce(it, ShoppingAction.TurnStatus("商家链接不可用或未通过安全校验"))
+                        ShoppingReducer.reduce(it, ShoppingAction.TurnStatus("商家链接不可用、已过期或未通过安全校验"))
                     }
                     return@launch
                 }
@@ -135,9 +185,90 @@ class ShoppingViewModel @Inject constructor(
         }
     }
 
+    fun saveProduct(product: EvidenceProductUi) {
+        viewModelScope.launch {
+            runCatching { repository.saveProduct(product) }
+                .onSuccess { mutableState.update { it.copy(statusMessage = "已保存到 Agent 候选清单") } }
+                .onFailure { mutableState.update { it.copy(statusMessage = "保存失败，远端状态未改变") } }
+        }
+    }
+
+    fun addOffer(offer: OfferUi) {
+        viewModelScope.launch {
+            runCatching { repository.addOffer(offer) }
+                .onSuccess {
+                    mutableState.update { state ->
+                        val offers = state.cartGroups.flatMap { it.offers }
+                        ShoppingReducer.reduce(state, ShoppingAction.TurnOffers((offers + offer).distinctBy { it.id }))
+                            .copy(statusMessage = "已加入 API 驱动的待购集合")
+                    }
+                }
+                .onFailure { mutableState.update { it.copy(statusMessage = "加入待购失败，远端状态未改变") } }
+        }
+    }
+
+    fun deleteMyData() {
+        identityGeneration += 1
+        deletingData = true
+        viewModelScope.launch {
+            runCatching { repository.deleteMyData() }
+                .onSuccess {
+                    activeRuns.clear()
+                    currentRunId = null
+                    currentCursor = 0L
+                    mutableState.value = ShoppingUiState(
+                        selectedTab = PrimaryTab.PROFILE,
+                        connection = ConnectionState.ONLINE,
+                        statusMessage = "数据已删除；已创建新的本地开发身份",
+                    )
+                    deletingData = false
+                }
+                .onFailure {
+                    deletingData = false
+                    mutableState.update { it.copy(statusMessage = "删除失败；本地状态未清除") }
+                }
+        }
+    }
+
+    fun setQualityDataConsent(granted: Boolean) {
+        viewModelScope.launch {
+            runCatching { repository.setQualityDataConsent(granted) }
+                .onSuccess {
+                    mutableState.update {
+                        it.copy(
+                            qualityDataConsent = granted,
+                            statusMessage = if (granted) "已同意使用匿名质量数据" else "已停止使用匿名质量数据",
+                        )
+                    }
+                }
+                .onFailure { mutableState.update { it.copy(statusMessage = "授权状态保存失败") } }
+        }
+    }
+
     fun reportMerchantLaunchFailure() {
         mutableState.update {
             ShoppingReducer.reduce(it, ShoppingAction.TurnStatus("设备上没有可安全处理该商家链接的应用"))
+        }
+    }
+
+    private fun retryConnection() {
+        mutableState.update { ShoppingReducer.reduce(it, ShoppingAction.RetryConnection) }
+        viewModelScope.launch {
+            if (!repository.probeConnection()) {
+                mutableState.update {
+                    ShoppingReducer.reduce(it, ShoppingAction.SetConnection(ConnectionState.OFFLINE))
+                }
+                return@launch
+            }
+            val runId = currentRunId
+            if (runId != null && activeRuns.add(runId)) {
+                consumeRun(runId, currentCursor, processResume = true)
+            } else {
+                restoreCompletedThread()
+                mutableState.update {
+                    ShoppingReducer.reduce(it, ShoppingAction.SetConnection(ConnectionState.ONLINE))
+                }
+            }
         }
     }
 
@@ -189,6 +320,7 @@ class ShoppingViewModel @Inject constructor(
     }
 
     private suspend fun consumeRun(runId: String, cursor: Long, processResume: Boolean) {
+        val generation = identityGeneration
         var recovered = processResume
         if (processResume) {
             mutableState.update {
@@ -199,6 +331,7 @@ class ShoppingViewModel @Inject constructor(
             val events = try {
                 repository.readEvents(runId, cursor)
             } catch (first: Exception) {
+                if (generation != identityGeneration) return
                 recovered = true
                 mutableState.update {
                     ShoppingReducer.reduce(it, ShoppingAction.SetConnection(ConnectionState.RECONNECTING))
@@ -206,6 +339,7 @@ class ShoppingViewModel @Inject constructor(
                 delay(500)
                 repository.readEvents(runId, currentCursor)
             }
+            if (generation != identityGeneration) return
             mutableState.update {
                 ShoppingReducer.reduce(
                     it,
@@ -216,6 +350,7 @@ class ShoppingViewModel @Inject constructor(
             }
             events.forEach(::applyEvent)
         } catch (_: Exception) {
+            if (generation != identityGeneration) return
             mutableState.update {
                 ShoppingReducer.reduce(
                     ShoppingReducer.reduce(it, ShoppingAction.SetConnection(ConnectionState.OFFLINE)),
@@ -230,15 +365,22 @@ class ShoppingViewModel @Inject constructor(
     private fun applyEvent(event: AgentPublicEvent) {
         currentCursor = maxOf(currentCursor, event.id)
         val action = when (event.name) {
-            "status" -> ShoppingAction.TurnStatus(statusText(event.data["stage"]))
+            "status", "progress" -> ShoppingAction.TurnStatus(statusText(event.data["stage"]))
+            "mission_updated" -> ShoppingAction.MissionUpdated(event.data["goal"].orEmpty())
             "message_delta" -> ShoppingAction.TurnMessage(event.data["text"].orEmpty())
             "evidence" -> ShoppingAction.TurnEvidence(event.data["ref"].orEmpty())
+            "products" -> ShoppingAction.TurnProducts(parseProducts(event.data["products"]))
+            "offers" -> ShoppingAction.TurnOffers(parseOffers(event.data["offers"]))
+            "comparison" -> ShoppingAction.TurnComparison(parseComparison(event.data["comparison"]))
             "approval_required" -> ShoppingAction.ApprovalRequired(event.data["tool"].orEmpty())
+            "clarification_required" -> ShoppingAction.ClarificationRequired(
+                event.data["question"].orEmpty(),
+            )
             "completed" -> ShoppingAction.TurnCompleted()
             "failed" -> ShoppingAction.TurnFailed(
                 "Agent 未完成：${event.data["summary"].orEmpty().ifBlank { "未知错误" }}",
             )
-            else -> ShoppingAction.TurnStatus("收到未识别事件，已安全忽略")
+            else -> throw IllegalArgumentException("unknown Agent event: ${event.name}")
         }
         if (action is ShoppingAction.TurnMessage && action.text.isBlank()) return
         if (action is ShoppingAction.TurnEvidence && action.ref.isBlank()) return
@@ -252,5 +394,62 @@ class ShoppingViewModel @Inject constructor(
         "tool_failed" -> "工具失败，Agent 正在受限重规划"
         else -> "Agent 正在处理"
     }
+
+    private fun parseProducts(value: String?): List<EvidenceProductUi> = jsonArray(value).map { item ->
+        EvidenceProductUi(
+            id = item.getString("product_id"),
+            variantId = item.getString("variant_id"),
+            title = item.getString("title"),
+            fitSummary = item.optString("fit_summary"),
+            matchedConstraints = item.stringList("matched_constraints"),
+            unmetConstraints = item.stringList("unmet_constraints"),
+            risks = item.stringList("risks"),
+            evidenceRefs = item.stringList("evidence_refs"),
+        )
+    }
+
+    private fun parseOffers(value: String?): List<OfferUi> = jsonArray(value).map { item ->
+        OfferUi(
+            id = item.getString("offer_id"),
+            productId = item.optString("product_id"),
+            variantId = item.optString("variant_id"),
+            merchantName = item.getString("merchant_name"),
+            priceText = item.optLongOrNull("price_minor")?.let { "¥%.2f".format(it / 100.0) },
+            shippingText = item.optLongOrNull("shipping_minor")?.let { "¥%.2f".format(it / 100.0) },
+            verification = item.getString("verification"),
+            collectedAt = item.getString("collected_at"),
+            expiresAt = item.getString("expires_at"),
+            sourceRef = item.getString("source_ref"),
+            quoteState = if (item.optString("availability") in setOf("AVAILABLE", "IN_STOCK")) {
+                QuoteState.CURRENT
+            } else {
+                QuoteState.UNAVAILABLE
+            },
+            disclosure = "演示报价仅用于本地导购流程，不代表真实市场供应",
+        )
+    }
+
+    private fun parseComparison(value: String?): ComparisonUi {
+        val item = JSONObject(requireNotNull(value) { "comparison payload is missing" })
+        return ComparisonUi(
+            items = item.stringList("items"),
+            dimensions = item.stringList("dimensions"),
+            missingFields = item.stringList("missing_fields"),
+            evidenceRefs = item.stringList("evidence_refs"),
+        )
+    }
+
+    private fun jsonArray(value: String?): List<JSONObject> {
+        val array = JSONArray(requireNotNull(value) { "event array payload is missing" })
+        return (0 until array.length()).mapNotNull { array.optJSONObject(it) }
+    }
+
+    private fun JSONObject.stringList(key: String): List<String> {
+        val array = optJSONArray(key) ?: return emptyList()
+        return (0 until array.length()).mapNotNull { array.optString(it).takeIf(String::isNotBlank) }
+    }
+
+    private fun JSONObject.optLongOrNull(key: String): Long? =
+        if (has(key) && !isNull(key)) optLong(key) else null
 
 }

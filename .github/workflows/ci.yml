@@ -11,6 +11,15 @@ permissions:
 jobs:
   python-and-governance:
     runs-on: ubuntu-24.04
+    env:
+      DATABASE_URL: postgresql+psycopg://localdev@127.0.0.1:5433/ragcommerce
+      DOMAIN_DATABASE_URL: postgresql://localdev@127.0.0.1:5433/ragcommerce
+      AGENT_DATABASE_URL: postgresql://localdev@127.0.0.1:5433/ragcommerce
+      API_DATABASE_URL: postgresql://localdev@127.0.0.1:5433/ragcommerce
+      QDRANT_TEST_URL: http://127.0.0.1:6333
+      MINIO_ENDPOINT: 127.0.0.1:9000
+      MINIO_ACCESS_KEY: localdev
+      MINIO_SECRET_KEY: localdev-not-a-live-secret
     steps:
       - uses: actions/checkout@v4.2.2
       - uses: actions/setup-python@v5.6.0
@@ -20,10 +29,25 @@ jobs:
         run: python -m pip install --disable-pip-version-check uv==0.11.13
       - name: Sync locked Python environment
         run: uv sync --locked
+      - name: Start isolated integration services and migrate
+        run: |
+          docker compose -p ragcommerce_ci -f infra/compose.yaml up -d --wait
+          uv run alembic -c apps/api/alembic.ini upgrade head
+          uv run alembic -c apps/api/alembic.ini current
+          uv run alembic -c apps/api/alembic.ini check
       - name: Verify contract, packages, lint, format, and tests
         run: |
           uv run python scripts/check_ci_policy.py
+          uv run python scripts/check_minimality.py
           uv run python scripts/generate_contracts.py --check
+          uv run python scripts/generate_agent_artifacts.py --check
+          uv run python scripts/generate_competition_eval.py --check
+          uv run python scripts/export_openapi.py --check
+          uv run python scripts/generate_demo_catalog.py --check
+          uv run python scripts/validate_evaluation_suite.py
+          uv run python scripts/run_evaluation_baseline.py --check
+          uv run python scripts/run_evaluation_ablations.py --check
+          uv run python scripts/summarize_human_review.py --check
           uv run python scripts/generate_sbom.py --check
           uv run python scripts/security_gate.py --check
           uv run python scripts/run_security_tabletop.py --check
@@ -31,6 +55,9 @@ jobs:
           uv run python -m ruff check apps packages scripts
           uv run python -m ruff format --check apps packages scripts
           uv run python -m pytest -q
+      - name: Stop integration services
+        if: always()
+        run: docker compose -p ragcommerce_ci -f infra/compose.yaml down --volumes --remove-orphans
 
   web:
     runs-on: ubuntu-24.04
@@ -56,9 +83,9 @@ jobs:
       - name: Verify official wrapper checksum
         working-directory: apps/android
         run: echo "498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17  gradle/wrapper/gradle-wrapper.jar" | sha256sum --check
-      - name: Compile, unit test, and lint
+      - name: Compile, unit test, lint, and benchmark package
         working-directory: apps/android
-        run: ./gradlew --no-daemon :app:compileDebugKotlin :app:testDebugUnitTest :app:lintDebug
+        run: ./gradlew --no-daemon :app:compileDebugKotlin :app:testDebugUnitTest :app:lintDebug :app:assembleBenchmark -PapiUrl=https://ci.invalid
 
   compose-contract:
     runs-on: ubuntu-24.04

@@ -1,0 +1,1 @@
+{"schema_version":1,"package_id":"V3-CONTRACT-01","status":"passed","verified_at":"2026-08-30T11:15:00+08:00","checks":[{"command":"python scripts/generate_contracts.py --check","exit_code":0,"result":"passed"},{"command":"pytest apps/api/tests/test_turn_api.py","exit_code":0,"result":"passed"}],"external_gates":[]}

@@ -1,22 +1,14 @@
 {
-  "schema_version": 1,
-  "decision": "NO_GO",
-  "candidate_identity": null,
-  "candidate_commit": null,
-  "clean_checkout_verified": false,
-  "production_artifact_digests": [],
-  "gates": [
-    {"id": "local_packages", "status": "PASSED", "summary": "11 autonomous packages complete"},
-    {"id": "live_e2e", "status": "BLOCKED", "summary": "V2-LIVE-01 not authorized or executed"},
-    {"id": "heldout_human", "status": "BLOCKED", "summary": "0 of 100 held-out cases dual-reviewed"},
-    {"id": "security_external", "status": "BLOCKED", "summary": "advisory/container scans, credential rotation and independent penetration missing"},
-    {"id": "legal_business", "status": "BLOCKED", "summary": "affiliate, privacy, disclosure, data license and business approvals missing"},
-    {"id": "formal_signing", "status": "BLOCKED", "summary": "no frozen commit, release image digest or formally signed artifact"},
-    {"id": "production_release", "status": "BLOCKED", "summary": "no production deployment or traffic authorization"}
-  ],
-  "release_actions_executed": false,
-  "commit_created": false,
-  "push_executed": false,
-  "deployment_executed": false,
-  "publication_executed": false
+  "schema_version": 3,
+  "product_version": "0.3.0",
+  "portfolio_release": {
+    "decision": "BLOCKED",
+    "reason": "MiMo run-009 passed; remote CI, main merge, release assets and anonymous verification remain",
+    "required": ["mimo_v2_5_golden_pass", "remote_ci_green", "main_merge_sha", "v0.3.0_assets", "anonymous_access"]
+  },
+  "commercial_release": {
+    "decision": "NO_GO",
+    "required": ["affiliate_authorization", "live_offers_and_deep_links", "physical_device_acceptance", "100_case_dual_human_review", "production_security_legal_release"]
+  },
+  "evidence_separation": ["DEMO_FIXTURE", "REAL_PROVIDER_PUBLIC_GOLDEN", "HUMAN_HELDOUT", "LIVE", "RELEASE"]
 }

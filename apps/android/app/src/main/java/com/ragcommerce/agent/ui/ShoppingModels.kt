@@ -1,9 +1,8 @@
 package com.ragcommerce.agent.ui
 
 enum class PrimaryTab(val label: String) {
-    GUIDE("导购"),
-    LISTS("清单"),
-    CART("购物车"),
+    TASK("任务"),
+    DECISIONS("决策"),
     PROFILE("我的"),
 }
 
@@ -24,13 +23,19 @@ enum class QuoteState {
 
 data class EvidenceProductUi(
     val id: String,
+    val variantId: String,
     val title: String,
-    val reasons: List<String>,
-    val sourceRef: String,
+    val fitSummary: String,
+    val matchedConstraints: List<String>,
+    val unmetConstraints: List<String>,
+    val risks: List<String>,
+    val evidenceRefs: List<String>,
 )
 
 data class OfferUi(
     val id: String,
+    val productId: String = "",
+    val variantId: String = "",
     val merchantName: String,
     val priceText: String?,
     val shippingText: String?,
@@ -57,6 +62,13 @@ data class CartGroupUi(
     val offers: List<OfferUi>,
 )
 
+data class ComparisonUi(
+    val items: List<String>,
+    val dimensions: List<String>,
+    val missingFields: List<String>,
+    val evidenceRefs: List<String>,
+)
+
 data class MediaAttachmentUi(
     val uri: String,
     val kind: String,
@@ -64,7 +76,7 @@ data class MediaAttachmentUi(
 )
 
 data class ShoppingUiState(
-    val selectedTab: PrimaryTab = PrimaryTab.GUIDE,
+    val selectedTab: PrimaryTab = PrimaryTab.TASK,
     val missionGoal: String = "",
     val draft: String = "",
     val isLoading: Boolean = false,
@@ -74,10 +86,12 @@ data class ShoppingUiState(
     val comparedProductIds: Set<String> = emptySet(),
     val savedProducts: List<SavedProductUi> = emptyList(),
     val cartGroups: List<CartGroupUi> = emptyList(),
+    val comparison: ComparisonUi? = null,
     val attachments: List<MediaAttachmentUi> = emptyList(),
     val agentMessages: List<String> = emptyList(),
     val evidenceRefs: List<String> = emptyList(),
     val pendingApprovalTool: String? = null,
+    val qualityDataConsent: Boolean = false,
 )
 
 sealed interface ShoppingAction {
@@ -93,17 +107,33 @@ sealed interface ShoppingAction {
 
     data class SetConnection(val value: ConnectionState) : ShoppingAction
 
+    data object RetryConnection : ShoppingAction
+
+    data object ContinueRecoveredMission : ShoppingAction
+
+    data object ReturnToMissionConversation : ShoppingAction
+
     data class AddAttachment(val value: MediaAttachmentUi) : ShoppingAction
 
     data class RemoveAttachment(val uri: String) : ShoppingAction
 
     data class TurnStatus(val message: String) : ShoppingAction
 
+    data class MissionUpdated(val goal: String) : ShoppingAction
+
     data class TurnMessage(val text: String) : ShoppingAction
 
     data class TurnEvidence(val ref: String) : ShoppingAction
 
+    data class TurnProducts(val products: List<EvidenceProductUi>) : ShoppingAction
+
+    data class TurnOffers(val offers: List<OfferUi>) : ShoppingAction
+
+    data class TurnComparison(val comparison: ComparisonUi) : ShoppingAction
+
     data class ApprovalRequired(val tool: String) : ShoppingAction
+
+    data class ClarificationRequired(val question: String) : ShoppingAction
 
     data class ResolveApproval(val approved: Boolean) : ShoppingAction
 
@@ -153,6 +183,19 @@ object ShoppingReducer {
                     ConnectionState.RECOVERED -> "已从最后事件恢复，无重复完成事件"
                 },
             )
+            ShoppingAction.RetryConnection -> state.copy(
+                connection = ConnectionState.RECONNECTING,
+                statusMessage = "正在重新连接，并从最后事件游标恢复",
+            )
+            ShoppingAction.ContinueRecoveredMission -> state.copy(
+                connection = ConnectionState.ONLINE,
+                statusMessage = "Agent 已完成",
+            )
+            ShoppingAction.ReturnToMissionConversation -> state.copy(
+                products = emptyList(),
+                isLoading = false,
+                statusMessage = "继续当前 Mission",
+            )
             is ShoppingAction.AddAttachment -> {
                 if (state.attachments.any { it.uri == action.value.uri } || state.attachments.size >= 8) state
                 else state.copy(attachments = state.attachments + action.value)
@@ -161,16 +204,48 @@ object ShoppingReducer {
                 attachments = state.attachments.filterNot { it.uri == action.uri },
             )
             is ShoppingAction.TurnStatus -> state.copy(statusMessage = action.message)
+            is ShoppingAction.MissionUpdated -> state.copy(
+                missionGoal = action.goal,
+                statusMessage = "Mission 已更新",
+            )
             is ShoppingAction.TurnMessage -> state.copy(
                 agentMessages = (state.agentMessages + action.text).takeLast(100),
             )
             is ShoppingAction.TurnEvidence -> state.copy(
                 evidenceRefs = (state.evidenceRefs + action.ref).distinct().takeLast(100),
             )
+            is ShoppingAction.TurnProducts -> state.copy(
+                products = action.products,
+                evidenceRefs = (state.evidenceRefs + action.products.flatMap { it.evidenceRefs })
+                    .distinct()
+                    .takeLast(100),
+            )
+            is ShoppingAction.TurnOffers -> state.copy(
+                cartGroups = action.offers.groupBy(OfferUi::merchantName).map { (merchant, offers) ->
+                    CartGroupUi(merchant, offers)
+                },
+                evidenceRefs = (state.evidenceRefs + action.offers.map(OfferUi::sourceRef))
+                    .distinct()
+                    .takeLast(100),
+            )
+            is ShoppingAction.TurnComparison -> state.copy(
+                comparison = action.comparison,
+                comparedProductIds = action.comparison.items.toSet(),
+                evidenceRefs = (state.evidenceRefs + action.comparison.evidenceRefs)
+                    .distinct()
+                    .takeLast(100),
+            )
             is ShoppingAction.ApprovalRequired -> state.copy(
                 isLoading = false,
                 pendingApprovalTool = action.tool,
                 statusMessage = "工具 ${action.tool} 需要明确确认",
+            )
+            is ShoppingAction.ClarificationRequired -> state.copy(
+                isLoading = false,
+                statusMessage = "Agent 需要补充一个条件",
+                agentMessages = (state.agentMessages + action.question)
+                    .distinct()
+                    .takeLast(100),
             )
             is ShoppingAction.ResolveApproval -> state.copy(
                 isLoading = true,

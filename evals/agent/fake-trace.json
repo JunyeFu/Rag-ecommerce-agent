@@ -29,6 +29,14 @@
     },
     {
       "data": {
+        "goal": "推荐夹具耳机",
+        "status": "IN_PROGRESS"
+      },
+      "id": 2,
+      "type": "mission_updated"
+    },
+    {
+      "data": {
         "argument_names": [
           "query"
         ],
@@ -38,7 +46,7 @@
         "risk": "READ",
         "tool": "catalog.search"
       },
-      "id": 2,
+      "id": 3,
       "type": "tool_started"
     },
     {
@@ -48,7 +56,7 @@
         "invocation_id": "3ae528dc-3979-51ad-96ee-f1fb5d46562f",
         "tool": "catalog.search"
       },
-      "id": 3,
+      "id": 4,
       "type": "tool_completed"
     },
     {
@@ -60,14 +68,26 @@
         "ref": "seed:fixture-product",
         "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
       },
-      "id": 4,
+      "id": 5,
       "type": "evidence"
+    },
+    {
+      "data": {
+        "products": [
+          {
+            "id": "fixture-product",
+            "title": "Fixture Headphones"
+          }
+        ]
+      },
+      "id": 6,
+      "type": "products"
     },
     {
       "data": {
         "text": "已根据工具证据完成。"
       },
-      "id": 5,
+      "id": 7,
       "type": "message"
     },
     {
@@ -83,7 +103,7 @@
           "provider": "deterministic_fake"
         }
       },
-      "id": 6,
+      "id": 8,
       "type": "completed"
     }
   ],

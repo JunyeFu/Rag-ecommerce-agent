@@ -1,5 +1,6 @@
 # Data boundary
 
-Only reviewed, deterministic seed packages may be committed under `data/seed/`.
-Runtime imports belong in ignored `data/imported/`. No old-repository data is
-present in V2-BASE-00; licensing and export are owned by V2-DATA-01.
+`data/demo/catalog.v3.jsonl` is the single distributable catalog used by V3 tests,
+local demo services, retrieval benchmarks, and portfolio evidence. It contains 60
+project-authored fictional 3C SKUs and `DEMO_FIXTURE` offers. Runtime imports belong
+in ignored `data/imported/`; legacy V2 seed exports are not current runtime inputs.

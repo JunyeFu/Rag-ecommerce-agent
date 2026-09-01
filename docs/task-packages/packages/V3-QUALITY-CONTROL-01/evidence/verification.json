@@ -1,0 +1,1 @@
+{"schema_version":1,"package_id":"V3-QUALITY-CONTROL-01","status":"passed","verified_at":"2026-08-30T13:10:00+08:00","checks":[{"command":"python scripts/validate_task_packages.py","exit_code":0,"result":"quality control decomposition and evidence rules validated"}],"external_gates":["100条held-out双人盲评、物理设备验收与正式发布批准"]}

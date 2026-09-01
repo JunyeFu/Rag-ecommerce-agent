@@ -12,11 +12,16 @@ from uuid import UUID
 
 class EventType(StrEnum):
     RUN_STARTED = "run_started"
+    MISSION_UPDATED = "mission_updated"
     TOOL_STARTED = "tool_started"
     TOOL_COMPLETED = "tool_completed"
     TOOL_FAILED = "tool_failed"
     EVIDENCE = "evidence"
+    PRODUCTS = "products"
+    OFFERS = "offers"
+    COMPARISON = "comparison"
     APPROVAL_REQUIRED = "approval_required"
+    CLARIFICATION_REQUIRED = "clarification_required"
     MESSAGE = "message"
     COMPLETED = "completed"
     FAILED = "failed"
@@ -123,7 +128,9 @@ class ToolExecutionContext:
 class StopReason(StrEnum):
     COMPLETED = "COMPLETED"
     APPROVAL_REQUIRED = "APPROVAL_REQUIRED"
+    CLARIFICATION_REQUIRED = "CLARIFICATION_REQUIRED"
     TOOL_LIMIT = "TOOL_LIMIT"
     REPLAN_LIMIT = "REPLAN_LIMIT"
     INVALID_INPUT = "INVALID_INPUT"
     TOOL_FAILURE = "TOOL_FAILURE"
+    PROVIDER_FAILURE = "PROVIDER_FAILURE"

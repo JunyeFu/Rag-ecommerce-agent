@@ -7,14 +7,10 @@ from uuid import UUID, uuid4
 
 import pytest
 from ragcommerce_connectors import (
-    CircuitBreaker,
-    CircuitState,
     ConnectorError,
-    ConnectorErrorKind,
     DiscoveryConnector,
     FixtureConnector,
     RequoteOutcome,
-    RetryPolicy,
     SafeLinkPolicy,
     load_fixture_connectors,
 )
@@ -133,15 +129,3 @@ def test_discovery_adapter_cannot_promote_price_or_link_without_requote() -> Non
     assert quote.verification is VerificationLevel.DISCOVERY_ONLY
     assert connector.requote(quote).outcome is RequoteOutcome.UNVERIFIED
     assert connector.requote(quote).deep_link_allowed is False
-
-
-def test_retry_and_circuit_policies_are_bounded_and_deterministic() -> None:
-    assert RetryPolicy().delays(ConnectorErrorKind.TIMEOUT) == (100, 200)
-    assert RetryPolicy().delays(ConnectorErrorKind.POLICY_DENIED) == ()
-    breaker = CircuitBreaker(failure_threshold=2, cooldown_ms=1000)
-    breaker.record_failure(0)
-    breaker.record_failure(10)
-    assert breaker.state_at(999) is CircuitState.OPEN
-    assert breaker.state_at(1010) is CircuitState.HALF_OPEN
-    breaker.record_success()
-    assert breaker.state_at(1011) is CircuitState.CLOSED

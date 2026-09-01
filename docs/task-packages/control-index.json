@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "control_model": "large_medium_small",
+  "large": [
+    {
+      "id": "V3-PRODUCT-CONTROL-01",
+      "objective": "交付可演示、可评测、证据可追溯的 Android 原生 RAG 电商导购 Agent",
+      "children": [
+        "V3-EXPERIENCE-CONTROL-01",
+        "V3-INTELLIGENCE-CONTROL-01",
+        "V3-PLATFORM-CONTROL-01",
+        "V3-QUALITY-CONTROL-01"
+      ],
+      "exit_rule": "四个中层能力域和八个小层确认全部有通过证据，外部门禁单独披露"
+    }
+  ],
+  "medium": [
+    {
+      "id": "V3-EXPERIENCE-CONTROL-01",
+      "parent_id": "V3-PRODUCT-CONTROL-01",
+      "objective": "控制任务、决策、我的三入口 Android 体验",
+      "children": ["V3-MISSION-WORKBENCH-01", "V3-DECISION-WORKBENCH-01", "V3-TRUST-CENTER-01"]
+    },
+    {
+      "id": "V3-INTELLIGENCE-CONTROL-01",
+      "parent_id": "V3-PRODUCT-CONTROL-01",
+      "objective": "控制澄清、检索、比较、审批与行动解释",
+      "children": ["V3-AGENT-PROGRESS-01", "V3-ACTION-APPROVAL-01"]
+    },
+    {
+      "id": "V3-PLATFORM-CONTROL-01",
+      "parent_id": "V3-PRODUCT-CONTROL-01",
+      "objective": "控制任务持久化、离线恢复和运营可观测性",
+      "children": ["V3-RECOVERY-EXPERIENCE-01", "V3-OPS-OBSERVABILITY-01"]
+    },
+    {
+      "id": "V3-QUALITY-CONTROL-01",
+      "parent_id": "V3-PRODUCT-CONTROL-01",
+      "objective": "控制黄金场景、演示叙事与质量证据",
+      "children": ["V3-DEMO-STORY-01"]
+    }
+  ],
+  "small": [
+    {
+      "id": "V3-MISSION-WORKBENCH-01",
+      "parent_id": "V3-EXPERIENCE-CONTROL-01",
+      "confirmation_order": 1,
+      "preview_prompt": "docs/task-packages/previews/prompts/01-mission-workbench.md",
+      "confirmation_status": "confirmed"
+    },
+    {
+      "id": "V3-AGENT-PROGRESS-01",
+      "parent_id": "V3-INTELLIGENCE-CONTROL-01",
+      "confirmation_order": 2,
+      "preview_prompt": "docs/task-packages/previews/prompts/02-agent-progress.md",
+      "confirmation_status": "confirmed"
+    },
+    {
+      "id": "V3-DECISION-WORKBENCH-01",
+      "parent_id": "V3-EXPERIENCE-CONTROL-01",
+      "confirmation_order": 3,
+      "preview_prompt": "docs/task-packages/previews/prompts/03-decision-workbench.md",
+      "confirmation_status": "confirmed"
+    },
+    {
+      "id": "V3-ACTION-APPROVAL-01",
+      "parent_id": "V3-INTELLIGENCE-CONTROL-01",
+      "confirmation_order": 4,
+      "preview_prompt": "docs/task-packages/previews/prompts/04-action-approval.md",
+      "confirmation_status": "confirmed"
+    },
+    {
+      "id": "V3-TRUST-CENTER-01",
+      "parent_id": "V3-EXPERIENCE-CONTROL-01",
+      "confirmation_order": 5,
+      "preview_prompt": "docs/task-packages/previews/prompts/05-trust-center.md",
+      "confirmation_status": "confirmed"
+    },
+    {
+      "id": "V3-RECOVERY-EXPERIENCE-01",
+      "parent_id": "V3-PLATFORM-CONTROL-01",
+      "confirmation_order": 6,
+      "preview_prompt": "docs/task-packages/previews/prompts/06-recovery-experience.md",
+      "confirmation_status": "confirmed"
+    },
+    {
+      "id": "V3-OPS-OBSERVABILITY-01",
+      "parent_id": "V3-PLATFORM-CONTROL-01",
+      "confirmation_order": 7,
+      "preview_prompt": "docs/task-packages/previews/prompts/07-ops-observability.md",
+      "confirmation_status": "confirmed"
+    },
+    {
+      "id": "V3-DEMO-STORY-01",
+      "parent_id": "V3-QUALITY-CONTROL-01",
+      "confirmation_order": 8,
+      "preview_prompt": "docs/task-packages/previews/prompts/08-demo-story.md",
+      "confirmation_status": "confirmed"
+    }
+  ],
+  "confirmation_policy": {
+    "mode": "one_at_a_time",
+    "allowed_decisions": ["confirmed", "revise", "deferred"],
+    "art_direction": {
+      "status": "confirmed",
+      "selected_option": 2,
+      "selected_at": "2026-08-30T13:35:00+08:00",
+      "reference_path": "docs/task-packages/previews/art-direction/selected-editorial-tech.png",
+      "prompt_path": "docs/task-packages/previews/prompts/00-selected-art-direction.md",
+      "sha256": "cb90a83a03edc80df850a17f36f2a4fba95521fe7222541e4532f45b7b946f07"
+    },
+    "current_package": null,
+    "advance_rule": "当前项获得用户 confirmed 后才激活下一项",
+    "evidence_rule": "每项保存最终提示词、预览图路径、功能说明和用户决策"
+  }
+}

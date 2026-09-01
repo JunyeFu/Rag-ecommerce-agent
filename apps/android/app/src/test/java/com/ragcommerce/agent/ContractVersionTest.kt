@@ -7,6 +7,6 @@ import org.junit.Test
 class ContractVersionTest {
     @Test
     fun generatedContractVersionMatchesBaseline() {
-        assertEquals("0.1.0", CONTRACT_VERSION)
+        assertEquals("0.2.0", CONTRACT_VERSION)
     }
 }

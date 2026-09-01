@@ -10,6 +10,7 @@ from typing import Protocol
 from uuid import NAMESPACE_URL, UUID, uuid4, uuid5
 
 from ragcommerce_agent_runtime import AgentEvent, EventType, MediaRef, TurnCommand
+from ragcommerce_contracts import ProductCandidateView, ThreadSnapshot
 
 from .media import InMemoryMediaStore
 
@@ -48,7 +49,7 @@ class TurnRecord:
     idempotency_key: str
     fingerprint: str
     command: TurnCommand
-    execution_status: str = "RUNNING"
+    execution_status: str = "PENDING"
     events: list[AgentEvent] = field(default_factory=list)
 
 
@@ -61,7 +62,13 @@ class TurnIndex(Protocol):
 
     def get_run(self, run_id: UUID) -> TurnRecord | None: ...
 
+    def latest_for_thread(self, owner_id: UUID, thread_id: UUID) -> TurnRecord | None: ...
+
     def update_status(self, run_id: UUID, value: str) -> None: ...
+
+    def update_goal(self, owner_id: UUID, thread_id: UUID, goal: str) -> None: ...
+
+    def claim(self, run_id: UUID) -> TurnRecord | None: ...
 
     def delete_user(self, user_id: UUID) -> int: ...
 
@@ -90,8 +97,29 @@ class InMemoryTurnIndex:
     def get_run(self, run_id: UUID) -> TurnRecord | None:
         return self.runs.get(run_id)
 
+    def latest_for_thread(self, owner_id: UUID, thread_id: UUID) -> TurnRecord | None:
+        values = [
+            record
+            for record in self.runs.values()
+            if record.owner_id == owner_id and record.thread_id == thread_id
+        ]
+        return values[-1] if values else None
+
     def update_status(self, run_id: UUID, value: str) -> None:
         self.runs[run_id].execution_status = value
+
+    def update_goal(self, owner_id: UUID, thread_id: UUID, goal: str) -> None:
+        record = self.threads.get(thread_id)
+        if record is None or record.owner_id != owner_id:
+            raise OwnershipError("thread not found")
+        self.threads[thread_id] = ThreadRecord(record.id, record.mission_id, owner_id, goal)
+
+    def claim(self, run_id: UUID) -> TurnRecord | None:
+        record = self.runs.get(run_id)
+        if record is None or record.execution_status not in {"PENDING", "RETRY"}:
+            return None
+        record.execution_status = "RUNNING"
+        return record
 
     def delete_user(self, user_id: UUID) -> int:
         thread_ids = {
@@ -116,6 +144,8 @@ def terminal_status(events: list[AgentEvent]) -> str:
         return "FAILED"
     if EventType.APPROVAL_REQUIRED in types:
         return "WAITING_APPROVAL"
+    if EventType.CLARIFICATION_REQUIRED in types:
+        return "WAITING_CLARIFICATION"
     return "RUNNING"
 
 
@@ -144,6 +174,44 @@ class TurnService:
             raise OwnershipError("thread not found")
         return record
 
+    def snapshot(self, owner_id: UUID, thread_id: UUID) -> ThreadSnapshot:
+        thread = self.require_thread(owner_id, thread_id)
+        turn = self.index.latest_for_thread(owner_id, thread_id)
+        if turn is None:
+            return ThreadSnapshot(
+                thread_id=thread.id,
+                mission_id=thread.mission_id,
+                goal=thread.goal,
+                status="IDLE",
+                last_event_id=0,
+                candidates=[],
+            )
+        events = list(self.agent.replay(turn.run_id))
+        candidates: list[ProductCandidateView] = []
+        for event in events:
+            if event.type is not EventType.PRODUCTS:
+                continue
+            for value in event.data.get("products", []):
+                if isinstance(value, dict):
+                    candidates.append(ProductCandidateView.model_validate(value))
+        pending = next(
+            (
+                str(event.data.get("tool"))
+                for event in reversed(events)
+                if event.type is EventType.APPROVAL_REQUIRED
+            ),
+            None,
+        )
+        return ThreadSnapshot(
+            thread_id=thread.id,
+            mission_id=thread.mission_id,
+            goal=thread.goal,
+            status=terminal_status(events),
+            last_event_id=events[-1].id if events else 0,
+            pending_action=pending,
+            candidates=candidates,
+        )
+
     async def submit(
         self,
         owner_id: UUID,
@@ -152,12 +220,18 @@ class TurnService:
         text: str,
         media_ids: tuple[UUID, ...],
     ) -> tuple[TurnRecord, bool]:
-        self.require_thread(owner_id, thread_id)
+        thread = self.require_thread(owner_id, thread_id)
         if not idempotency_key.strip() or len(idempotency_key) > 128:
             raise ValueError("Idempotency-Key must contain 1..128 characters")
         if len(media_ids) != len(set(media_ids)) or len(media_ids) > 8:
             raise ValueError("media references must be unique and contain at most 8 items")
         media = self.media.require_owned(owner_id, media_ids)
+        command_text = text
+        previous = self.index.latest_for_thread(owner_id, thread_id)
+        if previous is not None and previous.execution_status == "WAITING_CLARIFICATION":
+            merged_goal = f"{thread.goal}; {text.strip()}"[:500]
+            self.index.update_goal(owner_id, thread_id, merged_goal)
+            command_text = merged_goal
         fingerprint = hashlib.sha256(
             json.dumps(
                 {"text": text, "media_ids": sorted(str(value) for value in media_ids)},
@@ -172,7 +246,7 @@ class TurnService:
             thread_id,
             run_id,
             idempotency_key,
-            text,
+            command_text,
             tuple(MediaRef(item.id, item.kind) for item in media),
         )
         candidate = TurnRecord(owner_id, thread_id, run_id, idempotency_key, fingerprint, command)
@@ -182,10 +256,26 @@ class TurnService:
         if not created:
             record.events = list(self.agent.replay(record.run_id))
             return record, True
-        record.events = [event async for event in self.agent.handle(command)]
+        return record, False
+
+    async def execute(self, run_id: UUID) -> TurnRecord:
+        record = self.index.claim(run_id)
+        if record is None:
+            existing = self.index.get_run(run_id)
+            if existing is None:
+                raise OwnershipError("Agent run not found")
+            existing.events = list(self.agent.replay(existing.run_id))
+            return existing
+        record.events = [event async for event in self.agent.handle(record.command)]
         record.execution_status = terminal_status(record.events)
         self.index.update_status(record.run_id, record.execution_status)
-        return record, False
+        return record
+
+    async def execute_claimed(self, record: TurnRecord) -> TurnRecord:
+        record.events = [event async for event in self.agent.handle(record.command)]
+        record.execution_status = terminal_status(record.events)
+        self.index.update_status(record.run_id, record.execution_status)
+        return record
 
     def require_run(self, owner_id: UUID, run_id: UUID) -> TurnRecord:
         record = self.index.get_run(run_id)
@@ -230,6 +320,11 @@ class TurnService:
 
 def public_event(event: AgentEvent) -> tuple[str, dict[str, object]]:
     data = event.data
+    if event.type is EventType.MISSION_UPDATED:
+        return "mission_updated", {
+            "goal": str(data.get("goal", "")),
+            "status": str(data.get("status", "IN_PROGRESS")),
+        }
     if event.type in {
         EventType.RUN_STARTED,
         EventType.TOOL_STARTED,
@@ -239,7 +334,9 @@ def public_event(event: AgentEvent) -> tuple[str, dict[str, object]]:
         payload: dict[str, object] = {"stage": event.type.value}
         if isinstance(data.get("tool"), str):
             payload["tool"] = data["tool"]
-        return "status", payload
+        return "progress", payload
+    if event.type in {EventType.PRODUCTS, EventType.OFFERS, EventType.COMPARISON}:
+        return event.type.value, dict(data)
     if event.type is EventType.MESSAGE:
         return "message_delta", {"text": str(data.get("text", ""))}
     if event.type is EventType.EVIDENCE:
@@ -253,6 +350,8 @@ def public_event(event: AgentEvent) -> tuple[str, dict[str, object]]:
             "tool": str(data["tool"]),
             "reason": str(data["reason"]),
         }
+    if event.type is EventType.CLARIFICATION_REQUIRED:
+        return "clarification_required", {"question": str(data["question"])}
     if event.type is EventType.COMPLETED:
         return "completed", {"reason": str(data["reason"])}
     return "failed", {

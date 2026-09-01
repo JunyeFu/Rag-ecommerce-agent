@@ -17,7 +17,7 @@
   "files": {
     "evals/v2/case.schema.json": {
       "records": 1,
-      "sha256": "b339dd55aeeb84e5e6f441fd67218471dcf9872ad21d6cebd051da7eda2b5c5d"
+      "sha256": "7262156ec3f818d78c3a32cea90a2850e8fa66e3830c8c2c8f370624ed189b34"
     },
     "evals/v2/heldout/human-review-status.json": {
       "records": 1,
@@ -33,14 +33,14 @@
     },
     "evals/v2/seed-audit.json": {
       "records": 1,
-      "sha256": "0539a3dc6b2cbd67b2a5a380a8986d771ed5636e803bc21922a4c44693102b8a"
+      "sha256": "a7e850709cb88e969648be6ef16ee3c97e6b3a5a55906f943d85ed3d208eb0e8"
     }
   },
   "generator_version": "competition-eval-generator-v1",
   "heldout_consumers": [
     "dual_human_review_only"
   ],
-  "old_seed_decision": "excluded_from_competition_v1_pending_license_and_gold_review",
+  "old_seed_decision": "source_removed_from_current_tree_and_never_used_by_v3",
   "schema_version": 1,
   "seed": 20260826,
   "selection_inputs": [

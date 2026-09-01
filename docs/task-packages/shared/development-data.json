@@ -3,7 +3,7 @@
   "profiles": {
     "task_packages": {
       "command": "python scripts/validate_task_packages.py",
-      "expected": "packages=13 errors=0"
+      "expected": "packages=22 errors=0"
     },
     "backend_unit": {
       "command": "python -m pytest tests/unit -q",
@@ -38,8 +38,8 @@
       "environment": "emulator regression evidence uses explicit EMULATOR suppression; physical-device gate remains open"
     },
     "ops_web": {
-      "command": "npm run typecheck && npm run test && npm run build",
-      "environment": "generated API client and fixture backend"
+      "command": "npm run check && npm run test && npm run build",
+      "environment": "generated API client and real local Ops API"
     },
     "full_local": {
       "command": "python scripts/verify_local.py",

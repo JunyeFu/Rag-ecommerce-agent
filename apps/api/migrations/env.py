@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / "apps/api/src"))
 from ragcommerce_agent_runtime.schema_v1 import metadata as agent_metadata  # noqa: E402
 from ragcommerce_api.ops_schema_v1 import metadata as ops_metadata  # noqa: E402
 from ragcommerce_api.schema_v1 import metadata as api_metadata  # noqa: E402
+from ragcommerce_api.v3_schema import metadata as v3_metadata  # noqa: E402
 from ragcommerce_domain.persistence import metadata as domain_metadata  # noqa: E402
 from ragcommerce_retrieval.schema_v1 import metadata as retrieval_metadata  # noqa: E402
 
@@ -35,6 +36,7 @@ for source_metadata in (
     agent_metadata,
     api_metadata,
     ops_metadata,
+    v3_metadata,
 ):
     for table in source_metadata.sorted_tables:
         table.to_metadata(target_metadata)

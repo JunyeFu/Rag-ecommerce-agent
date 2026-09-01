@@ -1,19 +1,23 @@
 import { useState } from "react";
 import { Icon, type IconName } from "./components";
 import { CONTRACT_VERSION } from "./generated/api-contracts";
-import { ConflictView, ConnectorView, EvaluationView, ReleaseView, TraceView } from "./views";
+import { ConflictView, ConnectorView, EvaluationView, OverviewView, ReleaseView, RetrievalView, TraceView } from "./views";
 
-type Section = "connectors" | "conflicts" | "traces" | "evaluations" | "release";
+type Section = "overview" | "traces" | "retrieval" | "connectors" | "conflicts" | "evaluations" | "release";
 
 const navigation: { id: Section; label: string; icon: IconName }[] = [
+  { id: "overview", label: "运行概览", icon: "evaluation" },
+  { id: "traces", label: "Agent Trace", icon: "trace" },
+  { id: "retrieval", label: "检索观测", icon: "data" },
   { id: "connectors", label: "连接器", icon: "connector" },
   { id: "conflicts", label: "数据冲突", icon: "data" },
-  { id: "traces", label: "Agent Trace", icon: "trace" },
   { id: "evaluations", label: "评测运行", icon: "evaluation" },
   { id: "release", label: "发布门禁", icon: "gate" },
 ];
 
 function ActiveView({ section }: { section: Section }) {
+  if (section === "overview") return <OverviewView />;
+  if (section === "retrieval") return <RetrievalView />;
   if (section === "connectors") return <ConnectorView />;
   if (section === "conflicts") return <ConflictView />;
   if (section === "traces") return <TraceView />;
@@ -22,7 +26,7 @@ function ActiveView({ section }: { section: Section }) {
 }
 
 export function App() {
-  const [section, setSection] = useState<Section>("connectors");
+  const [section, setSection] = useState<Section>("overview");
   return (
     <div className="app-shell">
       <header className="topbar">

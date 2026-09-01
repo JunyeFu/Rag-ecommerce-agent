@@ -2,7 +2,6 @@
 
 from .discovery import DiscoveryConnector
 from .fixture import FixtureConnector, load_fixture_connectors
-from .resilience import CircuitBreaker, CircuitState, RetryPolicy
 from .security import SafeLinkPolicy
 from .spi import (
     AuthorizationRequired,
@@ -16,8 +15,6 @@ from .spi import (
 
 __all__ = [
     "AuthorizationRequired",
-    "CircuitBreaker",
-    "CircuitState",
     "ConnectorCapability",
     "ConnectorError",
     "ConnectorErrorKind",
@@ -26,7 +23,6 @@ __all__ = [
     "OfferConnector",
     "RequoteOutcome",
     "RequoteResult",
-    "RetryPolicy",
     "SafeLinkPolicy",
     "load_fixture_connectors",
 ]

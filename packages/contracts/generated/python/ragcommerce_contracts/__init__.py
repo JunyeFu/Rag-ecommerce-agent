@@ -1,4 +1,4 @@
-"""Generated file; do not edit. generator=2 source_sha256=267cb76a25754c1b81655dbd96c725e46520db160c05a6aea5febff81997350d"""
+"""Generated file; do not edit. generator=3 source_sha256=08fa7e7cb7446628bc1407cedc5bffb4a5bbfb0914ed1bca8c91216a5799d076"""
 
 from datetime import datetime
 from typing import Literal
@@ -6,8 +6,8 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
 
-CONTRACT_VERSION = "0.1.0"
-CONTRACT_SOURCE_SHA256 = "267cb76a25754c1b81655dbd96c725e46520db160c05a6aea5febff81997350d"
+CONTRACT_VERSION = "0.2.0"
+CONTRACT_SOURCE_SHA256 = "08fa7e7cb7446628bc1407cedc5bffb4a5bbfb0914ed1bca8c91216a5799d076"
 
 
 class StrictModel(BaseModel):
@@ -26,6 +26,40 @@ class CreateThreadRequest(StrictModel):
 class ThreadCreated(StrictModel):
     thread_id: UUID
     mission_id: UUID
+
+
+class ProductCandidateView(StrictModel):
+    product_id: UUID
+    variant_id: UUID
+    title: str
+    fit_summary: str = ""
+    matched_constraints: list[str] = Field(default_factory=list)
+    unmet_constraints: list[str] = Field(default_factory=list)
+    risks: list[str] = Field(default_factory=list)
+    evidence_refs: list[str] = Field(default_factory=list)
+
+
+class ThreadSnapshot(StrictModel):
+    thread_id: UUID
+    mission_id: UUID
+    goal: str
+    status: Literal[
+        "IDLE", "RUNNING", "WAITING_APPROVAL", "WAITING_CLARIFICATION", "COMPLETED", "FAILED"
+    ]
+    last_event_id: int = Field(ge=0)
+    pending_action: str | None = None
+    candidates: list[ProductCandidateView] = Field(default_factory=list)
+
+
+class ProductView(StrictModel):
+    product_id: UUID
+    variant_id: UUID
+    title: str
+    category: str
+    brand: str
+    attributes: dict[str, str]
+    image_ref: str | None = None
+    evidence_refs: list[str]
 
 
 class MediaCreated(StrictModel):
@@ -66,7 +100,7 @@ class DeletionResult(StrictModel):
 class OfferView(StrictModel):
     offer_id: UUID
     merchant_name: str
-    verification: Literal["LIVE_AUTHORIZED", "FEED_VERIFIED", "DISCOVERY_ONLY"]
+    verification: Literal["LIVE_AUTHORIZED", "FEED_VERIFIED", "DISCOVERY_ONLY", "DEMO_FIXTURE"]
     availability: Literal["AVAILABLE", "UNAVAILABLE", "UNKNOWN"]
     price_minor: int | None = None
     shipping_minor: int | None = None
@@ -146,11 +180,14 @@ __all__ = [
     "OfferCollection",
     "OfferView",
     "PatchListRequest",
+    "ProductCandidateView",
+    "ProductView",
     "ResolveOfferRequest",
     "ResolvedOffer",
     "ShoppingListView",
     "ShoppingListsResponse",
     "ThreadCreated",
+    "ThreadSnapshot",
     "TurnAccepted",
     "TurnRequest",
 ]

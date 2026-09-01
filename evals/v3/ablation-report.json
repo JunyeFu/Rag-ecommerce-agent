@@ -1,0 +1,38 @@
+{
+  "dataset": "data/demo/catalog.v3.jsonl",
+  "evaluation": "evals/v3/golden-scenarios.json",
+  "evidence_level": "project_authored_demo_ablation",
+  "heldout_consumed": false,
+  "limitations": [
+    "Deterministic vectors are a CI fixture, not real-provider evidence.",
+    "The ten golden scenarios are public and not a held-out human evaluation."
+  ],
+  "numeric_guard": {
+    "all_metrics_finite": true
+  },
+  "real_provider_calls": 0,
+  "schema_version": 1,
+  "variants": {
+    "bm25": {
+      "cases": 10,
+      "ndcg_at_10": 1.0,
+      "ndcg_target_met": true,
+      "recall_at_10": 1.0,
+      "recall_target_met": true
+    },
+    "deterministic_vector": {
+      "cases": 10,
+      "ndcg_at_10": 1.0,
+      "ndcg_target_met": true,
+      "recall_at_10": 1.0,
+      "recall_target_met": true
+    },
+    "rrf_hybrid": {
+      "cases": 10,
+      "ndcg_at_10": 1.0,
+      "ndcg_target_met": true,
+      "recall_at_10": 1.0,
+      "recall_target_met": true
+    }
+  }
+}

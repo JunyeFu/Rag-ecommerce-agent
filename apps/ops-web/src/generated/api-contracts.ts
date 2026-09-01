@@ -1,10 +1,39 @@
-// Generated file; do not edit. generator=2 source_sha256=267cb76a25754c1b81655dbd96c725e46520db160c05a6aea5febff81997350d
-export const CONTRACT_VERSION = "0.1.0" as const;
-export const CONTRACT_SOURCE_SHA256 = "267cb76a25754c1b81655dbd96c725e46520db160c05a6aea5febff81997350d" as const;
+// Generated file; do not edit. generator=3 source_sha256=08fa7e7cb7446628bc1407cedc5bffb4a5bbfb0914ed1bca8c91216a5799d076
+export const CONTRACT_VERSION = "0.2.0" as const;
+export const CONTRACT_SOURCE_SHA256 = "08fa7e7cb7446628bc1407cedc5bffb4a5bbfb0914ed1bca8c91216a5799d076" as const;
 
 export type HealthResponse = { status: "ok"; contract_version: string };
 export type CreateThreadRequest = { goal: string };
 export type ThreadCreated = { thread_id: string; mission_id: string };
+export type ProductCandidateView = {
+  product_id: string;
+  variant_id: string;
+  title: string;
+  fit_summary?: string;
+  matched_constraints?: string[];
+  unmet_constraints?: string[];
+  risks?: string[];
+  evidence_refs?: string[];
+};
+export type ThreadSnapshot = {
+  thread_id: string;
+  mission_id: string;
+  goal: string;
+  status: "IDLE" | "RUNNING" | "WAITING_APPROVAL" | "WAITING_CLARIFICATION" | "COMPLETED" | "FAILED";
+  last_event_id: number;
+  pending_action?: string | null;
+  candidates?: ProductCandidateView[];
+};
+export type ProductView = {
+  product_id: string;
+  variant_id: string;
+  title: string;
+  category: string;
+  brand: string;
+  attributes: Record<string, string>;
+  image_ref?: string | null;
+  evidence_refs: string[];
+};
 export type MediaCreated = {
   media_id: string;
   kind: "image" | "audio";
@@ -21,7 +50,7 @@ export type DeletionResult = { deleted: boolean };
 export type OfferView = {
   offer_id: string;
   merchant_name: string;
-  verification: "LIVE_AUTHORIZED" | "FEED_VERIFIED" | "DISCOVERY_ONLY";
+  verification: "LIVE_AUTHORIZED" | "FEED_VERIFIED" | "DISCOVERY_ONLY" | "DEMO_FIXTURE";
   availability: "AVAILABLE" | "UNAVAILABLE" | "UNKNOWN";
   price_minor?: number | null;
   shipping_minor?: number | null;
@@ -84,11 +113,16 @@ export type ToolInvocationSummary = {
 };
 export type AgentTraceSummary = {
   run_id: string;
-  status: "COMPLETED" | "FAILED" | "WAITING_APPROVAL";
+  status: "COMPLETED" | "FAILED" | "WAITING_APPROVAL" | "WAITING_CLARIFICATION";
   prompt_version: string;
   model_version: string;
   duration_ms: number;
   estimated_cost_microunits: number;
+  input_tokens: number;
+  output_tokens: number;
+  retrieval_hits: number;
+  last_event_id: number;
+  recovered: boolean;
   tools: ToolInvocationSummary[];
   redaction_policy: string;
   created_at: string;

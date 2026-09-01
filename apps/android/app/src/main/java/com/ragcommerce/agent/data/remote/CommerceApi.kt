@@ -7,7 +7,9 @@ import okhttp3.RequestBody
 import okhttp3.Response
 import okhttp3.ResponseBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.POST
@@ -29,6 +31,12 @@ interface CommerceApi {
     suspend fun createThread(
         @Header("X-User-ID") userId: String,
         @Body request: RequestBody,
+    ): ResponseBody
+
+    @GET("v1/threads/{threadId}")
+    suspend fun thread(
+        @Header("X-User-ID") userId: String,
+        @Path("threadId") threadId: String,
     ): ResponseBody
 
     @POST("v1/threads/{threadId}/turns")
@@ -58,6 +66,34 @@ interface CommerceApi {
         @Header("X-User-ID") userId: String,
         @Path("productId") productId: String,
         @Query("fresh") fresh: Boolean,
+    ): ResponseBody
+
+    @GET("v1/lists")
+    suspend fun lists(@Header("X-User-ID") userId: String): ResponseBody
+
+    @POST("v1/lists")
+    suspend fun createList(
+        @Header("X-User-ID") userId: String,
+        @Body request: RequestBody,
+    ): ResponseBody
+
+    @PATCH("v1/lists/{listId}")
+    suspend fun patchList(
+        @Header("X-User-ID") userId: String,
+        @Path("listId") listId: String,
+        @Body request: RequestBody,
+    ): ResponseBody
+
+    @POST("v1/cart")
+    suspend fun mutateCart(
+        @Header("X-User-ID") userId: String,
+        @Body request: RequestBody,
+    ): ResponseBody
+
+    @DELETE("v1/users/me/data")
+    suspend fun deleteMyData(
+        @Header("X-User-ID") userId: String,
+        @Header("X-Deletion-Confirmation") confirmation: String,
     ): ResponseBody
 }
 

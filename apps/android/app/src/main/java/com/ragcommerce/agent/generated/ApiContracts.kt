@@ -1,12 +1,41 @@
-// Generated file; do not edit. generator=2 source_sha256=267cb76a25754c1b81655dbd96c725e46520db160c05a6aea5febff81997350d
+// Generated file; do not edit. generator=3 source_sha256=08fa7e7cb7446628bc1407cedc5bffb4a5bbfb0914ed1bca8c91216a5799d076
 package com.ragcommerce.agent.generated
 
-const val CONTRACT_VERSION: String = "0.1.0"
-const val CONTRACT_SOURCE_SHA256: String = "267cb76a25754c1b81655dbd96c725e46520db160c05a6aea5febff81997350d"
+const val CONTRACT_VERSION: String = "0.2.0"
+const val CONTRACT_SOURCE_SHA256: String = "08fa7e7cb7446628bc1407cedc5bffb4a5bbfb0914ed1bca8c91216a5799d076"
 
 data class HealthResponse(val status: String, val contract_version: String)
 data class CreateThreadRequest(val goal: String)
 data class ThreadCreated(val thread_id: String, val mission_id: String)
+data class ProductCandidateView(
+    val product_id: String,
+    val variant_id: String,
+    val title: String,
+    val fit_summary: String = "",
+    val matched_constraints: List<String> = emptyList(),
+    val unmet_constraints: List<String> = emptyList(),
+    val risks: List<String> = emptyList(),
+    val evidence_refs: List<String> = emptyList(),
+)
+data class ThreadSnapshot(
+    val thread_id: String,
+    val mission_id: String,
+    val goal: String,
+    val status: String,
+    val last_event_id: Long,
+    val pending_action: String? = null,
+    val candidates: List<ProductCandidateView> = emptyList(),
+)
+data class ProductView(
+    val product_id: String,
+    val variant_id: String,
+    val title: String,
+    val category: String,
+    val brand: String,
+    val attributes: Map<String, String>,
+    val image_ref: String? = null,
+    val evidence_refs: List<String>,
+)
 data class MediaCreated(
     val media_id: String,
     val kind: String,

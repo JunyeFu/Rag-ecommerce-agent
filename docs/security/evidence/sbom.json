@@ -710,6 +710,34 @@
           }
         }
       ],
+      "name": "@tanstack/query-core",
+      "purl": "pkg:npm/@tanstack/query-core@5.102.8",
+      "type": "library",
+      "version": "5.102.8"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@tanstack/react-query",
+      "purl": "pkg:npm/@tanstack/react-query@5.102.8",
+      "type": "library",
+      "version": "5.102.8"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
       "name": "@types/chai",
       "purl": "pkg:npm/@types/chai@5.2.3",
       "type": "library",
@@ -1914,10 +1942,66 @@
           }
         }
       ],
+      "name": "argon2-cffi-bindings",
+      "purl": "pkg:pypi/argon2-cffi-bindings@26.1.0",
+      "type": "library",
+      "version": "26.1.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "argon2-cffi",
+      "purl": "pkg:pypi/argon2-cffi@25.1.0",
+      "type": "library",
+      "version": "25.1.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "asgiref",
+      "purl": "pkg:pypi/asgiref@3.12.1",
+      "type": "library",
+      "version": "3.12.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
       "name": "certifi",
       "purl": "pkg:pypi/certifi@2026.7.22",
       "type": "library",
       "version": "2026.7.22"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "cffi",
+      "purl": "pkg:pypi/cffi@2.1.1",
+      "type": "library",
+      "version": "2.1.1"
     },
     {
       "group": "python",
@@ -1988,6 +2072,20 @@
       "purl": "pkg:pypi/fastapi@0.141.1",
       "type": "library",
       "version": "0.141.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "googleapis-common-protos",
+      "purl": "pkg:pypi/googleapis-common-protos@1.75.2",
+      "type": "library",
+      "version": "1.75.2"
     },
     {
       "group": "python",
@@ -2348,10 +2446,164 @@
           }
         }
       ],
+      "name": "minio",
+      "purl": "pkg:pypi/minio@7.2.20",
+      "type": "library",
+      "version": "7.2.20"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
       "name": "numpy",
       "purl": "pkg:pypi/numpy@2.5.2",
       "type": "library",
       "version": "2.5.2"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "opentelemetry-api",
+      "purl": "pkg:pypi/opentelemetry-api@1.44.0",
+      "type": "library",
+      "version": "1.44.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "opentelemetry-exporter-otlp-proto-common",
+      "purl": "pkg:pypi/opentelemetry-exporter-otlp-proto-common@1.44.0",
+      "type": "library",
+      "version": "1.44.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "opentelemetry-exporter-otlp-proto-http",
+      "purl": "pkg:pypi/opentelemetry-exporter-otlp-proto-http@1.44.0",
+      "type": "library",
+      "version": "1.44.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "opentelemetry-instrumentation-asgi",
+      "purl": "pkg:pypi/opentelemetry-instrumentation-asgi@0.65b0",
+      "type": "library",
+      "version": "0.65b0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "opentelemetry-instrumentation-fastapi",
+      "purl": "pkg:pypi/opentelemetry-instrumentation-fastapi@0.65b0",
+      "type": "library",
+      "version": "0.65b0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "opentelemetry-instrumentation",
+      "purl": "pkg:pypi/opentelemetry-instrumentation@0.65b0",
+      "type": "library",
+      "version": "0.65b0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "opentelemetry-proto",
+      "purl": "pkg:pypi/opentelemetry-proto@1.44.0",
+      "type": "library",
+      "version": "1.44.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "opentelemetry-sdk",
+      "purl": "pkg:pypi/opentelemetry-sdk@1.44.0",
+      "type": "library",
+      "version": "1.44.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "opentelemetry-semantic-conventions",
+      "purl": "pkg:pypi/opentelemetry-semantic-conventions@0.65b0",
+      "type": "library",
+      "version": "0.65b0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "opentelemetry-util-http",
+      "purl": "pkg:pypi/opentelemetry-util-http@0.65b0",
+      "type": "library",
+      "version": "0.65b0"
     },
     {
       "group": "python",
@@ -2474,6 +2726,34 @@
           }
         }
       ],
+      "name": "pycparser",
+      "purl": "pkg:pypi/pycparser@3.0",
+      "type": "library",
+      "version": "3.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "pycryptodome",
+      "purl": "pkg:pypi/pycryptodome@3.23.0",
+      "type": "library",
+      "version": "3.23.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
       "name": "pydantic-core",
       "purl": "pkg:pypi/pydantic-core@2.46.4",
       "type": "library",
@@ -2572,10 +2852,10 @@
           }
         }
       ],
-      "name": "rag-commerce-v2-workspace",
-      "purl": "pkg:pypi/rag-commerce-v2-workspace@0.1.0",
+      "name": "rag-commerce-v3-workspace",
+      "purl": "pkg:pypi/rag-commerce-v3-workspace@0.3.0",
       "type": "library",
-      "version": "0.1.0"
+      "version": "0.3.0"
     },
     {
       "group": "python",
@@ -2800,6 +3080,20 @@
       "purl": "pkg:pypi/websockets@16.1.1",
       "type": "library",
       "version": "16.1.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "wrapt",
+      "purl": "pkg:pypi/wrapt@2.3.0",
+      "type": "library",
+      "version": "2.3.0"
     },
     {
       "group": "python",

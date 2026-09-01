@@ -1,9 +1,37 @@
-"""Load development seed projections without turning seed price into a quote."""
+"""Load evidence-carrying catalog projections."""
 
+import hashlib
 import json
 from pathlib import Path
 
-from .search import EvidenceBundle, SearchDocument
+from .search import EvidenceBundle, SearchDocument, TrustLevel
+
+
+def load_demo_documents(path: Path) -> tuple[SearchDocument, ...]:
+    content = path.read_bytes()
+    digest = hashlib.sha256(content).hexdigest()
+    documents = []
+    for line in content.decode("utf-8").splitlines():
+        item = json.loads(line)
+        documents.append(
+            SearchDocument(
+                seed_id=item["product_id"],
+                title=item["title"],
+                brand=item["brand"],
+                category=item["category"],
+                attributes={key: str(value) for key, value in item["attributes"].items()},
+                scenarios=tuple(item["scenarios"]),
+                evidence=EvidenceBundle(
+                    "data/demo/catalog.v3.jsonl",
+                    digest,
+                    item["product_id"],
+                    ("title", "brand", "category", "attributes", "scenarios", "fit_tags"),
+                    TrustLevel.PROJECT_AUTHORED_DEMO,
+                ),
+                historical_price_minor=item["offer"]["price_minor"],
+            )
+        )
+    return tuple(documents)
 
 
 def load_seed_documents(path: Path) -> tuple[SearchDocument, ...]:

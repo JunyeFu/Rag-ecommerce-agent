@@ -65,11 +65,16 @@ class ToolInvocationSummary(OpsModel):
 
 class AgentTraceSummary(OpsModel):
     run_id: str
-    status: Literal["COMPLETED", "FAILED", "WAITING_APPROVAL"]
+    status: Literal["COMPLETED", "FAILED", "WAITING_APPROVAL", "WAITING_CLARIFICATION"]
     prompt_version: str
     model_version: str
     duration_ms: int
     estimated_cost_microunits: int
+    input_tokens: int
+    output_tokens: int
+    retrieval_hits: int
+    last_event_id: int
+    recovered: bool
     tools: list[ToolInvocationSummary]
     redaction_policy: str
     created_at: datetime
@@ -204,6 +209,11 @@ class InMemoryOpsStore:
                 model_version="deterministic-planner-v1",
                 duration_ms=284,
                 estimated_cost_microunits=0,
+                input_tokens=0,
+                output_tokens=0,
+                retrieval_hits=3,
+                last_event_id=42,
+                recovered=False,
                 tools=[
                     ToolInvocationSummary(
                         tool="search_catalog",

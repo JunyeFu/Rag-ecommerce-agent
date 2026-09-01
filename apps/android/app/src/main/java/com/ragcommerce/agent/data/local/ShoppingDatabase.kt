@@ -43,6 +43,12 @@ interface ShoppingDao {
 
     @Query("DELETE FROM saved_items WHERE itemKey = :key")
     suspend fun deleteItem(key: String)
+
+    @Query("DELETE FROM missions")
+    suspend fun clearMissions()
+
+    @Query("DELETE FROM saved_items")
+    suspend fun clearSavedItems()
 }
 
 @Database(

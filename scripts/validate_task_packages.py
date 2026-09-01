@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the V2 task package baseline with only the Python standard library."""
+"""Validate the versioned task package baseline with only the Python standard library."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 TASK_ROOT = ROOT / "docs" / "task-packages"
 MANIFEST_PATH = TASK_ROOT / "manifest.json"
+CONTROL_INDEX_PATH = TASK_ROOT / "control-index.json"
 REQUIRED_HEADINGS = [
     "## 目标",
     "## 状态",
@@ -28,7 +29,7 @@ REQUIRED_HEADINGS = [
     "## 停止条件",
     "## 交接格式",
 ]
-PACKAGE_ID = re.compile(r"^V2-[A-Z]+-[0-9]{2}$")
+PACKAGE_ID = re.compile(r"^V[23]-[A-Z]+(?:-[A-Z]+)*-[0-9]{2}$")
 SUSPICIOUS_VALUE = re.compile(
     r"(?i)(?:api[_-]?key|client[_-]?secret|access[_-]?token|password)\s*[:=]\s*[\"']?[A-Za-z0-9_./+=-]{16,}"
 )
@@ -50,6 +51,8 @@ REQUIRED_DATA_FIELDS = {
     "development_refs",
     "risk_refs",
 }
+CONTROL_LEVELS = ("large", "medium", "small")
+CONFIRMATION_STATUS = {"pending", "awaiting_user", "confirmed", "revise", "deferred"}
 
 
 def load_json(path: Path, errors: list[str]) -> Any:
@@ -130,6 +133,83 @@ def validate_source_hashes(errors: list[str], warnings: list[str]) -> None:
         actual = sha256_file(candidate)
         if actual.lower() != expected.lower():
             errors.append(f"source seed hash drift: {key} expected={expected} actual={actual}")
+
+
+def validate_control_index(package_ids: set[str], errors: list[str]) -> None:
+    control = load_json(CONTROL_INDEX_PATH, errors)
+    if not isinstance(control, dict):
+        return
+    if control.get("schema_version") != 1:
+        errors.append("control-index schema_version must equal 1")
+    if control.get("control_model") != "large_medium_small":
+        errors.append("control-index control_model must equal large_medium_small")
+    nodes: dict[str, tuple[str, dict[str, Any]]] = {}
+    for level in CONTROL_LEVELS:
+        values = control.get(level)
+        if not isinstance(values, list) or not values:
+            errors.append(f"control-index {level} must be a non-empty list")
+            continue
+        for node in values:
+            if not isinstance(node, dict) or not isinstance(node.get("id"), str):
+                errors.append(f"control-index {level} contains an invalid node")
+                continue
+            node_id = node["id"]
+            if node_id in nodes:
+                errors.append(f"control-index duplicate node {node_id}")
+            nodes[node_id] = (level, node)
+            if node_id not in package_ids:
+                errors.append(f"control-index node is missing from manifest: {node_id}")
+    for node_id, (level, node) in nodes.items():
+        if level == "large":
+            if node.get("parent_id") is not None:
+                errors.append(f"{node_id}: large node cannot have parent_id")
+        else:
+            parent_id = node.get("parent_id")
+            expected_level = "large" if level == "medium" else "medium"
+            if parent_id not in nodes or nodes[parent_id][0] != expected_level:
+                errors.append(f"{node_id}: invalid {expected_level} parent {parent_id!r}")
+            elif node_id not in nodes[parent_id][1].get("children", []):
+                errors.append(f"{node_id}: parent does not list child")
+        for child_id in node.get("children", []):
+            if child_id not in nodes or nodes[child_id][1].get("parent_id") != node_id:
+                errors.append(f"{node_id}: invalid child relationship {child_id!r}")
+    small = control.get("small", [])
+    orders: list[int] = []
+    awaiting = 0
+    for node in small if isinstance(small, list) else []:
+        if not isinstance(node, dict):
+            continue
+        order = node.get("confirmation_order")
+        if not isinstance(order, int) or order < 1:
+            errors.append(f"{node.get('id')}: invalid confirmation_order")
+        else:
+            orders.append(order)
+        status = node.get("confirmation_status")
+        if status not in CONFIRMATION_STATUS:
+            errors.append(f"{node.get('id')}: invalid confirmation_status {status!r}")
+        awaiting += status == "awaiting_user"
+        prompt = node.get("preview_prompt")
+        if not isinstance(prompt, str) or not is_safe_relative(prompt):
+            errors.append(f"{node.get('id')}: unsafe preview_prompt {prompt!r}")
+        elif not (ROOT / prompt).is_file():
+            errors.append(f"{node.get('id')}: missing preview prompt {prompt}")
+    if sorted(orders) != list(range(1, len(orders) + 1)):
+        errors.append("control-index confirmation_order must be contiguous from 1")
+    if awaiting > 1:
+        errors.append("control-index allows at most one awaiting_user item")
+    policy = control.get("confirmation_policy")
+    if not isinstance(policy, dict) or policy.get("mode") != "one_at_a_time":
+        errors.append("control-index confirmation_policy.mode must equal one_at_a_time")
+    else:
+        current_package = policy.get("current_package")
+        small_ids = {node.get("id") for node in small}
+        if current_package is None:
+            if awaiting:
+                errors.append(
+                    "control-index current_package is required while confirmation is awaiting_user"
+                )
+        elif current_package not in small_ids:
+            errors.append("control-index current_package must reference a small package")
 
 
 def main() -> int:
@@ -251,6 +331,7 @@ def main() -> int:
     if duplicates:
         errors.append("duplicate package ids: " + ", ".join(sorted(duplicates)))
     validate_dag(packages, errors)
+    validate_control_index(set(ids), errors)
 
     source_baseline = manifest.get("source_baseline")
     if not isinstance(source_baseline, str) or not is_safe_relative(source_baseline):

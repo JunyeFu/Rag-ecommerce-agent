@@ -8,6 +8,7 @@ import pytest
 from ragcommerce_agent_runtime.schema_v1 import metadata as agent_metadata
 from ragcommerce_api.ops_schema_v1 import metadata as ops_metadata
 from ragcommerce_api.schema_v1 import metadata as api_metadata
+from ragcommerce_api.v3_schema import metadata as v3_metadata
 from ragcommerce_domain.persistence import metadata
 from ragcommerce_retrieval.schema_v1 import metadata as retrieval_metadata
 from sqlalchemy import create_engine, inspect
@@ -20,7 +21,7 @@ def database_url() -> str:
     value = os.environ.get("DOMAIN_DATABASE_URL")
     if not value:
         pytest.skip("DOMAIN_DATABASE_URL is required for migration integration")
-    return value
+    return value.replace("postgresql://", "postgresql+psycopg://", 1)
 
 
 def test_migrated_tables_match_frozen_metadata() -> None:
@@ -30,7 +31,7 @@ def test_migrated_tables_match_frozen_metadata() -> None:
             retrieval_metadata.tables
         ) | set(agent_metadata.tables) | set(api_metadata.tables) | set(ops_metadata.tables) | {
             "alembic_version"
-        }
+        } | set(v3_metadata.tables)
     finally:
         engine.dispose()
 

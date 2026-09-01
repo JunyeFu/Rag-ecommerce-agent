@@ -1,0 +1,15 @@
+{
+  "catalog_sha256": "70122f467bbac0b32a1d1f3a6b6338d0854b3c1870db06bd0a248849be0dc909",
+  "categories": {
+    "手机": 15,
+    "电脑": 15,
+    "相机": 15,
+    "耳机": 15
+  },
+  "commercial_claim": false,
+  "dataset": "rag-commerce-project-authored-demo-v3",
+  "generator": "scripts/generate_demo_catalog.py",
+  "license_status": "project_authored_demo_only",
+  "records": 60,
+  "schema_version": 3
+}

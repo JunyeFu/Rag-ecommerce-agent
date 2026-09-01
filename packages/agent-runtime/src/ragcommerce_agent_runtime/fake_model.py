@@ -10,12 +10,12 @@ class ScriptedPlanner:
     calls: tuple[ToolCall, ...]
     message: str = "已根据工具证据完成。"
 
-    def plan(
+    async def plan(
         self, command: TurnCommand, prior_results: tuple[ToolResult, ...], replan: int
     ) -> tuple[ToolCall, ...]:
-        return self.calls
+        return () if prior_results else self.calls
 
-    def respond(self, command: TurnCommand, results: tuple[ToolResult, ...]) -> str:
+    async def respond(self, command: TurnCommand, results: tuple[ToolResult, ...]) -> str:
         return self.message
 
     def usage(self) -> dict[str, int | str]:
