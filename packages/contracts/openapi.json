@@ -38,17 +38,37 @@
             "title": "Estimated Cost Microunits",
             "type": "integer"
           },
+          "input_tokens": {
+            "title": "Input Tokens",
+            "type": "integer"
+          },
+          "last_event_id": {
+            "title": "Last Event Id",
+            "type": "integer"
+          },
           "model_version": {
             "title": "Model Version",
             "type": "string"
+          },
+          "output_tokens": {
+            "title": "Output Tokens",
+            "type": "integer"
           },
           "prompt_version": {
             "title": "Prompt Version",
             "type": "string"
           },
+          "recovered": {
+            "title": "Recovered",
+            "type": "boolean"
+          },
           "redaction_policy": {
             "title": "Redaction Policy",
             "type": "string"
+          },
+          "retrieval_hits": {
+            "title": "Retrieval Hits",
+            "type": "integer"
           },
           "run_id": {
             "title": "Run Id",
@@ -58,7 +78,8 @@
             "enum": [
               "COMPLETED",
               "FAILED",
-              "WAITING_APPROVAL"
+              "WAITING_APPROVAL",
+              "WAITING_CLARIFICATION"
             ],
             "title": "Status",
             "type": "string"
@@ -78,6 +99,11 @@
           "model_version",
           "duration_ms",
           "estimated_cost_microunits",
+          "input_tokens",
+          "output_tokens",
+          "retrieval_hits",
+          "last_event_id",
+          "recovered",
           "tools",
           "redaction_policy",
           "created_at"
@@ -673,7 +699,8 @@
             "enum": [
               "LIVE_AUTHORIZED",
               "FEED_VERIFIED",
-              "DISCOVERY_ONLY"
+              "DISCOVERY_ONLY",
+              "DEMO_FIXTURE"
             ],
             "title": "Verification",
             "type": "string"
@@ -774,6 +801,128 @@
           }
         },
         "title": "PatchListRequest",
+        "type": "object"
+      },
+      "ProductCandidateView": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Evidence Refs",
+            "type": "array"
+          },
+          "fit_summary": {
+            "default": "",
+            "title": "Fit Summary",
+            "type": "string"
+          },
+          "matched_constraints": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Matched Constraints",
+            "type": "array"
+          },
+          "product_id": {
+            "format": "uuid",
+            "title": "Product Id",
+            "type": "string"
+          },
+          "risks": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Risks",
+            "type": "array"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "unmet_constraints": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Unmet Constraints",
+            "type": "array"
+          },
+          "variant_id": {
+            "format": "uuid",
+            "title": "Variant Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "product_id",
+          "variant_id",
+          "title"
+        ],
+        "title": "ProductCandidateView",
+        "type": "object"
+      },
+      "ProductView": {
+        "additionalProperties": false,
+        "properties": {
+          "attributes": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Attributes",
+            "type": "object"
+          },
+          "brand": {
+            "title": "Brand",
+            "type": "string"
+          },
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Evidence Refs",
+            "type": "array"
+          },
+          "image_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Ref"
+          },
+          "product_id": {
+            "format": "uuid",
+            "title": "Product Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "variant_id": {
+            "format": "uuid",
+            "title": "Variant Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "product_id",
+          "variant_id",
+          "title",
+          "category",
+          "brand",
+          "attributes",
+          "evidence_refs"
+        ],
+        "title": "ProductView",
         "type": "object"
       },
       "ReleaseGate": {
@@ -1030,6 +1179,69 @@
         "title": "ThreadCreated",
         "type": "object"
       },
+      "ThreadSnapshot": {
+        "additionalProperties": false,
+        "properties": {
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/ProductCandidateView"
+            },
+            "title": "Candidates",
+            "type": "array"
+          },
+          "goal": {
+            "title": "Goal",
+            "type": "string"
+          },
+          "last_event_id": {
+            "minimum": 0.0,
+            "title": "Last Event Id",
+            "type": "integer"
+          },
+          "mission_id": {
+            "format": "uuid",
+            "title": "Mission Id",
+            "type": "string"
+          },
+          "pending_action": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pending Action"
+          },
+          "status": {
+            "enum": [
+              "IDLE",
+              "RUNNING",
+              "WAITING_APPROVAL",
+              "WAITING_CLARIFICATION",
+              "COMPLETED",
+              "FAILED"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "thread_id": {
+            "format": "uuid",
+            "title": "Thread Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "thread_id",
+          "mission_id",
+          "goal",
+          "status",
+          "last_event_id"
+        ],
+        "title": "ThreadSnapshot",
+        "type": "object"
+      },
       "ToolInvocationSummary": {
         "additionalProperties": false,
         "properties": {
@@ -1165,7 +1377,7 @@
   "info": {
     "description": "Unified multimodal shopping turns, bounded media references and resumable public Agent events.",
     "title": "RAG Commerce Shopping Agent API",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -2522,6 +2734,65 @@
         ]
       }
     },
+    "/v1/products/{product_id}": {
+      "get": {
+        "operationId": "getProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Product Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Product",
+        "tags": [
+          "commerce"
+        ]
+      }
+    },
     "/v1/products/{product_id}/offers": {
       "get": {
         "operationId": "getProductOffers",
@@ -2645,6 +2916,65 @@
           }
         },
         "summary": "Create Thread",
+        "tags": [
+          "threads"
+        ]
+      }
+    },
+    "/v1/threads/{thread_id}": {
+      "get": {
+        "operationId": "getThread",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadSnapshot"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Thread",
         "tags": [
           "threads"
         ]

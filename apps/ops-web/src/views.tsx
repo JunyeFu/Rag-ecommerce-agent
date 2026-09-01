@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
-import type { ConnectorStatus, EntityConflict, EvaluationRun } from "./generated/api-contracts";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { ConnectorStatus, EntityConflict } from "./generated/api-contracts";
 import { EvidenceBoundary, Icon, PageHeading, RatioBar, StatusTag } from "./components";
-import { connectors, entityConflicts, evaluationRuns, releaseGates, traces } from "./ops-data";
+import { opsClient } from "./generated/ops-client";
 
 function formatPercent(value?: number | null) {
   return value == null ? "—" : `${(value * 100).toFixed(2)}%`;
@@ -14,10 +15,45 @@ function formatFreshness(value?: number | null) {
   return `${minutes}分${seconds}秒`;
 }
 
+export function OverviewView() {
+  const { data: connectors = [] } = useQuery({ queryKey: ["ops", "connectors"], queryFn: opsClient.connectors });
+  const { data: traces = [] } = useQuery({ queryKey: ["ops", "traces"], queryFn: opsClient.traces });
+  const { data: evaluations = [] } = useQuery({ queryKey: ["ops", "evaluations"], queryFn: opsClient.evaluations });
+  const { data: gates = [] } = useQuery({ queryKey: ["ops", "release"], queryFn: opsClient.releaseGates });
+  return (
+    <section className="page-canvas standalone">
+      <PageHeading title="运行概览" summary="当前运营 API 的连接器、Agent、评测与发布边界；所有数值保留其证据等级。" />
+      <div className="analytics-band">
+        <section className="chart-panel"><header><h2>Agent 运行</h2><span>{traces.length} 条公共 Trace</span></header><p>{traces.filter((item) => item.status === "COMPLETED").length} completed · {traces.reduce((sum, item) => sum + item.retrieval_hits, 0)} retrieval hits</p></section>
+        <section className="limit-panel"><header><h2>发布边界</h2><span>{gates.filter((item) => item.status === "PASSED").length}/{gates.length} passed</span></header><p>{gates.filter((item) => item.status !== "PASSED").length} 个门禁尚未完成</p></section>
+      </div>
+      <div className="table-scroll"><table><caption className="sr-only">运行概览</caption><thead><tr><th>连接器</th><th>异常</th><th>评测运行</th><th>排队</th><th>证据模式</th></tr></thead><tbody><tr><td>{connectors.length}</td><td>{connectors.filter((item) => item.health !== "HEALTHY").length}</td><td>{evaluations.length}</td><td>{evaluations.filter((item) => item.status === "QUEUED").length}</td><td>fixture / local / external gate 分层</td></tr></tbody></table></div>
+    </section>
+  );
+}
+
+export function RetrievalView() {
+  const { data: traces = [] } = useQuery({ queryKey: ["ops", "traces"], queryFn: opsClient.traces });
+  return (
+    <section className="page-canvas standalone">
+      <PageHeading title="检索观测" summary="从公共 Trace 读取检索命中、EvidenceRef 与耗时；不展示原始查询或隐藏评分。" />
+      <div className="table-scroll"><table><caption className="sr-only">检索观测记录</caption><thead><tr><th>Run</th><th>命中</th><th>检索工具</th><th>EvidenceRef</th><th>耗时</th></tr></thead><tbody>{traces.map((trace) => { const tools = trace.tools.filter((tool) => tool.tool.includes("search") || tool.tool.includes("catalog")); return <tr key={trace.run_id}><td><b>{trace.run_id}</b></td><td>{trace.retrieval_hits}</td><td>{tools.map((tool) => tool.tool).join(", ") || "—"}</td><td>{tools.flatMap((tool) => tool.evidence_refs).join(", ") || "—"}</td><td>{tools.reduce((sum, tool) => sum + tool.duration_ms, 0)} ms</td></tr>; })}</tbody></table></div>
+    </section>
+  );
+}
+
 export function ConnectorView() {
-  const [selectedId, setSelectedId] = useState(connectors[0].source_id);
+  const { data: connectors = [] } = useQuery({ queryKey: ["ops", "connectors"], queryFn: opsClient.connectors });
+  const [selectedId, setSelectedId] = useState<string>();
   const selected = connectors.find((item) => item.source_id === selectedId) ?? connectors[0];
-  const histogram = [4, 14, 36, 23, 11, 6, 3, 1];
+  const histogram = useMemo(() => {
+    const buckets = Array(8).fill(0);
+    connectors.forEach((item) => {
+      const index = Math.min(7, Math.floor((item.freshness_p50_seconds ?? 0) / 900));
+      buckets[index] += 1;
+    });
+    return buckets;
+  }, [connectors]);
 
   return (
     <div className="page-with-rail">
@@ -51,7 +87,7 @@ export function ConnectorView() {
                   <td>{formatPercent(item.error_rate_5m)}</td>
                   <td><span>{item.requests_used.toLocaleString()} / {item.requests_limit.toLocaleString()}</span><RatioBar value={item.requests_used / item.requests_limit} /></td>
                   <td>{formatFreshness(item.freshness_p50_seconds)}</td>
-                  <td><time dateTime={item.last_observed_at}>17:00:00</time></td>
+                  <td><time dateTime={item.last_observed_at}>{new Date(item.last_observed_at).toLocaleTimeString()}</time></td>
                   <td><button aria-label={`查看 ${item.display_name}`} className="icon-button" onClick={() => setSelectedId(item.source_id)} type="button"><Icon name="chevron" size={17} /></button></td>
                 </tr>
               ))}
@@ -74,7 +110,7 @@ export function ConnectorView() {
           </section>
         </div>
       </section>
-      <ConnectorRail connector={selected} />
+      {selected ? <ConnectorRail connector={selected} /> : <aside className="detail-rail">正在读取连接器状态</aside>}
     </div>
   );
 }
@@ -83,7 +119,7 @@ function ConnectorRail({ connector }: { connector: ConnectorStatus }) {
   return (
     <aside className="detail-rail" aria-label={`${connector.display_name}详情`}>
       <header><div><h2>{connector.display_name}</h2><StatusTag value={connector.health} /></div><span>{connector.source_id}</span></header>
-      <section><h3>状态概览</h3><dl className="fact-list"><div><dt>授权状态</dt><dd><StatusTag value={connector.authorization} /></dd></div><div><dt>错误率(5m)</dt><dd>{formatPercent(connector.error_rate_5m)}</dd></div><div><dt>报价新鲜度</dt><dd>{formatFreshness(connector.freshness_p50_seconds)}</dd></div><div><dt>更新时间</dt><dd>17:00:00 CST</dd></div></dl></section>
+      <section><h3>状态概览</h3><dl className="fact-list"><div><dt>授权状态</dt><dd><StatusTag value={connector.authorization} /></dd></div><div><dt>错误率(5m)</dt><dd>{formatPercent(connector.error_rate_5m)}</dd></div><div><dt>报价新鲜度</dt><dd>{formatFreshness(connector.freshness_p50_seconds)}</dd></div><div><dt>更新时间</dt><dd>{new Date(connector.last_observed_at).toLocaleString()}</dd></div></dl></section>
       <section><h3>主要问题</h3><p className="warning-box">本地 fixture 可验证契约和降级状态，但不能证明联盟授权、live 报价或生产限流有效。</p></section>
       <section className="rail-actions"><h3>操作</h3><button type="button">刷新本地证据</button><button disabled title="需要生产 SSO/RBAC 与安全审批" type="button">提升配额</button><button disabled title="需要生产 SSO/RBAC 与安全审批" type="button">暂停来源</button></section>
       <section><h3>证据边界</h3><EvidenceBoundary local={connector.evidence.local_evidence} external={connector.evidence.external_gate} /></section>
@@ -93,13 +129,19 @@ function ConnectorRail({ connector }: { connector: ConnectorStatus }) {
 }
 
 export function ConflictView() {
-  const [items, setItems] = useState(entityConflicts);
+  const client = useQueryClient();
+  const { data: items = [] } = useQuery({ queryKey: ["ops", "conflicts"], queryFn: opsClient.conflicts });
+  const mutation = useMutation({
+    mutationFn: ({ item, decision, reason }: { item: EntityConflict; decision: "MERGE" | "KEEP_SEPARATE"; reason: string }) =>
+      opsClient.resolveConflict(item.conflict_id, decision, reason),
+    onSuccess: () => client.invalidateQueries({ queryKey: ["ops", "conflicts"] }),
+  });
   const [reason, setReason] = useState("来源型号字段存在可复核冲突");
   const pending = items.filter((item) => item.status === "PENDING").length;
 
   function resolve(item: EntityConflict, status: EntityConflict["status"]) {
     if (reason.trim().length < 12) return;
-    setItems((current) => current.map((value) => value.conflict_id === item.conflict_id ? { ...value, status } : value));
+    mutation.mutate({ item, decision: status === "MERGED" ? "MERGE" : "KEEP_SEPARATE", reason });
   }
 
   return (
@@ -117,37 +159,26 @@ export function ConflictView() {
 }
 
 export function TraceView() {
-  const [selectedId, setSelectedId] = useState(traces[0].run_id);
+  const { data: traces = [] } = useQuery({ queryKey: ["ops", "traces"], queryFn: opsClient.traces });
+  const [selectedId, setSelectedId] = useState<string>();
   const selected = traces.find((item) => item.run_id === selectedId) ?? traces[0];
   return (
     <section className="page-canvas standalone">
       <PageHeading title="Agent Trace" summary="只读公共轨迹：版本、阶段、工具摘要、哈希与 EvidenceRef；不展示思维链或原始输入。" />
       <div className="split-view">
-        <div className="table-scroll"><table><caption className="sr-only">Agent 运行轨迹</caption><thead><tr><th>Run</th><th>状态</th><th>模型 / Prompt</th><th>工具</th><th>耗时</th><th>成本估算</th></tr></thead><tbody>{traces.map((trace) => <tr className={trace.run_id === selectedId ? "selected-row" : ""} key={trace.run_id} onClick={() => setSelectedId(trace.run_id)}><td><button className="source-button" onClick={() => setSelectedId(trace.run_id)} type="button"><b>{trace.run_id}</b><small>{trace.created_at.slice(0, 10)}</small></button></td><td><StatusTag value={trace.status} /></td><td>{trace.model_version}<br /><small>{trace.prompt_version}</small></td><td>{trace.tools.length}</td><td>{trace.duration_ms} ms</td><td>{trace.estimated_cost_microunits} μ</td></tr>)}</tbody></table></div>
-        <aside className="trace-detail"><h2>{selected.run_id}</h2><p>{selected.redaction_policy}</p>{selected.tools.map((tool) => <div className="tool-step" key={`${tool.tool}-${tool.arguments_sha256}`}><span /><div><strong>{tool.tool}</strong><StatusTag value={tool.status} /><dl><dt>参数摘要</dt><dd>{tool.arguments_sha256}</dd><dt>EvidenceRef</dt><dd>{tool.evidence_refs.join(", ")}</dd><dt>耗时</dt><dd>{tool.duration_ms} ms</dd></dl></div></div>)}</aside>
+        <div className="table-scroll"><table><caption className="sr-only">Agent 运行轨迹</caption><thead><tr><th>Run</th><th>状态</th><th>模型 / Prompt</th><th>检索命中</th><th>Token</th><th>耗时</th><th>成本估算</th></tr></thead><tbody>{traces.map((trace) => <tr className={trace.run_id === selectedId ? "selected-row" : ""} key={trace.run_id} onClick={() => setSelectedId(trace.run_id)}><td><button className="source-button" onClick={() => setSelectedId(trace.run_id)} type="button"><b>{trace.run_id}</b><small>{trace.created_at.slice(0, 10)}</small></button></td><td><StatusTag value={trace.status} /></td><td>{trace.model_version}<br /><small>{trace.prompt_version}</small></td><td>{trace.retrieval_hits}</td><td>{trace.input_tokens + trace.output_tokens}</td><td>{trace.duration_ms} ms</td><td>{trace.estimated_cost_microunits} μ</td></tr>)}</tbody></table></div>
+        {selected ? <aside className="trace-detail"><h2>{selected.run_id}</h2><p>{selected.redaction_policy}</p><dl><dt>事件游标</dt><dd>{selected.last_event_id}</dd><dt>恢复运行</dt><dd>{selected.recovered ? "是" : "否"}</dd><dt>Token</dt><dd>{selected.input_tokens} in / {selected.output_tokens} out</dd></dl>{selected.tools.map((tool) => <div className="tool-step" key={`${tool.tool}-${tool.arguments_sha256}`}><span /><div><strong>{tool.tool}</strong><StatusTag value={tool.status} /><dl><dt>参数摘要</dt><dd>{tool.arguments_sha256}</dd><dt>EvidenceRef</dt><dd>{tool.evidence_refs.join(", ")}</dd><dt>耗时</dt><dd>{tool.duration_ms} ms</dd></dl></div></div>)}</aside> : <aside className="trace-detail">正在读取 Trace</aside>}
       </div>
     </section>
   );
 }
 
 export function EvaluationView() {
-  const [runs, setRuns] = useState(evaluationRuns);
+  const client = useQueryClient();
+  const { data: runs = [] } = useQuery({ queryKey: ["ops", "evaluations"], queryFn: opsClient.evaluations });
+  const mutation = useMutation({ mutationFn: opsClient.startEvaluation, onSuccess: () => client.invalidateQueries({ queryKey: ["ops", "evaluations"] }) });
   function queueRun() {
-    const next: EvaluationRun = {
-      ...evaluationRuns[0],
-      run_id: `eval-queued-${runs.length + 1}`,
-      dataset_version: "v2-competition-1",
-      runner_version: "deterministic-1",
-      status: "QUEUED",
-      case_count: 0,
-      metrics: {},
-      evidence: {
-        local_evidence: "pending:runner",
-        external_gate: "真实模型预算和 held-out 人工双评未批准",
-      },
-      created_at: new Date().toISOString(),
-    };
-    setRuns((current) => [...current, next]);
+    mutation.mutate();
   }
   return (
     <section className="page-canvas standalone">
@@ -159,7 +190,8 @@ export function EvaluationView() {
 }
 
 export function ReleaseView() {
-  const passed = useMemo(() => releaseGates.filter((gate) => gate.status === "PASSED").length, []);
+  const { data: releaseGates = [] } = useQuery({ queryKey: ["ops", "release"], queryFn: opsClient.releaseGates });
+  const passed = useMemo(() => releaseGates.filter((gate) => gate.status === "PASSED").length, [releaseGates]);
   return (
     <section className="page-canvas standalone">
       <PageHeading title="发布门禁" summary={`${passed}/${releaseGates.length} 层有当前通过证据；LIVE、HUMAN 与 RELEASE 不得由本地检查代替。`} />

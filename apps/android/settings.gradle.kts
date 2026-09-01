@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "rag-commerce-v2-android"
+rootProject.name = "rag-commerce-v3-android"
 include(":app")
 include(":benchmark")

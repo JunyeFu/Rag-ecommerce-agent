@@ -34,7 +34,7 @@
     "OfferQuote": {
       "type": "object", "additionalProperties": false,
       "required": ["id", "offer_id", "verification", "availability", "collected_at", "expires_at", "source_ref"],
-      "properties": {"id": {"$ref": "#/$defs/Id"}, "offer_id": {"$ref": "#/$defs/Id"}, "verification": {"enum": ["LIVE_AUTHORIZED", "FEED_VERIFIED", "DISCOVERY_ONLY"]}, "availability": {"enum": ["AVAILABLE", "UNAVAILABLE", "UNKNOWN"]}, "price": {"oneOf": [{"$ref": "#/$defs/Money"}, {"type": "null"}]}, "shipping": {"oneOf": [{"$ref": "#/$defs/Money"}, {"type": "null"}]}, "collected_at": {"type": "string", "format": "date-time"}, "expires_at": {"type": "string", "format": "date-time"}, "source_ref": {"type": "string", "minLength": 1}}
+      "properties": {"id": {"$ref": "#/$defs/Id"}, "offer_id": {"$ref": "#/$defs/Id"}, "verification": {"enum": ["LIVE_AUTHORIZED", "FEED_VERIFIED", "DISCOVERY_ONLY", "DEMO_FIXTURE"]}, "availability": {"enum": ["AVAILABLE", "UNAVAILABLE", "UNKNOWN"]}, "price": {"oneOf": [{"$ref": "#/$defs/Money"}, {"type": "null"}]}, "shipping": {"oneOf": [{"$ref": "#/$defs/Money"}, {"type": "null"}]}, "collected_at": {"type": "string", "format": "date-time"}, "expires_at": {"type": "string", "format": "date-time"}, "source_ref": {"type": "string", "minLength": 1}}
     },
     "AgentRunEvidence": {
       "type": "object", "additionalProperties": false,

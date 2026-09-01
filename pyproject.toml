@@ -1,7 +1,7 @@
 [project]
-name = "rag-commerce-v2-workspace"
-version = "0.1.0"
-description = "Commercial RAG shopping Agent V2 monorepo"
+name = "rag-commerce-v3-workspace"
+version = "0.3.0"
+description = "Commercial RAG shopping Agent V3 monorepo"
 requires-python = ">=3.12.11,<3.13"
 dependencies = [
     "alembic==1.19.1",
@@ -12,6 +12,10 @@ dependencies = [
     "qdrant-client==1.19.0",
     "sqlalchemy==2.0.52",
     "uvicorn==0.52.4",
+    "minio>=7.2.20",
+    "opentelemetry-sdk>=1.44.0",
+    "opentelemetry-exporter-otlp-proto-http>=1.44.0",
+    "opentelemetry-instrumentation-fastapi>=0.65b0",
 ]
 
 [dependency-groups]

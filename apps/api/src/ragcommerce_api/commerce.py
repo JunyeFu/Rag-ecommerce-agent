@@ -11,6 +11,7 @@ from ragcommerce_contracts import (
     CreateListRequest,
     OfferCollection,
     PatchListRequest,
+    ProductView,
     ResolvedOffer,
     ResolveOfferRequest,
     ShoppingListsResponse,
@@ -19,6 +20,8 @@ from ragcommerce_contracts import (
 
 
 class CommercePort(Protocol):
+    def get_product(self, user_id: UUID, product_id: UUID) -> ProductView: ...
+
     def get_offers(self, user_id: UUID, product_id: UUID, fresh: bool) -> OfferCollection: ...
 
     def resolve_offer(

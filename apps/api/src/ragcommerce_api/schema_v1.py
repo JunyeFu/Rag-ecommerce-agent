@@ -34,6 +34,7 @@ api_turns = Table(
     Column("request_sha256", String(64), nullable=False),
     Column("command", JSONB, nullable=False),
     Column("status", String(32), nullable=False),
+    Column("claimed_at", DateTime(timezone=True), nullable=True),
     Column("created_at", DateTime(timezone=True), nullable=False),
     UniqueConstraint("owner_id", "thread_id", "idempotency_key", name="uq_api_turn_idempotency"),
 )

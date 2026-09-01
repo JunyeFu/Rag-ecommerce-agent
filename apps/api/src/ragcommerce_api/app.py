@@ -8,7 +8,7 @@ from collections.abc import AsyncIterator, Awaitable, Callable
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import Body, FastAPI, Header, HTTPException, Request, Response, status
+from fastapi import BackgroundTasks, Body, FastAPI, Header, HTTPException, Request, Response, status
 from fastapi.responses import StreamingResponse
 from ragcommerce_contracts import (
     CONTRACT_VERSION,
@@ -23,11 +23,13 @@ from ragcommerce_contracts import (
     MediaCreated,
     OfferCollection,
     PatchListRequest,
+    ProductView,
     ResolvedOffer,
     ResolveOfferRequest,
     ShoppingListsResponse,
     ShoppingListView,
     ThreadCreated,
+    ThreadSnapshot,
     TurnAccepted,
     TurnRequest,
 )
@@ -57,6 +59,7 @@ def create_app(
     commerce: CommercePort | None = None,
     ops_store: InMemoryOpsStore | None = None,
     data_eraser: UserDataEraser | None = None,
+    execute_background: bool = True,
 ) -> FastAPI:
     application = FastAPI(
         title="RAG Commerce Shopping Agent API",
@@ -70,6 +73,7 @@ def create_app(
     application.state.commerce = commerce
     application.state.ops_store = ops_store
     application.state.data_eraser = data_eraser
+    application.state.execute_background = execute_background
 
     def identity(x_user_id: Annotated[str | None, Header(alias="X-User-ID")] = None) -> UUID:
         try:
@@ -126,6 +130,14 @@ def create_app(
         except ValueError as exc:
             raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(exc)) from exc
         return ThreadCreated(thread_id=record.id, mission_id=record.mission_id)
+
+    async def get_thread(
+        thread_id: UUID, x_user_id: Annotated[str | None, Header()] = None
+    ) -> ThreadSnapshot:
+        try:
+            return configured_service().snapshot(identity(x_user_id), thread_id)
+        except OwnershipError as exc:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, str(exc)) from exc
 
     async def upload_media(
         request: Request,
@@ -186,6 +198,7 @@ def create_app(
     async def create_turn(
         thread_id: UUID,
         request: TurnRequest,
+        background_tasks: BackgroundTasks,
         idempotency_key: Annotated[str | None, Header(alias="Idempotency-Key")] = None,
         x_user_id: Annotated[str | None, Header()] = None,
     ) -> TurnAccepted:
@@ -204,6 +217,8 @@ def create_app(
             raise HTTPException(status.HTTP_409_CONFLICT, str(exc)) from exc
         except ValueError as exc:
             raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(exc)) from exc
+        if not replayed and application.state.execute_background:
+            background_tasks.add_task(configured_service().execute, record.run_id)
         return TurnAccepted(run_id=record.run_id, replayed=replayed, event_count=len(record.events))
 
     async def decide(
@@ -248,16 +263,28 @@ def create_app(
             raise HTTPException(status.HTTP_409_CONFLICT, "Last-Event-ID is ahead of the run")
 
         async def stream() -> AsyncIterator[str]:
-            for event in record.events:
-                if event.id <= cursor:
-                    continue
-                event_name, payload = public_event(event)
-                yield (
-                    f"id: {event.id}\n"
-                    f"event: {event_name}\n"
-                    f"data: {json.dumps(payload, ensure_ascii=False, separators=(',', ':'))}\n\n"
-                )
-                await asyncio.sleep(0)
+            delivered = cursor
+            while True:
+                current = configured_service().require_run(user_id, run_id)
+                for event in current.events:
+                    if event.id <= delivered:
+                        continue
+                    event_name, payload = public_event(event)
+                    yield (
+                        f"id: {event.id}\n"
+                        f"event: {event_name}\n"
+                        f"data: {json.dumps(payload, ensure_ascii=False, separators=(',', ':'))}\n\n"
+                    )
+                    delivered = event.id
+                if current.execution_status in {
+                    "COMPLETED",
+                    "FAILED",
+                    "WAITING_APPROVAL",
+                    "WAITING_CLARIFICATION",
+                }:
+                    break
+                yield ": heartbeat\n\n"
+                await asyncio.sleep(0.5)
 
         return StreamingResponse(
             stream(),
@@ -274,6 +301,11 @@ def create_app(
         x_user_id: Annotated[str | None, Header()] = None,
     ) -> OfferCollection:
         return configured_commerce().get_offers(identity(x_user_id), product_id, fresh)
+
+    async def get_product(
+        product_id: UUID, x_user_id: Annotated[str | None, Header()] = None
+    ) -> ProductView:
+        return configured_commerce().get_product(identity(x_user_id), product_id)
 
     async def resolve_offer(
         offer_id: UUID,
@@ -319,6 +351,12 @@ def create_app(
         tags=["threads"],
         operation_id="createThread",
     )(create_thread)
+    application.get(
+        "/v1/threads/{thread_id}",
+        response_model=ThreadSnapshot,
+        tags=["threads"],
+        operation_id="getThread",
+    )(get_thread)
     application.post(
         "/v1/media",
         response_model=MediaCreated,
@@ -357,6 +395,12 @@ def create_app(
         tags=["agent"],
         operation_id="createAgentRunDecision",
     )(decide)
+    application.get(
+        "/v1/products/{product_id}",
+        response_model=ProductView,
+        tags=["commerce"],
+        operation_id="getProduct",
+    )(get_product)
     application.get(
         "/v1/products/{product_id}/offers",
         response_model=OfferCollection,

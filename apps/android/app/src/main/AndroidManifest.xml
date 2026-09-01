@@ -7,7 +7,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="false"
         android:icon="@drawable/ic_launcher"
-        android:label="RAG Commerce V2"
+        android:label="RAG Commerce Agent V3"
         android:supportsRtl="true"
         android:theme="@style/Theme.RagCommerce">
         <activity

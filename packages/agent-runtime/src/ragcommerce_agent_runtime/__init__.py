@@ -13,6 +13,16 @@ from .contracts import (
     TurnCommand,
 )
 from .fake_model import ScriptedPlanner
+from .model_provider import (
+    ModelProvider,
+    OpenAICompatibleProvider,
+    ProviderBudgetExceeded,
+    ProviderError,
+    ProviderInvalidResponse,
+    ProviderRateLimited,
+    ProviderUnavailable,
+    ProviderUnsupportedAmount,
+)
 from .postgres_store import PostgresCheckpointStore
 from .runtime import ShoppingAgent
 from .store import InMemoryCheckpointStore, RunCheckpoint
@@ -24,7 +34,15 @@ __all__ = [
     "EventType",
     "InMemoryCheckpointStore",
     "MediaRef",
+    "ModelProvider",
+    "OpenAICompatibleProvider",
     "PostgresCheckpointStore",
+    "ProviderBudgetExceeded",
+    "ProviderError",
+    "ProviderInvalidResponse",
+    "ProviderRateLimited",
+    "ProviderUnavailable",
+    "ProviderUnsupportedAmount",
     "Risk",
     "RunCheckpoint",
     "RuntimeIdentity",

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <rect width="640" height="480" rx="48" fill="#F4F6F8"/>
+  <circle cx="320" cy="190" r="112" fill="#6D5CE7" opacity="0.16"/>
+  <rect x="238" y="108" width="164" height="164" rx="42" fill="#6D5CE7"/>
+  <text x="320" y="205" text-anchor="middle" font-size="54" fill="white" font-family="sans-serif">手机</text>
+  <text x="320" y="350" text-anchor="middle" font-size="24" fill="#17211B" font-family="sans-serif">Nova Mobile Pulse 13 演示手机</text>
+  <text x="320" y="392" text-anchor="middle" font-size="18" fill="#526159" font-family="sans-serif">PROJECT-AUTHORED DEMO FIXTURE</text>
+</svg>

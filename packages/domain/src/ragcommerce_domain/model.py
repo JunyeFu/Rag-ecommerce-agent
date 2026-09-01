@@ -52,6 +52,7 @@ class VerificationLevel(StrEnum):
     LIVE_AUTHORIZED = "LIVE_AUTHORIZED"
     FEED_VERIFIED = "FEED_VERIFIED"
     DISCOVERY_ONLY = "DISCOVERY_ONLY"
+    DEMO_FIXTURE = "DEMO_FIXTURE"
 
 
 class QuoteAvailability(StrEnum):

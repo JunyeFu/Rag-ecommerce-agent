@@ -1,6 +1,6 @@
 {
-  "name": "rag-commerce-v2",
-  "version": "0.1.0",
+  "name": "rag-commerce-v3",
+  "version": "0.3.0",
   "private": true,
   "packageManager": "npm@12.0.1",
   "engines": {

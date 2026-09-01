@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "evidence_level": "project_authored_demo_fixture",
+  "scenarios": [
+    {"id":"G01","query":"Nova Mobile Pulse 01 演示手机，预算 2000 元","expected_product_id":"3c0668b8-1315-54ea-8d88-90c652c9aaf8","flow":["search","facts","offers","comparison"]},
+    {"id":"G02","query":"Nova Mobile Pulse 02 演示手机，日常通勤","expected_product_id":"089f04cb-b770-5de2-a756-c4c7aa5b6905","flow":["search","save","cart"]},
+    {"id":"G03","query":"Arc Compute Forge 01 演示电脑用于开发","expected_product_id":"747af6fc-c4c8-5a79-9ddb-0ec83e60a1da","flow":["search","facts","comparison"]},
+    {"id":"G04","query":"Arc Compute Forge 02 演示电脑","expected_product_id":"b800b918-2694-5e58-876b-bbdfaa527766","flow":["search","save"]},
+    {"id":"G05","query":"Arc Compute Forge 03 演示电脑","expected_product_id":"ce106976-76fd-5a1c-8bd2-b4aceb064633","flow":["search","recover"]},
+    {"id":"G06","query":"Aural Audio Quiet 01 演示耳机，通勤降噪","expected_product_id":"7677c181-73f4-5369-885f-86f78dd8bd79","flow":["search","offers","cart"]},
+    {"id":"G07","query":"Aural Audio Quiet 02 演示耳机","expected_product_id":"c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4","flow":["search","approval"]},
+    {"id":"G08","query":"Aural Audio Quiet 03 演示耳机","expected_product_id":"8298eccb-d89b-5f4c-b276-3b94cb4e75a6","flow":["search","requote","resolve"]},
+    {"id":"G09","query":"Luma Optics Frame 01 演示相机用于摄影","expected_product_id":"633d005b-263c-57a5-bb16-5f16aa1553d1","flow":["search","facts","comparison"]},
+    {"id":"G10","query":"Luma Optics Frame 02 演示相机","expected_product_id":"2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca","flow":["search","offline","recover"]}
+  ]
+}

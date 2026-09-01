@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OPENAPI = ROOT / "packages/contracts/openapi.json"
 HEALTH_SCHEMA = ROOT / "packages/contracts/schemas/health-response.schema.json"
-GENERATOR_VERSION = "2"
+GENERATOR_VERSION = "3"
 EXPECTED_OPERATIONS = {
     "createAgentRunDecision",
     "createCartMutation",
@@ -32,7 +32,9 @@ EXPECTED_OPERATIONS = {
     "getOpsPolicy",
     "getOpsReleaseGates",
     "getOpsTraces",
+    "getProduct",
     "getProductOffers",
+    "getThread",
     "patchCart",
     "patchList",
     "resolveOffer",
@@ -53,11 +55,14 @@ EXPECTED_MODELS = {
     "OfferCollection",
     "OfferView",
     "PatchListRequest",
+    "ProductCandidateView",
+    "ProductView",
     "ResolveOfferRequest",
     "ResolvedOffer",
     "ShoppingListView",
     "ShoppingListsResponse",
     "ThreadCreated",
+    "ThreadSnapshot",
     "TurnAccepted",
     "TurnRequest",
 }
@@ -135,6 +140,40 @@ class ThreadCreated(StrictModel):
     mission_id: UUID
 
 
+class ProductCandidateView(StrictModel):
+    product_id: UUID
+    variant_id: UUID
+    title: str
+    fit_summary: str = ""
+    matched_constraints: list[str] = Field(default_factory=list)
+    unmet_constraints: list[str] = Field(default_factory=list)
+    risks: list[str] = Field(default_factory=list)
+    evidence_refs: list[str] = Field(default_factory=list)
+
+
+class ThreadSnapshot(StrictModel):
+    thread_id: UUID
+    mission_id: UUID
+    goal: str
+    status: Literal[
+        "IDLE", "RUNNING", "WAITING_APPROVAL", "WAITING_CLARIFICATION", "COMPLETED", "FAILED"
+    ]
+    last_event_id: int = Field(ge=0)
+    pending_action: str | None = None
+    candidates: list[ProductCandidateView] = Field(default_factory=list)
+
+
+class ProductView(StrictModel):
+    product_id: UUID
+    variant_id: UUID
+    title: str
+    category: str
+    brand: str
+    attributes: dict[str, str]
+    image_ref: str | None = None
+    evidence_refs: list[str]
+
+
 class MediaCreated(StrictModel):
     media_id: UUID
     kind: Literal["image", "audio"]
@@ -173,7 +212,7 @@ class DeletionResult(StrictModel):
 class OfferView(StrictModel):
     offer_id: UUID
     merchant_name: str
-    verification: Literal["LIVE_AUTHORIZED", "FEED_VERIFIED", "DISCOVERY_ONLY"]
+    verification: Literal["LIVE_AUTHORIZED", "FEED_VERIFIED", "DISCOVERY_ONLY", "DEMO_FIXTURE"]
     availability: Literal["AVAILABLE", "UNAVAILABLE", "UNKNOWN"]
     price_minor: int | None = None
     shipping_minor: int | None = None
@@ -253,11 +292,14 @@ __all__ = [
     "OfferCollection",
     "OfferView",
     "PatchListRequest",
+    "ProductCandidateView",
+    "ProductView",
     "ResolveOfferRequest",
     "ResolvedOffer",
     "ShoppingListView",
     "ShoppingListsResponse",
     "ThreadCreated",
+    "ThreadSnapshot",
     "TurnAccepted",
     "TurnRequest",
 ]
@@ -271,6 +313,35 @@ const val CONTRACT_SOURCE_SHA256: String = "{digest}"
 data class HealthResponse(val status: String, val contract_version: String)
 data class CreateThreadRequest(val goal: String)
 data class ThreadCreated(val thread_id: String, val mission_id: String)
+data class ProductCandidateView(
+    val product_id: String,
+    val variant_id: String,
+    val title: String,
+    val fit_summary: String = "",
+    val matched_constraints: List<String> = emptyList(),
+    val unmet_constraints: List<String> = emptyList(),
+    val risks: List<String> = emptyList(),
+    val evidence_refs: List<String> = emptyList(),
+)
+data class ThreadSnapshot(
+    val thread_id: String,
+    val mission_id: String,
+    val goal: String,
+    val status: String,
+    val last_event_id: Long,
+    val pending_action: String? = null,
+    val candidates: List<ProductCandidateView> = emptyList(),
+)
+data class ProductView(
+    val product_id: String,
+    val variant_id: String,
+    val title: String,
+    val category: String,
+    val brand: String,
+    val attributes: Map<String, String>,
+    val image_ref: String? = null,
+    val evidence_refs: List<String>,
+)
 data class MediaCreated(
     val media_id: String,
     val kind: String,
@@ -325,6 +396,35 @@ export const CONTRACT_SOURCE_SHA256 = "{digest}" as const;
 export type HealthResponse = {{ status: "ok"; contract_version: string }};
 export type CreateThreadRequest = {{ goal: string }};
 export type ThreadCreated = {{ thread_id: string; mission_id: string }};
+export type ProductCandidateView = {{
+  product_id: string;
+  variant_id: string;
+  title: string;
+  fit_summary?: string;
+  matched_constraints?: string[];
+  unmet_constraints?: string[];
+  risks?: string[];
+  evidence_refs?: string[];
+}};
+export type ThreadSnapshot = {{
+  thread_id: string;
+  mission_id: string;
+  goal: string;
+  status: "IDLE" | "RUNNING" | "WAITING_APPROVAL" | "WAITING_CLARIFICATION" | "COMPLETED" | "FAILED";
+  last_event_id: number;
+  pending_action?: string | null;
+  candidates?: ProductCandidateView[];
+}};
+export type ProductView = {{
+  product_id: string;
+  variant_id: string;
+  title: string;
+  category: string;
+  brand: string;
+  attributes: Record<string, string>;
+  image_ref?: string | null;
+  evidence_refs: string[];
+}};
 export type MediaCreated = {{
   media_id: string;
   kind: "image" | "audio";
@@ -341,7 +441,7 @@ export type DeletionResult = {{ deleted: boolean }};
 export type OfferView = {{
   offer_id: string;
   merchant_name: string;
-  verification: "LIVE_AUTHORIZED" | "FEED_VERIFIED" | "DISCOVERY_ONLY";
+  verification: "LIVE_AUTHORIZED" | "FEED_VERIFIED" | "DISCOVERY_ONLY" | "DEMO_FIXTURE";
   availability: "AVAILABLE" | "UNAVAILABLE" | "UNKNOWN";
   price_minor?: number | null;
   shipping_minor?: number | null;
@@ -404,11 +504,16 @@ export type ToolInvocationSummary = {{
 }};
 export type AgentTraceSummary = {{
   run_id: string;
-  status: "COMPLETED" | "FAILED" | "WAITING_APPROVAL";
+  status: "COMPLETED" | "FAILED" | "WAITING_APPROVAL" | "WAITING_CLARIFICATION";
   prompt_version: string;
   model_version: string;
   duration_ms: number;
   estimated_cost_microunits: number;
+  input_tokens: number;
+  output_tokens: number;
+  retrieval_hits: number;
+  last_event_id: number;
+  recovered: boolean;
   tools: ToolInvocationSummary[];
   redaction_policy: string;
   created_at: string;
