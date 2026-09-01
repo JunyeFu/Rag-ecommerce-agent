@@ -42,6 +42,7 @@ def main() -> int:
     checks: list[tuple[list[str], Path]] = [
         ([python, "scripts/verify_versions.py"], ROOT),
         ([python, "scripts/check_ci_policy.py"], ROOT),
+        ([python, "scripts/check_minimality.py"], ROOT),
         ([python, "scripts/export_openapi.py", "--check"], ROOT),
         ([python, "scripts/generate_contracts.py", "--check"], ROOT),
         ([python, "scripts/generate_agent_artifacts.py", "--check"], ROOT),
