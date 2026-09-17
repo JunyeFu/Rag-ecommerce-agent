@@ -39,7 +39,7 @@ Android → API 写入 Turn/Job → Worker 领取
 
 ## 三条快速启动命令
 
-要求：Python 3.12.11、uv 0.11.13、Node 24.15.0、npm 12.0.1、Java 17、Docker 与 Android SDK。
+要求：Python 3.12.11、uv 0.11.13、Node 24.15.0、npm 12.0.1、Java 21、Docker 与 Android SDK。
 
 ```powershell
 git clone https://github.com/JunyeFu/Rag-ecommerce-agent.git; Set-Location Rag-ecommerce-agent
@@ -81,3 +81,8 @@ git clone https://github.com/JunyeFu/Rag-ecommerce-agent.git; Set-Location Rag-e
 ## License
 
 MIT 覆盖本项目自有源码、60 SKU 演示数据和项目生成美术资产；第三方依赖继续遵循各自许可证。所有商品、商家与报价均为演示 fixture，不代表真实市场供应。
+
+## 本地目录约定
+
+- 本仓库（v2）是 Rag-ecommerce 项目在 `D:\Agent` 下的唯一入口；旧迭代检出（指向 fujunye-company 远端、落后 18 提交）已整体归档至 `_archive/rag-v1-fujunye-company/`。`_archive/` 经 `.git/info/exclude` 本地排除，不入库。
+- 并行任务 worktree 统一放 `_worktrees/`，合并后即删。
