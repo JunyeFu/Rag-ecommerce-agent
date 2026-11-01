@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="480" viewBox="0 0 1440 480" role="img" aria-labelledby="title desc">
+<title id="title">RAG Commerce — 从想买什么，到知道怎么选</title><desc id="desc">奶油白与荧光绿品牌横幅，需求、证据、决定三步流程。产品概念示意。</desc>
+<rect width="1440" height="480" fill="#f3efdf"/>
+<path d="M0 1H1440M0 479H1440" stroke="#151711" stroke-width="2"/>
+<rect x="62" y="48" width="46" height="46" rx="12" fill="#161912"/>
+<text x="85" y="80" text-anchor="middle" fill="#caff42" font-family="Arial,sans-serif" font-size="29" font-weight="700">R</text>
+<g font-family="Arial,Microsoft YaHei,sans-serif" fill="#161912">
+<text x="125" y="79" font-size="22" font-weight="700">RAG COMMERCE</text>
+<text x="62" y="199" font-size="57" font-weight="700">从想买什么，</text><text x="62" y="274" font-size="57" font-weight="700">到知道怎么选。</text>
+<text x="66" y="329" font-size="22" fill="#5d6356">有证据的推荐 · 有解释的取舍 · 由你确认的行动</text>
+<text x="66" y="424" font-size="15" letter-spacing="3">NATIVE ANDROID / SHOPPING AGENT / V3</text>
+<rect x="910" y="48" width="466" height="380" rx="24" fill="#161912"/>
+<text x="946" y="92" fill="#d4d8cb" font-size="14" letter-spacing="2">THE DECISION JOURNEY</text>
+<rect x="946" y="122" width="394" height="73" rx="13" fill="#f3efdf"/>
+<text x="970" y="168" font-size="22">01  说出需求</text>
+<path d="M1143 198v20m-6-6 6 6 6-6" stroke="#caff42" stroke-width="2" fill="none"/>
+<rect x="946" y="223" width="394" height="73" rx="13" fill="#caff42"/>
+<text x="970" y="269" font-size="22" font-weight="700">02  看懂证据与取舍</text>
+<path d="M1143 299v20m-6-6 6 6 6-6" stroke="#caff42" stroke-width="2" fill="none"/>
+<rect x="946" y="324" width="394" height="73" rx="13" fill="#f3efdf"/>
+<text x="970" y="370" font-size="22">03  确认你的决定</text>
+</g></svg>
