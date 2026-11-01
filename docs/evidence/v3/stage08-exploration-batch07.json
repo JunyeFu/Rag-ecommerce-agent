@@ -1,0 +1,75 @@
+{
+  "recorded_at": "2026-10-09T15:21:07+08:00",
+  "status": "SCOPED_IMPLEMENTATION_VERIFIED",
+  "scope": "FR02/FR03/FR04 and FR11 explicit exploration end; not full PRD acceptance",
+  "product_gate": "HOLD",
+  "commercial_gate": "NO_GO",
+  "plan": "docs/plans/EXPLORATION-CLOSE.md",
+  "implementation": {
+    "catalog": "60 project-authored demo SKU, 8 catalog-supported scenario directions",
+    "contract": "0.2.0 additive typed Turn action / ThreadSnapshot / exploration_updated",
+    "storage": "api_threads mode/exploration; state and durable turn reservation in one PostgreSQL transaction",
+    "migration": "20261009_0011",
+    "model_calls": 0,
+    "policy": "explicit click feedback; no implicit cart/list writes; stale approval blocked; existing saved lists retained",
+    "provider": "deterministic catalog exploration; purchase uses existing AgentRuntime, explicit fake in acceptance"
+  },
+  "checks": [
+    {"command": "validate_task_packages.py", "date": "2026-10-09", "exit_code": 0, "packages": 39, "errors": 0, "warnings": 0, "failure_summary": null},
+    {"command": "pytest -m 'not integration' -q", "date": "2026-10-09", "exit_code": 0, "passed": 142, "deselected": 24, "failure_summary": null},
+    {"command": "pytest apps/api/tests/test_postgres_api_integration.py apps/api/tests/test_exploration.py -q", "date": "2026-10-09", "exit_code": 0, "passed": 26, "postgres_tests": 16, "exploration_api_tests": 10, "failure_summary": null},
+    {"command": "alembic upgrade head; alembic check", "date": "2026-10-09", "exit_code": 0, "result": "fresh isolated database migrated; no new upgrade operations", "database": "PostgreSQL 18.6", "failure_summary": null},
+    {"command": "gradlew :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug -I scripts/android_recovery.init.gradle -PacceptanceApplicationId=com.ragcommerce.agent.explorationtest -PapiUrl=http://127.0.0.1:28084/", "date": "2026-10-09", "exit_code": 0, "unit_tests": 32, "lint_warnings": 18, "tasks": 90, "executed": 27, "up_to_date": 63, "failure_summary": null},
+    {"command": "adb shell am instrument -w -e class com.ragcommerce.agent.ExplorationApiTest -e phase discover|purchase|controls", "date": "2026-10-09", "exit_code": 0, "passed": 3, "test_counts_are_phases_not_full_scenarios": true, "failure_summary": null},
+    {"command": "export_openapi.py --check; generate_contracts.py --check", "date": "2026-10-09", "exit_code": 0, "paths": 27, "generated_files": 3, "failure_summary": null},
+    {"command": "ruff check touched runtime/API sources and tests; git diff --check", "date": "2026-10-09", "exit_code": 0, "note": "Git line-ending warnings retained, no whitespace errors", "failure_summary": null},
+    {"command": "Ops npm run check", "date": "2026-10-09", "exit_code": 0, "scope": "TypeScript including generated types, not five workflows", "failure_summary": null},
+    {"command": "external navigation npm run build; npm test", "date": "2026-10-09", "exit_code": 0, "passed": 7, "failure_summary": null}
+  ],
+  "device": {
+    "avd": "Pixel_9",
+    "serial": "emulator-5558",
+    "application_id": "com.ragcommerce.agent.explorationtest",
+    "ui_state_injection": false,
+    "backend": "real API/AgentRuntime/PostgreSQL; explicit fake provider; API background execution, not 30-worker load acceptance",
+    "phases": [
+      "discover: real UI starts exploration and saves interested feedback",
+      "purchase: host force-stop, restore feedback, select direction, enter budget, receive vertical recommendations",
+      "controls: real UI starts another task, rejects direction, requests next directions and explicitly ends"
+    ],
+    "backend_readback": {
+      "purchase": {"mode": "PURCHASE", "mission_version": 5, "feedback": "interested", "selected_direction": "手机:日常通勤"},
+      "ended": {"thread_id": "c9d79a57-8615-4a5c-be87-e32d6522cbc7", "mode": "DISCOVERY", "mission_version": 5, "ended": true, "shown_directions": 6, "feedback": "not_interested"},
+      "cart_items_for_acceptance_user": 0,
+      "lists_for_acceptance_user": 0
+    },
+    "screenshots": ["output/exploration/directions.png", "output/exploration/purchase.png", "output/exploration/ended.png"],
+    "visual_review": "direction card feedback and purchase action visible; existing vertical recommendation retained; screenshots are not the business-state evidence"
+  },
+  "resolved_failures": [
+    "Android build: missing SDK environment; supplied ANDROID_HOME without reading local.properties",
+    "Android compile: missing TextButton import; fixed",
+    "PowerShell Gradle property split; quoted property argument",
+    "isolated backend import path missing; supplied existing source PYTHONPATH",
+    "instrumentation setup: ADB server restart removed reverse mapping; re-established mapping before acceptance",
+    "instrumentation repeat setup: asynchronous new-task transition required waiting for conversation screen; assertion retained",
+    "self-review: version-conflict message lacked a refresh action; added explicit refresh button",
+    "self-review: mixed discovery preferences must include both supported experience tags; added ranking and API assertion"
+  ],
+  "cleanup": {
+    "temporary_api_stopped": true,
+    "temporary_postgres_container_removed": true,
+    "temporary_database_contents": "synthetic test data removed with --rm container; evidence retained, database is recreated by tests",
+    "owned_emulator_closed_without_wipe": true,
+    "emulator_proxy_restored": true,
+    "adb_reverse_removed": true,
+    "original_app_data_untouched": true
+  },
+  "remaining": [
+    "real MiMo Android ten-scenario acceptance; no additional paid calls authorized or executed in this batch",
+    "current complete infrastructure/load/challenge/clean-start and delivery gates",
+    "18 existing lint warnings",
+    "consumer wording and whole-app visual acceptance remain outside this scoped exploration supplement"
+  ],
+  "git_actions": "no staging, commit, push or release"
+}

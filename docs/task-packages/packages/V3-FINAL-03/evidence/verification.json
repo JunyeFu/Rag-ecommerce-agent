@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-FINAL-03",
+  "status": "blocked",
+  "validation_scope": "2026-10-24 follow-up:237 Python/0skip and normal CLI realPG/twoWorkers/localBGE full10x30 passed; F60 CLOSED_LOCAL_ACCEPTANCE, historical failures retained; final same-source delivery remains unsigned",
+  "commands": [
+    "pytest -q",
+    "Android unit/lint/debug/benchmark",
+    "Playwright five Ops workflows",
+    "run_frozen_retrieval_acceptance.py",
+    "run_v3_durable_load.py",
+    "verify_worker_process_recovery.py",
+    "generate_contracts.py --check",
+    "generate_agent_artifacts.py --check",
+    "compileall",
+    "Compose config --quiet",
+    "git diff --check"
+  ],
+  "checks": [
+    {
+      "name": "F60_final_normal_cli_local_bge_20261024",
+      "passed": true,
+      "tests": 237,
+      "skipped": 0,
+      "batches_passed": 10,
+      "missions": 300,
+      "missions_completed": 300,
+      "accepted_p95_ms": 182.0785,
+      "max_batch_accepted_p95_ms": 190.832,
+      "first_state_p95_ms": 111.4818,
+      "report": "docs/evidence/v3/final-F60-review-20261024.json",
+      "historical_failures_preserved": true,
+      "navigation_qa": "docs/evidence/v3/f60-20261024/navigation-qa.json",
+      "cleanup": "docs/evidence/v3/f60-20261024/cleanup.json"
+    },
+    {
+      "name": "infrastructure_recheck_20261024",
+      "passed": true,
+      "scope": "Functionality only: fixed four services, migration0016/check,231 Python, real BGE/Qdrant, shared index readers,301.891s natural Worker lease recovery, HTTP process/cursor recovery and final Ops5",
+      "report": "docs/evidence/v3/final-infrastructure-recheck-20261024.json"
+    },
+    {
+      "name": "F60_capacity_20261024",
+      "passed": false,
+      "missions_completed": 300,
+      "missions": 300,
+      "accepted_p95_ms": 229.731,
+      "failed_batches": [1, 3, 5],
+      "report": "docs/evidence/v3/final-infrastructure-20261024/durable-10-batches-r1.json",
+      "diagnostic_pass_does_not_replace_failure": true
+    },
+    {
+      "name": "current_source_regression",
+      "passed": true,
+      "tests": 204,
+      "skipped": 0,
+      "android_unit_tests": 41,
+      "android_visual_fixture_tests": 34,
+      "report": "docs/evidence/v3/final-source-analysis-repair-20261012.json",
+      "not_real_business_acceptance": true
+    },
+    {
+      "name": "frozen_120_retrieval",
+      "passed": true,
+      "report": "docs/evidence/v3/final-retrieval-20261009-review.json",
+      "fusion_improvement_claimed": false,
+      "version_scope": "Earlier evidence, not rerun for the current approval change"
+    },
+    {
+      "name": "30_dual_worker_missions",
+      "passed": true,
+      "report": "docs/evidence/v3/final-durable-load-20261009-two-workers.json",
+      "version_scope": "Earlier evidence, not rerun for the current approval change"
+    },
+    {
+      "name": "actual_worker_interruption",
+      "passed": true,
+      "report": "docs/evidence/v3/final-worker-process-recovery-20261009.json",
+      "lease_clock_modified": false,
+      "version_scope": "Earlier evidence, not rerun for the current approval change"
+    },
+    {
+      "name": "contracts_and_minimality",
+      "passed": true,
+      "generated_files": 3,
+      "tools": 11,
+      "version_scope": "Earlier evidence, not rerun for the current approval change"
+    }
+  ],
+  "external_gates": [],
+  "remaining": [
+    "完整原生媒体、审批及外跳必需路径尚未通过",
+    "最终同版源码独立启动、APK与视频未封版"
+  ],
+  "updated_at": "2026-10-12T09:38:34Z",
+  "historical_checks": [
+    {
+      "name": "current_nonpaid_regression",
+      "passed": true,
+      "report": "docs/evidence/v3/final-qa-checkpoint-20261009.json"
+    },
+    {
+      "name": "frozen_120_retrieval",
+      "passed": true,
+      "report": "docs/evidence/v3/final-retrieval-20261009-review.json",
+      "fusion_improvement_claimed": false
+    },
+    {
+      "name": "30_dual_worker_missions",
+      "passed": true,
+      "report": "docs/evidence/v3/final-durable-load-20261009-two-workers.json"
+    },
+    {
+      "name": "actual_worker_interruption",
+      "passed": true,
+      "report": "docs/evidence/v3/final-worker-process-recovery-20261009.json",
+      "lease_clock_modified": false
+    },
+    {
+      "name": "contracts_and_minimality",
+      "passed": true,
+      "generated_files": 3,
+      "tools": 11
+    },
+    {
+      "name": "diff_check",
+      "passed": true,
+      "line_ending_warnings_present": true
+    },
+    {
+      "name": "post_A07_android_increment",
+      "passed": true,
+      "report": "docs/evidence/v3/final-android-post-A07-20261009.json",
+      "fixture_tests": 31,
+      "unit_tests": 38
+    },
+    {
+      "name": "current_regression",
+      "passed": true,
+      "tests": 196,
+      "skipped": 0,
+      "report": "docs/evidence/v3/final-local-quality-post-A10-R4-20261012.json"
+    },
+    {
+      "name": "same_product_source_android_regression",
+      "passed": true,
+      "unit_tests": 39,
+      "visual_fixture_tests": 34,
+      "lint_warnings": 18,
+      "lint_errors": 0,
+      "not_business_acceptance": true,
+      "report": "docs/evidence/v3/final-local-quality-20261012.json"
+    }
+  ]
+}

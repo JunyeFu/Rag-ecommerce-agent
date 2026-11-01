@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-10-12T08:39:59Z",
+  "evidence_level": "NATIVE_READONLY_RECOVERY_DIAGNOSTIC",
+  "report_scope": "Post-F46 read-only observation, not formal A10-R4 or full A10 acceptance",
+  "receipt": {
+    "method": "inspectCompletedApprovalRecoveryReadOnly",
+    "runner_pid": 9574,
+    "tests": 1,
+    "failed": 0,
+    "ignored": 0
+  },
+  "elapsed_seconds": 9.641,
+  "model_calls": 0,
+  "new_turns": 0,
+  "approval_repeated": false,
+  "deleted_data": false,
+  "passed": true
+}

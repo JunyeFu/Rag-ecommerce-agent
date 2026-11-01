@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-FINAL-01",
+  "owner": "internship-closeout",
+  "objective": "基线与可复现环境",
+  "inputs": [
+    "docs/plans/INTERNSHIP-FINAL-CLOSEOUT.md"
+  ],
+  "outputs": [
+    "保存文件级写前基线。",
+    "修复统一端口、显式Provider及Worker共享存储。",
+    "显式构建Qdrant索引，验证多进程启动。",
+    "验证启动、健康、迁移及资源归属。"
+  ],
+  "acceptance": [
+    "固定版本基础设施、迁移与完整运行链通过",
+    "查询不重建索引，重建失败保留旧索引",
+    "模型与检索身份对应真实配置"
+  ],
+  "test_profiles": [
+    "unit",
+    "contract",
+    "integration",
+    "android",
+    "runtime"
+  ],
+  "business_refs": [
+    "data/demo/catalog.v3.jsonl",
+    "DEMO_FIXTURE"
+  ],
+  "development_refs": [
+    "V3-PLATFORM-01"
+  ],
+  "risk_refs": [
+    "保留脏工作树",
+    "真实与fixture证据分层",
+    "不自动发布"
+  ]
+}

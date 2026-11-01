@@ -1,0 +1,3113 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-13T01:32:25.439829+00:00",
+  "phase": "before_product_implementation",
+  "branch": "main",
+  "head": "d670e291d263a6e4f0f041f9c74c6e0246cb854c",
+  "dirty_count": 344,
+  "status_counts": {
+    " M": 129,
+    " D": 5,
+    "??": 210
+  },
+  "ignored_files_collected": false,
+  "environment_collected": false,
+  "files": [
+    {
+      "path": ".env.example",
+      "status": " M",
+      "previous_path": null,
+      "size": 1080,
+      "sha256": "9bc1a891128b581d8b1776b152f95de76de2d6f97d4cfd432b5550e0f40d9f52",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "status": " M",
+      "previous_path": null,
+      "size": 4446,
+      "sha256": "9cc1ccce1c1520d79a913b566345aa76459d5fa0e07fb7e9d65e9fef4aeee636",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 8684,
+      "sha256": "bd91936972795aa2d8a1b0514168cc300d19fb97dff61633c73cb84be376b3f6",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 2483,
+      "sha256": "147f9166b8859a8afe6865d2ac8fd55d8f3922da0e10535fdf8428286c69618e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/build.gradle.kts",
+      "status": " M",
+      "previous_path": null,
+      "size": 3363,
+      "sha256": "ac5d7581cd70c763c46013d7638f75f4582ec289086c86ec951d523e1721a6c9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/androidTest/java/com/ragcommerce/agent/GoldenScenarioApiFlowTest.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 10324,
+      "sha256": "9cf6b3382b2d8db4490f2331e3089eb7dd5508595e6af7b78254ecab16e7796e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/androidTest/java/com/ragcommerce/agent/ShoppingFlowTest.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 30696,
+      "sha256": "23e94ea0b974ace87738e3312dd85b8a46107d73633a3bc74fd8a1e9de75eba0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/AndroidManifest.xml",
+      "status": " M",
+      "previous_path": null,
+      "size": 1003,
+      "sha256": "00adbdfeff53209bba2b117402108c9810589f2e161386815934dab9644d7406",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/EditorialShoppingApp.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 77709,
+      "sha256": "06a2c0abf84231c91b8af3fdcde28629b805a6b67da4178e8ec06380b93fa989",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/MainActivity.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 4935,
+      "sha256": "f4eb24accbae550c4cf0c567530af4e8dd8482da6c1771b2b2d10734d2e5d953",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/data/ShoppingRepository.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 35939,
+      "sha256": "3c94e584bc13f59ec92dd3769fa735eee942f2f4eb4f3b491a292a0ca85f313f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/data/remote/CommerceApi.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 6562,
+      "sha256": "a4bf9d1554d86cedaf35a162a88b2d77e72ad1885bad1bd594675e4c6f78781d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/generated/ApiContracts.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 6516,
+      "sha256": "fc1ee14d9d37262d34385828eefd57d8a7d71bb76fba621931154181db369364",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/ui/ShoppingModels.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 20218,
+      "sha256": "8a0a9471558ba63e09f5869bee70837005508eb6f5a1f5686c8b0a557f64cfbe",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/ui/ShoppingViewModel.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 38234,
+      "sha256": "fa1392bc85910270d8cb7a362a7739f41d5a28e8ac1d0f39668009118d3f3f16",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/test/java/com/ragcommerce/agent/ShoppingProtocolTest.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 16117,
+      "sha256": "75e92ae820c62f562e073d15c90cd5713e9d8db614e24429ef3a2a39fd349360",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/test/java/com/ragcommerce/agent/ShoppingReducerTest.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 14880,
+      "sha256": "35b781443b517c6b7819decf7a76041b244000182b6b697956b6ef9b2cc7ab66",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/benchmark/build.gradle.kts",
+      "status": " M",
+      "previous_path": null,
+      "size": 1149,
+      "sha256": "9a5d93773af182243a9131856e17407cb71206a2f82ab30c78168289ecfb6008",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/gradlew.bat",
+      "status": " M",
+      "previous_path": null,
+      "size": 2889,
+      "sha256": "1570449aa560188b82fa418b95ec6b568d5d5fed47171d1f68631f19e479a741",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/env.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 2704,
+      "sha256": "ababdd61e5aea6eff4726660848669a16e77f152adf5ad9e79b7228c78170046",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/app.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 23002,
+      "sha256": "c198a4e74730dd40239a1510c0f1e3a8baa0bdb9d8b9aabd6e8005ef4df6d0d4",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/commerce.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1552,
+      "sha256": "97d668b2a3d0815c0b853a327c8bc220aed4bbf800b1a45991e06fe9f1bc03f9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/demo.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 27399,
+      "sha256": "fe7062804b3e795310e76d36acf790a217bc75094eefa50f5ee3b8531539e72e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/erasure.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 3116,
+      "sha256": "7de2a8506137154f002dcabbfcf84727fa9bd5f30611547e3a96bd531849a6ad",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/media.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 9942,
+      "sha256": "59f45be2669660910ec6b29e7151d022d275b9b61675ea8e606686a7093e55bb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/ops.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 20748,
+      "sha256": "f98ef068682a46f2f58bb79d515c19520888ed42879d17ca095d5c2ed40a13bd",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/persistent_demo.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 2410,
+      "sha256": "8dfad4ed0501ffd0cb7111e5bdb827f7c2c8e13bf12d35eb1db4d1206de037b7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/postgres_demo.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 10026,
+      "sha256": "8786c6d94c22923a32624990d4c43c2f3208b39b4b31a53e40925055efcf0c8b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/postgres_index.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 17313,
+      "sha256": "b59bc2e4c65e31628a155d26841e62089bf2a136e030cbc73e1edeeeed7237fa",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/postgres_ops.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 12616,
+      "sha256": "c4d589613c22e16a7799d6c322e2ea46bbd05dc10eeb0231410e0ec71a954cab",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/provider_config.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1462,
+      "sha256": "1a80525a19f79a535e3564994467cadb2ae93a584130afc49b7d9986741d9341",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/schema_v1.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 2386,
+      "sha256": "7194d633b3cf5c335c2b2dbf509096dd3288d1aa3907c4bb94a2c6c020a445fd",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/service.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 28857,
+      "sha256": "53a17c4bc244254e2915535c0df0d44ee3a1dc0ffa068ed27a63961fb761b9cf",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/v3_schema.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 2063,
+      "sha256": "8d948c97efe20ce82dd9947bdd08d5244e223430e07714252fb6fabeada5e902",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_demo_flow.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 11405,
+      "sha256": "07b3111a91383f987a8ba43809aa9e1f886bc8b0639415b691d06139fd8d5c57",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_minio_media_integration.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 2918,
+      "sha256": "b7e202c9cbd736c27641e46ec6add86d59456ba6e9bb7e31f56bff4eb16961e5",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_postgres_api_integration.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 33579,
+      "sha256": "f111eb14b544ee5aa79f3c53dbed9109b58c0804ca4d357614653f2ac9cab7ae",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_postgres_ops_integration.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 5030,
+      "sha256": "289f132729e6e5b2c3edeb14898ce4fbd73aa14a8d94897dd26d3c96b20cc828",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_turn_api.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 29927,
+      "sha256": "e6595dd33482ada711a528a6fb8b8c67afab4a766092f6c4d7c6f739f994d7cd",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1006,
+      "sha256": "4959252bb024e10047d45f5f38e3f6e9785d61ac2cea5629ba3e93638d0c345c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/package.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 607,
+      "sha256": "0d0dd9ca8983295c8d092bcf3dca225c21442e650e1050b69693c8f2766a2578",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/src/generated/api-contracts.ts",
+      "status": " M",
+      "previous_path": null,
+      "size": 8533,
+      "sha256": "5b99f084d418aefb8ed6cd4053cfdf9b54517b4755d5f669d15d4b10737c36a1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/src/generated/ops-client.ts",
+      "status": " M",
+      "previous_path": null,
+      "size": 1633,
+      "sha256": "7703759aa9f0befd9e177ccc1313af6bf274d633a7ec61bcc062750e3f9313ec",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/src/views.tsx",
+      "status": " M",
+      "previous_path": null,
+      "size": 18522,
+      "sha256": "511eac82f8f62d0efa64ce7693de334ac4871c82d2b3cbe1913c8b08e27bdb53",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/vite.config.ts",
+      "status": " M",
+      "previous_path": null,
+      "size": 379,
+      "sha256": "eafd80eb65db340ffc5f5270a5b1c1405a851aa179cefe8d4125f2e7ea74f3c9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/worker/src/ragcommerce_worker/persistent_demo.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 2730,
+      "sha256": "233e86b5fd569b6dab7d4a180ab8dd68c9bb5ffd82e4913c57840fb42de47260",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/baseline/V3-AGENT-FIRST-BASELINE.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1867,
+      "sha256": "96e864406f2b465b1edde842424e1bffd3ef82e6e9d24915adbf5f713d458959",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/demo/V3-FIVE-MINUTE-DEMO.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 2968,
+      "sha256": "f3967373403e818a6b42abcb9446252f981db21b0226e128cafdcf85c75c0f17",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/demo/V3-SYSTEM-DESIGN-INTERVIEW.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1748,
+      "sha256": "8495f41611874f8ded48c33e07343f2337d7f9ac0644b91520c8ac412ea73f65",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evaluation/V3-DEMO-RETRIEVAL-REPORT.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1395,
+      "sha256": "559cf99fa0e817b0d5a1e07dbffb3052e0a7ae16e5d27197e898d3f4c05f0184",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evaluation/competition-report.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1246,
+      "sha256": "e7433427e0580a5fe164082f7ca0bea2ee58be4b4c16ed8e4eeae17313668406",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evaluation/human-review-rubric.md",
+      "status": " D",
+      "previous_path": null,
+      "size": null,
+      "sha256": null,
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evaluation/methodology.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 2972,
+      "sha256": "6c074416e5cf69de2d49e51f1297d70790f43e1d95ee08d425152a47bda85e70",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/live/readiness.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 950,
+      "sha256": "f766a17c194e3fc8b065ba7ef71b219574ba864dc495f6961f604f7b83a67b69",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/release/release-gate-matrix.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 759,
+      "sha256": "211de90e4d2105673b70e2ecea5dce7655a9a2ab0f158b3f0427b1e609f65bc9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/security/evidence/license-report.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 5917,
+      "sha256": "e25f165cf9059990ea385d39d98b93907d80497c6f52d381ee51548f1f60ed84",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/security/evidence/sbom.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 70830,
+      "sha256": "ab865336b8622043f80047fbedf7e54a2dca4a196019f51c8545b3a32ac0aeda",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/security/evidence/security-gate.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1488,
+      "sha256": "46fc0a4f9d953a2382bd179cf8c0afc42ae92903fe73311428bbbd66b8383c0f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/manifest.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 20184,
+      "sha256": "6b43408838afc630a0fdbbaeacd6f6d3be248b94f828cc5d52fc2f5fff5aab8a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V2-EVAL-01/TASK.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 2078,
+      "sha256": "01c2f57ff9826344c0fcc5394b127cfc01e6ff86e7a408a3373968a805d706c9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V2-EVAL-01/data.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 822,
+      "sha256": "bfb37eb004d11f0c1c73d596c0032539d88dbb8220a1b519b68e3c2bcc45b2f2",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V2-EVAL-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1472,
+      "sha256": "e174e855d0c4306270432131a37e0da9d83213ad1b05038ca51eb52a9eaa236b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V2-EVAL-01/pitfalls.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 439,
+      "sha256": "d7e7b423102c75ece3105bdf08c4350b86f7cc2735c0d54c7766cff0c91c0d20",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V2-LIVE-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1280,
+      "sha256": "b95be36a482168ed591e812bf4cad9a5210ae29cfbfe4486c4ed49ba83674afe",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-DEMO-STORY-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 2270,
+      "sha256": "3ba81654b6745ae762fd8f387640abbb5ec2ecea340c67cb1e3d19c8eaccec9a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-PRODUCT-CONTROL-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 511,
+      "sha256": "5a7378a6fd5d15ab6ea06f1ab773479301c80483a81671606ab0dc04c8dfd5d9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-QUALITY-01/TASK.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1265,
+      "sha256": "55c168527ead30cbe12e582d405e761dcce76ce41ed5bec35c24a3a0dbf08643",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-QUALITY-01/data.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 551,
+      "sha256": "2610fdf4ff101bbf16bd22491a0d5fa14d1e53f3475978995777498e6eb874e1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-QUALITY-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 745,
+      "sha256": "b7a6425b4fcdf7ca0c5674d323748b45e50db574523152ccdbf2c030a5f91e8f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-QUALITY-CONTROL-01/data.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 494,
+      "sha256": "d9734ccaec59362b182cd5cbc62038588ebe59726db244dec19a6661bc58be5e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-QUALITY-CONTROL-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 508,
+      "sha256": "d6fb70371ce54e60db240a83ff1417ad1703d93b43c7ba2a04e36a37a2765a33",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/shared/business-data.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1686,
+      "sha256": "abfe3dbb8229eae71e1694e62d73112ed660367d26b9c41b3dcf9e607bfe755c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/agent/fake-trace.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 3499,
+      "sha256": "4225577dcf13db4b0d3e0f2f2b413f791f5e73b3b7171bb8babe661849c42c8e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 906,
+      "sha256": "486630a8700bbebb01f695b8b12f24012e0c062ef02b77bf0e8ebc94d3db53a3",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/case.schema.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 2822,
+      "sha256": "f649732e1966e9c91e6eec9feebe6894dd67a3b1034c94b815bf73c434e55d87",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/heldout/human-review-status.json",
+      "status": " D",
+      "previous_path": null,
+      "size": null,
+      "sha256": null,
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/heldout/review-queue.v1.jsonl",
+      "status": " D",
+      "previous_path": null,
+      "size": null,
+      "sha256": null,
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/manifest.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1279,
+      "sha256": "25b59731585a86ea051c8b6416916824edc48fcc5d752fe5960b5e41af12d0b5",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/public-cases.v1.jsonl",
+      "status": " D",
+      "previous_path": null,
+      "size": null,
+      "sha256": null,
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/results/deterministic-reference-cases.jsonl",
+      "status": " M",
+      "previous_path": null,
+      "size": 530250,
+      "sha256": "dd8d1955137ae7c33034965ff168d2f9f168977cc966d5e8bfaeb34130ea55c4",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/results/deterministic-reference-manifest.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 981,
+      "sha256": "73705928279616036c8e6324a2f0d38df2f5bccb54e9dc1be5962fd2f2b748b7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/results/deterministic-reference-summary.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 13639,
+      "sha256": "aaca7908e0ba6a8775681a9b44b9227a6573b36c1da201774d71ff1ae5acda33",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/seed-audit.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 165,
+      "sha256": "b45bb6bb5ba591d19355b4ef803d807e22d7971f92ac31e016d9845017bc6d8b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v3/ablation-report.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 975,
+      "sha256": "de086edea8fb9fd11636dedec44360b86595dd01e25edaf54be73c1267353803",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v3/golden-scenarios.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1800,
+      "sha256": "a7a96403751a51e0e6918efbba189171c3316030741dfc718eb05bec5ff62baf",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "infra/compose.yaml",
+      "status": " M",
+      "previous_path": null,
+      "size": 1861,
+      "sha256": "37d98a808c4b331343a29667a35dc375cb9419bf76caf5cd6660e4cd38baa514",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "package-lock.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 60233,
+      "sha256": "8ca00278850d16953683baab1b1c92dd39b14ead76c0bc10ca37168c39b7ca3e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "package.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 914,
+      "sha256": "aa418a7af60cc19932e6b653f7ffb7b0a5db954ef625677c1d509da9ab8c6e30",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/__init__.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1528,
+      "sha256": "32a2bf1f87d376157ed2c730ef7c64963d2536219217ba3aff9fb1a6962b7217",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/contracts.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 4696,
+      "sha256": "2bf41c6d62a4c11e7d4d7c29ea180ff8e9eb2b5942465c2127ae386f99dff6df",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/model_provider.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 30683,
+      "sha256": "2f77540ca0cbabef9c71b7f4da1cca13d9ea67681193e7b97c5ab8c38e029989",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/postgres_store.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 12422,
+      "sha256": "f0e7289c614d713e9336d9c60c72f7c02b6e354c0045349dc08fa796f8185c91",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/runtime.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 21204,
+      "sha256": "8a606ca88a8a2abbe81f4cc1db8f33354cf6276b9e5a0d25e1833108c96db82c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/store.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 2837,
+      "sha256": "97641e3777b62ac5a541eee8e9f219395826bfd26b54941c518d1260731d0744",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/tools.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 4736,
+      "sha256": "37cd7608fe9079d4069a469b28df71ae185fa3e0b1118c31d5ae3330064080d4",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/tests/test_model_provider.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 20202,
+      "sha256": "6005e888963784e30b2005253ddec465b2ce5d588c617e3a97cbbfc66ce0ed01",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/tests/test_runtime.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 17425,
+      "sha256": "c6dc56d94f292a1b389dcaec56a2253fbe361f93aaae0b7c05f6cf952b4bf848",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/connectors/CAPABILITIES.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1134,
+      "sha256": "3b08aaf862d3f9024ff3dff1bef6b60acfce8b45041ca1701fb9b4b4f813e577",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/connectors/README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 785,
+      "sha256": "b1cb6c31108eee0407e5cdc917bcc037bf165fb1eb21036b7d1c385eb5b003a5",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/connectors/src/ragcommerce_connectors/__init__.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 833,
+      "sha256": "234cfcd71a8937833f507545667dbf2d9291076e2623bb318ae7110a86a64a13",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/connectors/tests/test_connector_contract.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 6737,
+      "sha256": "c19e85d20799ffac6dcc6a47796cab5495760f33f2b55b1a050cbe8d6bba66af",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/contracts/agent/tool-registry.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 6218,
+      "sha256": "718770206fcf570e3e7b73fb354138f8324a50c135fb7132797ae3fd3419f543",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/contracts/generated/python/ragcommerce_contracts/__init__.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 8968,
+      "sha256": "f39d27c7abaf9a7afb64d975b2f592a6f7dc1e5d0f86fc5cc607b09f08139030",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/contracts/openapi.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 104458,
+      "sha256": "8308bbe9d902a4bda256d8a2e43030d7fbfd876e28344434be19500c2c8ed205",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/domain/tests/test_migration_integration.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 3779,
+      "sha256": "b279fcf39ba2e88178668130d633a9a8e17a4ee699aa4e95edda34eeb5f16c78",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 443,
+      "sha256": "dc5dea7b3061a7e7f6289d04439539bbd8fc54b646dff490ee1939039f15c97d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/src/ragcommerce_evaluation/__init__.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 436,
+      "sha256": "0077336f1eda4f57569a1fa611c83b2633920fadf6dede3ac330344a6e852dd9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/src/ragcommerce_evaluation/graders.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 6596,
+      "sha256": "2ceb8a1b455f34df93369c7e35a112bdd940619b8ffb060749e67401663cfab6",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/src/ragcommerce_evaluation/model.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 3807,
+      "sha256": "0f024316d4dba7e6dbb695cbbfcaec8c793d5912888da8756836b0eccefcd816",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/src/ragcommerce_evaluation/runner.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1327,
+      "sha256": "51bbbef0d7d7a7064c06e0e2a73af5f51263c9a94c265ec6afc5c027a9f5d6d8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/tests/test_evaluation.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 4215,
+      "sha256": "eb34e9c1215361f64b7a0c488d3f66216225664b66e80ecc890e2109e8606997",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/retrieval/src/ragcommerce_retrieval/__init__.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1618,
+      "sha256": "58f838ab50d4152e128a6d9c7d488c4bba5b51cf8b98b58ffbd8d6e0c3313e99",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/retrieval/src/ragcommerce_retrieval/normalization.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 891,
+      "sha256": "4b38b67dd282906aaed34c4da473faf8aa384ae22420d9d4f2c2f64ae9b7a071",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/retrieval/src/ragcommerce_retrieval/search.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 7147,
+      "sha256": "362c643dfe83e7a51dbbb88d591950b237149dac93bcfdc775c82028438a2f04",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/retrieval/src/ragcommerce_retrieval/semantic.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 17315,
+      "sha256": "234fe09003bd5bcd2e0bf0d988034163e3d71e119f5f718fe99d8354688d2dae",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/retrieval/tests/test_hybrid_semantic.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 6842,
+      "sha256": "4a8e948b76219abaf09d2e937418f0ded55c317207311c1954b56c6f42814956",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "pyproject.toml",
+      "status": " M",
+      "previous_path": null,
+      "size": 1575,
+      "sha256": "2aa732ede0786ee7dad8639c46ab34840d4c769abb4f647d00644795bbeb7d55",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/bootstrap.ps1",
+      "status": " M",
+      "previous_path": null,
+      "size": 1066,
+      "sha256": "f14a9577c2d0b01a8a27890d3d10d1b36773505af20f3bbd0bd17d47ff27972a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/check_ci_policy.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1776,
+      "sha256": "c4c2e516f60d953de2cb9371b7240f9196cdbf803d81ffecbfd291014a4ff5eb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/generate_competition_eval.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 13786,
+      "sha256": "af83c1e9694c7b12faefb2bb14913641730c4163104cc2db3491bf368f072d7a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/generate_contracts.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 29973,
+      "sha256": "cb5c14410aa1c4b3569995625642217763971cd31bbcea8b8365cbed5eaa711d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/generate_sbom.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 5741,
+      "sha256": "940eaed28181fef244b69328c68c34cd55093516ad527cfb6c57498ef701cde2",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_evaluation_ablations.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 4430,
+      "sha256": "7eb30fbb563e6097913d1499b0b8f44c9beb6c4a4abce2e8dc744e72b149b534",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_evaluation_baseline.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 6191,
+      "sha256": "8c39f018afe73415e4933e3782e5e3c1321a3ebeb5db4037eb63ca6178082688",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_real_model_evaluation.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 9610,
+      "sha256": "ae753b07bb29d167a25f1fee46f6598cc08c0726535c4b29062b033b2428d517",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/security_gate.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 7149,
+      "sha256": "9789da232a82d21d489a0a7b53c6353a54320687a4a29ee4a6059dbff43ce8e4",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/start_v3_demo.ps1",
+      "status": " M",
+      "previous_path": null,
+      "size": 8057,
+      "sha256": "5f85cc2d5114feec1dd82e4533fb9b9627e19cad56e7c66bab937b7ddf81ad77",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/summarize_human_review.py",
+      "status": " D",
+      "previous_path": null,
+      "size": null,
+      "sha256": null,
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/validate_evaluation_suite.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 4306,
+      "sha256": "ec4f096a9a1f9c2efba4ac39b4cddc1232ca3cb36b6f97305cf07ee8fc328e72",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/validate_task_packages.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 16527,
+      "sha256": "b31c908a2aa1c1eba62f1a2b7888a13f8776635d4a7ad747d2663a2b4812c87f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/verify_local.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 4093,
+      "sha256": "d836db46c51d5889e80f03e2509e954b2ff31ea4465359ce7407626986d2751b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/verify_versions.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 3079,
+      "sha256": "d13cedd1da56037ae3fa61cc668afc91a504ef9e89f6c644ef95c684ae2e49fe",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "toolchain.versions.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1295,
+      "sha256": "41426741328a9522a5d6e1d4c987d19546f1985721da8114b1085f886584493d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "uv.lock",
+      "status": " M",
+      "previous_path": null,
+      "size": 187293,
+      "sha256": "cd3f5ca683e701068d43d72d03c63a77563a1eef632e32eaf12310d132820b18",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/androidTest/java/com/ragcommerce/agent/EmulatorRecoveryApiTest.kt",
+      "status": "??",
+      "previous_path": null,
+      "size": 2297,
+      "sha256": "a1b4c412a1d9313418e7caa3aa6768e309f2b7d295731db83c845ce06687284c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/androidTest/java/com/ragcommerce/agent/ExplorationApiTest.kt",
+      "status": "??",
+      "previous_path": null,
+      "size": 3805,
+      "sha256": "9096f498ef9903fc36f2334919296067d888527afe9be8cf13cd3b6defcd1e0a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/androidTest/java/com/ragcommerce/agent/FinalScenarioApiTest.kt",
+      "status": "??",
+      "previous_path": null,
+      "size": 42410,
+      "sha256": "5f226608e64b2e8b01e2f3a1282ba9a128b7fc684ed3c303cba312788e42fa33",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/VoiceRecordingDialog.kt",
+      "status": "??",
+      "previous_path": null,
+      "size": 9195,
+      "sha256": "0e99e9b1941ea4085c734aa8f84cf2e6835699d52ef307726c2d1dd9fac6bfa6",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/test/java/com/ragcommerce/agent/ExplorationTest.kt",
+      "status": "??",
+      "previous_path": null,
+      "size": 2070,
+      "sha256": "3dbe6ffff809c8f22dc0a296015f20b5ecdc7b343a0b5c0e4ca3f60f2eebc7d7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/test/java/com/ragcommerce/agent/MediaProtocolTest.kt",
+      "status": "??",
+      "previous_path": null,
+      "size": 1955,
+      "sha256": "52eb7c94c7790074c6235813ba6f0b4909d10f67b5948e06a18af6567aa29a76",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/test/java/com/ragcommerce/agent/ShoppingApprovalStateTest.kt",
+      "status": "??",
+      "previous_path": null,
+      "size": 5851,
+      "sha256": "db7b639b5c7644fbe29f9eb953ddc83ed03604fa033f16a5e7f4f0f1136e084f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/versions/20260923_0008_mission_version.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 699,
+      "sha256": "5a59c26a92983070e1cb0afb9d4bce063c1ee173dc7f079767ec73e77ccc7b8f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/versions/20260923_0009_watchers.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 887,
+      "sha256": "7261e8cd0e26f61f1466d5bfc318e5b00683b90f14a911e4c1f2789beeda42a1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/versions/20261008_0010_tool_receipts.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 574,
+      "sha256": "0e1ac3531685c8805c2957bc0b8e5d00df0dc7882331200d219ffcf72df147a8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/versions/20261009_0011_exploration.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 544,
+      "sha256": "6087fce7c79dd1af814dea2dc0b30cce4ddd792d01fed7e912666e9066267e87",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/versions/20261009_0012_model_budget.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 848,
+      "sha256": "008bc21afb235ac13717a8dd63bc1681af23f57211d8288f437a5dd89e0016be",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/versions/20261009_0013_scenario_slots.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 903,
+      "sha256": "494592ea657117f7eb8c284e7b3985cec35bd7b57b806c9396ca8dc1b6b44c27",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/versions/20261009_0014_ops_state.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 480,
+      "sha256": "cac3a892b74d5d01e2a42d469e9ca6766144f0adb2434c51b25fe1d12c421956",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/budget_schema.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 1796,
+      "sha256": "b09bdc9da470d10233f75c7ff38ae71b2fa77c6a7105eddbade198e143838271",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/exploration.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 5771,
+      "sha256": "c52800fcf71f70647acf132f040bb8cad1e5e108fa2c85191b54a3c7244682ca",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/media_tools.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 1506,
+      "sha256": "9b92a40e783a78e4b2eb5ee4da7216858dd5d6ac9d8fb2917d49b44dc835936d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/ops_state_schema.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 430,
+      "sha256": "fa86f3c67d27053b93b36b7512ecd382cb13256e27506d287fb9503df7d834d3",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/retrieval_config.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 1862,
+      "sha256": "a256eea34239adfa0cc6ae11f2ecb99f881279c574d628f4ae79fd7ee57e9c1e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_exploration.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 7611,
+      "sha256": "f2fa22cc0151a1fb64452bf3416bb822f440fbda568d2b78435eda247bc87c61",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_final_android_acceptance_runner.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 4927,
+      "sha256": "b510ed279ed8e8d25108321b688a207bb685b8bce367a8b4767ade21500e63a0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_media_flow.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 4472,
+      "sha256": "0dacd2bb7d10446650d2e3726b6fa68b6c70e002ec2a3ff4fa74f78bcd9e21d2",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_provider_config.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 702,
+      "sha256": "d88778422345b17f21be43a8c8f4baaaf308bfb7b58f2ca3659112f825452061",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_queued_progress.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 1286,
+      "sha256": "c1f9ac4805bf10cff060eea5e362a7257c2293d0a336e12db80d5d3f9e35c7b7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_state_consistency.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 7333,
+      "sha256": "3d1e50c09e709631e2c4779c831dc63fcbb3a08842934ca245e3d48166314178",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/e2e/ops-runtime.spec.ts",
+      "status": "??",
+      "previous_path": null,
+      "size": 8261,
+      "sha256": "093763e51f200dc2cfe9a6990612ea7659af7178d8b984963d7931844a6fc644",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/defects/V3-ANDROID-AGENT-UX-BUSINESS-AUDIT-20260922.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 14475,
+      "sha256": "0d777da384eeeda7cfce3876323df79fc782df14f5d973749e3107ba97fc54a3",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/defects/V3-CAREER-CLOSE-20261008.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 3770,
+      "sha256": "d4619b2bfe707e2acdca04628bde5c4a6f81a6b416ea5cd04748bcf32d533d39",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/defects/V3-FINAL-CLOSEOUT.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 42894,
+      "sha256": "f29366df7d7fb45221af505e84c9c3dd01ebd1089a4a88bbfd47877ed54221b6",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/defects/V3-MIMO-REAL-RUN-011-ROOT-CAUSES.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 10003,
+      "sha256": "3f2d7cb00808a98abdc8b5d770dc8f8e58d397274f5c9018f4f72f72658dccf3",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/defects/V3-REAL-ACCEPTANCE-20261002.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 3897,
+      "sha256": "f6e91f0fa4f18aac7993564f372a1dcc38bad46e253e3249067d52b1f00ba7bc",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/defects/V3-STATE-CONSISTENCY-AUDIT-20261002.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 6516,
+      "sha256": "004710e3ee8087c148089a68e253c617aae8a1a67f11858f3e54aae2d20eab93",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/android-real-use-reasoning-20260922.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 16069,
+      "sha256": "06b80ebfc0307a3fa26423c9366c992245f9b5aa3bd6a930816734e2a32a4a2d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/c7-real-use-acceptance-20260923.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 2584,
+      "sha256": "47fe5234207ea393a9464986c2835d9f6216f401357c3530d523ac3e47a2c481",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/career-close-docker-followup-20261008.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1800,
+      "sha256": "e7ee626998f42ce64a5a5b332bfb997792cfb76bcb82158db3d3b539919e3563",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/career-close-golden-20261008.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 11966,
+      "sha256": "d61dce3e5918640994a5985c2741362e0249457281b78ff6184d024dc00f6b16",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/career-close-specialized-20261008.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3192,
+      "sha256": "7d2870c0a140ad777ba40e7030886faa1ec5926006631ec9efbda3ab735ba8ef",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-A03-gallery-diagnostic-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 979,
+      "sha256": "0cd197b0b29cc7c4b638f7327ed7a665015e18d443a4988d28891d4f84e9e535",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-A04-readonly-restoration-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 754,
+      "sha256": "3d86e533927389e99a6a76d0f5701d1e3666741f8a5996d235f892776cb64e44",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-A07-readonly-diagnostic-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1039,
+      "sha256": "18ef4a9c98f13a573362ac9da335a9953341c7fa05633b8107b25a9cd1fcd93b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-A08-readonly-diagnostic-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1159,
+      "sha256": "da554afd9e6b63657009e9b22604d41cf4509dc6f8f79f0a6e332543181b777f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-A10-readonly-diagnostic-20261010.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 653,
+      "sha256": "24842980ef456964aa2967a871aedab7b530fad9f3c2f318c0873f3c9cad9934",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-A10-readonly-recovery-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 487,
+      "sha256": "1bd953628fd444840285fc3ea143d228896b89df321f2d8a9f7195644809b54e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-android-post-A04-local-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1649,
+      "sha256": "f3f1aa4c8d386a1a437f45b83dac7e14244d2294e32882fc2516968a474ba1a8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-android-post-A07-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1317,
+      "sha256": "3e9249860c4c7561d1f0448659547ec2b896c34987c0c962e2fcc6f07d1113eb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-clean-start-preflight-06-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2913,
+      "sha256": "2613e2a83fa69353385b65c7cc0511ad073205bda80f90466c877d86417a652a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-durable-load-20261009-first.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 11502,
+      "sha256": "5d41e5eb31d2eace453f8e850ccdabba404132fe59386a2a33dc851a42f055a7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-durable-load-20261009-incremental.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 11508,
+      "sha256": "ab680bbddd0b596c363459a86ed728d56e6175475a8670f8d6520f47cb7544cb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-durable-load-20261009-pool.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 11494,
+      "sha256": "39d73a6c6a2285d0164c486dbfab321a2a39be941314f67f53117c0453e98b81",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-durable-load-20261009-queued.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 14296,
+      "sha256": "646b55d1f0706c8afe9598802bf7a679a9ae831c6aaf0d5844bd5a3b438d5e82",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-durable-load-20261009-review.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 11505,
+      "sha256": "d963b7b73fbc56cf5610d9442ab643008013ee5645feb2fdc9222672ba77da37",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-durable-load-20261009-two-workers.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 14356,
+      "sha256": "81701d45c1ed8eff925dcdc44330080d187b88ccaf5351966b93ab633d722f6e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-local-quality-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1688,
+      "sha256": "c4bf94e96054204f7a6847ea9e1018232cda1a22a52ca3976e4dc962160aeafb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-local-quality-post-A10-R4-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2077,
+      "sha256": "79bd333a60c5f89470c1cea6dfc841a3c4ac997a2e984bac4c5717cccde90efe",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-qa-checkpoint-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3319,
+      "sha256": "c36f27aaf9b29fe285db7fe54657c7a13715f42d8c66f8908cdb6ddbcbf95beb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-qa-checkpoint-post-A06-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1959,
+      "sha256": "3af688a0bec816509b8d23be2dd4b76c06b9b76764f2104821807285d4a62c37",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A01-R1-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3162,
+      "sha256": "803637e6cb014fd52912621b67b601fa3fc0deb9085ec0b696785f13afc78c43",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A01-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1867,
+      "sha256": "fb1b38209254bf7f83b47d54cdc6eb9b0562088769c634feeaefe43bd7f99346",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A03-R1-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 6897,
+      "sha256": "74ab1dd0d53ae8eda27a51b8820cdbce674a45dc403426e4faa9169fd736fe88",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A03-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3074,
+      "sha256": "7f838636ce1fd9487e75e40bb2d6f699481971e85c6e7ad010b7ae6b9a93265d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A04-R1-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 44215,
+      "sha256": "7632980e364ba155b2d21786cdf83a3018def3c05ffa76c8228ee1a2d7515407",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A04-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 40755,
+      "sha256": "6b5c0aa50ec5b64c090e86a35a1a26d190f7b8eec108ba120b99fdbcae09b7d4",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A04-first-closure-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 851,
+      "sha256": "e8b7df77930ddf98a35778b75f7f802c04cd654c451fd0b17603351c248eaf4c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A05-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 8245,
+      "sha256": "f0e540226720a837ff6f55a4f0c70a3432787bdf3c40945aca5d8b08dfadaf70",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A06-R1-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3326,
+      "sha256": "efeb1009f9d75f04923452a1318af8381f3499f8078f758b231efa8c52463ab9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A06-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2974,
+      "sha256": "b0decc6b0232e5bfc375e41c6edf6aace4e0ddc6c70a0b0d6ff4816eccd97626",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A07-R1-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4152,
+      "sha256": "ab604017feb6f594416af06eb676120e6dab05ebc56d86e05bbbbf7a59f05cf2",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A07-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3977,
+      "sha256": "187991265489bae9d7c660cf5f05b1a20dff0b35f8868d0ef1563c16e786d721",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A08-R1-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4528,
+      "sha256": "2c30d6890119e32bc81c7a23b116d904ab872018702ba25cca2dc28c1c3fc656",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A08-R2-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4380,
+      "sha256": "476d76a7625b7e12b953eeb033ff44efeb721ebcd9100b6a8af76183788a994d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A08-R3-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4085,
+      "sha256": "de2ed5b40f7551888d40069ebc02713f83e2a953e72f3e674948ab8cafd3b282",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A08-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3283,
+      "sha256": "0b5a28bd4dbbd683edc78bcb9649b87c8783be834f2a942de2b564469ed8acbe",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A09-first-20261010.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3547,
+      "sha256": "af4080c679f19bf7d259b1207e1ce18d7e842d514437e3259f5b223b344828d8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A10-R1-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2879,
+      "sha256": "6c92f2013a0de94f4ca8e8011488edbf85028bb53806a098eaf6729c4a2bc533",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A10-R2-partial-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1825,
+      "sha256": "8cf7ac2d0c5ee0414ad0a5b61726c503e6a756f1ba545a5bdc9ce3b21ef8ad81",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A10-R3-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3568,
+      "sha256": "8ab7910ff7c04849a92113af043df6bab8f077d03906612eb3cf3a552807f0d5",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A10-R4-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4298,
+      "sha256": "677ac9ff23d2913956887e4c50fa25fc04d326eafd8e26278a2ce1eedf833734",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-A10-first-20261010.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2939,
+      "sha256": "3459128c415b469d8ac9bc3b825ac045d8d2fc6b3c1b1163677fdbb9c7b42f19",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G01-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4352,
+      "sha256": "8cd6243311eb37a210bd461b974f903659eb2eacb330b350a03d29043583b7d1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G02-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4399,
+      "sha256": "33cbed062f6fcb1193cf3343899052d6c084ac4cafddaa573d87ad05a04a3fed",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G03-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4350,
+      "sha256": "1cd74e2d660d4618714ef896d223e5b9512e0570fccc222feda3cb7f75da1498",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G04-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4377,
+      "sha256": "1730c11bbab3d44601f722d35b11aab4bb60655aa02f61ed25bfa7573700cf7a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G05-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4383,
+      "sha256": "d5799ba97432cf4a9353e629ffa398942ad225c85b94999def362764af5055c1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G06-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4381,
+      "sha256": "20554147ef556f68e17b48f65b2b12670c40da513b1ca807f51cb43ebecc48c1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G07-R1-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 6102,
+      "sha256": "974b8e4a31e14401df79622022c49def32a77cae1dca901cab175a2f30e292a9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G07-R2-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 5460,
+      "sha256": "d53209c69248835d81c44881827b314879ae1764566e9b77a54c543d1e309181",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G07-R3-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 6116,
+      "sha256": "4541ca33f93dc21fdb600552e4baf5d23d20b8f2a138972584d5fc102f605900",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G07-R4-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 6108,
+      "sha256": "aa904a760ba7815a69b2b842614f328c289b60246031617d0e428de5b5959b22",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G07-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4439,
+      "sha256": "4465699c8c4c1da4aa296adbce3f71dcc475b587ae7af9508d7fae897f8c5155",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G08-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4407,
+      "sha256": "94a8ee0c51a9b654853eb52b6e8c6b3504350ba95141faa3bd802ba37e46c2dd",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G09-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4353,
+      "sha256": "cb5eb59700edf5fd1ff4a46662b846a6b22e1a8f40d3203a3e6e8058a41ec239",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-G10-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4406,
+      "sha256": "52631b481a935cb5f293a0be3b01199d6819220ac67f977c6bcd4df24b9b0d43",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-M01-R1-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3613,
+      "sha256": "5cb747ab564d3546c1eea21c2187ceb143bc3ae6fe0098c4a8e0ee9303fd4263",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-M01-R2-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3792,
+      "sha256": "71c2a32ae4ca880e2ab9efdf799b28c5ba7c6ce09cfeb46fa8c436717198495b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-M01-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1051,
+      "sha256": "8073630b71206eb99ec10dabcef3a154c8e1f522ec8014f89bb5e24ec6b261a0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-M02-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3161,
+      "sha256": "ed39faef05fe966a2c00039261b007f8483a20cab0916bfe0200114ff850520a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-real-M04-first-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3557,
+      "sha256": "fb4287af0b09e9107287a53bcd9378f412c49c316e7a6408a9ab548444c736a3",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-retrieval-20261009-review.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 203365,
+      "sha256": "1546f017c3a23b368983da29a0111d59d6a9b20a4565a67fc8cb8b1fce0d8795",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-retrieval-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 203369,
+      "sha256": "02bf7c5253f429bd88e8982cea97ed4848e0c3694df6fd06c34c63503d63892b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-source-analysis-repair-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 10300,
+      "sha256": "cd7fc659b1105ab48d365f3340b5cc8c0ad7a01ef86065a042d4d33fc035e2e0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/final-worker-process-recovery-20261009.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 919,
+      "sha256": "e8dcd8a46c0fe0dc3f08cfe6447ab824717c9f7bd1a382b98a9b04bbe7f4c9a0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/local-bge-durable-e2e.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1382,
+      "sha256": "94311ebd1a9b0fa36c7df38090cf3a4129cb5fd9177e2de2a2f1edfe381b381d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/local-bge-small-zh-evaluation.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2385,
+      "sha256": "5f547752f07be488b446e4c6ee005d6c039f458a2e86041e756cf8167c608902",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-g08-retest-001.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 899,
+      "sha256": "2464138b3e44f7c7130fc50198909c99f23122e5d825b9cd8bc604995157cd4a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-g09-retest-001.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 884,
+      "sha256": "29dd582d3cdd9bd6894d0d0689b60d67d4422b7e72df34efe2ec43834fee79db",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-010.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 10367,
+      "sha256": "7dc426b2c33327ec4727a5e2028fdf91ec6fc5fa84b1f2d2d7920c3c8b6f87d3",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-011.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 10123,
+      "sha256": "122128db5a75ebcccd48c99620c10fac8403353e2736e955a797fc1393932749",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 12214,
+      "sha256": "789906fc01c91d2399468aecb447b96498780b192023e39729c696d75b56bd0d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-013.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 12150,
+      "sha256": "a4ee2ffd6583aec540d0309080d9f62120c8e0bdd5178254560444f80a1a2cd8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-specialized-acceptance-run-001.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2621,
+      "sha256": "790eb1f701f82c12d0757355f26b6b34ceaeb3ebb5925ef9f9a7f799ff295d92",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-specialized-acceptance-run-002.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2606,
+      "sha256": "37577cd531ee68eac3c277b4098bfc1fba93ad7a40374f7d7b905d1dac7aadcb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-specialized-acceptance-run-003.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2600,
+      "sha256": "8a111a8479787ec486f37fd7222a0d72f39fa05e1874c426686964a6d9eb2d20",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-specialized-acceptance-run-004.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2682,
+      "sha256": "3cb5d7cce6776ff73ab97107bf5533ff91e82854ae9598c39bdc6929787970ac",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-specialized-acceptance-run-005.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3193,
+      "sha256": "7e39639e8f64a8485cc3afee39f559d71bc46aebcde9b50e01d211ead492b604",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-android-batch02.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2570,
+      "sha256": "3e4b84d86a20a63d669ac738e797b86ccb9df15e123eed696d2437cc308839cd",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-emulator-batch06.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2188,
+      "sha256": "20692dc7847efdfd84ba727eeebedc282373d3b7d2c52418c11204a7cbe03155",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-exploration-batch07.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 6015,
+      "sha256": "83c7366fad79b3f5cef76d174820125d9c28a150f81f53ef6657294f42dc3bd5",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-mission-batch04.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2113,
+      "sha256": "a46e93ad24a70d51340a3dc5ee15c2255f9d68108280ba449b1b6192ca52bcdf",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-postgres-batch03.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2009,
+      "sha256": "0cbd39d4f8bbf7098de10d944bd028bfec9b1978ef0a5c25c29bbf2a3b0a0eb7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-receipt-batch05.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2004,
+      "sha256": "ef3c44a09ac767c5b70fee018915f699785988f3ac1a14ee3c2ba4e7148f3cb9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-state-batch01.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3099,
+      "sha256": "3ef4d2d7a3ce230cec743bcb52af6dd0575a224e0e136a831d2e7cbe94bb6d1a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/plans/EXPLORATION-CLOSE.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 1550,
+      "sha256": "7c411b28e38c01909f93217e5e2fd4c37eb5dfb2c9f95dc9ff628d6803c7f11e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/plans/INTERNSHIP-FINAL-CLOSEOUT.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 3265,
+      "sha256": "5c0c596e257812e9e23387a2621e8b27a619ee89009eb9a8556416ef828dd832",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/plans/v3-complex-commerce-repair-plan.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 9433,
+      "sha256": "e0288148a1fa5b9609551bea463d27bf912b4c8c9aea2711e99c32196d5e9172",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/project/V3-agent-gap-fix-plan.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 6134,
+      "sha256": "c97610596a8bdadaf6b13924437212208260b94e93c39ae2437b87a47979e184",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/project/V3-agent-gap-fix.xml",
+      "status": "??",
+      "previous_path": null,
+      "size": 23358,
+      "sha256": "de9ea39cb2fc63b39ffdd44631c6e5605bc53cd3834e0ae07d920b5ef1701c69",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/project/V3-agent-priority-fix-steps.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 8629,
+      "sha256": "f942c18c612a3caf89aae144f5a17f4c553ca045f7abf56f8cdccd745d117588",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-ANDROID-UX-CLOSE-01/TASK.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 9000,
+      "sha256": "a9ee1b9704c8e7a400806699c6f3624322fa692fb74b3559c98f74086d94de73",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-ANDROID-UX-CLOSE-01/data.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2017,
+      "sha256": "62d04cb5c660c1957c13d41859934a4e23b32ae86070ceb14865abffe76f4e84",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-ANDROID-UX-CLOSE-01/evidence/verification.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1453,
+      "sha256": "a1d2f9065ee9a7db29e46eb057a2ab9fee4e579e1c4bb850303244c9bc9a5a63",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-ANDROID-UX-CLOSE-01/pitfalls.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 869,
+      "sha256": "7f1468942bb229d159e735c9befc4a44accbb83125b9ac1ef7f048733ec5d2e7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-CAREER-CLOSE-01/TASK.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 4837,
+      "sha256": "84857f3a0ce4a146f9556a4140c45d39909f076ebcc519975713e6e54029c857",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-CAREER-CLOSE-01/data.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 879,
+      "sha256": "584b4d6537de4e0176b978af35a32dfc72c0a6d6eeee83cccb8eaa33bac75a20",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-CAREER-CLOSE-01/evidence/verification.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 5091,
+      "sha256": "f0b00ebbdaf0f3c30cc3488fb7e2c2bfdaaccfe65dfc7c617d72f03bc7a55e7e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-CAREER-CLOSE-01/pitfalls.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 344,
+      "sha256": "05f4376c76fc35805a176bf64d6966607242445f553ce79f471abaf7d5c25523",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-DEMO-PRICE-01/TASK.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 2841,
+      "sha256": "3a7a0e708052aa476a75527e403af941f8db179624863197e27ae0d361ad490b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-DEMO-PRICE-01/data.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1010,
+      "sha256": "cb752379feb6057c927cd62b586bfec50eceb9a98a99bdff1da80a63c6a6aadb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-DEMO-PRICE-01/evidence/verification.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2240,
+      "sha256": "3316ca26b0dd0e5db0f3dae8debaa4c69dad870e00e3e634146daef9c246e6b6",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-DEMO-PRICE-01/pitfalls.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 599,
+      "sha256": "20ce1d1af4ae3b879b5e0565243cef8e27a1197120e1d7ddf5e73a1a31a9e0de",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-01/TASK.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 2889,
+      "sha256": "6fa114b192e625fcf677fe25773d65ebd56d27048ecf41774f6b6b4c9b8bf670",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-01/data.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 968,
+      "sha256": "e81680616312efddffd308fe94ee5bead08c79d203773cb94c0c719a2c9a7721",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-01/evidence/current-state.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 60159,
+      "sha256": "a11d5d2a1c669c27dc10ca2d98ada0c3664dea506d75b1710f50670bdd506921",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-01/evidence/verification.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1518,
+      "sha256": "db7f5252b5357f45b54337ff8ca5b7d640b9651bbede00fa32d1a13cc8dd30b2",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-01/pitfalls.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 283,
+      "sha256": "fd0c886d9d3ae8d21471e85826cbed4a37d6ae74ddf23d2f2f7373cb56ba6ed5",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-02/TASK.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 3204,
+      "sha256": "14b6d1e0b307266354b94dd096797076b6457c6d72f366e0d4609fbcd4e4a1f3",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-02/data.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1027,
+      "sha256": "c469a256c9c860c78480b3e528efd7ea3d972b67bd34605c8b4ecc799d90df18",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-02/evidence/verification.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1877,
+      "sha256": "75b4549473119667ab61410de88821888322635aceb9fdf4d9af5f1d407baa8e",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-02/pitfalls.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 283,
+      "sha256": "fd0c886d9d3ae8d21471e85826cbed4a37d6ae74ddf23d2f2f7373cb56ba6ed5",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-03/TASK.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 3892,
+      "sha256": "f1ddd4dcb334d2816a53b8cf7eb7bc87665a0fde295c4a6941b1a62c56fa1c74",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-03/data.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 964,
+      "sha256": "1121f94fc1d4e61e3afee894d8637a687d8a11261ddac701b54a541e08ba8d09",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-03/evidence/verification.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3786,
+      "sha256": "a6d0f3581ec26717e0644dd15a630108e5891a5aeafa2795b50385f50afd2b8c",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-03/pitfalls.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 283,
+      "sha256": "fd0c886d9d3ae8d21471e85826cbed4a37d6ae74ddf23d2f2f7373cb56ba6ed5",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/TASK.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 3759,
+      "sha256": "6042f888e4b93b142b5d3c8e18e13c735ec808577408cfeb883c21a1aee16537",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/data.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1030,
+      "sha256": "4199361c78419ca124403780a66fc573fb1706cba4ea89d48dd6ce40f78ddd83",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/evidence/A01-EXTRA-AUTHORIZATION.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 698,
+      "sha256": "ea032a37a66b77b6614deb3dc47034c5a590e814d51e2172d52de361f78c7fd5",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/evidence/A03-A04-A08-A10-EXTRA-AUTHORIZATION-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 918,
+      "sha256": "80bf1ecf7b83bb5712d48c40e27208534f374eb12dc39a256f11fd3c4bd9d255",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/evidence/A06-EXTRA-AUTHORIZATION.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 738,
+      "sha256": "386a206cc01dbfc94abb0d98a13a819d7632936a433e746625a5e996d0038c4b",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/evidence/A07-EXTRA-AUTHORIZATION.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 855,
+      "sha256": "b72f6de29b85460d62bba3548a5c59208873cbbaaa430c20b2450b40ccbc2cf1",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/evidence/A08-R2-EXTRA-AUTHORIZATION-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 614,
+      "sha256": "243ba9f45a5419e24fae89a79063588da2b591f85d38a6351130a1ce57abb3e2",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/evidence/A08-R3-A10-R2-EXTRA-AUTHORIZATION-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 705,
+      "sha256": "cfa40128e579b6eba61931beb6df574391212afba429c9ed62ac134f01210d57",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/evidence/A10-R3-EXTRA-AUTHORIZATION-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 691,
+      "sha256": "fd3bb7a08e8facad8abc787963e554592c051e951b76b19412c0ff2cc3515811",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/evidence/A10-R4-EXTRA-AUTHORIZATION-20261012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 697,
+      "sha256": "a6add22a75df7d2785e5bb27a446eaaa8c4756bd00e0e022304c26874b9208b5",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/evidence/verification.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 7275,
+      "sha256": "26ae58c588cc3ff0309a5eb744d72a90e8f8a5271e3303b2d0af7505be0f8cd3",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-04/pitfalls.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 283,
+      "sha256": "fd0c886d9d3ae8d21471e85826cbed4a37d6ae74ddf23d2f2f7373cb56ba6ed5",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-05/TASK.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 1822,
+      "sha256": "6470c4f44df366ba9fbc3d6a2c199c759bafd96cbd0ec8ac1fa5faf0f5af46ad",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-05/data.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 998,
+      "sha256": "d150eae4f77ec8f6dd60d609e36d0ae9d2fd7170dd16a83176ac19c1f200cead",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-05/evidence/verification.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1361,
+      "sha256": "56034baf1b41b22f3bc8493b1fef4d59d78efbde6adc17abc40cf32b6b4ca61f",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-FINAL-05/pitfalls.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 283,
+      "sha256": "fd0c886d9d3ae8d21471e85826cbed4a37d6ae74ddf23d2f2f7373cb56ba6ed5",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "e2e/agent/agent-business.spec.ts",
+      "status": "??",
+      "previous_path": null,
+      "size": 10496,
+      "sha256": "06f4d9aa7dfc6a93e7239704cdb338a28bb0f1d37b033ffd58ce1f2c6c07fbd8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/cases.v2.jsonl",
+      "status": "??",
+      "previous_path": null,
+      "size": 885975,
+      "sha256": "7edb2c1e3c1ca28f2187267f52c3fcb84c1bf0d6fa2109da5ccbda11c2392444",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v3/final-scenarios.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 4281,
+      "sha256": "cf77f0a933f6aac014e575d7779a93beb8f077f8bc026a271b82e059cd8c605e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v3/media/README.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 436,
+      "sha256": "4eb8043f1dfbdab37f4e48b968fc409722c7230b1a73cc9ea246b0755e126fe1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v3/media/non-3c.svg",
+      "status": "??",
+      "previous_path": null,
+      "size": 625,
+      "sha256": "9d274e6bcaea00f263263f042edd2f58ffa8d4c3be23a18b08f3d5566cbf357a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v3/media/phone.svg",
+      "status": "??",
+      "previous_path": null,
+      "size": 534,
+      "sha256": "dd1b244ce0fa89825be3b9427eece7403a18ebecaca886920d8e5864bc1b750c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v3/retrieval-closeout.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 94041,
+      "sha256": "688ae502fc2ca0e6f4697292824a708e7348372d212727367b9845d9a583cb6e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "infra/minio-source.Dockerfile",
+      "status": "??",
+      "previous_path": null,
+      "size": 1445,
+      "sha256": "5f3cbbddeeac2378702aeda9d31e62bbedfcab8e98ddc83fbc8687718e16d457",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/mission.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 2996,
+      "sha256": "2bedb9846b74f1c4b1285bd4e62a053b77fe3483c576425b17c61178bb54d386",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/postgres_connection.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 695,
+      "sha256": "b88523d72854b362671da1c46a5dc0640e3e5bc5e486d4aa3672384d2a02f2a5",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/token_budget.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 9173,
+      "sha256": "5a8c161b4be3cf58e3f0feb93e091aa2e71db42752a82f95f6d90592c3491311",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/tests/test_mission.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 2460,
+      "sha256": "df5bcb29b63de76a2122da0a14e09bd71618203e8b6629f4aaa94844495c1fea",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/tests/test_token_budget.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 7720,
+      "sha256": "47e4c18b83cb38385e44fe2b69a6d186b29dae96d56cd3b3b451e093b8c589d4",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/connectors/src/ragcommerce_connectors/gowu_demo.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 4962,
+      "sha256": "a13f1ec44fc6e61c0d687dae5a217564781fdd64c23f82c992be116a19b9f05e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "playwright.agent.config.ts",
+      "status": "??",
+      "previous_path": null,
+      "size": 946,
+      "sha256": "6ca353e1270bb9ccd49afcf5c60f26e4350787ba6f17d0ec399f90f9a55b4ee0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "playwright.config.ts",
+      "status": "??",
+      "previous_path": null,
+      "size": 1678,
+      "sha256": "bf2aa1ad86616f1d48cadfd3ab46ad7bf2be7e5d647914928e5ca40ae24547e0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/android_recovery.init.gradle",
+      "status": "??",
+      "previous_path": null,
+      "size": 309,
+      "sha256": "2d087fc861ff056200c706ba9c98aab0fec8e3b190062ed024a7be8da82803e1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/build_retrieval_index.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 662,
+      "sha256": "82dcffe932cc1a06a1902153b531d460ffde6d75605d2b6d410f741b564216c6",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/build_v3_agent_fix_project.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 9870,
+      "sha256": "d8c0695b22d51283c9753aa7b51513baeb28b124722c1830dcf6a68657b8d118",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/capture_portfolio_baseline.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 2897,
+      "sha256": "b197fe0f2bc95fbdc49f23914056a51df27d58030fff2d32dc0d5325f307c79a",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "scripts/check_gowu_demo_prices.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 2205,
+      "sha256": "e607bc941f6c65451d3f64a819ffa1a3be1374edea1e84740984a06a3737bece",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/demo_processes.ps1",
+      "status": "??",
+      "previous_path": null,
+      "size": 1040,
+      "sha256": "b9821ca7a0933d227c3b434433b86c262901f2e3e7cd0d9c0545400b677452c8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/emulator_recovery_backend.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 1724,
+      "sha256": "572ef16e6f6999b2b8edc8fd51cb8dce03260202eb0373b6f03f2258ae925971",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/ensure_demo_database.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 704,
+      "sha256": "d96057f3e416176c51e533bdf289e7c87192f93d663e42ed518a487870a67b30",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/export_portfolio_candidate.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 4109,
+      "sha256": "20542d51ed016ab79b90f2fd34ae91f5f6b1dfd9aed18adaf45013eb525c9002",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/final_scenario_slots.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 3341,
+      "sha256": "7e3a8b1abbe38ef0f2a25cd332300535f86fa3399201bb85975ee01f0c4f28c8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/generate_retrieval_closeout.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 7412,
+      "sha256": "d11987d4a56a8fbfc65545147848fa9c014a1afe7a65b4751b7d25505f85c296",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/prepare_local_embedding.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 428,
+      "sha256": "55f7e14b7b5d2d71c43171aff9c8058f05b4459070894a9955fadfea93092e16",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/pull_official_images.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 5018,
+      "sha256": "5c01effa05a68c4b4ff06dffa55fb790cb913a588ec25068162a87fd05dcf1a4",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/render_media_acceptance.mjs",
+      "status": "??",
+      "previous_path": null,
+      "size": 734,
+      "sha256": "76e780db67f74521bcde05433abdac151fdb828243b7dca9df6b8d7a4f0d4971",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_final_acceptance.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 14622,
+      "sha256": "c2d13eaac6c6d216e8a45758ee5377d86fdb2db8d6ac3027361364dc2484082e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_final_android_acceptance.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 38311,
+      "sha256": "ca3b57c4b9a982c534cf4e0cb0f1d3b51f13be8dc21a4617380312a87fb7d339",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_final_android_safety_acceptance.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 17850,
+      "sha256": "fd1470947b852f39f60a55ed424bc5e51d1a678d4c2a576bfa682aa2f46d935c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_final_media_acceptance.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 11086,
+      "sha256": "8b022f61723d2d3c5655c290aa54f47303b067c1053c4da0a0f099d27b1016f1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_frozen_retrieval_acceptance.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 8346,
+      "sha256": "93fd455edf357c720f344f094530e22ea6628fef248b6750012bfd7cc7c9f15c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_local_embedding_acceptance.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 5091,
+      "sha256": "25a5973a0fca2fa6617a6b322d8a30d452f539b992a931f9222bad09df3f365e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_mimo_specialized_acceptance.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 9647,
+      "sha256": "769d1342ca5d5a459b1de9bcd5398826ecf45889eeb344d9a40e3d60cb267e74",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_v3_durable_load.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 5861,
+      "sha256": "c6d7c456b126b3085dd3e0209d53e02f51e46e4658401b29dfe33e7aabd58557",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/seed_demo_ops.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 4138,
+      "sha256": "8a91450a1bc4a8faa7a5dc601bc8e782901411df155db4e9c3e3c896756663fc",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/stop_v3_demo.ps1",
+      "status": "??",
+      "previous_path": null,
+      "size": 748,
+      "sha256": "a318b159d27e5824b5318abbef87d34495cbd0d736a83bd9d74b4fd43e6c4c1d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/verify_clean_candidate.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 4215,
+      "sha256": "b809fd3bfea0810f02f17f472d014ec0f8cfbcdc24ed27c0c5ce5f974bb364c8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/verify_worker_process_recovery.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 9308,
+      "sha256": "db1959b1bacd127f28247de1dca13bb41db1fca119c1580312c37bcff051a60d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    }
+  ]
+}

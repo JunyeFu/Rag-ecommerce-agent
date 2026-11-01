@@ -1,0 +1,29 @@
+{
+  "status": "PASS_SCOPED",
+  "url": "http://127.0.0.1:24180/",
+  "title": "项目导航 · AI应用 / 全栈准备",
+  "viewports": [
+    [
+      1440,
+      1000
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "browser_plugin": "not available; existing Playwright CLI 0.1.22; no dependency installation",
+  "checks": {
+    "identity": true,
+    "meaningful_content": true,
+    "no_error_overlay": true,
+    "console_errors": 0,
+    "console_warnings": 0,
+    "horizontal_overflow": false,
+    "screenshots_reviewed": true,
+    "interaction": "Two-week plan -> actual evidence JSON new tab -> read PARTIAL/10 of 10/0 calls/HOLD -> return and responsive check"
+  },
+  "unit_tests_passed": 7,
+  "build": "PASS",
+  "drafts": "personal .local and browser records not modified"
+}

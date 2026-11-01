@@ -9,6 +9,7 @@ from ragcommerce_contracts import (
     CartMutation,
     CartView,
     CreateListRequest,
+    CreateWatcherRequest,
     OfferCollection,
     PatchListRequest,
     ProductView,
@@ -16,11 +17,17 @@ from ragcommerce_contracts import (
     ResolveOfferRequest,
     ShoppingListsResponse,
     ShoppingListView,
+    WatcherCollection,
+    WatcherView,
 )
 
 
 class CommercePort(Protocol):
+    def exploration_directions(self) -> list: ...
+
     def get_product(self, user_id: UUID, product_id: UUID) -> ProductView: ...
+
+    def get_variant(self, user_id: UUID, variant_id: UUID) -> ProductView: ...
 
     def get_offers(self, user_id: UUID, product_id: UUID, fresh: bool) -> OfferCollection: ...
 
@@ -39,3 +46,9 @@ class CommercePort(Protocol):
     def get_cart(self, user_id: UUID) -> CartView: ...
 
     def mutate_cart(self, user_id: UUID, request: CartMutation) -> CartView: ...
+
+    def get_watchers(self, user_id: UUID, thread_id: UUID) -> WatcherCollection: ...
+
+    def create_watcher(
+        self, user_id: UUID, thread_id: UUID, request: CreateWatcherRequest
+    ) -> WatcherView: ...

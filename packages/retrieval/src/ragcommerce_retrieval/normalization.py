@@ -5,6 +5,18 @@ from __future__ import annotations
 import re
 
 _BRANDS = {
+    "arc": "Arc Compute",
+    "arccompute": "Arc Compute",
+    "弧算": "Arc Compute",
+    "nova": "Nova Mobile",
+    "novamobile": "Nova Mobile",
+    "新星": "Nova Mobile",
+    "aural": "Aural Audio",
+    "auralaudio": "Aural Audio",
+    "声域": "Aural Audio",
+    "luma": "Luma Optics",
+    "lumaoptics": "Luma Optics",
+    "光影": "Luma Optics",
     "apple": "Apple",
     "apple苹果": "Apple",
     "苹果": "Apple",

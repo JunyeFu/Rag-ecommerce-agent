@@ -1,0 +1,17 @@
+{
+  "runId": "android-ux-20261021",
+  "historical_snapshot": true,
+  "current_state_ref": "docs/design/android-state-parity-20261022.json",
+  "scope": "Android screens and shared action/navigation families; not a full public library",
+  "fileKey": "Wp0w0GwfT6Ip8uR93tX5vR",
+  "url": "https://www.figma.com/design/Wp0w0GwfT6Ip8uR93tX5vR",
+  "step": "editable composition",
+  "composition": {"screenCount":14,"assetSlot":"6:446","buttonComponent":"6:91","panelComponent":"4:28","screenIds":["4:31","4:32","4:33","4:34","4:35","4:36","4:37","4:38","4:39","4:40","4:41","4:42","8:292","8:328"]},
+  "code_connect": "No @FigmaConnect mapping in relevant Android source",
+  "entities": {"createdNodeIds":["4:28","4:29","4:30","4:31","4:32","4:33","4:34","4:35","4:36","4:37","4:38","4:39","4:40","4:41","4:42"],"mutatedNodeIds":["0:1"],"variables":{"Bone":"VariableID:4:4","Surface":"VariableID:4:6","Ink":"VariableID:4:8","Emerald":"VariableID:4:10","Lime":"VariableID:4:12","Coral":"VariableID:4:14","TextSecondary":"VariableID:4:16","WarningContainer":"VariableID:4:18","Gap":"VariableID:4:19","CardPadding":"VariableID:4:20","ScreenPadding":"VariableID:4:21","TouchTarget":"VariableID:4:22","Radius":"VariableID:4:23"},"collectionId":"VariableCollectionId:4:2","components":{"panel":"4:28"},"styles":{"Body":"S:9cb2e9086e5c87700afc42ebda43ce61c07de8a8,","Label":"S:970458484de4382676b9d3811cb266dc84488aa7,","Title":"S:a4da78baeef6902366b5ae0eb7672a8621b018d3,","Caption":"S:3c783079eaa2bd70e0c0dd469e0ccf42a4fb41f3,"},"wrappers":{"01 任务入口":"4:31","02 对话与澄清":"4:32","03 纵向主推荐":"4:33","04 候选追问与反馈":"4:34","05 差异比较":"4:35","06 无匹配调整":"4:36","07 保存与继续":"4:37","08 最近任务":"4:38","09 场景探索":"4:39","10 暂不购买":"4:40","11 指定操作确认":"4:41","12 我的与恢复":"4:42"},"fontFamilies":["Noto Sans SC"],"sourceMapping":"Android system Roboto with Noto CJK fallback; Figma uses Noto Sans SC for Chinese","discovery":"No Code Connect, blank target; Material 3 Button reused, custom source palette/panel retained"},
+  "pendingValidations": ["emulator business/large-font QA", "full Compose screenshot parity", "paid-provider scenarios not executed"],
+  "completedSteps": ["source and token inspection", "file created", "14 editable state frames", "get_design_context comparison and recommendation", "screenshot review and button clipping/color correction"],
+  "readback": {"baseScreens":12,"baseScreenTextNodes":192,"baseScreenInstances":85,"baseScreenHorizontalOverflow":0,"newRecommendationStates":["8:292","8:328"]},
+  "previewPaths": ["output/android-ux-20261021/figma-task.png", "output/android-ux-20261021/figma-recommendation-reviewed.png"],
+  "prototypeScope": "Screen links and editable states only; native vertical swipe must be checked on Android. Component default reactions do not prove app behavior."
+}

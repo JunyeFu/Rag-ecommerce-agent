@@ -29,3 +29,8 @@ docs/task-packages/evidence/runtime/
 # Local service state and imported data are never source-controlled.
 infra/.state/
 data/imported/
+
+# Project-local archives and verification caches.
+_archive/
+_worktrees/
+.hypothesis/

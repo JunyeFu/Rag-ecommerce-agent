@@ -14,8 +14,15 @@
     "build": "npm run build --workspace @rag-commerce/ops-web",
     "check": "npm run check --workspace @rag-commerce/ops-web",
     "test": "npm run test --workspace @rag-commerce/ops-web",
+    "test:e2e": "playwright test",
+    "test:agent:e2e": "playwright test --config=playwright.agent.config.ts",
+    "test:ops:e2e": "playwright test apps/ops-web/e2e",
     "web:build": "npm run build --workspace @rag-commerce/ops-web",
     "web:check": "npm run check --workspace @rag-commerce/ops-web",
-    "web:test": "npm run test --workspace @rag-commerce/ops-web"
+    "web:test": "npm run test --workspace @rag-commerce/ops-web",
+    "web:test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
   }
 }

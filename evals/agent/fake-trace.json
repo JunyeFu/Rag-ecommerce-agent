@@ -22,6 +22,7 @@
         "model_version": "fake-v1",
         "policy_version": "policy1",
         "prompt_version": "p1",
+        "retrieval_mode": "fixture",
         "thread_id": "00000000-0000-5000-8000-000000000002"
       },
       "id": 1,
@@ -30,6 +31,23 @@
     {
       "data": {
         "goal": "推荐夹具耳机",
+        "mission": {
+          "budget_total_minor": null,
+          "currency": "CNY",
+          "goal": "推荐夹具耳机",
+          "hard_constraints": [],
+          "items": [
+            {
+              "category": "耳机",
+              "quantity": 1
+            }
+          ],
+          "soft_preferences": [],
+          "unknowns": [
+            "预算上限"
+          ],
+          "version": 1
+        },
         "status": "IN_PROGRESS"
       },
       "id": 2,

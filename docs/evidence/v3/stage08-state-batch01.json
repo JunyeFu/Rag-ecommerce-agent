@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-08",
+  "package_id": "V3-CAREER-CLOSE-01",
+  "scope": "Stage 8 batch 1: API cursor ownership and rejected approval recovery",
+  "status": "LOCAL_API_REGRESSION_PASSED",
+  "product_gate": "HOLD",
+  "commercial_gate": "NO_GO",
+  "defects": [
+    {
+      "id": "D01",
+      "root_cause": "ThreadSnapshot returned a per-run event cursor without the corresponding run ID.",
+      "fix": "Return active_run_id with last_event_id; return null and zero when no current Mission run exists.",
+      "acceptance": "Empty thread, two successive runs and Mission edit checked via public API.",
+      "remaining": "Android must consume and persist the pair; no device recovery acceptance claimed."
+    },
+    {
+      "id": "D02",
+      "root_cause": "approved=false returned the existing record without saving any event or status.",
+      "fix": "Save a completed event with reason approval_rejected through CheckpointStore; close pending action, replay identical refusal and reject contradictory approval.",
+      "acceptance": "Public API refusal, reconstructed service/runtime over retained in-memory stores, snapshot, SSE, repeated refusal and contradictory approval; tool side effects remain zero.",
+      "remaining": "PostgreSQL restart and concurrent approval atomicity not tested in this batch."
+    }
+  ],
+  "verification": [
+    {"command": "pytest apps/api/tests/test_turn_api.py -k cancelled_decision -q", "phase": "RED", "exit_code": 1, "failed": 1, "summary": "Snapshot remained WAITING_APPROVAL after rejection."},
+    {"command": "pytest apps/api/tests/test_turn_api.py -k snapshot_pairs -q", "phase": "RED", "exit_code": 1, "failed": 1, "summary": "active_run_id missing."},
+    {"command": "pytest apps/api/tests/test_turn_api.py apps/api/tests/test_state_consistency.py apps/api/tests/test_demo_flow.py -q", "phase": "GREEN", "exit_code": 0, "passed": 28},
+    {"command": "pytest -m 'not integration' -q", "phase": "GREEN", "exit_code": 0, "passed": 131, "deselected": 15},
+    {"command": "pytest apps/api/tests/test_turn_api.py -k 'cancelled_decision or snapshot_pairs' -q", "phase": "FINAL_RECOVERY_CHECK", "exit_code": 0, "passed": 2, "summary": "After adding service/runtime reconstruction to rejection regression."},
+    {"command": "export_openapi.py --check", "exit_code": 0, "paths": 27},
+    {"command": "generate_contracts.py --check", "exit_code": 0, "files": 3},
+    {"command": "validate_task_packages.py", "exit_code": 0, "packages": 39, "errors": 0, "warnings": 0},
+    {"command": "ruff check service.py test_turn_api.py runtime.py generate_contracts.py", "exit_code": 0},
+    {"command": "git diff --check", "exit_code": 0, "summary": "Line-ending warnings only; no whitespace errors."}
+  ],
+  "not_run": ["PostgreSQL integration", "Android unit/build/device", "Ops workflows", "Real MiMo", "Exploration chain"],
+  "review": "Self-review confirms replayed checkpoint events determine rejection recovery rather than a UI-only flag. No independent reviewer or full lifecycle acceptance claimed.",
+  "git_actions": "No staging, commit, push or release."
+}

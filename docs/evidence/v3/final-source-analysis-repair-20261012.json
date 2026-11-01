@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-12T09:38:34Z",
+  "client_date": "2026-10-12",
+  "timezone": "Asia/Shanghai",
+  "evidence_level": "LOCAL_SOURCE_REPAIR_UNIT_INTEGRATION_AND_ACTUAL_SUBPROCESS",
+  "status": "passed",
+  "LOCAL_SOURCE_REPAIR": "COMPLETE",
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO",
+  "scope": "Provider/Agent approval/execution/checkpoints; API durable acceptance/ownership; Android approval state; no new paid acceptance",
+  "fixed_defects": [
+    "F47",
+    "F48",
+    "F49",
+    "F50",
+    "F51",
+    "F52",
+    "F53"
+  ],
+  "red_green": [
+    {
+      "defects": [
+        "F47",
+        "F48"
+      ],
+      "red_tests": 4,
+      "observed": "explicit quantity omitted/changed and quote substitution accepted; schema location unavailable",
+      "green": "28 Provider boundary tests passed; no response repair or retry"
+    },
+    {
+      "defects": [
+        "F49",
+        "F50"
+      ],
+      "red_tests": 2,
+      "observed": "stale local snapshot cancels busy state; HTTP409 stays ONLINE",
+      "green": "2 ViewModel tests passed via API/persistence boundary doubles",
+      "test_double_correction": "terminal events must clear persisted pendingRun; fixed the double, not production compatibility"
+    },
+    {
+      "defects": [
+        "F51"
+      ],
+      "red_tests": 1,
+      "observed": "approve returns COMPLETED only after execution instead of PENDING",
+      "green": "durable queued approval, ownership, repeat/opposite decision, editing and worker execution checks passed"
+    },
+    {
+      "defects": [
+        "F52"
+      ],
+      "red_tests": 1,
+      "observed": "after approval a changing planner wrote quantity99 instead of proposed2",
+      "green": "frozen pending calls and invocation-scoped API approval; actual subprocess executes2; different invocation fails"
+    },
+    {
+      "defects": [
+        "F53"
+      ],
+      "red_tests": 1,
+      "observed": "GraphRecursionError at recursion limit10007 for completed-tool-only repetition",
+      "green": "explicit REPLAN_LIMIT terminal; no increased budget or retry"
+    }
+  ],
+  "commands": [
+    {
+      "command": "pytest -q (independent regression DB)",
+      "exit_code": 0,
+      "tests": 204,
+      "failed": 0,
+      "skipped": 0,
+      "elapsed_seconds": 11.72
+    },
+    {
+      "command": "Android unit/lint/debug/androidTest build (Java21)",
+      "exit_code": 0,
+      "unit_tests": 41,
+      "failed": 0,
+      "skipped": 0,
+      "lint_warnings": 18,
+      "lint_errors": 0,
+      "build_seconds": 19,
+      "tasks": 90,
+      "executed": 24,
+      "up_to_date": 66
+    },
+    {
+      "command": "ShoppingFlowTest on isolated QA emulator",
+      "exit_code": 0,
+      "device": "127.0.0.1:5573",
+      "application_id": "com.ragcommerce.agent.safetytest",
+      "visual_fixture_tests": 34,
+      "failed": 0,
+      "elapsed_seconds": 45.169,
+      "injected_fixture_states": true,
+      "not_real_business_acceptance": true
+    },
+    {
+      "command": "generate_contracts.py --check",
+      "exit_code": 0,
+      "files": 3,
+      "public_contract": "0.2.0"
+    },
+    {
+      "command": "generate_agent_artifacts.py --check",
+      "exit_code": 0,
+      "files": 2,
+      "tools": 11
+    },
+    {
+      "command": "ruff check (changed Python modules/tests)",
+      "exit_code": 0
+    },
+    {
+      "command": "check_minimality.py",
+      "exit_code": 0
+    },
+    {
+      "command": "compileall (API and Agent runtime)",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "line_ending_warnings_present": true
+    },
+    {
+      "command": "validate_task_packages.py",
+      "exit_code": 0,
+      "packages": 44,
+      "errors": 0,
+      "warnings": 0
+    }
+  ],
+  "independent_subprocess": {
+    "passed": true,
+    "evidence_level": "POSTGRES_ACTUAL_SUBPROCESS_SCRIPTED_PLANNER",
+    "new_real_model_calls": 0,
+    "paid_tokens": 0,
+    "queued_before_child": true,
+    "child_planner_quantity": 99,
+    "persisted_approved_quantity": 2,
+    "actual_cart_quantity": 2,
+    "receipts": 1,
+    "terminal_events": 1,
+    "owner_id": "8889c278-e226-4880-8f70-7c0a9d619fe8",
+    "run_id": "af61d308-4736-5d34-9b82-9af9a29e0bd2",
+    "fixture_data_retained_in_isolated_regression_database": true
+  },
+  "earlier_transition_regression": {
+    "failed": 8,
+    "passed": 193,
+    "cause": "Old synchronous approval tests were changed to dequeue/execute durable accepted jobs; receipt, terminal and owner assertions preserved",
+    "original_test_results_not_used_as_pass": true
+  },
+  "regression_database": "ragcommerce_sourcefix_20261012",
+  "source_hashes": {
+    "apps/android/app/src/main/java/com/ragcommerce/agent/ui/ShoppingViewModel.kt": "fa1392bc85910270d8cb7a362a7739f41d5a28e8ac1d0f39668009118d3f3f16",
+    "apps/api/src/ragcommerce_api/service.py": "53a17c4bc244254e2915535c0df0d44ee3a1dc0ffa068ed27a63961fb761b9cf",
+    "packages/agent-runtime/src/ragcommerce_agent_runtime/runtime.py": "8a606ca88a8a2abbe81f4cc1db8f33354cf6276b9e5a0d25e1833108c96db82c",
+    "packages/agent-runtime/src/ragcommerce_agent_runtime/model_provider.py": "2f77540ca0cbabef9c71b7f4da1cca13d9ea67681193e7b97c5ab8c38e029989",
+    "packages/agent-runtime/src/ragcommerce_agent_runtime/postgres_store.py": "f0e7289c614d713e9336d9c60c72f7c02b6e354c0045349dc08fa796f8185c91",
+    "apps/api/src/ragcommerce_api/postgres_index.py": "b59bc2e4c65e31628a155d26841e62089bf2a136e030cbc73e1edeeeed7237fa",
+    "apps/android/app/src/test/java/com/ragcommerce/agent/ShoppingApprovalStateTest.kt": "db7b639b5c7644fbe29f9eb953ddc83ed03604fa033f16a5e7f4f0f1136e084f",
+    "packages/agent-runtime/src/ragcommerce_agent_runtime/contracts.py": "2bf41c6d62a4c11e7d4d7c29ea180ff8e9eb2b5942465c2127ae386f99dff6df",
+    "packages/agent-runtime/src/ragcommerce_agent_runtime/tools.py": "37cd7608fe9079d4069a469b28df71ae185fa3e0b1118c31d5ae3330064080d4",
+    "packages/agent-runtime/src/ragcommerce_agent_runtime/store.py": "97641e3777b62ac5a541eee8e9f219395826bfd26b54941c518d1260731d0744",
+    "apps/api/src/ragcommerce_api/app.py": "c198a4e74730dd40239a1510c0f1e3a8baa0bdb9d8b9aabd6e8005ef4df6d0d4"
+  },
+  "android_qa_apk_sha256": "e604ea88e9bd5f2f8780073bb5e2d4400239d58436af7e4a79dadf5fd61913ee",
+  "apk_is_final_delivery": false,
+  "runtime_reload": {
+    "passed": true,
+    "provider": "mimo",
+    "retrieval": "local",
+    "api_port": 20881,
+    "ops_port": 24174,
+    "api_status": "ok",
+    "ops_http": 200,
+    "database": "ragcommerce_final_20261009",
+    "owned_services_only": true,
+    "database_and_media_volumes_preserved": true,
+    "unfinished_paid_scenarios_before_stop": 0,
+    "compared_source_hashes": 8,
+    "source_matches": true,
+    "runtime_source_hashes": {
+      "packages/contracts/openapi.json": "8308bbe9d902a4bda256d8a2e43030d7fbfd876e28344434be19500c2c8ed205",
+      "apps/api/src/ragcommerce_api/service.py": "53a17c4bc244254e2915535c0df0d44ee3a1dc0ffa068ed27a63961fb761b9cf",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/tools.py": "37cd7608fe9079d4069a469b28df71ae185fa3e0b1118c31d5ae3330064080d4",
+      "apps/worker/src/ragcommerce_worker/persistent_demo.py": "233e86b5fd569b6dab7d4a180ab8dd68c9bb5ffd82e4913c57840fb42de47260",
+      "apps/api/src/ragcommerce_api/provider_config.py": "1a80525a19f79a535e3564994467cadb2ae93a584130afc49b7d9986741d9341",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/runtime.py": "8a606ca88a8a2abbe81f4cc1db8f33354cf6276b9e5a0d25e1833108c96db82c",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/store.py": "97641e3777b62ac5a541eee8e9f219395826bfd26b54941c518d1260731d0744",
+      "apps/api/src/ragcommerce_api/postgres_demo.py": "8786c6d94c22923a32624990d4c43c2f3208b39b4b31a53e40925055efcf0c8b",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/contracts.py": "2bf41c6d62a4c11e7d4d7c29ea180ff8e9eb2b5942465c2127ae386f99dff6df",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/postgres_store.py": "f0e7289c614d713e9336d9c60c72f7c02b6e354c0045349dc08fa796f8185c91",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/model_provider.py": "2f77540ca0cbabef9c71b7f4da1cca13d9ea67681193e7b97c5ab8c38e029989",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/token_budget.py": "5a8c161b4be3cf58e3f0feb93e091aa2e71db42752a82f95f6d90592c3491311",
+      "apps/api/src/ragcommerce_api/media_tools.py": "9b92a40e783a78e4b2eb5ee4da7216858dd5d6ac9d8fb2917d49b44dc835936d",
+      "packages/retrieval/src/ragcommerce_retrieval/semantic.py": "234fe09003bd5bcd2e0bf0d988034163e3d71e119f5f718fe99d8354688d2dae",
+      "data/demo/catalog.v3.jsonl": "4c46d177c12bbe0216da84305430c77792ee9feece694a0a1590bf268d05e3a5",
+      "apps/api/src/ragcommerce_api/postgres_index.py": "b59bc2e4c65e31628a155d26841e62089bf2a136e030cbc73e1edeeeed7237fa"
+    }
+  },
+  "shared_paid_budget": {
+    "used": 253785,
+    "total": 2000000,
+    "calls": 86,
+    "held": 0,
+    "new_calls": 0,
+    "new_tokens": 0,
+    "provider_cost": "NOT_AVAILABLE_FROM_PROVIDER"
+  },
+  "original_real_failures_preserved": true,
+  "new_paid_slots_authorized": false,
+  "remaining": [
+    "A08-R3原始非法字段未知；本轮只有源码和非付费验证，新真实复测需直接授权",
+    "A02/M03需实际原生人声，用户选择稍后配合",
+    "A09浏览器初始配置与原生过期分支未签收",
+    "六条原生完整实测记录属先前源码；当前审批增量不能继承实测通过",
+    "当前同版独立启动/最终源码APK视频及封版未签收"
+  ],
+  "external_reference_station_qa": {
+    "passed": true,
+    "personal_records_modified": false,
+    "role": "External planning/reference only; not product runtime",
+    "url": "http://127.0.0.1:24180/",
+    "browser_plugin": "Browser plugin not available",
+    "tool": "existing Playwright library; no dependency installation",
+    "flow": "two-week plan -> current acceptance -> evidence links",
+    "viewports": [
+      {
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "evidence_links": 32,
+    "all_links_http": 200,
+    "console_errors": 0,
+    "horizontal_overflow": false,
+    "screenshots_visually_inspected": true
+  }
+}

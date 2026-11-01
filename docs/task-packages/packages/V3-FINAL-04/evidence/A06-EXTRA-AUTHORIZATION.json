@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "authorized_on": "2026-10-09",
+  "authority": "Direct human reply in this chat",
+  "user_reply": "允许一次 A06 无新增模型调用复测",
+  "scope": "A06-R1 only; reuse existing real API candidates, native vertical browsing, comparison and return to conversation after F28 correction",
+  "additional_slots": ["A06-R1"],
+  "model_calls_allowed": false,
+  "new_token_limit": 0,
+  "total_token_limit_unchanged": 2000000,
+  "observation_seconds_unchanged": 600,
+  "no_other_retest_or_automatic_retry_authorized": true,
+  "first_attempt_report": "docs/evidence/v3/final-real-A06-first-20261009.json",
+  "corrected_root_cause": "docs/defects/V3-FINAL-CLOSEOUT.md#f28-候选操作区域被顶部控件挤占"
+}

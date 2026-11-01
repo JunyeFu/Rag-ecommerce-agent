@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-08",
+  "status": "SCOPED_WRITE_RECOVERY_PASSED",
+  "product_gate": "HOLD",
+  "commercial_gate": "NO_GO",
+  "root_cause": "Commerce mutations committed before checkpoint; replay could overwrite later user quantity changes or re-add a removed list item.",
+  "fix": "Owner/invocation-scoped receipts committed atomically with cart.update/list.update; replay returns original result without applying mutation; receipt argument rebinding rejected; receipts included in user-data erasure.",
+  "checks": [
+    {"command": "pytest apps/api/tests/test_postgres_api_integration.py -k committed_tool -q", "phase": "RED", "exit_code": 1, "failed": 2},
+    {"command": "pytest apps/api/tests/test_postgres_api_integration.py -q", "phase": "GREEN", "exit_code": 0, "passed": 15},
+    {"command": "pytest -m 'not integration' -q", "exit_code": 0, "passed": 132, "deselected": 23},
+    {"command": "alembic -c apps/api/alembic.ini upgrade head / check", "exit_code": 0, "head": "20261008_0010", "schema_drift": false},
+    {"command": "ruff check <five edited implementation/test/migration files>", "exit_code": 0},
+    {"command": "git diff --check -- <edited tracked files>", "exit_code": 0, "summary": "Line-ending warnings only."}
+  ],
+  "fault_injection": "BaseException at checkpoint save after business commit, followed by service recreation; database check-constraint rejection of receipt insert verifies transaction rollback.",
+  "environment": "Isolated PostgreSQL18.3, fake planner, project-authored demo catalog.",
+  "cleanup": "Owned rag-stage08-receipt-20261008 container stopped and auto-removed with synthetic test data; no bank services changed.",
+  "limits": ["Not OS-process kill, power-loss or database restart acceptance", "Only cart.update/list.update write receipts covered", "Current running demo database not migrated", "Independent device recovery and exploration implementation pending"],
+  "real_model_calls": 0,
+  "publication": "No staging, commit, push or release."
+}

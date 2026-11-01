@@ -1,0 +1,9 @@
+{
+  "scope": "Measurement harness failure; not cold-start threshold failure",
+  "cold_launches": 1,
+  "failure": "Android API35 am start -W omits ThisTime; parser raised before report completion",
+  "latency_value": "NOT_PRESERVED",
+  "accepted_as_measurement": false,
+  "correction": "Measure the required TotalTime and WaitTime only; no synthetic ThisTime fallback",
+  "new_model_calls": 0
+}

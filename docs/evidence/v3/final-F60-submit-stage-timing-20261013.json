@@ -1,0 +1,580 @@
+{
+  "scope": "Real PG TurnService thread profile; not HTTP/SSE acceptance",
+  "provider": "fake",
+  "requests": 30,
+  "samples": [
+    {
+      "diagnostic_id": "5bf79d00-e993-4564-a449-0b4eb5aa8603",
+      "work_ms": 36.510400008410215,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 17.488200013758615
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 18.972699996083975
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "81f7943d-8c62-40f8-83da-700bf0157648",
+      "work_ms": 28.451699996367097,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 10.695199976908043
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 17.698799987556413
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "0e726fca-5e0d-4383-babf-5d2336fd74ca",
+      "work_ms": 34.12389999721199,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 16.658699983963743
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 17.413599998690188
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "b5223caa-3ac5-48a1-8054-3e86deaaf7eb",
+      "work_ms": 35.27390002273023,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 14.458599995123222
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 20.717900013551116
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "b0618332-20b4-4fa9-ae1e-a7c4674f26ce",
+      "work_ms": 31.855599983828142,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 12.439100013580173
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 19.318100006785244
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "d98eb684-fff6-4fae-a1ca-1765dafd8b6b",
+      "work_ms": 28.924699989147484,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 8.89420000021346
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 19.98529999400489
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "edb57ae9-6efe-479d-af7b-45a8e2df592a",
+      "work_ms": 35.181499988539144,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 16.84270001715049
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 18.282500008353963
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "b7c3bcb0-4862-4be8-8c56-42e31e0e22be",
+      "work_ms": 35.963900008937344,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 13.184599985834211
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 22.724600014043972
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "029b948a-1365-4fcb-a0a8-310f09ad5ede",
+      "work_ms": 38.7557000212837,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 15.583999978844076
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 23.125400010030717
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "cd185f7b-9e3e-4d39-bd1b-f54662c7f0e9",
+      "work_ms": 29.920200002379715,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 10.38739999057725
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 19.450199994025752
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "37f13ef4-92ff-4d5d-b02e-88b0e217fb58",
+      "work_ms": 26.618000003509223,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 6.800000002840534
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 19.765700009884313
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "525a1d98-8e1d-47b3-a3a1-cea12e6a5474",
+      "work_ms": 29.71939998678863,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 8.720199984963983
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 20.948799996403977
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "5931b04d-daa5-4a0e-9ad8-4b12f5b5f229",
+      "work_ms": 36.894300021231174,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 14.809199987212196
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 22.02249999390915
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "5c11b03d-1473-4508-9538-693d628f0226",
+      "work_ms": 30.619600001955405,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 9.660199983045459
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 20.9024999930989
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "b4a337a4-8dab-401b-a962-1719019af6ef",
+      "work_ms": 34.240699984366074,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 12.603500013938174
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 21.5885000070557
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "1859fea4-0649-455f-99ec-a65a40986114",
+      "work_ms": 31.497699994361028,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 11.554499971680343
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 19.89499997580424
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "e817675b-ddbe-430f-8179-1bb6e014dc2a",
+      "work_ms": 34.62020002189092,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 10.663699998985976
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 23.898799991002306
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "a3d075f1-42b1-42bc-b1d3-a1117103cfc4",
+      "work_ms": 33.736800018232316,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 10.189900000113994
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 23.496400011936203
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "b03eb253-d336-4eaa-b4ad-2b55f705ab37",
+      "work_ms": 35.79979998175986,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 14.221200020983815
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 21.526600001379848
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "c646e11c-08c7-4eab-8d13-3acb4157feec",
+      "work_ms": 16.07819998753257,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 6.857600004877895
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 9.163899987470359
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "d5c2dba0-0529-4e41-afc1-c23d16d10d2d",
+      "work_ms": 38.61099999630824,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 15.268899995135143
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 23.293200007174164
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "b6f76bd6-d757-4f18-a9f2-430dce1b953f",
+      "work_ms": 12.620499997865409,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 5.198300001211464
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 7.376399997156113
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "f096bf70-4b5b-4373-9fff-05ebc0bef8aa",
+      "work_ms": 16.824499994982034,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 7.530699978815392
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 9.252100018784404
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "b5e1ad9a-e031-4a1f-b23c-93763d67caf9",
+      "work_ms": 13.533200020901859,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 4.072799987625331
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 9.415100008482113
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "b4a5b479-f668-4b71-b88f-48f4b3172206",
+      "work_ms": 15.64859997597523,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 7.1118000196293
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 8.485900005325675
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "baa006e7-feac-4895-acfb-c53170fae013",
+      "work_ms": 15.282500011380762,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 7.128299999749288
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 8.115400007227436
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "0279f094-bcd5-4126-8ec3-bde2fd3fb340",
+      "work_ms": 18.780100013827905,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 7.838399993488565
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 10.895299987168983
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "e7106c97-4e41-40e2-8032-eaf56afbb9b9",
+      "work_ms": 18.636299995705485,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 10.062000015750527
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 8.534399996278808
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "b4f60ed4-e087-4370-8e53-faba408fa29a",
+      "work_ms": 15.98929997999221,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 8.401900005992502
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 7.547500019427389
+        }
+      ]
+    },
+    {
+      "diagnostic_id": "7e181dfb-a4b2-45c8-a0e3-8a98387c1cb1",
+      "work_ms": 19.230500009143725,
+      "stages": [
+        {
+          "stage": "get_thread",
+          "elapsed_ms": 11.0706000123173
+        },
+        {
+          "stage": "reserve",
+          "elapsed_ms": 8.115200005704537
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "diagnostic_id": "b5223caa-3ac5-48a1-8054-3e86deaaf7eb",
+      "run_id": "56e07052-d9a6-56b1-b8b5-d600c2e32dd3",
+      "awaited_ms": 47.352800000226125
+    },
+    {
+      "diagnostic_id": "5bf79d00-e993-4564-a449-0b4eb5aa8603",
+      "run_id": "139bb92c-6ab9-5453-bb55-435ded2c8d08",
+      "awaited_ms": 45.724199997494
+    },
+    {
+      "diagnostic_id": "5931b04d-daa5-4a0e-9ad8-4b12f5b5f229",
+      "run_id": "9bf5ebad-69c8-518b-9b7f-49df6216e0f1",
+      "awaited_ms": 48.93700001412071
+    },
+    {
+      "diagnostic_id": "029b948a-1365-4fcb-a0a8-310f09ad5ede",
+      "run_id": "4bfdc93c-f2b3-5e60-aa51-d8112d0090ca",
+      "awaited_ms": 48.90799999702722
+    },
+    {
+      "diagnostic_id": "0e726fca-5e0d-4383-babf-5d2336fd74ca",
+      "run_id": "85c44609-18cf-5cbf-babc-fe7af9d61b3b",
+      "awaited_ms": 46.12979997182265
+    },
+    {
+      "diagnostic_id": "b0618332-20b4-4fa9-ae1e-a7c4674f26ce",
+      "run_id": "1763d369-4630-544b-9855-2dcf71500a8e",
+      "awaited_ms": 44.19939999934286
+    },
+    {
+      "diagnostic_id": "b7c3bcb0-4862-4be8-8c56-42e31e0e22be",
+      "run_id": "8ad61399-5db3-5997-8a3c-d037e1995333",
+      "awaited_ms": 46.333300007972866
+    },
+    {
+      "diagnostic_id": "edb57ae9-6efe-479d-af7b-45a8e2df592a",
+      "run_id": "19cc1029-28e2-5ab8-82c1-12a1907142a3",
+      "awaited_ms": 44.48090001824312
+    },
+    {
+      "diagnostic_id": "81f7943d-8c62-40f8-83da-700bf0157648",
+      "run_id": "efb02b51-996e-5954-80e8-92df203c8a93",
+      "awaited_ms": 39.34439999284223
+    },
+    {
+      "diagnostic_id": "b4a337a4-8dab-401b-a962-1719019af6ef",
+      "run_id": "7b5ad30a-bfac-5bb3-adc1-80ebad3e1759",
+      "awaited_ms": 44.86169997835532
+    },
+    {
+      "diagnostic_id": "d98eb684-fff6-4fae-a1ca-1765dafd8b6b",
+      "run_id": "a1ac72a2-7bbb-545d-8694-5dbfcf733ba6",
+      "awaited_ms": 40.709199995035306
+    },
+    {
+      "diagnostic_id": "e817675b-ddbe-430f-8179-1bb6e014dc2a",
+      "run_id": "306761d3-f37a-5224-a97a-f126c7b42030",
+      "awaited_ms": 43.83800001232885
+    },
+    {
+      "diagnostic_id": "525a1d98-8e1d-47b3-a3a1-cea12e6a5474",
+      "run_id": "9ebe436d-2edc-5b27-8824-865e32f5d1eb",
+      "awaited_ms": 41.263599996455014
+    },
+    {
+      "diagnostic_id": "5c11b03d-1473-4508-9538-693d628f0226",
+      "run_id": "ca04511b-5a87-5ede-a717-e23e51e0d9f3",
+      "awaited_ms": 40.90130000258796
+    },
+    {
+      "diagnostic_id": "1859fea4-0649-455f-99ec-a65a40986114",
+      "run_id": "a8ca9cc8-fa67-5d7c-a007-afa67d8bc132",
+      "awaited_ms": 38.66099999868311
+    },
+    {
+      "diagnostic_id": "cd185f7b-9e3e-4d39-bd1b-f54662c7f0e9",
+      "run_id": "5d256941-f689-551d-a57e-814d67722bd0",
+      "awaited_ms": 39.4784000236541
+    },
+    {
+      "diagnostic_id": "d5c2dba0-0529-4e41-afc1-c23d16d10d2d",
+      "run_id": "71762e25-7176-535a-b8e6-e53aff8261dd",
+      "awaited_ms": 47.26559997652657
+    },
+    {
+      "diagnostic_id": "a3d075f1-42b1-42bc-b1d3-a1117103cfc4",
+      "run_id": "a6c86f59-37d2-56f0-b4e1-aa06d84e24a9",
+      "awaited_ms": 39.191999996546656
+    },
+    {
+      "diagnostic_id": "37f13ef4-92ff-4d5d-b02e-88b0e217fb58",
+      "run_id": "82e05667-79cd-556f-b503-bfc6a7a77c77",
+      "awaited_ms": 36.47120000096038
+    },
+    {
+      "diagnostic_id": "c646e11c-08c7-4eab-8d13-3acb4157feec",
+      "run_id": "787b9973-6ea9-53e5-a164-5ffcad98638d",
+      "awaited_ms": 41.61700000986457
+    },
+    {
+      "diagnostic_id": "b03eb253-d336-4eaa-b4ad-2b55f705ab37",
+      "run_id": "b4a8804e-2dbe-5ad8-8f35-d4897cf14131",
+      "awaited_ms": 43.68510001222603
+    },
+    {
+      "diagnostic_id": "f096bf70-4b5b-4373-9fff-05ebc0bef8aa",
+      "run_id": "d7b93582-7dcf-5938-841d-f0611af13033",
+      "awaited_ms": 43.49199999705888
+    },
+    {
+      "diagnostic_id": "b4a5b479-f668-4b71-b88f-48f4b3172206",
+      "run_id": "c2ddb47b-f379-5f4c-a5f5-0746ad33484e",
+      "awaited_ms": 41.0078999993857
+    },
+    {
+      "diagnostic_id": "0279f094-bcd5-4126-8ec3-bde2fd3fb340",
+      "run_id": "09965391-9e93-5b37-ac42-86ea61697a54",
+      "awaited_ms": 43.614900001557544
+    },
+    {
+      "diagnostic_id": "7e181dfb-a4b2-45c8-a0e3-8a98387c1cb1",
+      "run_id": "43ebac39-704f-5fe7-9dd2-84d337307389",
+      "awaited_ms": 44.025100010912865
+    },
+    {
+      "diagnostic_id": "b6f76bd6-d757-4f18-a9f2-430dce1b953f",
+      "run_id": "e47471c8-2e0b-5cac-94c6-2844c86e73f4",
+      "awaited_ms": 36.39510000357404
+    },
+    {
+      "diagnostic_id": "b5e1ad9a-e031-4a1f-b23c-93763d67caf9",
+      "run_id": "fee1ec3e-6149-57d2-82fa-b7beef53d92e",
+      "awaited_ms": 37.33690001536161
+    },
+    {
+      "diagnostic_id": "baa006e7-feac-4895-acfb-c53170fae013",
+      "run_id": "d766066f-3375-5c74-9434-355404f52ccd",
+      "awaited_ms": 41.393899999093264
+    },
+    {
+      "diagnostic_id": "e7106c97-4e41-40e2-8032-eaf56afbb9b9",
+      "run_id": "a706fa72-eb57-5365-8ab6-a685351dc22a",
+      "awaited_ms": 43.55659999419004
+    },
+    {
+      "diagnostic_id": "b4f60ed4-e087-4370-8e53-faba408fa29a",
+      "run_id": "ba36e2ae-d2f3-53ce-8560-327e5d0a0582",
+      "awaited_ms": 39.35900001670234
+    }
+  ],
+  "paid_calls": 0
+}

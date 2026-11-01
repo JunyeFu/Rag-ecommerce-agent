@@ -1,0 +1,176 @@
+{
+  "created_at": "2026-10-13T03:14:44.770928+00:00",
+  "avd": "RagFinalSafety20261012",
+  "serial": "127.0.0.1:5571",
+  "package": "com.ragcommerce.agent.safetytest",
+  "android_api": 35,
+  "build": "installed debug QA APK",
+  "installed_apk_sha256": "08ff34cb9dbe9b995ba5bf924bf10762e7990675973d6dc3e2628d4e2b618c86",
+  "compilation_state": "verify",
+  "run_count": 30,
+  "samples": [
+    {
+      "launch": 1,
+      "total_time_ms": 887,
+      "wait_time_ms": 888
+    },
+    {
+      "launch": 2,
+      "total_time_ms": 937,
+      "wait_time_ms": 941
+    },
+    {
+      "launch": 3,
+      "total_time_ms": 1008,
+      "wait_time_ms": 1010
+    },
+    {
+      "launch": 4,
+      "total_time_ms": 849,
+      "wait_time_ms": 852
+    },
+    {
+      "launch": 5,
+      "total_time_ms": 952,
+      "wait_time_ms": 955
+    },
+    {
+      "launch": 6,
+      "total_time_ms": 977,
+      "wait_time_ms": 978
+    },
+    {
+      "launch": 7,
+      "total_time_ms": 996,
+      "wait_time_ms": 998
+    },
+    {
+      "launch": 8,
+      "total_time_ms": 1092,
+      "wait_time_ms": 1093
+    },
+    {
+      "launch": 9,
+      "total_time_ms": 1032,
+      "wait_time_ms": 1034
+    },
+    {
+      "launch": 10,
+      "total_time_ms": 1255,
+      "wait_time_ms": 1299
+    },
+    {
+      "launch": 11,
+      "total_time_ms": 887,
+      "wait_time_ms": 896
+    },
+    {
+      "launch": 12,
+      "total_time_ms": 951,
+      "wait_time_ms": 955
+    },
+    {
+      "launch": 13,
+      "total_time_ms": 939,
+      "wait_time_ms": 941
+    },
+    {
+      "launch": 14,
+      "total_time_ms": 936,
+      "wait_time_ms": 938
+    },
+    {
+      "launch": 15,
+      "total_time_ms": 1030,
+      "wait_time_ms": 1032
+    },
+    {
+      "launch": 16,
+      "total_time_ms": 889,
+      "wait_time_ms": 890
+    },
+    {
+      "launch": 17,
+      "total_time_ms": 953,
+      "wait_time_ms": 959
+    },
+    {
+      "launch": 18,
+      "total_time_ms": 935,
+      "wait_time_ms": 936
+    },
+    {
+      "launch": 19,
+      "total_time_ms": 986,
+      "wait_time_ms": 989
+    },
+    {
+      "launch": 20,
+      "total_time_ms": 875,
+      "wait_time_ms": 878
+    },
+    {
+      "launch": 21,
+      "total_time_ms": 832,
+      "wait_time_ms": 835
+    },
+    {
+      "launch": 22,
+      "total_time_ms": 943,
+      "wait_time_ms": 947
+    },
+    {
+      "launch": 23,
+      "total_time_ms": 1785,
+      "wait_time_ms": 1794
+    },
+    {
+      "launch": 24,
+      "total_time_ms": 2630,
+      "wait_time_ms": 2655
+    },
+    {
+      "launch": 25,
+      "total_time_ms": 967,
+      "wait_time_ms": 968
+    },
+    {
+      "launch": 26,
+      "total_time_ms": 1024,
+      "wait_time_ms": 1026
+    },
+    {
+      "launch": 27,
+      "total_time_ms": 1445,
+      "wait_time_ms": 1448
+    },
+    {
+      "launch": 28,
+      "total_time_ms": 1259,
+      "wait_time_ms": 1261
+    },
+    {
+      "launch": 29,
+      "total_time_ms": 1443,
+      "wait_time_ms": 1452
+    },
+    {
+      "launch": 30,
+      "total_time_ms": 1280,
+      "wait_time_ms": 1284
+    }
+  ],
+  "cold_start_p95_ms": 1785,
+  "fatal_count": 0,
+  "strictmode_violation_count": 0,
+  "app_uid_log_lines_checked": 907,
+  "log_window_epoch": 1791861238,
+  "passed_for_installed_binary": true,
+  "raw_logs_saved": false,
+  "data_or_logs_cleared": false,
+  "limitations": [
+    "am start TotalTime measures initial display, not fully restored Agent readiness",
+    "Process-cold with OS/disk caches retained; not device reboot",
+    "Installed QA binary only; final same-source APK must be separately checked"
+  ]
+}

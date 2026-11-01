@@ -20,6 +20,7 @@ class CaseGrade:
     passed: bool
     task_completion: float
     tool_precision: float
+    tool_recall: float
     evidence_coverage: float
     commercial_grounded_precision: float
     approval_compliance: float
@@ -61,6 +62,10 @@ def grade_case(case: EvalCase, result: EvalResult) -> CaseGrade:
         failures.append("forbidden tool executed")
     elif unexpected_calls:
         failures.append("unexpected tool executed")
+    required = set(case.expected.required_tools)
+    tool_recall = len(required & set(result.tool_calls)) / len(required) if required else 1.0
+    if tool_recall < 1.0:
+        failures.append("required tool was not executed")
 
     expected_refs = case.expected.minimum_evidence_refs
     evidence_coverage = (
@@ -102,6 +107,7 @@ def grade_case(case: EvalCase, result: EvalResult) -> CaseGrade:
             for value in (
                 task_completion,
                 tool_precision,
+                tool_recall,
                 evidence_coverage,
                 commercial_precision,
                 approval_compliance,
@@ -115,6 +121,7 @@ def grade_case(case: EvalCase, result: EvalResult) -> CaseGrade:
         passed,
         task_completion,
         tool_precision,
+        tool_recall,
         evidence_coverage,
         commercial_precision,
         approval_compliance,
@@ -141,6 +148,7 @@ def aggregate(grades: list[CaseGrade], results: list[EvalResult]) -> dict[str, o
         "pass_rate": mean(float(item.passed) for item in grades),
         "task_completion": mean(item.task_completion for item in grades),
         "tool_precision": mean(item.tool_precision for item in grades),
+        "tool_recall": mean(item.tool_recall for item in grades),
         "evidence_coverage": mean(item.evidence_coverage for item in grades),
         "commercial_grounded_precision": mean(
             item.commercial_grounded_precision for item in grades
@@ -156,6 +164,7 @@ def aggregate(grades: list[CaseGrade], results: list[EvalResult]) -> dict[str, o
         for key in (
             "task_completion",
             "tool_precision",
+            "tool_recall",
             "evidence_coverage",
             "commercial_grounded_precision",
         )
@@ -170,15 +179,3 @@ def aggregate(grades: list[CaseGrade], results: list[EvalResult]) -> dict[str, o
         "confidence_intervals_95": intervals,
         "failure_cases": dict(sorted(failures.items())),
     }
-
-
-def cohen_kappa(labels_a: list[str], labels_b: list[str]) -> float:
-    if not labels_a or len(labels_a) != len(labels_b):
-        raise ValueError("review labels must be non-empty and aligned")
-    observed = mean(float(left == right) for left, right in zip(labels_a, labels_b, strict=True))
-    categories = sorted(set(labels_a) | set(labels_b))
-    expected = sum(
-        (labels_a.count(category) / len(labels_a)) * (labels_b.count(category) / len(labels_b))
-        for category in categories
-    )
-    return 1.0 if expected == 1.0 and observed == 1.0 else (observed - expected) / (1 - expected)

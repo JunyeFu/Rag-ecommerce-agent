@@ -4,19 +4,24 @@ from __future__ import annotations
 
 import asyncio
 import json
-from collections.abc import AsyncIterator, Awaitable, Callable
+from collections.abc import AsyncIterator
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import BackgroundTasks, Body, FastAPI, Header, HTTPException, Request, Response, status
+from fastapi import BackgroundTasks, Body, FastAPI, Header, HTTPException, Request, status
 from fastapi.responses import StreamingResponse
+from ragcommerce_agent_runtime import parse_shopping_mission
 from ragcommerce_contracts import (
     CONTRACT_VERSION,
     AgentDecision,
+    CandidateFeedback,
     CartMutation,
     CartView,
+    ComparisonSelection,
+    ConversationMessage,
     CreateListRequest,
     CreateThreadRequest,
+    CreateWatcherRequest,
     DecisionAccepted,
     DeletionResult,
     HealthResponse,
@@ -28,14 +33,20 @@ from ragcommerce_contracts import (
     ResolveOfferRequest,
     ShoppingListsResponse,
     ShoppingListView,
+    ShoppingMissionView,
     ThreadCreated,
+    ThreadHistoryEntry,
+    ThreadHistoryPatch,
     ThreadSnapshot,
     TurnAccepted,
     TurnRequest,
+    WatcherCollection,
+    WatcherView,
 )
 
 from .commerce import CommercePort
 from .erasure import UserDataEraser
+from .http_middleware import DevelopmentAuthHeader
 from .media import InMemoryMediaStore, MediaRejected
 from .ops import InMemoryOpsStore, register_ops_routes
 from .security import RateLimitExceeded, SlidingWindowLimiter, parse_development_user
@@ -121,7 +132,7 @@ def create_app(
             )
         return value
 
-    async def create_thread(
+    def create_thread(
         request: CreateThreadRequest, x_user_id: Annotated[str | None, Header()] = None
     ) -> ThreadCreated:
         user_id = identity(x_user_id)
@@ -131,13 +142,126 @@ def create_app(
             raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(exc)) from exc
         return ThreadCreated(thread_id=record.id, mission_id=record.mission_id)
 
-    async def get_thread(
+    async def parse_mission(request: CreateThreadRequest) -> ShoppingMissionView:
+        return ShoppingMissionView.model_validate(parse_shopping_mission(request.goal))
+
+    def get_threads(x_user_id: Annotated[str | None, Header()] = None) -> list[ThreadHistoryEntry]:
+        return configured_service().history(identity(x_user_id))
+
+    def patch_thread(
+        thread_id: UUID,
+        request: ThreadHistoryPatch,
+        x_user_id: Annotated[str | None, Header()] = None,
+    ) -> ThreadSnapshot:
+        try:
+            return configured_service().organize(identity(x_user_id), thread_id, request)
+        except OwnershipError as exc:
+            raise HTTPException(404, str(exc)) from exc
+        except DecisionConflict as exc:
+            raise HTTPException(409, str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(422, str(exc)) from exc
+
+    def get_thread_messages(
+        thread_id: UUID,
+        offset: int = 0,
+        limit: int = 50,
+        x_user_id: Annotated[str | None, Header()] = None,
+    ) -> list[ConversationMessage]:
+        if offset < 0 or not 1 <= limit <= 100:
+            raise HTTPException(422, "offset must be nonnegative and limit must be 1..100")
+        try:
+            return configured_service().messages(identity(x_user_id), thread_id, offset, limit)
+        except OwnershipError as exc:
+            raise HTTPException(404, str(exc)) from exc
+
+    def update_feedback(
+        thread_id: UUID,
+        request: CandidateFeedback,
+        x_user_id: Annotated[str | None, Header()] = None,
+    ) -> ThreadSnapshot:
+        user_id = identity(x_user_id)
+        try:
+            configured_service().require_thread(user_id, thread_id)
+            category = configured_commerce().get_product(user_id, request.product_id).category
+            return configured_service().feedback(user_id, thread_id, request, category)
+        except (OwnershipError, KeyError) as exc:
+            raise HTTPException(404, "Task or product not found") from exc
+        except DecisionConflict as exc:
+            raise HTTPException(409, str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(422, str(exc)) from exc
+
+    def get_variant(
+        variant_id: UUID, x_user_id: Annotated[str | None, Header()] = None
+    ) -> ProductView:
+        try:
+            return configured_commerce().get_variant(identity(x_user_id), variant_id)
+        except KeyError as exc:
+            raise HTTPException(404, "Variant not found") from exc
+
+    def undo_feedback(
+        thread_id: UUID, key: str, version: int, x_user_id: Annotated[str | None, Header()] = None
+    ) -> ThreadSnapshot:
+        try:
+            return configured_service().undo_feedback(identity(x_user_id), thread_id, key, version)
+        except OwnershipError as exc:
+            raise HTTPException(404, str(exc)) from exc
+        except DecisionConflict as exc:
+            raise HTTPException(409, str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(422, str(exc)) from exc
+
+    def get_thread(
         thread_id: UUID, x_user_id: Annotated[str | None, Header()] = None
     ) -> ThreadSnapshot:
         try:
             return configured_service().snapshot(identity(x_user_id), thread_id)
         except OwnershipError as exc:
             raise HTTPException(status.HTTP_404_NOT_FOUND, str(exc)) from exc
+
+    async def update_thread_constraints(
+        thread_id: UUID,
+        request: CreateThreadRequest,
+        x_user_id: Annotated[str | None, Header()] = None,
+    ) -> ShoppingMissionView:
+        try:
+            return configured_service().update_mission(
+                identity(x_user_id),
+                thread_id,
+                request.goal,
+            )
+        except OwnershipError as exc:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, str(exc)) from exc
+        except DecisionConflict as exc:
+            raise HTTPException(status.HTTP_409_CONFLICT, str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(exc)) from exc
+
+    async def get_comparison_selection(
+        thread_id: UUID,
+        x_user_id: Annotated[str | None, Header()] = None,
+    ) -> ComparisonSelection:
+        try:
+            return configured_service().comparison_selection(identity(x_user_id), thread_id)
+        except OwnershipError as exc:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, str(exc)) from exc
+
+    async def update_comparison_selection(
+        thread_id: UUID,
+        request: ComparisonSelection,
+        x_user_id: Annotated[str | None, Header()] = None,
+    ) -> ComparisonSelection:
+        try:
+            return configured_service().update_comparison_selection(
+                identity(x_user_id),
+                thread_id,
+                request.product_ids,
+            )
+        except OwnershipError as exc:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(exc)) from exc
 
     async def upload_media(
         request: Request,
@@ -207,13 +331,23 @@ def create_app(
             raise HTTPException(status.HTTP_400_BAD_REQUEST, "Idempotency-Key is required")
         try:
             record, replayed = await configured_service().submit(
-                user_id, thread_id, idempotency_key, request.text, request.media_ids
+                user_id,
+                thread_id,
+                idempotency_key,
+                request.text,
+                request.media_ids,
+                request.exploration_action,
+                request.expected_mission_version,
+                configured_commerce().exploration_directions()
+                if request.exploration_action
+                else (),
+                request.media_confirmation,
             )
         except OwnershipError as exc:
             raise HTTPException(status.HTTP_404_NOT_FOUND, str(exc)) from exc
         except KeyError as exc:
             raise HTTPException(status.HTTP_404_NOT_FOUND, str(exc)) from exc
-        except IdempotencyConflict as exc:
+        except (IdempotencyConflict, DecisionConflict) as exc:
             raise HTTPException(status.HTTP_409_CONFLICT, str(exc)) from exc
         except ValueError as exc:
             raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(exc)) from exc
@@ -224,6 +358,7 @@ def create_app(
     async def decide(
         run_id: UUID,
         decision: AgentDecision,
+        background_tasks: BackgroundTasks,
         x_user_id: Annotated[str | None, Header()] = None,
     ) -> DecisionAccepted:
         user_id = identity(x_user_id)
@@ -235,6 +370,8 @@ def create_app(
             raise HTTPException(status.HTTP_404_NOT_FOUND, str(exc)) from exc
         except DecisionConflict as exc:
             raise HTTPException(status.HTTP_409_CONFLICT, str(exc)) from exc
+        if record.execution_status == "PENDING" and application.state.execute_background:
+            background_tasks.add_task(configured_service().execute, record.run_id)
         return DecisionAccepted(
             run_id=record.run_id,
             approved=decision.approved,
@@ -248,7 +385,7 @@ def create_app(
     ) -> StreamingResponse:
         user_id = identity(x_user_id)
         try:
-            record = configured_service().require_run(user_id, run_id)
+            record = await asyncio.to_thread(configured_service().require_run, user_id, run_id)
         except OwnershipError as exc:
             raise HTTPException(status.HTTP_404_NOT_FOUND, str(exc)) from exc
         try:
@@ -262,14 +399,34 @@ def create_app(
         if cursor > len(record.events):
             raise HTTPException(status.HTTP_409_CONFLICT, "Last-Event-ID is ahead of the run")
 
+        canonical_goal = record.command.mission_goal
+        if canonical_goal is None:
+            # Historical persisted commands predate the private goal field.
+            # Resolve current-version metadata from the actual owned Thread;
+            # retain older-version events rather than inventing their history.
+            thread = await asyncio.to_thread(
+                configured_service().require_thread, user_id, record.thread_id
+            )
+            if thread.mission_version == record.command.mission_version:
+                canonical_goal = thread.goal
+
         async def stream() -> AsyncIterator[str]:
             delivered = cursor
+            if record.execution_status in {"PENDING", "RETRY"} and not record.events:
+                # Durable job state, not fabricated Agent execution. No event
+                # ID: queue feedback must not advance the replay cursor.
+                yield 'event: progress\ndata: {"stage":"queued"}\n\n'
             while True:
-                current = configured_service().require_run(user_id, run_id)
+                current = await asyncio.to_thread(configured_service().require_run, user_id, run_id)
                 for event in current.events:
                     if event.id <= delivered:
                         continue
                     event_name, payload = public_event(event)
+                    if event_name == "mission_updated" and canonical_goal is not None:
+                        payload["goal"] = canonical_goal
+                        payload["mission"] = parse_shopping_mission(
+                            canonical_goal, version=record.command.mission_version
+                        )
                     yield (
                         f"id: {event.id}\n"
                         f"event: {event_name}\n"
@@ -330,7 +487,10 @@ def create_app(
         request: PatchListRequest,
         x_user_id: Annotated[str | None, Header()] = None,
     ) -> ShoppingListView:
-        return configured_commerce().patch_list(identity(x_user_id), list_id, request)
+        try:
+            return configured_commerce().patch_list(identity(x_user_id), list_id, request)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="list or variant not found") from exc
 
     async def get_cart(x_user_id: Annotated[str | None, Header()] = None) -> CartView:
         return configured_commerce().get_cart(identity(x_user_id))
@@ -339,11 +499,83 @@ def create_app(
         request: CartMutation,
         x_user_id: Annotated[str | None, Header()] = None,
     ) -> CartView:
-        return configured_commerce().mutate_cart(identity(x_user_id), request)
+        try:
+            return configured_commerce().mutate_cart(identity(x_user_id), request)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="offer not found") from exc
+
+    async def get_watchers(
+        thread_id: UUID,
+        x_user_id: Annotated[str | None, Header()] = None,
+    ) -> WatcherCollection:
+        user_id = identity(x_user_id)
+        try:
+            configured_service().require_thread(user_id, thread_id)
+        except OwnershipError as exc:
+            raise HTTPException(status_code=404, detail="thread not found") from exc
+        return configured_commerce().get_watchers(user_id, thread_id)
+
+    async def create_watcher(
+        thread_id: UUID,
+        request: CreateWatcherRequest,
+        x_user_id: Annotated[str | None, Header()] = None,
+    ) -> WatcherView:
+        user_id = identity(x_user_id)
+        try:
+            configured_service().require_thread(user_id, thread_id)
+            return configured_commerce().create_watcher(user_id, thread_id, request)
+        except OwnershipError as exc:
+            raise HTTPException(status_code=404, detail="thread not found") from exc
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="offer not found") from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     application.get(
         "/health", response_model=HealthResponse, tags=["system"], operation_id="getHealth"
     )(health)
+    application.post(
+        "/v1/missions/parse",
+        response_model=ShoppingMissionView,
+        operation_id="parseMission",
+        tags=["agent"],
+    )(parse_mission)
+    application.get(
+        "/v1/threads",
+        response_model=list[ThreadHistoryEntry],
+        operation_id="getThreads",
+        tags=["threads"],
+    )(get_threads)
+    application.patch(
+        "/v1/threads/{thread_id}",
+        response_model=ThreadSnapshot,
+        operation_id="patchThread",
+        tags=["threads"],
+    )(patch_thread)
+    application.get(
+        "/v1/threads/{thread_id}/messages",
+        response_model=list[ConversationMessage],
+        operation_id="getThreadMessages",
+        tags=["threads"],
+    )(get_thread_messages)
+    application.patch(
+        "/v1/threads/{thread_id}/feedback",
+        response_model=ThreadSnapshot,
+        operation_id="updateCandidateFeedback",
+        tags=["threads"],
+    )(update_feedback)
+    application.get(
+        "/v1/variants/{variant_id}",
+        response_model=ProductView,
+        operation_id="getVariant",
+        tags=["products"],
+    )(get_variant)
+    application.delete(
+        "/v1/threads/{thread_id}/feedback/{key}",
+        response_model=ThreadSnapshot,
+        operation_id="undoCandidateFeedback",
+        tags=["threads"],
+    )(undo_feedback)
     application.post(
         "/v1/threads",
         response_model=ThreadCreated,
@@ -357,6 +589,24 @@ def create_app(
         tags=["threads"],
         operation_id="getThread",
     )(get_thread)
+    application.patch(
+        "/v1/threads/{thread_id}/constraints",
+        response_model=ShoppingMissionView,
+        operation_id="updateThreadConstraints",
+        tags=["threads"],
+    )(update_thread_constraints)
+    application.get(
+        "/v1/threads/{thread_id}/comparison",
+        response_model=ComparisonSelection,
+        operation_id="getComparisonSelection",
+        tags=["threads"],
+    )(get_comparison_selection)
+    application.put(
+        "/v1/threads/{thread_id}/comparison",
+        response_model=ComparisonSelection,
+        operation_id="updateComparisonSelection",
+        tags=["threads"],
+    )(update_comparison_selection)
     application.post(
         "/v1/media",
         response_model=MediaCreated,
@@ -452,14 +702,21 @@ def create_app(
         tags=["commerce"],
         operation_id="patchCart",
     )(mutate_cart)
+    application.get(
+        "/v1/threads/{thread_id}/watchers",
+        response_model=WatcherCollection,
+        tags=["commerce"],
+        operation_id="getWatchers",
+    )(get_watchers)
+    application.post(
+        "/v1/threads/{thread_id}/watchers",
+        response_model=WatcherView,
+        status_code=status.HTTP_201_CREATED,
+        tags=["commerce"],
+        operation_id="createWatcher",
+    )(create_watcher)
 
-    @application.middleware("http")
-    async def auth_mode_header(
-        request: Request, call_next: Callable[[Request], Awaitable[Response]]
-    ) -> Response:
-        response = await call_next(request)
-        response.headers["X-Auth-Mode"] = "development-header"
-        return response
+    application.add_middleware(DevelopmentAuthHeader)
 
     return application
 

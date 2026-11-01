@@ -1,0 +1,61 @@
+{
+  "created_at": "2026-10-12T08:20:05Z",
+  "evidence_level": "LOCAL_REGRESSION_AND_VISUAL_FIXTURE",
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "commands": [
+    {
+      "command": "pytest -q (independent regression database)",
+      "exit_code": 0,
+      "tests": 195,
+      "failed": 0,
+      "skipped": 0,
+      "elapsed_seconds": 12.53
+    },
+    {
+      "command": "pytest apps/api/tests/test_final_android_acceptance_runner.py -q",
+      "exit_code": 0,
+      "tests": 7,
+      "failed": 0
+    },
+    {
+      "command": "Android testDebugUnitTest/lintDebug/assembleDebug/assembleDebugAndroidTest",
+      "exit_code": 0,
+      "unit_tests": 39,
+      "failed": 0,
+      "lint_warnings": 18,
+      "lint_errors": 0,
+      "build_seconds": 22,
+      "tasks": 90,
+      "executed": 27,
+      "up_to_date": 63
+    },
+    {
+      "command": "Android ShoppingFlowTest (injected fixture states; not business acceptance)",
+      "exit_code": 0,
+      "tests": 34,
+      "failed": 0,
+      "elapsed_seconds": 42.782
+    },
+    {
+      "command": "validate_task_packages.py",
+      "exit_code": 0,
+      "packages": 44,
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "line_ending_warnings_present": true
+    }
+  ],
+  "paid_model_calls_in_quality_tests": 0,
+  "original_real_failures_preserved": true,
+  "remaining": [
+    "A08 cart proposal Schema failure remains a failed real case",
+    "A10 full recovery/deletion not signed; partial traces kept",
+    "A02/M03 require actual user speech",
+    "A09 browser setup and native expired-quote branch not signed",
+    "Final same-source clean startup and delivery not signed"
+  ]
+}

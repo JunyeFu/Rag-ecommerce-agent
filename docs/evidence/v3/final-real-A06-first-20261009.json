@@ -1,0 +1,61 @@
+{
+  "created_at": "2026-10-09T12:33:55.156405+00:00",
+  "evidence_level": "NATIVE_ANDROID_REAL_API_PROVIDER",
+  "source_state": "dirty local candidate; not a public release",
+  "scenario": {
+    "id": "A06",
+    "slot": "A06",
+    "phase": "first",
+    "passed": false,
+    "owner_id": "0f71a5c2-3a93-44b0-af6f-5498044ec431",
+    "device": "emulator-5558",
+    "native_activity": true,
+    "injected_ui_state": false,
+    "runtime_source_hashes": {
+      "apps/api/src/ragcommerce_api/postgres_index.py": "44c69c78dc5d1c9ec7e9c29365975f744b01472046d360e9afa6f6ae56e2323b",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/token_budget.py": "754b7af70d90f5837e8f8866c61ef1385c13d5dd2da4fbc29ab472a25e2fb0d3",
+      "packages/retrieval/src/ragcommerce_retrieval/semantic.py": "a09c94a79885cd6b7c953e3ef7beb2aaa2b4759fb6a366f89b4383fe5749bd6b",
+      "packages/contracts/openapi.json": "8308bbe9d902a4bda256d8a2e43030d7fbfd876e28344434be19500c2c8ed205",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/runtime.py": "7709cafdea394605691144dc1a7c64e8222f49ff0fac3a86d8692e8d23c176cf",
+      "data/demo/catalog.v3.jsonl": "4c46d177c12bbe0216da84305430c77792ee9feece694a0a1590bf268d05e3a5",
+      "apps/api/src/ragcommerce_api/postgres_demo.py": "d1b5dcddd1d394d8e6f99322b9aad799ac889b601ee533c86d82d266c7189bdc",
+      "apps/api/src/ragcommerce_api/provider_config.py": "b30c0867670c4b504062b64917af8dc49948ca5555933f265bad7e8238dea562",
+      "apps/api/src/ragcommerce_api/service.py": "c9a974f9eabc422eb5c2fff0b61d3446aa8e96925a81e07976d23ea75412e47b",
+      "apps/worker/src/ragcommerce_worker/persistent_demo.py": "a6360a729c860e8eb056731ad3e5221ab99f1694846da5a9e5510ab432d4803a",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/model_provider.py": "7a1656ad7f5a8c8578dde72e89c26209a93289b12f7269260c010f9b70df5101",
+      "apps/api/src/ragcommerce_api/media_tools.py": "f1e427892d13417cb17eee81459b9405223f3cf8b3f2bdf51d1872e864006ad6"
+    },
+    "root_cause": null,
+    "observation_seconds": 600,
+    "runner": {
+      "tests": 1,
+      "failed": 1,
+      "ignored": 0
+    },
+    "runner_passed": false,
+    "backend_runs": [],
+    "paid_call_count": 0,
+    "token_usage": 0,
+    "provider_cost": "NOT_AVAILABLE_FROM_PROVIDER",
+    "source_run_id": "5a2573a8-2a2e-53e2-8026-1ab39f616003",
+    "source_thread_id": "43cf640b-ce80-463b-95c3-10079d3dbbdf",
+    "expected_candidates": [
+      "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+      "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d",
+      "089f04cb-b770-5de2-a756-c4c7aa5b6905"
+    ],
+    "persisted_selection": [
+      "3c0668b8-1315-54ea-8d88-90c652c9aaf8"
+    ],
+    "reused_existing_real_recommendation": true,
+    "elapsed_seconds": 57.313,
+    "shared_budget": {
+      "session_id": "internship-final-20261009",
+      "limit": 2000000,
+      "blocked": false,
+      "used": 176582,
+      "held": 0,
+      "calls": 56
+    }
+  }
+}

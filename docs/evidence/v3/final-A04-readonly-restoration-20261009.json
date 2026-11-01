@@ -1,0 +1,21 @@
+{
+  "finished_at": "2026-10-09T15:11:30.443Z",
+  "evidence_level": "NATIVE_ANDROID_READ_ONLY_FAILED_SNAPSHOT_NOT_A04_RETEST",
+  "passed": true,
+  "method": "inspectRestoredFailureReadOnly",
+  "runner_pid": 6539,
+  "tests": 1,
+  "failed": 0,
+  "elapsed_seconds": 6.06,
+  "device": "127.0.0.1:5559",
+  "adb_server_port": 20884,
+  "snapshot_run_id": "a7018ca1-a2c6-55f1-b6e3-2eb68763ef7f",
+  "initial_task_tab_disabled": true,
+  "checks": ["waited for enabled native tab", "explicit incomplete-task message", "new-mission control visible", "no recommendation pager"],
+  "screenshot": "output/final-failed-restoration-20261009.png",
+  "new_turns": 0,
+  "new_model_calls": 0,
+  "tokens": 0,
+  "injected_ui_state": false,
+  "business_scenario_signed": false
+}

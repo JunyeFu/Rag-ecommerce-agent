@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the public 500-case deterministic harness reference and preserve all denominators."""
+"""Run the 1,000-case automated harness reference and preserve all denominators."""
 
 from __future__ import annotations
 
@@ -23,12 +23,12 @@ from ragcommerce_evaluation import (  # noqa: E402
     reference_result,
 )
 
-DATASET = ROOT / "evals/v2/public-cases.v1.jsonl"
+DATASET = ROOT / "evals/v2/cases.v2.jsonl"
 RESULTS = ROOT / "evals/v2/results"
 CASE_RESULTS = RESULTS / "deterministic-reference-cases.jsonl"
 SUMMARY = RESULTS / "deterministic-reference-summary.json"
 RUN_MANIFEST = RESULTS / "deterministic-reference-manifest.json"
-RUN_ID = "eval-reference-competition-v1-20260826"
+RUN_ID = "eval-reference-competition-v2-20260921"
 
 
 def sha256(value: bytes) -> str:
@@ -94,20 +94,19 @@ def render() -> dict[Path, bytes]:
         "schema_version": 1,
         "run_id": RUN_ID,
         "evidence_level": "deterministic_contract_reference_only",
-        "dataset_version": "competition-v1-public",
+        "dataset_version": "competition-v2",
         "dataset_sha256": sha256(DATASET.read_bytes()),
         "case_results_sha256": sha256(case_bytes),
         "overall": aggregate(grades, results),
         "by_family": {name: subset(indices) for name, indices in sorted(by_family.items())},
         "by_split": {name: subset(indices) for name, indices in sorted(by_split.items())},
         "negative_control": negative_grade.to_dict(),
-        "heldout_cases_consumed": 0,
         "real_provider_calls": 0,
         "claims": {
             "grader_and_denominator_contract_validated": True,
             "model_quality_measured": False,
             "live_commercial_quality_measured": False,
-            "human_quality_measured": False,
+            "all_cases_machine_gradable": True,
         },
     }
     summary_bytes = json_bytes(summary)
@@ -115,7 +114,7 @@ def render() -> dict[Path, bytes]:
         "schema_version": 1,
         "run_id": RUN_ID,
         "command": "uv run python scripts/run_evaluation_baseline.py --check",
-        "dataset_version": "competition-v1",
+        "dataset_version": "competition-v2",
         "dataset_sha256": sha256(DATASET.read_bytes()),
         "runner_version": "deterministic-reference-v1",
         "grader_version": "policy-grounding-grader-v1",
@@ -123,9 +122,8 @@ def render() -> dict[Path, bytes]:
         "prompt_version": "none",
         "policy_version": "agent-policy-v1",
         "contract_version": "0.2.0",
-        "seed": 20260826,
-        "splits_consumed": ["dev", "test"],
-        "heldout_consumed": False,
+        "seed": 20260921,
+        "splits_consumed": ["dev", "test", "challenge"],
         "artifacts": {
             "evals/v2/results/deterministic-reference-cases.jsonl": sha256(case_bytes),
             "evals/v2/results/deterministic-reference-summary.json": sha256(summary_bytes),
@@ -161,7 +159,7 @@ def main() -> int:
             print("DRIFT", value)
         return 1
     if args.check:
-        print("reference_eval=deterministic public_cases=500 heldout_consumed=0")
+        print("reference_eval=deterministic automated_cases=1000")
     return 0
 
 

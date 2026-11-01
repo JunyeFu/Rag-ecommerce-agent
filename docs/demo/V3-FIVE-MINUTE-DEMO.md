@@ -7,13 +7,13 @@
 .\scripts\start_v3_demo.ps1
 ```
 
-Android debug 使用 `http://10.0.2.2:8080/`；Ops 使用 `http://127.0.0.1:24174/`。本演示身份、商品、报价和商家链接均为本地 fixture，不需要联盟凭据。
+Android debug 使用 `http://10.0.2.2:20881/`；Ops 使用 `http://127.0.0.1:24174/`。默认显式fake模型／真实本地BGE；商品和报价为自有DEMO_FIXTURE，不需要联盟凭据。真实模型演示须复用已完成任务或具备登记名额，等待剪辑要标注。
 
 ## 八镜头现场路线
 
 | 时间 | 镜头 | 现场操作 | 预期观察 | 证据与状态 |
 |---|---|---|---|---|
-| 00:00–00:25 | 启动与边界 | 展示启动命令和健康结果 | PostgreSQL、Qdrant、Redis、MinIO、API、Worker、Ops 可用；迁移到 `20260831_0007` | LOCAL/INTEGRATION；不是 LIVE |
+| 00:00–00:25 | 启动与边界 | 展示启动命令和健康结果 | 四基础设施、API、两个Worker与Ops可用；迁移到 `20261013_0015` | Redis当前未接入主链；其余职责见当前C4 |
 | 00:25–00:55 | 购买任务 | Android 输入“通勤降噪耳机” | Agent 只追问一个必要条件，不出现商品卡 | `clarification_required`、`WAITING_CLARIFICATION` |
 | 00:55–01:25 | 澄清与 RAG | 回答“预算上限 1500 元” | 回答合并进原 Mission；公开显示理解、检索、核验和比较阶段 | BM25 + 向量 + 过滤 + RRF；不展示思维链 |
 | 01:25–02:05 | 证据推荐 | 查看主推荐并纵向滑到次推荐、再次推荐 | 每屏一个候选，显示匹配、不满足项、风险、EvidenceRef 和 `DEMO_FIXTURE` 报价 | Android/API/Worker/SSE 真实状态 |
@@ -22,7 +22,7 @@ Android debug 使用 `http://10.0.2.2:8080/`；Ops 使用 `http://127.0.0.1:2417
 | 03:10–03:45 | 故障恢复 | 断开连接或强停应用后重新打开 | 从 ThreadSnapshot、checkpoint 与最后事件游标恢复，无重复 terminal event | RECOVERED/RECONNECTING；Worker 过期租约可回收 |
 | 03:45–04:35 | Ops 与门禁 | 打开运行概览、检索观测、Trace、评测、发布门禁 | 检索命中、EvidenceRef、Token、成本、游标可见；刷新后评测排队保持；LIVE/HUMAN 明确阻塞 | fixture/local/REAL_MODEL/HUMAN/LIVE/RELEASE 分层 |
 
-04:35–05:00 用于总结：本地黄金场景、契约和恢复已经实测；真实模型公开集评测、100 条 held-out 双人盲评、联盟 LIVE 报价、物理设备验收和 RELEASE 未由 fixture 代替。
+04:35–05:00报告当前证据：历史真实黄金10/10可解析、9/10流程；完整原生8/10，当前A08-R5/A10-R5通过；语音与A09未签收。215 Python、Ops五工作流、30并发接受p95=134.94ms、自然租约304.438秒恢复通过。新视频尚未封版，公开发布未执行。
 
 ## 异常备用路线
 

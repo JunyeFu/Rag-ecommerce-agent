@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-08",
+  "status": "SCOPED_MISSION_CONCURRENCY_PASSED",
+  "product_gate": "HOLD",
+  "commercial_gate": "NO_GO",
+  "root_cause": "Per-run approval lock did not coordinate Mission edits; version could change after approval version check but before execution finished.",
+  "fix": "Mission-scoped nonblocking coordination for approval, explicit goal edit and clarification version mutation; reread version inside approval guard; expose contention as HTTP409.",
+  "policy": "First operation wins; edits during approval conflict without mutation; successful edits invalidate pending earlier-version approvals. No cancellation or automatic retry.",
+  "checks": [
+    {"command": "pytest apps/api/tests/test_postgres_api_integration.py -k 'unique and edit' -q", "phase": "RED", "exit_code": 1, "failed": 1, "summary": "Edit did not raise DecisionConflict while approval was executing."},
+    {"command": "pytest apps/api/tests/test_postgres_api_integration.py apps/api/tests/test_turn_api.py -q", "phase": "GREEN", "exit_code": 0, "passed": 28, "postgres_cases": 12, "api_cases": 16},
+    {"command": "pytest -m 'not integration' -q", "exit_code": 0, "passed": 132, "deselected": 20},
+    {"command": "export_openapi.py --check / generate_contracts.py --check", "exit_code": 0, "paths": 27, "generated_files": 3},
+    {"command": "ruff check <five edited API source/test files>", "exit_code": 0},
+    {"command": "git diff --check -- <five edited API source/test files>", "exit_code": 0, "summary": "Line ending warnings only."}
+  ],
+  "environment": "Temporary isolated PostgreSQL18.3 with migrations through 20260923_0009; deterministic fake planner, no real model calls.",
+  "cleanup": "Owned rag-stage08-mission-20261008 container stopped and auto-removed, synthetic database deleted; bank services untouched.",
+  "limits": ["Direct SQL writers do not participate in application locks", "No tool-write/checkpoint cross-transaction crash guarantee", "No independent Android device acceptance", "Exploration implementation remains pending"],
+  "publication": "No staging, commit, push or release."
+}

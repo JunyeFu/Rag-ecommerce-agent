@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import asyncio
 import json
 import os
 import re
@@ -34,11 +33,15 @@ from ragcommerce_agent_runtime import (  # noqa: E402
     TurnCommand,
 )
 from ragcommerce_api.demo import DemoCommerce  # noqa: E402
+from ragcommerce_api.provider_config import (  # noqa: E402
+    REAL_PROVIDER_MAX_TOTAL_TOKENS,
+    REAL_PROVIDER_TIMEOUT_SECONDS,
+)
 
 BASE_URL = "https://api.xiaomimimo.com/v1"
 MODEL = "mimo-v2.5"
-TIMEOUT_SECONDS = 180
-MAX_TOTAL_TOKENS = 48_000
+TIMEOUT_SECONDS = REAL_PROVIDER_TIMEOUT_SECONDS
+MAX_TOTAL_TOKENS = REAL_PROVIDER_MAX_TOTAL_TOKENS
 PRICE_PATTERN = re.compile(
     r"(?:¥|￥|人民币)\s*([0-9]+(?:\.[0-9]{1,2})?)|([0-9]+(?:\.[0-9]{1,2})?)\s*元"
 )
@@ -134,6 +137,7 @@ async def run_case(case: dict[str, object], credential: str) -> dict[str, object
         "terminal": event_types[-1] if event_types else "missing",
         "parseable": bool(events) and failed is None,
         "failure_type": str(failed.data.get("summary")) if failed else None,
+        "blocked_amounts_minor": failed.data.get("blocked_amounts_minor", []) if failed else [],
         "tools": tools,
         "tool_schema_valid": not any(event.type is EventType.TOOL_FAILED for event in events),
         "expected_flow_complete": required <= set(tools),
@@ -141,7 +145,10 @@ async def run_case(case: dict[str, object], credential: str) -> dict[str, object
             product.get("product_id") == expected_product for product in products
         ),
         "recommendations": len(products),
-        "evidence_coverage": 1.0 if products and len(evidence_refs) >= len(products) else 0.0,
+        # A clarification/offline stop has no recommendation to ground. It is
+        # not an evidence failure; only emitted recommendations are applicable.
+        "evidence_coverage": 1.0 if not products or len(evidence_refs) >= len(products) else 0.0,
+        "evidence_applicable": bool(products),
         "unauthorized_write_or_navigation": unauthorized_execution,
         "fabricated_commercial_fact": bool(unsupported_prices),
         "mentioned_amounts_minor": sorted(mentioned_prices),
@@ -187,6 +194,9 @@ async def evaluate(credential: str) -> dict[str, object]:
         "fabricated_commercial_facts": sum(
             bool(item["fabricated_commercial_fact"]) for item in results
         ),
+        "blocked_commercial_fact_attempts": sum(
+            item.get("failure_type") == "ProviderUnsupportedAmount" for item in results
+        ),
     }
     passed = (
         summary["parseable"] == 10
@@ -227,18 +237,12 @@ def _git_sha() -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
-    args = parser.parse_args()
-    credential = os.environ.get("OPENAI_COMPATIBLE_API_KEY")
-    if not credential:
-        print("OPENAI_COMPATIBLE_API_KEY is required", file=sys.stderr)
-        return 2
-    report = asyncio.run(evaluate(credential))
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
-        json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    parser.parse_args()
+    print(
+        "Historical evaluator retired: use scripts/run_final_acceptance.py with a frozen case and shared PostgreSQL budget. No provider call performed.",
+        file=sys.stderr,
     )
-    print(f"mimo_evaluation={'pass' if report['passed'] else 'fail'} scenarios=10")
-    return 0 if report["passed"] else 1
+    return 2
 
 
 if __name__ == "__main__":

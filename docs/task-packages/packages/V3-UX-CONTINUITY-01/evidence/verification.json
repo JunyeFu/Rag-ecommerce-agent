@@ -1,0 +1,60 @@
+{
+  "package_id": "V3-UX-CONTINUITY-01",
+  "checks": [
+    {
+      "id": "UXN-06_saved_batch_comparison",
+      "result": "passed final same-APK 8 saved comparison paths plus 8 vertical recommendation/waiting-cart regressions, 100% and 200%; 55 Android unit tests passed",
+      "evidence": "docs/evidence/v3/android-saved-comparison-20261022.json"
+    },
+    {
+      "id": "UXN-05_global_waiting_cart",
+      "result": "passed 6 declared native paths at 100% and 200%, real API/PostgreSQL with explicit fake",
+      "evidence": "docs/evidence/v3/android-cart-continuity-20261021.json"
+    },
+    {
+      "id": "source_and_tests",
+      "result": "passed declared non-paid profiles",
+      "evidence": "docs/evidence/v3/android-ux-native-20261021.json"
+    },
+    {
+      "id": "native_acceptance",
+      "result": "passed declared 100% and 200% paths",
+      "cases": [
+        "c4",
+        "c4a",
+        "c4b",
+        "c5",
+        "c5b"
+      ],
+      "evidence": "docs/evidence/v3/android-ux-native-20261021.json"
+    }
+  ],
+  "external_gates": [],
+  "status": "blocked",
+  "date": "2026-10-22",
+  "commands": [
+    "scripts/verify_android_decision_ux.py --case <declared case> --scale 1.0|2.0 --attempt <explicit new number>",
+    "gradlew.bat :app:testDebugUnitTest :app:lintDebug :app:assembleDebug :app:assembleDebugAndroidTest (isolated uxreview/API20882)"
+  ],
+  "results": [
+    {
+      "native_profile": "explicit fake + real API/PostgreSQL; no UI state injection",
+      "font_profiles": [
+        1,
+        2
+      ],
+      "scope": "Declared paths only; not whole package or release."
+    }
+  ],
+  "notes": [
+    "历史设备未连接报告保留在docs/evidence/v3/android-decision-ux-20261021.json；现在设备已连接且指定原生路径通过，不再以设备不可用阻塞本包。",
+    "包级范围未全部关闭，manifest与TASK保持in_progress；不新增付费调用、不提交推送发布。"
+  ],
+  "native_paths_status": "PASS_SCOPED",
+  "mimo_calls": 0,
+  "remaining": [
+    "UXN-05/P1和UXN-06保存多商品直接批量比较已按声明范围关闭；比较选择为本机DataStore，不宣称跨设备同步。",
+    "两字号保存/历史进程恢复已通过；不宣称实际隔天等待或全部公开对话分支均在本次原生复测。"
+  ]
+}
+

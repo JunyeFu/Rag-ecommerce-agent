@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-08",
+  "status": "SCOPED_POSTGRES_REGRESSION_PASSED",
+  "product_gate": "HOLD",
+  "commercial_gate": "NO_GO",
+  "root_cause": "Concurrent decisions read the same pending state without coordination across API instances.",
+  "fix": "Per-run PostgreSQL transaction advisory try-lock, followed by state reread; immediate DecisionConflict on contention; nonblocking lock for memory index.",
+  "environment": "Owned temporary PostgreSQL18.3 container; not pinned PostgreSQL16. Migration head 20260923_0009.",
+  "checks": [
+    {"command": "pytest apps/api/tests/test_postgres_api_integration.py -k 'concurrent_contradictory or rejected_approval' -q", "phase": "RED", "exit_code": 1, "passed": 1, "failed": 1, "summary": "Contradictory concurrent decision did not raise DecisionConflict."},
+    {"phase": "INTERMEDIATE", "passed": 8, "failed": 1, "summary": "Test expected lowercase completed; corrected to existing COMPLETED contract."},
+    {"command": "pytest apps/api/tests/test_postgres_api_integration.py -q", "phase": "GREEN", "exit_code": 0, "passed": 10},
+    {"command": "pytest -m 'not integration' -q", "exit_code": 0, "passed": 131, "deselected": 18},
+    {"command": "alembic -c apps/api/alembic.ini upgrade head / check", "exit_code": 0, "schema_drift": false},
+    {"command": "ruff check service.py postgres_index.py test_postgres_api_integration.py", "exit_code": 0},
+    {"command": "git diff --check -- <three changed API files>", "exit_code": 0}
+  ],
+  "limits": ["Service reconstruction against persistent PostgreSQL, not OS-process or database restart injection", "No atomic commit across tool writes and checkpoint", "Mission edit versus approval race remains", "Connected device belongs to CatLife project; no device mutation or Android acceptance"],
+  "cleanup": "Stop only owned rag-stage08-approval-20261008 container; auto-remove synthetic test database; no bank services touched.",
+  "real_model_calls": 0,
+  "publication": "No staging, commit, push or release."
+}

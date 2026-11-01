@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-FINAL-02",
+  "owner": "internship-closeout",
+  "objective": "Agent闭环与真实多模态",
+  "inputs": [
+    "docs/plans/INTERNSHIP-FINAL-CLOSEOUT.md"
+  ],
+  "outputs": [
+    "实现共享媒体读取和MiMo多模态理解。",
+    "增加media_interpreted、待确认快照与确认动作。",
+    "实现原生WAV录音、预览和取消。",
+    "回归探索、推荐、比较、清单、待购、审批与金额事实。"
+  ],
+  "acceptance": [
+    "原生录音、选图、实际理解、用户确认接入同一Agent链",
+    "媒体归属、过期、审批与恢复通过",
+    "G03按实际根因修复，商业事实约束保留"
+  ],
+  "test_profiles": [
+    "unit",
+    "contract",
+    "integration",
+    "android",
+    "runtime"
+  ],
+  "business_refs": [
+    "data/demo/catalog.v3.jsonl",
+    "DEMO_FIXTURE"
+  ],
+  "development_refs": [
+    "V3-FINAL-01"
+  ],
+  "risk_refs": [
+    "保留脏工作树",
+    "真实与fixture证据分层",
+    "不自动发布"
+  ]
+}

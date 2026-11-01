@@ -468,6 +468,20 @@
       "licenses": [
         {
           "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "@playwright/test",
+      "purl": "pkg:npm/@playwright/test@1.63.0",
+      "type": "library",
+      "version": "1.63.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
             "id": "MIT"
           }
         }
@@ -770,6 +784,20 @@
       "purl": "pkg:npm/@types/estree@1.0.9",
       "type": "library",
       "version": "1.0.9"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "@types/node",
+      "purl": "pkg:npm/@types/node@24.19.1",
+      "type": "library",
+      "version": "24.19.1"
     },
     {
       "group": "node",
@@ -1588,6 +1616,34 @@
       "licenses": [
         {
           "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "playwright-core",
+      "purl": "pkg:npm/playwright-core@1.63.0",
+      "type": "library",
+      "version": "1.63.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "name": "playwright",
+      "purl": "pkg:npm/playwright@1.63.0",
+      "type": "library",
+      "version": "1.63.0"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
             "id": "MIT"
           }
         }
@@ -1677,9 +1733,9 @@
         }
       ],
       "name": "source-map-js",
-      "purl": "pkg:npm/source-map-js@1.2.1",
+      "purl": "pkg:npm/source-map-js@1.2.2",
       "type": "library",
-      "version": "1.2.1"
+      "version": "1.2.2"
     },
     {
       "group": "node",
@@ -1788,6 +1844,20 @@
           }
         }
       ],
+      "name": "undici-types",
+      "purl": "pkg:npm/undici-types@7.24.6",
+      "type": "library",
+      "version": "7.24.6"
+    },
+    {
+      "group": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
       "name": "vite",
       "purl": "pkg:npm/vite@8.2.2",
       "type": "library",
@@ -1826,14 +1896,28 @@
       "licenses": [
         {
           "license": {
-            "id": "NOASSERTION"
+            "id": "AGPL-3.0-only"
           }
         }
       ],
-      "name": "minio/minio",
-      "purl": "pkg:oci/minio/minio@RELEASE.2025-04-22T22-12-26Z",
+      "name": "local/ragcommerce-minio",
+      "properties": [
+        {
+          "name": "upstream.release",
+          "value": "RELEASE.2025-04-22T22-12-26Z"
+        },
+        {
+          "name": "upstream.commit",
+          "value": "0d7408fc9969caf07de6a8c3a84f9fbb10a6739e"
+        },
+        {
+          "name": "upstream.builder",
+          "value": "golang:1.24.2-bookworm"
+        }
+      ],
+      "purl": "pkg:oci/local/ragcommerce-minio@20250422-source",
       "type": "container",
-      "version": "RELEASE.2025-04-22T22-12-26Z"
+      "version": "20250422-source"
     },
     {
       "group": "container",
@@ -2054,6 +2138,20 @@
           }
         }
       ],
+      "name": "coloredlogs",
+      "purl": "pkg:pypi/coloredlogs@15.0.1",
+      "type": "library",
+      "version": "15.0.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
       "name": "distro",
       "purl": "pkg:pypi/distro@1.9.0",
       "type": "library",
@@ -2072,6 +2170,48 @@
       "purl": "pkg:pypi/fastapi@0.141.1",
       "type": "library",
       "version": "0.141.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "filelock",
+      "purl": "pkg:pypi/filelock@4.0.1",
+      "type": "library",
+      "version": "4.0.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "flatbuffers",
+      "purl": "pkg:pypi/flatbuffers@25.12.19",
+      "type": "library",
+      "version": "25.12.19"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "fsspec",
+      "purl": "pkg:pypi/fsspec@2026.9.0",
+      "type": "library",
+      "version": "2026.9.0"
     },
     {
       "group": "python",
@@ -2142,6 +2282,20 @@
       "purl": "pkg:pypi/h2@4.4.1",
       "type": "library",
       "version": "4.4.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "hf-xet",
+      "purl": "pkg:pypi/hf-xet@1.6.0",
+      "type": "library",
+      "version": "1.6.0"
     },
     {
       "group": "python",
@@ -2226,6 +2380,34 @@
       "purl": "pkg:pypi/httpx@0.28.1",
       "type": "library",
       "version": "0.28.1"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "huggingface-hub",
+      "purl": "pkg:pypi/huggingface-hub@1.32.0",
+      "type": "library",
+      "version": "1.32.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "humanfriendly",
+      "purl": "pkg:pypi/humanfriendly@10.0",
+      "type": "library",
+      "version": "10.0"
     },
     {
       "group": "python",
@@ -2460,10 +2642,38 @@
           }
         }
       ],
+      "name": "mpmath",
+      "purl": "pkg:pypi/mpmath@1.3.0",
+      "type": "library",
+      "version": "1.3.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
       "name": "numpy",
       "purl": "pkg:pypi/numpy@2.5.2",
       "type": "library",
       "version": "2.5.2"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "onnxruntime",
+      "purl": "pkg:pypi/onnxruntime@1.23.2",
+      "type": "library",
+      "version": "1.23.2"
     },
     {
       "group": "python",
@@ -2712,6 +2922,20 @@
           }
         }
       ],
+      "name": "psycopg-pool",
+      "purl": "pkg:pypi/psycopg-pool@3.3.3",
+      "type": "library",
+      "version": "3.3.3"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
       "name": "psycopg",
       "purl": "pkg:pypi/psycopg@3.3.4",
       "type": "library",
@@ -2786,6 +3010,20 @@
       "purl": "pkg:pypi/pygments@2.21.0",
       "type": "library",
       "version": "2.21.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "pyreadline3",
+      "purl": "pkg:pypi/pyreadline3@3.5.6",
+      "type": "library",
+      "version": "3.5.6"
     },
     {
       "group": "python",
@@ -2964,10 +3202,52 @@
           }
         }
       ],
+      "name": "sympy",
+      "purl": "pkg:pypi/sympy@1.14.0",
+      "type": "library",
+      "version": "1.14.0"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
       "name": "tenacity",
       "purl": "pkg:pypi/tenacity@9.1.4",
       "type": "library",
       "version": "9.1.4"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "tokenizers",
+      "purl": "pkg:pypi/tokenizers@0.22.2",
+      "type": "library",
+      "version": "0.22.2"
+    },
+    {
+      "group": "python",
+      "licenses": [
+        {
+          "license": {
+            "id": "NOASSERTION"
+          }
+        }
+      ],
+      "name": "tqdm",
+      "purl": "pkg:pypi/tqdm@4.70.1",
+      "type": "library",
+      "version": "4.70.1"
     },
     {
       "group": "python",
@@ -3126,9 +3406,9 @@
   ],
   "metadata": {
     "component": {
-      "name": "rag-commerce-v2",
+      "name": "rag-commerce-v3-workspace",
       "type": "application",
-      "version": "0.1.0"
+      "version": "0.3.0"
     },
     "properties": [
       {

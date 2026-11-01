@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-10-09",
+  "provider": "mimo-v2.5",
+  "endpoint_host": "api.xiaomimimo.com",
+  "budget_session": "internship-final-20261009",
+  "first_slots": 24,
+  "retest_slots": 6,
+  "additional_retests": [
+    {"id": "A01-R1", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A01-EXTRA-AUTHORIZATION.json"},
+    {"id": "A06-R1", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A06-EXTRA-AUTHORIZATION.json", "model_calls_allowed": false},
+    {"id": "A07-R1", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A07-EXTRA-AUTHORIZATION.json", "model_calls_allowed": false},
+    {"id": "A03-R1", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A03-A04-A08-A10-EXTRA-AUTHORIZATION-20261012.json"},
+    {"id": "A04-R1", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A03-A04-A08-A10-EXTRA-AUTHORIZATION-20261012.json"},
+    {"id": "A08-R1", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A03-A04-A08-A10-EXTRA-AUTHORIZATION-20261012.json"},
+    {"id": "A10-R1", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A03-A04-A08-A10-EXTRA-AUTHORIZATION-20261012.json"},
+    {"id": "A08-R2", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A08-R2-EXTRA-AUTHORIZATION-20261012.json"},
+    {"id": "A08-R3", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A08-R3-A10-R2-EXTRA-AUTHORIZATION-20261012.json"},
+    {"id": "A10-R2", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A08-R3-A10-R2-EXTRA-AUTHORIZATION-20261012.json"},
+    {"id": "A10-R3", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A10-R3-EXTRA-AUTHORIZATION-20261012.json", "resume_pending_from": "A10-R2"},
+    {"id": "A10-R4", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A10-R4-EXTRA-AUTHORIZATION-20261012.json", "resume_erasure_from": "A10-R3", "model_calls_allowed": false},
+    {"id": "A08-R4", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/N01-N11-EXECUTION-AUTHORIZATION-20261013.json"},
+    {"id": "A08-R5", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/A08-R5-EXTRA-AUTHORIZATION-20261013.json"},
+    {"id": "A10-R5", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/N01-N11-EXECUTION-AUTHORIZATION-20261013.json"},
+    {"id": "A09-R1", "authorization_ref": "docs/task-packages/packages/V3-FINAL-04/evidence/N01-N11-EXECUTION-AUTHORIZATION-20261013.json", "model_calls_allowed": false}
+  ],
+  "total_token_limit": 2000000,
+  "run_token_limit": 48000,
+  "request_timeout_seconds": 180,
+  "observation_seconds": 600,
+  "golden": {"source": "evals/v3/golden-scenarios.json", "ids": ["G01", "G02", "G03", "G04", "G05", "G06", "G07", "G08", "G09", "G10"]},
+  "media": [
+    {"id": "M01", "purpose": "自有手机示意图的实际视觉理解与用户确认", "expected_category": "手机", "supported": true},
+    {"id": "M02", "purpose": "歧义或非3C图片明确拒绝/追问，不伪造产品", "supported": false},
+    {"id": "M03", "purpose": "模拟器实际AudioRecord录音的可编辑转写；无有效语音不伪造成功", "requires": "actual native microphone capture"},
+    {"id": "M04", "purpose": "文字要求与图片线索冲突，识别后等待用户确认再更新约束", "requires": "no retrieval or business writes before media confirmation"}
+  ],
+  "android": [
+    {"id": "A01", "purpose": "明确文字需求、推荐与证据"},
+    {"id": "A02", "purpose": "模糊语音、原生录音、修改转写、澄清与推荐", "mandatory": true},
+    {"id": "A03", "purpose": "图库输入、确认线索、补充约束与推荐", "mandatory": true},
+    {"id": "A04", "purpose": "探索、兴趣/排除、换一批与转购买"},
+    {"id": "A05", "purpose": "修改预算/硬约束，不污染新任务"},
+    {"id": "A06", "purpose": "主/次/再次纵向浏览，比较与返回对话保留选择"},
+    {"id": "A07", "purpose": "保存、待购数量/移除与重启核对", "model_calls_allowed": false, "source": "existing real recommendation"},
+    {"id": "A08", "purpose": "审批拒绝/批准、数据库写入与幂等", "mandatory": true},
+    {"id": "A09", "purpose": "重新询价、过期处理与确认安全演示跳转", "model_calls_allowed": false, "source": "existing real recommendation"},
+    {"id": "A10", "purpose": "断网/终止恢复、用户隔离与删除", "mandatory": true}
+  ],
+  "rules": ["首次执行不自动重跑", "复测必须关联已修正根因", "同一场景可多轮但每个run最多48000Token", "无usage保持预留且阻断后续付费", "fixture/模型/设备证据分开", "安全拒绝可以正确，基础设施或模型失败不是业务成功"]
+}

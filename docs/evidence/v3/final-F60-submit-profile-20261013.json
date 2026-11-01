@@ -1,0 +1,323 @@
+{
+  "scope": "Real PG TurnService thread profile; not HTTP/SSE acceptance",
+  "provider": "fake",
+  "requests": 30,
+  "samples": [
+    {
+      "work_ms": 36.23949998291209,
+      "costs": []
+    },
+    {
+      "work_ms": 39.057400019373745,
+      "costs": []
+    },
+    {
+      "work_ms": 49.132399988593534,
+      "costs": [
+        {
+          "function": "postgres_index.py:112:get_thread",
+          "calls": 22,
+          "self_ms": 0.1799,
+          "cumulative_ms": 70.9136
+        },
+        {
+          "function": "thread.py:54:run",
+          "calls": 24,
+          "self_ms": 2.0126000000000004,
+          "cumulative_ms": 47.525400000000005
+        },
+        {
+          "function": "service.py:314:require_thread",
+          "calls": 24,
+          "self_ms": 0.13540000000000002,
+          "cumulative_ms": 34.3071
+        },
+        {
+          "function": "contextlib.py:141:__exit__",
+          "calls": 39,
+          "self_ms": 0.9970000000000001,
+          "cumulative_ms": 30.248800000000003
+        },
+        {
+          "function": "pool.py:940:run",
+          "calls": 3,
+          "self_ms": 0.0028000000000000004,
+          "cumulative_ms": 10.790000000000001
+        },
+        {
+          "function": "pool.py:992:_run",
+          "calls": 3,
+          "self_ms": 0.004200000000000001,
+          "cumulative_ms": 10.7764
+        },
+        {
+          "function": "pool.py:663:_add_connection",
+          "calls": 3,
+          "self_ms": 0.018000000000000002,
+          "cumulative_ms": 10.772200000000002
+        },
+        {
+          "function": "pool.py:614:_connect",
+          "calls": 3,
+          "self_ms": 0.031700000000000006,
+          "cumulative_ms": 10.4853
+        },
+        {
+          "function": "connection.py:277:execute",
+          "calls": 136,
+          "self_ms": 1.3091000000000002,
+          "cumulative_ms": 4.5566
+        },
+        {
+          "function": "cursor.py:100:execute",
+          "calls": 136,
+          "self_ms": 4.5126,
+          "cumulative_ms": 4.346
+        },
+        {
+          "function": "_cursor_base.py:461:_convert_query",
+          "calls": 145,
+          "self_ms": 0.2048,
+          "cumulative_ms": 4.0941
+        },
+        {
+          "function": "_queries.py:59:convert",
+          "calls": 145,
+          "self_ms": 0.36310000000000003,
+          "cumulative_ms": 3.8494
+        }
+      ]
+    },
+    {
+      "work_ms": 35.993199999211356,
+      "costs": []
+    },
+    {
+      "work_ms": 34.286600013729185,
+      "costs": []
+    },
+    {
+      "work_ms": 47.55499999737367,
+      "costs": []
+    },
+    {
+      "work_ms": 34.32179999072105,
+      "costs": []
+    },
+    {
+      "work_ms": 37.172700016526505,
+      "costs": []
+    },
+    {
+      "work_ms": 42.22589998971671,
+      "costs": []
+    },
+    {
+      "work_ms": 39.03129999525845,
+      "costs": []
+    },
+    {
+      "work_ms": 40.789299993775785,
+      "costs": []
+    },
+    {
+      "work_ms": 33.43380001024343,
+      "costs": []
+    },
+    {
+      "work_ms": 35.95069999573752,
+      "costs": []
+    },
+    {
+      "work_ms": 55.34809999517165,
+      "costs": []
+    },
+    {
+      "work_ms": 44.505199999548495,
+      "costs": []
+    },
+    {
+      "work_ms": 104.32519999449141,
+      "costs": []
+    },
+    {
+      "work_ms": 184.32139998185448,
+      "costs": []
+    },
+    {
+      "work_ms": 183.43930001719855,
+      "costs": []
+    },
+    {
+      "work_ms": 149.50520001002587,
+      "costs": []
+    },
+    {
+      "work_ms": 150.83850000519305,
+      "costs": []
+    },
+    {
+      "work_ms": 166.22169999754988,
+      "costs": []
+    },
+    {
+      "work_ms": 180.1320999802556,
+      "costs": []
+    },
+    {
+      "work_ms": 160.05269999732263,
+      "costs": []
+    },
+    {
+      "work_ms": 152.98129999428056,
+      "costs": []
+    },
+    {
+      "work_ms": 153.14280000166036,
+      "costs": []
+    },
+    {
+      "work_ms": 182.49909998849034,
+      "costs": []
+    },
+    {
+      "work_ms": 154.62650000699796,
+      "costs": []
+    },
+    {
+      "work_ms": 152.21279999241233,
+      "costs": []
+    },
+    {
+      "work_ms": 152.69209997495636,
+      "costs": []
+    },
+    {
+      "work_ms": 153.76200000173412,
+      "costs": []
+    }
+  ],
+  "results": [
+    {
+      "run_id": "71bcbfc6-fafb-53ec-98a1-196ea0af8a49",
+      "awaited_ms": 61.681599996518344
+    },
+    {
+      "run_id": "ec3681bd-7275-502a-aadd-48d4ecaa6319",
+      "awaited_ms": 45.93540000496432
+    },
+    {
+      "run_id": "37976ec4-f954-5eb6-ab1b-096a05336f73",
+      "awaited_ms": 55.392200010828674
+    },
+    {
+      "run_id": "a27fe52e-264f-57fd-a2fe-6b9cf2dd2fc2",
+      "awaited_ms": 50.75540000689216
+    },
+    {
+      "run_id": "8bfacf0b-bc4c-57f7-ac7a-b0f010306943",
+      "awaited_ms": 201.22089999495074
+    },
+    {
+      "run_id": "2d97cb65-9209-5af7-a361-1ee6d3982fb4",
+      "awaited_ms": 57.92740001925267
+    },
+    {
+      "run_id": "98a124c7-859f-52c3-8091-59ff025dac43",
+      "awaited_ms": 43.85420001926832
+    },
+    {
+      "run_id": "6606961f-7ee5-5f1b-8629-08b99dd3ff0d",
+      "awaited_ms": 52.05060000298545
+    },
+    {
+      "run_id": "474c33c4-e212-5ab3-9dc5-72bad04b1639",
+      "awaited_ms": 54.909200000111014
+    },
+    {
+      "run_id": "a182d697-ce93-5e16-8368-1b94e929f5ad",
+      "awaited_ms": 52.19679998117499
+    },
+    {
+      "run_id": "9d658aaf-8c2a-59ca-aa03-c2f5dab1e4d4",
+      "awaited_ms": 49.259599996730685
+    },
+    {
+      "run_id": "65ddbd39-d1c3-55b4-a15e-6ead181e6c98",
+      "awaited_ms": 56.260199984535575
+    },
+    {
+      "run_id": "a314ce48-610b-5b64-93c0-731d968f2ca1",
+      "awaited_ms": 201.17969997227192
+    },
+    {
+      "run_id": "1a5d68e6-5d66-5659-86d8-e3b1968cb692",
+      "awaited_ms": 52.493800001684576
+    },
+    {
+      "run_id": "b0eba080-4529-54e3-a66e-b248da2cb81d",
+      "awaited_ms": 57.56919999839738
+    },
+    {
+      "run_id": "42a58ff0-635c-550f-9168-a26fc7187033",
+      "awaited_ms": 45.668299979297444
+    },
+    {
+      "run_id": "2f8f871b-18a8-5578-a719-2ca7a2e11530",
+      "awaited_ms": 191.07520001125522
+    },
+    {
+      "run_id": "98fbbecd-350e-557b-9718-ad81e974ec53",
+      "awaited_ms": 185.76409999514
+    },
+    {
+      "run_id": "9ccd76fd-e1dd-5e31-83a2-9f1f495273a7",
+      "awaited_ms": 187.6777999859769
+    },
+    {
+      "run_id": "acccc88c-6bfb-5138-a2d0-6a26ff8933ad",
+      "awaited_ms": 187.85750001552515
+    },
+    {
+      "run_id": "abfa1ac0-e88b-55d9-8521-77a9194c6fdd",
+      "awaited_ms": 182.8296999738086
+    },
+    {
+      "run_id": "3b26c92d-e8c6-53ee-828a-e220a6b1a2af",
+      "awaited_ms": 181.80660001235083
+    },
+    {
+      "run_id": "dfeb962a-94e6-59eb-9ea1-afec4add4b3d",
+      "awaited_ms": 113.57060002046637
+    },
+    {
+      "run_id": "9050bb1c-0f42-523d-95fe-6dbc84431ff9",
+      "awaited_ms": 187.7931999915745
+    },
+    {
+      "run_id": "41eb2e29-34ee-5972-9f53-1d20ce867c81",
+      "awaited_ms": 191.26520000281744
+    },
+    {
+      "run_id": "142ec46f-27fd-54bb-be2b-e9a5ecd1153f",
+      "awaited_ms": 189.86800001584925
+    },
+    {
+      "run_id": "4068179b-5674-5ff7-8b72-2ad52cfb2d85",
+      "awaited_ms": 42.940699990140274
+    },
+    {
+      "run_id": "b88a6450-14ad-500a-8f87-eefe23a147e3",
+      "awaited_ms": 181.24940001871437
+    },
+    {
+      "run_id": "8e28c931-936a-5e5f-993b-4a20be38c5a7",
+      "awaited_ms": 185.1046999800019
+    },
+    {
+      "run_id": "702306e2-de5d-56d0-ba09-c5e138d4d38b",
+      "awaited_ms": 186.74880001344718
+    }
+  ],
+  "paid_calls": 0
+}

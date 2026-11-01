@@ -1,0 +1,32 @@
+{
+  "task": "FINAL-N02",
+  "date": "2026-10-13",
+  "status": "complete_for_executor_and_nonpaid_preflight_scope",
+  "completed": [
+    "A02 actual AudioRecord/edit/clarify/recommendation instrumentation entry; requires available human",
+    "M03 validates observed A02 native audio report and identical media bytes before starting its slot",
+    "A09 ordinary API read requires naturally expired quote and blocked resolve before claiming zero-model slot",
+    "A09 native expired-state/disabled-link/requote/external confirmation assertions and database quote verification",
+    "A10-R5 registered one-shot authorization and complete safety runner entry; quote owner erasure assertion included",
+    "A08 retest selects only an existing completed real recommendation in the latest Mission/version even after a failed proposal"
+  ],
+  "verification": [
+    {"command": "pytest -q", "passed": 214, "failed": 0, "skipped": 0, "database": "ragcommerce_next_20261013", "services": ["PostgreSQL", "Qdrant", "MinIO"]},
+    {"command": "pytest -q apps/api/tests/test_native_audio_provenance.py apps/api/tests/test_final_android_acceptance_runner.py apps/api/tests/test_android_instrumentation_receipt.py", "passed": 16, "failed": 0, "level": "unit_boundary"},
+    {"command": "Gradle assembleDebug assembleDebugAndroidTest testDebugUnitTest lintDebug", "exit_code": 0, "unit_tests": 41, "unit_execution": "UP-TO-DATE", "lint_errors": 0, "lint_warnings": 18},
+    {"ref": "docs/evidence/v3/final-N02-fake-native-preflight-02-20261013.json", "native_tests": 1, "business_scenarios": 8, "database": "ragcommerce_nativepreflight_20261013", "completed_turns": 8, "terminal_events": 8, "duplicate_terminal_groups": 0, "saved_items": 2, "cart_items": 2, "provider": "deterministic-demo"},
+    {"ref": "docs/evidence/v3/final-N02-visual-fixture-20261013.json", "passed": 34, "level": "injected_visual_fixture_not_business_acceptance"},
+    {"native_method": "inspectNativeVoiceAndCancelWithoutUpload", "runner_pid": 4960, "tests": 1, "failed": 0, "ignored": 0, "uploaded_media_rows": 0, "turns_unchanged": 8, "recording_started": false},
+    {"command": "OpenAPI/codegen/agent artifact checks", "exit_code": 0, "contract": "0.2.0", "paths": 27, "generated_types": 3, "tools": 11},
+    {"command": "validate_task_packages", "packages": 44, "errors": 0, "warnings": 0},
+    {"command": "ruff check and format check", "exit_code": 0}
+  ],
+  "preserved_failures": [
+    {"ref": "docs/evidence/v3/final-N02-fake-native-preflight-20261013.json", "assessment": "INVALID_AS_PASS: assumption skipped due health URL separator; zero database Turn; F55 corrected"},
+    {"native_method": "inspectNativeVoiceAndCancelWithoutUpload", "runner_pid": 4667, "tests": 1, "failed": 1, "cause": "Compose hierarchy queried while OS permission window held screen; permission handling corrected before successful nonpaid execution"},
+    {"command": "Initial full pytest", "passed": 207, "failed": 2, "skipped": 2, "cause": "New quote test DSN and migration metadata assertion needed updates"}
+  ],
+  "real_acceptance_remaining": ["A08-R4", "A10-R5", "A09-R1", "A02", "M03"],
+  "paid_calls_this_stage": 0,
+  "LOCAL_PORTFOLIO_READY": "HOLD"
+}

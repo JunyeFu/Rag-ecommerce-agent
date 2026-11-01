@@ -78,7 +78,7 @@ def render() -> bytes:
         "dataset": "data/demo/catalog.v3.jsonl",
         "evaluation": "evals/v3/golden-scenarios.json",
         "variants": variants,
-        "heldout_consumed": False,
+        "challenge_consumed": False,
         "real_provider_calls": 0,
         "numeric_guard": {
             "all_metrics_finite": all(
@@ -90,7 +90,7 @@ def render() -> bytes:
         },
         "limitations": [
             "Deterministic vectors are a CI fixture, not real-provider evidence.",
-            "The ten golden scenarios are public and not a held-out human evaluation.",
+            "The ten golden scenarios are separate from the automated challenge split.",
         ],
     }
     return json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True).encode() + b"\n"

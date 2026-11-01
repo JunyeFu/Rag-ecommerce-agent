@@ -1,0 +1,152 @@
+{
+  "date": "2026-10-21",
+  "scope": "Android decision UX source, editable Figma and non-paid verification",
+  "status": "blocked",
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO",
+  "baseline": {
+    "branch": "main",
+    "dirty_status_items_before": 371,
+    "modified": 132,
+    "deleted": 5,
+    "untracked": 234,
+    "policy": "preserved; not staged or committed"
+  },
+  "checks": [
+    {
+      "id": "python",
+      "command": ".venv/Scripts/python.exe -m pytest -m \"not integration\" -q",
+      "exit_code": 0,
+      "passed": 191,
+      "deselected": 34
+    },
+    {
+      "id": "postgres",
+      "command": "pytest apps/api/tests/test_postgres_api_integration.py -q",
+      "exit_code": 0,
+      "passed": 21,
+      "storage": "isolated PostgreSQL, migrated to 20261021_0016",
+      "includes": "history, rename/archive, owner isolation, persisted feedback/undo and public messages after service recreation"
+    },
+    {
+      "id": "android",
+      "command": "gradlew.bat :app:testDebugUnitTest :app:lintDebug :app:assembleDebug -PapiUrl=http://10.0.2.2:20881/",
+      "exit_code": 0,
+      "unit_tests": 45,
+      "lint_errors": 0,
+      "lint_warnings": 18,
+      "duration_seconds": 21,
+      "tasks": {
+        "executed": 18,
+        "up_to_date": 42
+      }
+    },
+    {
+      "id": "android_test_compile",
+      "command": "gradlew.bat :app:assembleDebugAndroidTest",
+      "exit_code": 0,
+      "note": "compiled; no instrumentation executed"
+    },
+    {
+      "id": "contracts",
+      "command": "export_openapi.py --check; generate_contracts.py --check",
+      "exit_code": 0,
+      "api_version": "0.2.0",
+      "paths": 31,
+      "generated_languages": [
+        "Python",
+        "Kotlin",
+        "TypeScript"
+      ]
+    },
+    {
+      "id": "packages",
+      "command": "validate_task_packages.py",
+      "exit_code": 0,
+      "packages": 49,
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "id": "syntax",
+      "command": "python -m compileall -q apps/api/src packages/agent-runtime/src scripts/generate_contracts.py",
+      "exit_code": 0
+    },
+    {
+      "id": "diff",
+      "command": "git diff --check",
+      "exit_code": 0,
+      "note": "Git LF/CRLF conversion warnings reported separately; no whitespace errors"
+    },
+    {
+      "id": "figma",
+      "status": "editable_design_reviewed",
+      "fileKey": "Wp0w0GwfT6Ip8uR93tX5vR",
+      "screens": 14,
+      "verified": "12 base states have editable text and component instances, no horizontal overflow; task and recommendation screenshots visually reviewed; purple nested button fills and clipped action row corrected"
+    },
+    {
+      "id": "device",
+      "status": "blocked",
+      "adb_server_port": 20884,
+      "devices": [],
+      "reason": "emulator launch command blocked by local policy; supported desktop click runtime unavailable",
+      "untouched": "no wipe, no policy change, no user data removal"
+    }
+  ],
+  "feature_coverage": [
+    {
+      "id": 1,
+      "capability": "candidate questions, scoped exclusion and undo",
+      "implementation": "API, durable feedback, model context, deterministic search filtering, native dialog",
+      "remaining": "native end-to-end and real-provider follow-up not accepted"
+    },
+    {
+      "id": 2,
+      "capability": "same-axis comparison and tradeoffs",
+      "implementation": "normalized facts hydrated for fresh/restored candidates; unknown values explicit; selection/page retained",
+      "remaining": "native usability at default/large font not accepted"
+    },
+    {
+      "id": 3,
+      "capability": "no-match and explicit adjustment",
+      "implementation": "explain strict-route unavailability and open editable requirements; no silent constraint relaxation",
+      "remaining": "native complete flow not accepted"
+    },
+    {
+      "id": 4,
+      "capability": "saved candidate continuation",
+      "implementation": "server-backed load/facts/offers/remove/continue-task and existing waiting-cart confirmation",
+      "remaining": "multi-saved direct comparison not independently implemented; continue-via-new-task exists; native flow not accepted"
+    },
+    {
+      "id": 5,
+      "capability": "task history",
+      "implementation": "owner-scoped list/rename/archive/reopen and paginated public messages",
+      "remaining": "native task switching/restart acceptance not performed"
+    },
+    {
+      "id": 6,
+      "capability": "scenario exploration and non-purchase outcome",
+      "implementation": "scenario/try-first/unknown hints, persisted USE_EXISTING or NOT_BUYING with no cart/list side effects",
+      "remaining": "native end-to-end not accepted"
+    }
+  ],
+  "not_run": [
+    "current-source emulator business and large-font acceptance",
+    "new paid-model tests",
+    "Qdrant/MinIO full infrastructure regression",
+    "full Figma-to-Compose screenshot parity",
+    "remote CI, commit, push and release"
+  ],
+  "resources": {
+    "temporary_postgres": "ragcommerce-ux-20261021-pg stopped after exact-ID check; --rm removed disposable test data; no container or TCP25433 listener remains",
+    "other_project_containers": "untouched"
+  },
+  "artifacts": {
+    "figma": "https://www.figma.com/design/Wp0w0GwfT6Ip8uR93tX5vR",
+    "apk": "apps/android/app/build/outputs/apk/debug/app-debug.apk",
+    "design_state": "docs/design/android-ux-20261021-state.json"
+  }
+}

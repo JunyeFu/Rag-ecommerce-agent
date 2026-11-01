@@ -1,0 +1,58 @@
+{
+  "created_at": "2026-10-08",
+  "status": "blocked",
+  "scope": "Docker-unblock follow-up; PostgreSQL-only integration",
+  "checks": [
+    {
+      "command": "docker info",
+      "exit_code": 0,
+      "server_version": "29.8.0"
+    },
+    {
+      "command": "docker compose --env-file NUL -p ragcareer20261008 -f infra/compose.yaml up -d --wait",
+      "exit_code": 1,
+      "failure": "Docker Hub anonymous token fetch EOF; no Compose services created"
+    },
+    {
+      "command": "docker pull pgvector/pgvector:0.8.1-pg16",
+      "exit_code": 1,
+      "failure": "auth.docker.io EOF"
+    },
+    {
+      "command": "docker pull ghcr.io/qdrant/qdrant:v1.18.2",
+      "exit_code": 1,
+      "failure": "tag not found; no unpinned dev image substitution"
+    },
+    {
+      "command": "docker pull quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z",
+      "exit_code": 1,
+      "failure": "manifest request 401"
+    },
+    {
+      "command": "docker run --rm --name ragcareer-postgres-20261008 ... postgres:18.3",
+      "exit_code": 0,
+      "scope": "cached PostgreSQL18.3; not pinned16 environment"
+    },
+    {
+      "command": "alembic upgrade head / current / check",
+      "exit_code": 0,
+      "head": "20260923_0009",
+      "schema_drift": false
+    },
+    {
+      "command": "pytest -m integration PostgreSQL API/Ops/domain/Agent modules",
+      "exit_code": 0,
+      "passed": 12,
+      "time_seconds": 3.61
+    }
+  ],
+  "remaining": [
+    "pinned PostgreSQL16/Qdrant/MinIO/Redis Compose startup",
+    "MinIO and Qdrant integrations",
+    "durable30 load and actual Android/Ops",
+    "G03 model output failure remains"
+  ],
+  "paid_model_calls": 0,
+  "real_slots_remaining": 10,
+  "cleanup": "only owned temporary PostgreSQL container stopped and auto-removed; bank containers untouched"
+}

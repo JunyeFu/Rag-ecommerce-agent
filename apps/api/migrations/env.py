@@ -15,7 +15,10 @@ sys.path.insert(0, str(ROOT / "packages/retrieval/src"))
 sys.path.insert(0, str(ROOT / "apps/api/src"))
 
 from ragcommerce_agent_runtime.schema_v1 import metadata as agent_metadata  # noqa: E402
+from ragcommerce_api.budget_schema import metadata as budget_metadata  # noqa: E402
 from ragcommerce_api.ops_schema_v1 import metadata as ops_metadata  # noqa: E402
+from ragcommerce_api.ops_state_schema import metadata as ops_state_metadata  # noqa: E402
+from ragcommerce_api.quote_schema import metadata as quote_metadata  # noqa: E402
 from ragcommerce_api.schema_v1 import metadata as api_metadata  # noqa: E402
 from ragcommerce_api.v3_schema import metadata as v3_metadata  # noqa: E402
 from ragcommerce_domain.persistence import metadata as domain_metadata  # noqa: E402
@@ -36,7 +39,10 @@ for source_metadata in (
     agent_metadata,
     api_metadata,
     ops_metadata,
+    ops_state_metadata,
     v3_metadata,
+    budget_metadata,
+    quote_metadata,
 ):
     for table in source_metadata.sorted_tables:
         table.to_metadata(target_metadata)

@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-13",
+  "defect": "F62",
+  "status": "SOURCE_AND_READONLY_RUNTIME_VERIFIED",
+  "root_cause": "MISSION_UPDATED parsed the follow-up Turn action as the whole shopping goal; same-version snapshots then trusted that event over the persisted Thread.",
+  "before": {
+    "thread_goal": "预算2000元的通勤手机",
+    "mission_goal": "请把报价 74ecafbb-5e24-5531-ba5a-0e0958be57e2 以数量 2 加入待购, 等待我审批后执行。",
+    "budget_total_minor": null,
+    "unknowns": [
+      "商品品类",
+      "预算上限"
+    ],
+    "native_observation": "Actual completed recommendation still showed unconfirmed category/budget"
+  },
+  "implementation": {
+    "private_command_field": "mission_goal; bound inside API reservation transaction and persisted across Worker recreation",
+    "turn_text_preserved": true,
+    "model_provider_source_unchanged": true,
+    "model_provider_sha256": "cc919461b3895d925cb903b7cff508c38fb52c255fd8dae9ac4cffdfec651722",
+    "snapshot_authority": "Persisted owned Thread",
+    "historical_events": "Preserved; current-version public projection uses authoritative goal",
+    "invalid_mission_payload": "Fails explicit schema/key validation, not empty success",
+    "public_contract": "0.2.0",
+    "tool_count": 11,
+    "approval_arguments_changed": false
+  },
+  "verification": {
+    "red": "snapshot mission.goal was the cart action, not the phone shopping goal",
+    "targeted_api_tests": 14,
+    "postgres_goal_recreation_plus_boundary_tests": 3,
+    "full_python": {
+      "passed": 218,
+      "failed": 0,
+      "skipped": 0,
+      "database": "ragcommerce_next_20261013"
+    },
+    "preliminary_runs": [
+      {
+        "passed": 186,
+        "skipped": 31
+      },
+      {
+        "passed": 216,
+        "skipped": 2,
+        "reason": "AGENT_DATABASE_URL not provided"
+      }
+    ],
+    "contracts": {
+      "generated_files": 3,
+      "drift": false,
+      "agent_artifacts": 2
+    },
+    "ruff": "passed",
+    "task_packages": {
+      "count": 44,
+      "errors": 0
+    },
+    "actual_api": {
+      "thread_id": "955d3a4f-c441-4c29-9842-bb6622a4e357",
+      "goal": "预算2000元的通勤手机",
+      "mission_goal": "预算2000元的通勤手机",
+      "budget_total_minor": 200000,
+      "unknowns": [],
+      "status": "COMPLETED",
+      "cart_quantity": 2
+    },
+    "native_readonly": {
+      "artifacts": "output/final-nfr06-font-20261013-05",
+      "screens": 6,
+      "font_scales": [
+        1,
+        2
+      ],
+      "ui_budget_label": "总预算 ¥2000",
+      "unconfirmed_goal_labels_absent": true,
+      "font_restored": 1,
+      "new_turns_submitted": 0,
+      "injected_ui_state": false
+    }
+  },
+  "budget": {
+    "used": 265339,
+    "calls": 94,
+    "held": 0,
+    "limit": 2000000,
+    "new_paid_calls": 0
+  },
+  "nfr06_scope": {
+    "three_entry_screens_at_100_and_200_percent": "captured",
+    "small_edge_bounds": 2,
+    "classification": "Partially visible at scroll edges; not established small-target defects; full reveal checks pending",
+    "talkback_traversal": "NOT_RUN",
+    "full_accessibility_signed": false
+  },
+  "runtime": {
+    "api_and_workers_reloaded": true,
+    "project": "ragcommerce_v3_demo",
+    "volumes_preserved": true,
+    "queued_running_jobs_before_stop": 0
+  },
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "remaining": [
+    "NFR06 full scroll/recommendation/approval and TalkBack coverage",
+    "F60 ordinary-launch capacity root cause",
+    "A02/M03 actual human voice",
+    "A09 user Chrome setup",
+    "Final same-source handoff and independent signoff"
+  ]
+}

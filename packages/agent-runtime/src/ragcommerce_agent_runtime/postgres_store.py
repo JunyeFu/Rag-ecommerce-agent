@@ -15,10 +15,12 @@ from .contracts import (
     AgentEvent,
     EventType,
     RuntimeIdentity,
+    ToolCall,
     ToolEvidence,
     ToolResult,
     TurnCommand,
 )
+from .postgres_connection import connect
 from .store import RunCheckpoint
 
 
@@ -79,7 +81,7 @@ class PostgresCheckpointStore:
             created_at,
         )
         try:
-            with psycopg.connect(self.dsn) as connection:
+            with connect(self.dsn) as connection:
                 connection.execute(
                     """INSERT INTO agent_runs(
                     id,conversation_id,idempotency_key,status,model_version,prompt_version,
@@ -106,7 +108,7 @@ class PostgresCheckpointStore:
             raise ValueError("run identity conflicts with the persisted AgentRun")
 
     def load(self, run_id: UUID) -> RunCheckpoint | None:
-        with psycopg.connect(self.dsn) as connection:
+        with connect(self.dsn) as connection:
             row = connection.execute(
                 "SELECT idempotency_key, checkpoint FROM agent_checkpoints WHERE run_id = %s",
                 (run_id,),
@@ -120,6 +122,10 @@ class PostgresCheckpointStore:
                 started_at=datetime.fromisoformat(payload["started_at"]),
                 tool_attempts=int(payload.get("tool_attempts", 0)),
                 replans=int(payload.get("replans", 0)),
+                pending_calls=tuple(
+                    ToolCall(item["name"], item["arguments"])
+                    for item in payload.get("pending_calls", [])
+                ),
             )
             for key, value in payload.get("completed_tools", {}).items():
                 checkpoint.completed_tools[key] = ToolResult(
@@ -145,12 +151,16 @@ class PostgresCheckpointStore:
             "started_at": checkpoint.started_at.isoformat(),
             "tool_attempts": checkpoint.tool_attempts,
             "replans": checkpoint.replans,
+            "pending_calls": [
+                {"name": call.name, "arguments": dict(call.arguments)}
+                for call in checkpoint.pending_calls
+            ],
             "completed_tools": {
                 key: result_json(value) for key, value in checkpoint.completed_tools.items()
             },
         }
         now = datetime.now(UTC)
-        with psycopg.connect(self.dsn) as connection:
+        with connect(self.dsn) as connection:
             cursor = connection.execute(
                 """INSERT INTO agent_checkpoints(run_id,idempotency_key,checkpoint,updated_at)
                 VALUES (%s,%s,%s,%s) ON CONFLICT(run_id) DO UPDATE SET
@@ -160,23 +170,33 @@ class PostgresCheckpointStore:
             )
             if cursor.rowcount != 1:
                 raise ValueError("checkpoint idempotency key conflict")
-            for event in checkpoint.events:
+            last_id = connection.execute(
+                "SELECT COALESCE(MAX(event_id),0) FROM agent_events WHERE run_id=%s",
+                (checkpoint.run_id,),
+            ).fetchone()[0]
+            # The checkpoint upsert locks this run in the same transaction.
+            # Append new events only: replaying old audit updates both wasted
+            # round trips and briefly rewrote completed tool statuses.
+            with connection.pipeline():
+                for event in checkpoint.events:
+                    if event.id <= last_id:
+                        continue
+                    connection.execute(
+                        """INSERT INTO agent_events(run_id,event_id,event_type,data,created_at)
+                        VALUES (%s,%s,%s,%s,%s) ON CONFLICT(run_id,event_id) DO NOTHING""",
+                        (
+                            checkpoint.run_id,
+                            event.id,
+                            event.type.value,
+                            Jsonb(plain(dict(event.data))),
+                            event.created_at,
+                        ),
+                    )
+                    self._save_audit_event(connection, event)
                 connection.execute(
-                    """INSERT INTO agent_events(run_id,event_id,event_type,data,created_at)
-                    VALUES (%s,%s,%s,%s,%s) ON CONFLICT(run_id,event_id) DO NOTHING""",
-                    (
-                        checkpoint.run_id,
-                        event.id,
-                        event.type.value,
-                        Jsonb(plain(dict(event.data))),
-                        event.created_at,
-                    ),
+                    "UPDATE agent_runs SET status = %s WHERE id = %s",
+                    (self._run_status(checkpoint.events), checkpoint.run_id),
                 )
-                self._save_audit_event(connection, event)
-            connection.execute(
-                "UPDATE agent_runs SET status = %s WHERE id = %s",
-                (self._run_status(checkpoint.events), checkpoint.run_id),
-            )
 
     @staticmethod
     def _save_audit_event(connection: psycopg.Connection[Any], event: AgentEvent) -> None:
@@ -252,7 +272,7 @@ class PostgresCheckpointStore:
         if not consent:
             return
         now = datetime.now(UTC)
-        with psycopg.connect(self.dsn) as connection:
+        with connect(self.dsn) as connection:
             for key, value in values.items():
                 connection.execute(
                     """INSERT INTO agent_user_preferences(
@@ -264,7 +284,7 @@ class PostgresCheckpointStore:
                 )
 
     def load_preferences(self, user_id: UUID) -> dict[str, str]:
-        with psycopg.connect(self.dsn) as connection:
+        with connect(self.dsn) as connection:
             rows = connection.execute(
                 """SELECT preference_key,preference_value FROM agent_user_preferences
                 WHERE user_id = %s ORDER BY preference_key""",
@@ -273,7 +293,7 @@ class PostgresCheckpointStore:
             return {row[0]: row[1] for row in rows}
 
     def delete_user(self, user_id: UUID) -> int:
-        with psycopg.connect(self.dsn) as connection:
+        with connect(self.dsn) as connection:
             cursor = connection.execute(
                 "DELETE FROM agent_user_preferences WHERE user_id = %s", (user_id,)
             )

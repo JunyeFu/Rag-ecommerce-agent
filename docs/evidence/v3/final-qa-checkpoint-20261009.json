@@ -1,0 +1,24 @@
+{
+  "created_on": "2026-10-09",
+  "source_identity": "main dirty candidate; before-write HEAD d670e291d263a6e4f0f041f9c74c6e0246cb854c; not a released Git SHA",
+  "evidence_level": "local_nonpaid_verification",
+  "checks": [
+    {"command": "pytest -q (explicit isolated PostgreSQL/Qdrant/MinIO configuration)", "exit_code": 0, "passed": 179, "skipped": 0, "seconds": 20.90, "database": "ragcommerce_integration_final_20261009"},
+    {"command": "alembic upgrade head / check", "exit_code": 0, "revision": "20261009_0014", "result": "No new upgrade operations detected"},
+    {"command": "Android testDebugUnitTest/lintDebug/assembleDebug", "exit_code": 0, "tasks": 60, "executed": 25, "from_cache": 4, "up_to_date": 31, "seconds": 38, "lint_warning": "ObsoleteLintCustomCheck: bundled Navigation checks skipped by lint; not zero warnings"},
+    {"command": "Android assembleBenchmark -PapiUrl=https://ci.invalid", "exit_code": 0, "tasks": 54, "executed": 19, "up_to_date": 35, "seconds": 58, "scope": "HTTPS benchmark build; not local demo endpoint APK"},
+    {"command": "ADB instrument GoldenScenarioApiFlowTest acceptanceProfile=fixture", "instrumentation_test_passed": 1, "business_scenarios_passed": 8, "seconds": 16.504, "device": "Pixel_9 emulator-5558", "application_id": "com.ragcommerce.agent.finaltest", "ui_state_injected": false, "provider": "deterministic-demo", "retrieval": "local BGE/Qdrant"},
+    {"command": "ADB instrument ShoppingFlowTest", "instrumentation_test_passed": 28, "seconds": 45.316, "scope": "explicit UI fixture; not real model or API E2E"},
+    {"command": "Playwright five persisted Ops workflows", "exit_code": 0, "passed": 5, "seconds": 12.5, "scope": "real candidate PostgreSQL/API; 12 independent evaluations, second session, conflict/Trace and reload"},
+    {"command": "verify_worker_process_recovery.py", "exit_code": 0, "seconds": 303.469, "report": "docs/evidence/v3/final-worker-process-recovery-20261009.json", "scope": "real child termination/natural lease/write receipt; explicit pre-authorized fake platform fixture"},
+    {"command": "run_v3_durable_load --base-url local API", "exit_code": 0, "missions": 30, "worker_processes": 2, "report": "docs/evidence/v3/final-durable-load-20261009-two-workers.json"},
+    {"command": "gradlew.bat :app:finalDoesNotExist --offline", "expected_exit_code": 1, "observed_exit_code": 1, "purpose": "negative control: build failure must not install a stale APK"}
+  ],
+  "failed_attempts_retained_in_findings": ["Ops content-hash run ID collapsed separate evaluations", "Android stale watcher assertions", "Android navigation restore deadlock", "Android test appended old query and scrolled a non-scroll header", "Gradle compile failure incorrectly returned zero before wrapper repair"],
+  "paid_calls": 0,
+  "native_voice": "actual 3.328s mono16k PCM16 WAV and preview; cancel/background removal observed, zero API media objects; intelligible host speech and real MiMo transcription not yet signed",
+  "remaining": ["true native media recognition", "HTTP SSE reconnect and native approval recovery", "24 first paid scenarios and up to 6 corrected retests", "independent clean candidate startup and final delivery materials"],
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO"
+}

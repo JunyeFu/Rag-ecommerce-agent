@@ -41,6 +41,13 @@
       "summary": "Every shot in docs/demo/V3-FIVE-MINUTE-DEMO.md binds a concrete operation to an observable state and evidence level."
     },
     {
+      "command": "README local asset/link check and SVG XML parse; python scripts/validate_task_packages.py",
+      "verified_at": "2026-11-01T22:52:16.851017+08:00",
+      "exit_code": 0,
+      "result": "passed",
+      "summary": "2026-11-01 GitHub presentation refresh: 29 local references resolve; SVG XML valid. Static documentation only; no new runtime or release acceptance."
+    },
+    {
       "command": "staged README local reference validation; SVG XML parse; python scripts/validate_task_packages.py",
       "verified_at": "2026-11-01T22:56:31.880217+08:00",
       "exit_code": 0,
@@ -71,6 +78,6 @@
     }
   ],
   "external_gates": [
-    "真实模型公开集评测、100条held-out双人盲评和正式发布批准仍缺失"
+    "真实模型competition-v2 challenge评测和正式发布批准仍缺失"
   ]
 }

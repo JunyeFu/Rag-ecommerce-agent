@@ -1,0 +1,22 @@
+{
+  "created_on": "2026-10-09",
+  "evidence_level": "LAYERED_LOCAL_CHECKPOINT",
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO",
+  "python": {"passed": 185, "skipped": 0, "failed": 0, "elapsed_seconds": 21.67, "postgres_qdrant_minio_integration_configured": true},
+  "ruff": {"check_exit_code": 0},
+  "contract_drift": {"exit_code": 0, "generator_version": 4, "api_contract": "0.2.0"},
+  "task_packages": {"packages": 44, "errors": 0, "warnings": 0},
+  "git_diff_check": {"exit_code": 0, "windows_line_ending_warnings_are_not_whitespace_errors": true},
+  "android_fixture": {"runner_pid": 13493, "tests": 29, "failed": 0, "ignored": 0, "not_real_agent_business_acceptance": true},
+  "android_A06_R1": {"report": "docs/evidence/v3/final-real-A06-R1-20261009.json", "passed": true, "native_tests": 1, "elapsed_seconds": 54.625, "new_turns": 0, "model_calls": 0, "tokens": 0},
+  "navigation": {"unit_passed": 7, "build_exit_code": 0, "live_browser_passed": true, "personal_records_modified": false},
+  "clean_preflight": {"report": "docs/evidence/v3/final-clean-start-preflight-06-20261009.json", "passed": true, "final_candidate": false, "owned_resources_stopped": true, "volumes_preserved": true},
+  "execution_diagnostics": [
+    {"command": "ruff from apps/android", "result": "wrong working directory; executable not found", "resolution": "run from product root; actual subsequent ruff check passed"},
+    {"command": "initial clean candidate readback script", "result": "incorrect assumed durable_jobs table; API mission already completed", "resolution": "read actual api_turns durable queue; corrected verification passed", "product_failure": false}
+  ],
+  "shared_budget": {"used": 176582, "calls": 56, "held": 0, "limit": 2000000},
+  "remaining": ["M03/A02 intelligible native microphone capture", "A03-A05/A07-A10 native scenarios", "final same-source APK/media/export and independent review"]
+}

@@ -5,11 +5,14 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from uuid import UUID, uuid4
 
+import httpx
 import pytest
 from ragcommerce_connectors import (
     ConnectorError,
+    ConnectorErrorKind,
     DiscoveryConnector,
     FixtureConnector,
+    GowuDemoPriceClient,
     RequoteOutcome,
     SafeLinkPolicy,
     load_fixture_connectors,
@@ -41,8 +44,9 @@ def test_fixture_manifest_hashes_are_frozen() -> None:
     repository = package.parents[1]
     for item in manifest["files"]:
         path = repository / item["path"]
-        assert hashlib.sha256(path.read_bytes()).hexdigest() == item["sha256"]
-        assert path.stat().st_size == item["bytes"]
+        content = path.read_bytes().replace(b"\r\n", b"\n")
+        assert hashlib.sha256(content).hexdigest() == item["sha256"]
+        assert len(content) == item["bytes"]
 
 
 def test_requote_blocks_link_when_commercial_facts_changed() -> None:
@@ -111,6 +115,58 @@ def test_unknown_offer_returns_error_not_a_synthetic_price() -> None:
     connector: FixtureConnector = load_fixture_connectors(FIXTURES)[0]
     with pytest.raises(ConnectorError):
         connector.quote(uuid4())
+
+
+def test_gowu_sandbox_prices_are_explicitly_weak_demo_evidence() -> None:
+    def respond(request: httpx.Request) -> httpx.Response:
+        assert request.url.host == "api.gowu-ai.com"
+        assert request.headers["x-app-key"] == "sandbox-key"
+        assert request.headers["x-open-user"] == "rag-commerce-demo"
+        return httpx.Response(
+            200,
+            json={
+                "items": [
+                    {
+                        "id": "external-1",
+                        "title": "演示降噪耳机",
+                        "category": "耳机",
+                        "brand": "演示品牌",
+                        "price": 399.90,
+                        "marketPrice": 599,
+                        "availability": "in_stock",
+                    }
+                ],
+                "page": 1,
+                "pageSize": 1,
+                "total": 1,
+            },
+        )
+
+    client = GowuDemoPriceClient(
+        "sandbox-key",
+        client=httpx.Client(transport=httpx.MockTransport(respond)),
+    )
+
+    result = client.search("降噪耳机", limit=1)
+
+    assert result[0].price_minor == 39990
+    assert result[0].verification == "THIRD_PARTY_DEMO"
+    assert result[0].source_ref == "gowu-sandbox:external-1"
+
+
+def test_gowu_sandbox_invalid_payload_fails_without_fixture_fallback() -> None:
+    client = GowuDemoPriceClient(
+        "sandbox-key",
+        client=httpx.Client(
+            transport=httpx.MockTransport(lambda request: httpx.Response(200, json={"items": [{}]}))
+        ),
+    )
+
+    with pytest.raises(ConnectorError) as error:
+        client.search("降噪耳机")
+
+    assert error.value.kind is ConnectorErrorKind.INVALID_RESPONSE
+    assert "sandbox-key" not in str(error.value)
 
 
 def test_discovery_adapter_cannot_promote_price_or_link_without_requote() -> None:

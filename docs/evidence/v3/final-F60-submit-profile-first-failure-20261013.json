@@ -1,0 +1,8 @@
+{
+  "scope": "Diagnostic harness failure; not product capacity acceptance",
+  "failure": "CPython 3.12 cProfile enable: Another profiling tool is already active",
+  "cause": "Concurrent cProfile instances claim one process-wide profiling tool ID",
+  "paid_calls": 0,
+  "capacity_pass_claimed": false,
+  "correction": "Profile one concurrent submission while preserving all 30 real service calls; wall durations remain recorded for all"
+}

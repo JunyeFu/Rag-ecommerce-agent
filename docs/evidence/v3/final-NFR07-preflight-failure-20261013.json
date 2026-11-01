@@ -1,0 +1,8 @@
+{
+  "scope": "Cold-start harness preflight; before any launch",
+  "failure": "Android API35 dumpsys package does not expose the expected userId field",
+  "cold_launches": 0,
+  "new_model_calls": 0,
+  "additional_preflight_failure": "Package prefix query also includes the .test package; whole-output match rejected it before any launch",
+  "correction": "Use an exact matching package line from pm list packages -U, not dumpsys internal text or prefix identity"
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-FINAL-05",
+  "owner": "internship-closeout",
+  "objective": "独立复审与求职封版",
+  "inputs": [
+    "docs/plans/INTERNSHIP-FINAL-CLOSEOUT.md"
+  ],
+  "outputs": [
+    "独立对照PRD、源码、测试和缺陷表复审。",
+    "导出显式源码清单，独立环境复验。",
+    "产出APK、约90秒视频、精选截图与证据摘要。",
+    "更新README与外部导航，发布保持NOT_PERFORMED。"
+  ],
+  "acceptance": [
+    "独立目录与数据库从头启动并演示",
+    "APK/视频/截图/指标对应同一候选源码",
+    "24问答、四稿及八类材料有实际项目依据"
+  ],
+  "test_profiles": [
+    "unit",
+    "contract",
+    "integration",
+    "android",
+    "runtime"
+  ],
+  "business_refs": [
+    "data/demo/catalog.v3.jsonl",
+    "DEMO_FIXTURE"
+  ],
+  "development_refs": [
+    "V3-FINAL-04"
+  ],
+  "risk_refs": [
+    "保留脏工作树",
+    "真实与fixture证据分层",
+    "不自动发布"
+  ]
+}

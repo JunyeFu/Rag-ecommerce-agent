@@ -33,7 +33,15 @@ PACKAGE_ID = re.compile(r"^V[23]-[A-Z]+(?:-[A-Z]+)*-[0-9]{2}$")
 SUSPICIOUS_VALUE = re.compile(
     r"(?i)(?:api[_-]?key|client[_-]?secret|access[_-]?token|password)\s*[:=]\s*[\"']?[A-Za-z0-9_./+=-]{16,}"
 )
-SCAN_EXCLUDED_PARTS = {".git", ".venv", "node_modules", ".gradle", "build", "dist"}
+SCAN_EXCLUDED_PARTS = {
+    ".git",
+    ".venv",
+    "_archive",
+    "node_modules",
+    ".gradle",
+    "build",
+    "dist",
+}
 ALLOWED_STATUS = {"planned", "in_progress", "blocked", "complete"}
 ALLOWED_PRIORITY = {"P0", "P1", "P2"}
 ALLOWED_AUTONOMY = {"full", "conditional", "human_gate"}

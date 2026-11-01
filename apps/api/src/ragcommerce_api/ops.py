@@ -65,13 +65,14 @@ class ToolInvocationSummary(OpsModel):
 
 class AgentTraceSummary(OpsModel):
     run_id: str
-    status: Literal["COMPLETED", "FAILED", "WAITING_APPROVAL", "WAITING_CLARIFICATION"]
+    status: Literal["RUNNING", "COMPLETED", "FAILED", "WAITING_APPROVAL", "WAITING_CLARIFICATION"]
     prompt_version: str
     model_version: str
+    retrieval_mode: str = "fixture"
     duration_ms: int
-    estimated_cost_microunits: int
-    input_tokens: int
-    output_tokens: int
+    estimated_cost_microunits: int | None
+    input_tokens: int | None
+    output_tokens: int | None
     retrieval_hits: int
     last_event_id: int
     recovered: bool
@@ -99,7 +100,7 @@ class StartEvaluationRequest(OpsModel):
 class ReleaseGate(OpsModel):
     gate_id: str
     title: str
-    evidence_level: Literal["LOCAL", "INTEGRATION", "LIVE", "HUMAN", "RELEASE"]
+    evidence_level: Literal["LOCAL", "INTEGRATION", "CHALLENGE", "LIVE", "RELEASE"]
     status: Literal["PASSED", "FAILED", "BLOCKED", "NOT_RUN"]
     evidence_ref: str | None = None
     blocker: str | None = None
@@ -237,7 +238,7 @@ class InMemoryOpsStore:
                 metrics={"schema_valid": 1.0, "unsafe_tool_execution_rate": 0.0},
                 evidence=EvidenceBoundary(
                     local_evidence="docs:evaluation/local-smoke",
-                    external_gate="600-case frozen evaluation and held-out human review not complete",
+                    external_gate="competition-v2 automated challenge has not run with the real provider",
                 ),
                 created_at=FIXED_AT,
             )
@@ -258,11 +259,11 @@ class InMemoryOpsStore:
                 blocker="缺少 live 联盟授权与凭据",
             ),
             ReleaseGate(
-                gate_id="human-acceptance",
-                title="运营与无障碍人工验收",
-                evidence_level="HUMAN",
+                gate_id="automated-challenge",
+                title="competition-v2 自动挑战集",
+                evidence_level="CHALLENGE",
                 status="NOT_RUN",
-                blocker="需指定人员在物理设备与生产预演环境执行",
+                blocker="需使用冻结 challenge split 执行真实模型评测",
             ),
         ]
         self.audit: list[AuditEvent] = []
@@ -271,6 +272,24 @@ class InMemoryOpsStore:
     def _fingerprint(self, value: OpsModel) -> str:
         payload = json.dumps(value.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
         return hashlib.sha256(payload.encode()).hexdigest()
+
+    def list_traces(self) -> list[AgentTraceSummary]:
+        return self.traces
+
+    def list_connectors(self) -> list[ConnectorStatus]:
+        return self.connectors
+
+    def list_conflicts(self) -> list[EntityConflict]:
+        return list(self.conflicts.values())
+
+    def list_evaluations(self) -> list[EvaluationRun]:
+        return self.evaluations
+
+    def list_release_gates(self) -> list[ReleaseGate]:
+        return self.release_gates
+
+    def list_audit(self) -> list[AuditEvent]:
+        return self.audit
 
     def _append_audit(self, actor: OpsActor, action: str, object_ref: str, digest: str) -> None:
         sequence = len(self.audit) + 1
@@ -328,7 +347,7 @@ class InMemoryOpsStore:
             metrics={},
             evidence=EvidenceBoundary(
                 local_evidence="pending:runner",
-                external_gate="真实模型预算和 held-out 人工双评未批准",
+                external_gate="真实模型 competition-v2 challenge 尚未执行",
             ),
             created_at=FIXED_AT,
         )
@@ -374,25 +393,25 @@ def register_ops_routes(application: FastAPI) -> None:
     ) -> OpsActor:
         return parse_actor(role, actor_id, minimum)
 
-    async def connectors(
+    def connectors(
         response: Response,
         x_ops_role: Annotated[str | None, Header(alias="X-Ops-Role")] = None,
         x_ops_actor_id: Annotated[str | None, Header(alias="X-Ops-Actor-ID")] = None,
     ) -> list[ConnectorStatus]:
         actor("viewer", x_ops_role, x_ops_actor_id)
         response.headers["Cache-Control"] = "no-store"
-        return store().connectors
+        return store().list_connectors()
 
-    async def conflicts(
+    def conflicts(
         response: Response,
         x_ops_role: Annotated[str | None, Header(alias="X-Ops-Role")] = None,
         x_ops_actor_id: Annotated[str | None, Header(alias="X-Ops-Actor-ID")] = None,
     ) -> list[EntityConflict]:
         actor("viewer", x_ops_role, x_ops_actor_id)
         response.headers["Cache-Control"] = "no-store"
-        return list(store().conflicts.values())
+        return store().list_conflicts()
 
-    async def resolve(
+    def resolve(
         conflict_id: str,
         request: ResolveConflictRequest,
         idempotency_key: Annotated[str | None, Header(alias="Idempotency-Key")] = None,
@@ -409,25 +428,25 @@ def register_ops_routes(application: FastAPI) -> None:
         except OpsConflict as exc:
             raise HTTPException(status.HTTP_409_CONFLICT, str(exc)) from exc
 
-    async def traces(
+    def traces(
         response: Response,
         x_ops_role: Annotated[str | None, Header(alias="X-Ops-Role")] = None,
         x_ops_actor_id: Annotated[str | None, Header(alias="X-Ops-Actor-ID")] = None,
     ) -> list[AgentTraceSummary]:
         actor("viewer", x_ops_role, x_ops_actor_id)
         response.headers["Cache-Control"] = "no-store"
-        return store().traces
+        return store().list_traces()
 
-    async def evaluations(
+    def evaluations(
         response: Response,
         x_ops_role: Annotated[str | None, Header(alias="X-Ops-Role")] = None,
         x_ops_actor_id: Annotated[str | None, Header(alias="X-Ops-Actor-ID")] = None,
     ) -> list[EvaluationRun]:
         actor("viewer", x_ops_role, x_ops_actor_id)
         response.headers["Cache-Control"] = "no-store"
-        return store().evaluations
+        return store().list_evaluations()
 
-    async def start_evaluation(
+    def start_evaluation(
         request: StartEvaluationRequest,
         idempotency_key: Annotated[str | None, Header(alias="Idempotency-Key")] = None,
         x_ops_role: Annotated[str | None, Header(alias="X-Ops-Role")] = None,
@@ -439,23 +458,23 @@ def register_ops_routes(application: FastAPI) -> None:
         except OpsConflict as exc:
             raise HTTPException(status.HTTP_409_CONFLICT, str(exc)) from exc
 
-    async def release_gates(
+    def release_gates(
         response: Response,
         x_ops_role: Annotated[str | None, Header(alias="X-Ops-Role")] = None,
         x_ops_actor_id: Annotated[str | None, Header(alias="X-Ops-Actor-ID")] = None,
     ) -> list[ReleaseGate]:
         actor("viewer", x_ops_role, x_ops_actor_id)
         response.headers["Cache-Control"] = "no-store"
-        return store().release_gates
+        return store().list_release_gates()
 
-    async def audit(
+    def audit(
         response: Response,
         x_ops_role: Annotated[str | None, Header(alias="X-Ops-Role")] = None,
         x_ops_actor_id: Annotated[str | None, Header(alias="X-Ops-Actor-ID")] = None,
     ) -> list[AuditEvent]:
         actor("reviewer", x_ops_role, x_ops_actor_id)
         response.headers["Cache-Control"] = "no-store"
-        return tuple(store().audit)
+        return store().list_audit()
 
     async def policy(
         response: Response,

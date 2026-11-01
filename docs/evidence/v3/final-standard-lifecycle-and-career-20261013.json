@@ -1,0 +1,75 @@
+{
+  "date": "2026-10-13",
+  "status": "PARTIAL_PROGRESS_NOT_FINAL_SIGNOFF",
+  "F60": {
+    "status": "OPEN",
+    "standard_lifecycle_observation": {
+      "missions": 300,
+      "completed": 300,
+      "accept_p95_ms": 119.78,
+      "first_state_p95_ms": 149.7,
+      "passed": true,
+      "event_loop": "ProactorEventLoop",
+      "largest_gc_pause_ms": 100.52,
+      "largest_log_emit_ms": 1.29,
+      "source": "docs/evidence/v3/final-F60-standard-lifecycle-20261013.json"
+    },
+    "redirected_observation": {
+      "status": "NOT_EXECUTED_POLICY_REJECTED",
+      "logging_disabled": false,
+      "workaround_attempted": false
+    },
+    "interpretation": "Standard Uvicorn Server.run/string import also passes under foreground observation. This narrows, but does not establish, launch/output-path attribution. Existing standard-script failures remain authoritative; no production optimization yet.",
+    "owned_candidate_stopped": true,
+    "volumes_preserved": true,
+    "new_paid_calls": 0
+  },
+  "NAV01": {
+    "status": "FIXED_AND_RENDERED_VERIFIED",
+    "observed_failure": "Updated static JSON was current, but page export still contained old reference answers; assertions for current metric, test count and F62 all failed.",
+    "root_cause": "Source imports from public/closeout did not refresh as authoritative source data in the existing dev server.",
+    "fix": "Both model.ts export and Interview.tsx display import the existing canonical records/rag-commerce/closeout/interview-reference.json.",
+    "scope": "External navigation only, not a product Agent feature",
+    "browser": "Browser plugin not available; existing Playwright used",
+    "url": "http://127.0.0.1:24180/",
+    "viewports": [
+      {
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "checks": {
+      "identity": true,
+      "nonblank": true,
+      "framework_overlay": false,
+      "console_errors": 0,
+      "horizontal_overflow": false,
+      "Q22_reference_visible": true,
+      "export_questions": 24,
+      "export_scripts": 4,
+      "export_materials": 8,
+      "current_full_python_tests": 218
+    },
+    "unit_tests": 7,
+    "build": "passed",
+    "personal_drafts_modified": false,
+    "personal_contribution_signed": false,
+    "test_harness_failure": "Initial new Q22 check omitted choosing Q22 in the question list; corrected native page navigation before opening its reference."
+  },
+  "career": {
+    "added_case": "F62 Turn action vs persisted Thread shopping goal",
+    "corrected_claims": [
+      "Redis not connected to runtime",
+      "Single-batch 134.94ms cannot replace failed ten-batch evidence",
+      "Latest isolated normal-script acceptance 477.54ms, previous failures preserved"
+    ],
+    "document": "docs/demo/V3-MISSION-GOAL-CASE.md"
+  },
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO"
+}

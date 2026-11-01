@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-ANDROID-UX-CLOSE-01",
+  "status": "passed",
+  "verified_at": "2026-09-22T10:42:00+08:00",
+  "checks": [
+    {
+      "command": "apps/android/gradlew.bat :app:testDebugUnitTest :app:compileDebugAndroidTestKotlin --no-daemon",
+      "exit_code": 0,
+      "result": "BUILD SUCCESSFUL; Android unit tests and instrumentation compilation passed"
+    },
+    {
+      "command": "python scripts/validate_task_packages.py",
+      "exit_code": 0,
+      "result": "packages=38 errors=0 warnings=0"
+    },
+    {
+      "command": "ADB Pixel_9: recommendation -> add to waiting plan",
+      "exit_code": 0,
+      "result": "confirmation sheet displayed with merchant, price, quantity, demo disclosure; no direct write before confirmation"
+    },
+    {
+      "command": "apps/android/gradlew.bat :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.ragcommerce.agent.ShoppingFlowTest --no-daemon --no-configuration-cache",
+      "exit_code": 0,
+      "result": "20 tests passed on Pixel_9(AVD) - 15"
+    }
+  ],
+  "artifacts": [
+    "docs/defects/V3-ANDROID-AGENT-UX-BUSINESS-AUDIT-20260922.md",
+    "output/adb-real-click-20260922/ui-v3ux-result.xml",
+    "output/adb-real-click-20260922/ui-v3ux-confirm.xml",
+    "output/adb-real-click-20260922/screen-v3ux-confirm.png"
+  ],
+  "external_gates": [
+    "真实联盟报价、物理设备性能、人工 TalkBack 与正式发布批准"
+  ]
+}

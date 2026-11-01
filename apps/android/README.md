@@ -1,6 +1,6 @@
 # Android shopping application
 
-原生 Kotlin/Compose 客户端，固定四个一级入口：导购、清单、购物车、我的。
+原生 Kotlin/Compose 客户端，固定三个一级入口：任务、决策、我的。清单与待购属于同一 Mission 的决策工作台，不再作为商城式一级标签。
 
 ## 商业真实性边界
 
@@ -13,7 +13,7 @@
 
 ## 分层
 
-- `ui/ShoppingModels.kt`：UDF 状态、动作、报价确认与四标签模型。
+- `ui/ShoppingModels.kt`：UDF 状态、动作、报价确认与三入口模型。
 - `ui/ShoppingViewModel.kt`：Turn、审批、SSE 游标恢复、安全商家跳转。
 - `data/ShoppingRepository.kt`：Room/DataStore、媒体限制、幂等 Turn 与 SSE 协议。
 - `data/remote/CommerceApi.kt`：薄 Retrofit/OkHttp 边界。
@@ -21,7 +21,7 @@
 
 ## 本地验证
 
-不创建 `local.properties`；为每条命令提供进程级 SDK 路径：
+当前 Gradle/Android 编译工具链为 Java 21。不创建 `local.properties`；为每条命令提供进程级 SDK 路径：
 
 ```powershell
 $env:ANDROID_HOME = Join-Path $env:LOCALAPPDATA 'Android\Sdk'

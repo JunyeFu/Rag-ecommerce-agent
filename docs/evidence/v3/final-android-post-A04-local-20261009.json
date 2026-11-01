@@ -1,0 +1,17 @@
+{
+  "finished_at": "2026-10-09T15:25:31.784Z",
+  "evidence_level": "LOCAL_INCREMENT_NOT_OVERALL_ANDROID_ACCEPTANCE",
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "python": {"tests": 188, "failed": 0, "skipped": 0, "elapsed_seconds": 29.64},
+  "android_unit": {"tests": 38, "failed": 0},
+  "android_build": {"exit_code": 0, "tasks": 90, "executed": 24, "up_to_date": 66, "elapsed_seconds": 20},
+  "test_apk_increment": {"exit_code": 0, "tasks": 54, "executed": 6, "up_to_date": 48},
+  "visual_fixture": {"runner_pid": 6981, "tests": 32, "failed": 0, "ignored": 0, "elapsed_seconds": 42.269, "injected_ui_state": true, "not_real_agent_acceptance": true},
+  "failed_snapshot": "docs/evidence/v3/final-A04-readonly-restoration-20261009.json",
+  "gallery_open_cancel": {"runner_pid": 6811, "tests": 1, "failed": 0, "elapsed_seconds": 7.49, "upload": false},
+  "gallery_select_remove_without_sending": {"runner_pid": 7316, "tests": 1, "failed": 0, "elapsed_seconds": 7.12, "native_os_picker": true, "injected_picker_result": false, "upload": false},
+  "navigation": {"tests": 7, "failed": 0, "build_exit_code": 0, "modules": 26},
+  "diagnostic_model_calls": 0,
+  "prior_diagnostics_preserved": ["FAILED snapshot diagnosed while task tab disabled; corrected test readiness", "first native gallery metadata query had incorrect shell quoting; corrected read-only query", "intentional Chinese input punctuation rejected by ruff; test inputs made consistent"],
+  "remaining": ["A04 business retest awaits approval", "A03 paid first execution has separate report", "native effective voice and remaining Android business paths", "same-source final seal and delivery"]
+}

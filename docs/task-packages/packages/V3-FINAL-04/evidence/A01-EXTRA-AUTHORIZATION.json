@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "authorized_on": "2026-10-09",
+  "authority": "Direct human reply in this chat",
+  "user_reply": "允许追加 1 次 A01 复测",
+  "scope": "A01-R1 only; native input to real recommendation and evidence after F26 correction",
+  "original_retest_slots": 6,
+  "additional_slots": ["A01-R1"],
+  "total_token_limit_unchanged": 2000000,
+  "agent_run_token_limit_unchanged": 48000,
+  "observation_seconds_unchanged": 600,
+  "no_other_retest_or_automatic_retry_authorized": true,
+  "first_attempt_report": "docs/evidence/v3/final-real-A01-first-20261009.json",
+  "corrected_root_cause": "docs/defects/V3-FINAL-CLOSEOUT.md#f26-android长sse读取不能沿用rest整次时限"
+}

@@ -8,7 +8,7 @@ dependencies = [
     "fastapi==0.141.1",
     "langgraph==1.2.11",
     "pydantic==2.13.4",
-    "psycopg[binary]==3.3.4",
+    "psycopg[binary,pool]==3.3.4",
     "qdrant-client==1.19.0",
     "sqlalchemy==2.0.52",
     "uvicorn==0.52.4",
@@ -16,6 +16,10 @@ dependencies = [
     "opentelemetry-sdk>=1.44.0",
     "opentelemetry-exporter-otlp-proto-http>=1.44.0",
     "opentelemetry-instrumentation-fastapi>=0.65b0",
+    "onnxruntime==1.23.2",
+    "tokenizers==0.22.2",
+    "huggingface-hub==1.32.0",
+    "numpy==2.5.2",
 ]
 
 [dependency-groups]

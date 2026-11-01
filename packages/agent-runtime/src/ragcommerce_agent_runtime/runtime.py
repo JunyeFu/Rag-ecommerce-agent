@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 from collections.abc import AsyncIterator
+from datetime import UTC, datetime
 from time import perf_counter
 from typing import Any, TypedDict
 from uuid import NAMESPACE_URL, UUID, uuid5
@@ -21,9 +22,15 @@ from .contracts import (
     ToolResult,
     TurnCommand,
 )
-from .model_provider import ModelProvider, ProviderError
+from .mission import parse_shopping_mission
+from .model_provider import (
+    ModelProvider,
+    ProviderError,
+    ProviderInvalidResponse,
+    ProviderUnsupportedAmount,
+)
 from .store import CheckpointStore, RunCheckpoint
-from .tools import ToolDenied, ToolRegistry
+from .tools import Risk, ToolDenied, ToolRegistry
 
 
 class AgentState(TypedDict):
@@ -33,6 +40,45 @@ class AgentState(TypedDict):
     checkpoint: RunCheckpoint
     stop_reason: StopReason | None
     replans: int
+
+
+OFFER_FACT_FIELDS = frozenset(
+    {
+        "price_minor",
+        "shipping_minor",
+        "availability",
+        "merchant_name",
+        "source_ref",
+        "verification",
+    }
+)
+
+
+def _offer_evidence_error(result: ToolResult) -> str | None:
+    offers = result.public_data.get("offers")
+    if offers is None:
+        return None
+    if not isinstance(offers, list):
+        return "offers payload is not a list"
+    if not result.commercial_fact_fields >= OFFER_FACT_FIELDS:
+        return "offer commercial facts were not declared"
+    for offer in offers:
+        if not isinstance(offer, dict):
+            return "offer payload is not an object"
+        source_ref = offer.get("source_ref")
+        evidence = next((item for item in result.evidence if item.ref == source_ref), None)
+        if evidence is None or not set(evidence.fields) >= OFFER_FACT_FIELDS:
+            return "offer commercial fact lacks matching source evidence"
+        expires_at = offer.get("expires_at")
+        if not isinstance(expires_at, str):
+            return "offer expiry is missing"
+        try:
+            expiry = datetime.fromisoformat(expires_at.replace("Z", "+00:00"))
+        except ValueError:
+            return "offer expiry is invalid"
+        if expiry <= datetime.now(UTC):
+            return "offer is expired"
+    return None
 
 
 class ShoppingAgent:
@@ -89,13 +135,23 @@ class ShoppingAgent:
                     "prompt_version": self.identity.prompt_version,
                     "policy_version": self.identity.policy_version,
                     "contract_version": self.identity.contract_version,
+                    "retrieval_mode": self.identity.retrieval_mode,
                 },
             )
             self._emit(
                 checkpoint,
                 command,
                 EventType.MISSION_UPDATED,
-                {"goal": command.text, "status": "IN_PROGRESS"},
+                {
+                    "goal": command.mission_goal
+                    if command.mission_goal is not None
+                    else command.text,
+                    "status": "IN_PROGRESS",
+                    "mission": parse_shopping_mission(
+                        command.mission_goal if command.mission_goal is not None else command.text,
+                        version=command.mission_version,
+                    ),
+                },
             )
             self.store.save(checkpoint)
         elif any(
@@ -104,10 +160,49 @@ class ShoppingAgent:
             for event in checkpoint.events:
                 yield event
             return
+        elif checkpoint.events and checkpoint.events[-1].type is not EventType.APPROVAL_REQUIRED:
+            self._emit(
+                checkpoint,
+                command,
+                EventType.RUN_RESUMED,
+                {"reason": "nonterminal_checkpoint_loaded"},
+            )
+            self.store.save(checkpoint)
+        if command.exploration_result is not None:
+            if any(event.type is EventType.EXPLORATION_UPDATED for event in checkpoint.events):
+                for event in checkpoint.events:
+                    yield event
+                return
+            result = command.exploration_result
+            self._emit(checkpoint, command, EventType.EXPLORATION_UPDATED, result)
+            if result["mode"] == "PURCHASE":
+                self._emit(
+                    checkpoint,
+                    command,
+                    EventType.CLARIFICATION_REQUIRED,
+                    {"question": "这个方向已记下, 你的预算上限是多少? 也可以补充不能妥协的条件。"},
+                )
+            else:
+                exploration = result["exploration"]
+                message = (
+                    "本次探索已结束, 没有加入待购或前往商家。"
+                    if exploration["ended"]
+                    else "当前演示目录没有更多未展示的合适方向, 可撤销反馈或新建任务。"
+                    if exploration["exhausted"]
+                    else "看看这些使用方向, 感兴趣后再挑选商品。"
+                )
+                self._emit(checkpoint, command, EventType.MESSAGE, {"text": message})
+                self._emit(
+                    checkpoint, command, EventType.COMPLETED, {"reason": "exploration_updated"}
+                )
+            self.store.save(checkpoint)
+            for event in checkpoint.events:
+                yield event
+            return
         state: AgentState = {
             "command": command,
             "calls": (),
-            "results": (),
+            "results": tuple(checkpoint.completed_tools.values()),
             "checkpoint": checkpoint,
             "stop_reason": None,
             "replans": checkpoint.replans,
@@ -122,11 +217,34 @@ class ShoppingAgent:
                 {
                     "reason": StopReason.PROVIDER_FAILURE,
                     "summary": type(exc).__name__,
+                    **(
+                        {"provider_detail": str(exc)}
+                        if isinstance(exc, ProviderInvalidResponse)
+                        else {}
+                    ),
+                    **(
+                        {"blocked_amounts_minor": list(exc.amounts_minor)}
+                        if isinstance(exc, ProviderUnsupportedAmount)
+                        else {}
+                    ),
                 },
             )
             self.store.save(checkpoint)
         for event in checkpoint.events:
             yield event
+
+    def reject_approval(self, command: TurnCommand, tool_name: str) -> tuple[AgentEvent, ...]:
+        checkpoint = self.store.load(command.run_id)
+        if checkpoint is None:
+            raise ValueError("approval run does not exist")
+        self._emit(
+            checkpoint,
+            command,
+            EventType.COMPLETED,
+            {"reason": "approval_rejected", "tool": tool_name},
+        )
+        self.store.save(checkpoint)
+        return tuple(checkpoint.events)
 
     def _guard(self, state: AgentState) -> dict[str, Any]:
         command = state["command"]
@@ -137,7 +255,47 @@ class ShoppingAgent:
     async def _plan(self, state: AgentState) -> dict[str, Any]:
         if state["stop_reason"] is not None:
             return {"calls": ()}
+        checkpoint = state["checkpoint"]
+        if checkpoint.pending_calls:
+            return {"calls": checkpoint.pending_calls}
+        if checkpoint.events and checkpoint.events[-1].type is EventType.APPROVAL_REQUIRED:
+            return {
+                **self._stop(
+                    state,
+                    StopReason.INVALID_INPUT,
+                    "approval proposal was not persisted; start a new task",
+                ),
+                "calls": (),
+            }
+        if state["command"].media:
+            if state["results"]:
+                self._emit(
+                    state["checkpoint"],
+                    state["command"],
+                    EventType.CLARIFICATION_REQUIRED,
+                    {
+                        "question": "请核对识别内容, 可以修改后确认继续; 图片线索不代表商品规格或报价。"
+                    },
+                )
+                self.store.save(state["checkpoint"])
+                return {"calls": (), "stop_reason": StopReason.CLARIFICATION_REQUIRED}
+            return {
+                "calls": tuple(
+                    ToolCall(
+                        "vision.identify" if ref.kind == "image" else "audio.transcribe",
+                        {"media_ref": str(ref.id)},
+                    )
+                    for ref in state["command"].media
+                )
+            }
         calls = await self.planner.plan(state["command"], state["results"], state["replans"])
+        if calls and all(self._call_digest(call) in checkpoint.completed_tools for call in calls):
+            return {
+                **self._stop(
+                    state, StopReason.REPLAN_LIMIT, "planner repeated only completed tools"
+                ),
+                "calls": (),
+            }
         if len(calls) + state["checkpoint"].tool_attempts > self.MAX_TOOLS:
             return {
                 **self._stop(state, StopReason.TOOL_LIMIT, "tool budget exceeded"),
@@ -166,6 +324,8 @@ class ShoppingAgent:
                 command.run_id,
                 invocation_id,
                 hashlib.sha256(f"{command.idempotency_key}:{key}".encode()).hexdigest(),
+                command.excluded_product_ids,
+                command.excluded_categories,
             )
             spec = self.tools.specs.get(call.name)
             self._emit(
@@ -181,11 +341,24 @@ class ShoppingAgent:
                     "risk": spec.risk if spec else "UNREGISTERED",
                 },
             )
+            checkpoint.pending_calls = (call, *pending)
             self.store.save(checkpoint)
             started = perf_counter()
             try:
-                result = self.tools.execute(command, call, context)
+                result = await self.tools.execute_async(command, call, context)
             except ToolDenied as exc:
+                if (
+                    spec is not None
+                    and spec.risk in {Risk.REVERSIBLE, Risk.EXTERNAL_NAVIGATION}
+                    and call.name in command.approved_tools
+                    and command.approved_invocations is not None
+                    and str(invocation_id) not in command.approved_invocations
+                ):
+                    return self._stop(
+                        state,
+                        StopReason.TOOL_FAILURE,
+                        "approved invocation changed; start a new Turn",
+                    )
                 self._emit(
                     checkpoint,
                     command,
@@ -194,6 +367,9 @@ class ShoppingAgent:
                         "tool": call.name,
                         "invocation_id": str(invocation_id),
                         "reason": str(exc),
+                        "arguments": spec.args_type.model_validate(dict(call.arguments)).model_dump(
+                            mode="json"
+                        ),
                     },
                 )
                 self.store.save(checkpoint)
@@ -210,9 +386,23 @@ class ShoppingAgent:
                         "tool": call.name,
                         "invocation_id": str(invocation_id),
                         "error_type": type(exc).__name__,
+                        **(
+                            {"error_summary": str(exc)}
+                            if call.name in {"vision.identify", "audio.transcribe"}
+                            and isinstance(exc, ProviderInvalidResponse)
+                            else {}
+                        ),
                     },
                 )
                 self.store.save(checkpoint)
+                if call.name in {"vision.identify", "audio.transcribe"}:
+                    return self._stop(
+                        state,
+                        StopReason.PROVIDER_FAILURE
+                        if isinstance(exc, ProviderError)
+                        else StopReason.TOOL_FAILURE,
+                        type(exc).__name__,
+                    )
                 if replans >= self.MAX_REPLANS:
                     return self._stop(state, StopReason.REPLAN_LIMIT, type(exc).__name__)
                 replans += 1
@@ -222,7 +412,11 @@ class ShoppingAgent:
             supported = {field for evidence in result.evidence for field in evidence.fields}
             if not result.commercial_fact_fields <= supported:
                 return self._stop(state, StopReason.TOOL_FAILURE, "commercial fact lacks evidence")
+            offer_error = _offer_evidence_error(result)
+            if offer_error is not None:
+                return self._stop(state, StopReason.TOOL_FAILURE, offer_error)
             checkpoint.completed_tools[key] = result
+            checkpoint.pending_calls = tuple(pending)
             results.append(result)
             self._emit(
                 checkpoint,
@@ -259,6 +453,13 @@ class ShoppingAgent:
                     command,
                     public_event_type,
                     dict(result.public_data),
+                )
+            if "media_interpretation" in result.public_data:
+                self._emit(
+                    checkpoint,
+                    command,
+                    EventType.MEDIA_INTERPRETED,
+                    dict(result.public_data["media_interpretation"]),
                 )
             self.store.save(checkpoint)
         return {"calls": (), "results": tuple(results), "replans": replans}

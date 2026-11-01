@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-DEMO-PRICE-01",
+  "owner": "connector-demo",
+  "objective": "以弱权威只读沙箱证明外部查价调用，不污染主推荐与商业证据",
+  "inputs": ["GOWU_DEMO_APP_KEY process environment", "small-scope Chinese product keyword"],
+  "outputs": ["THIRD_PARTY_DEMO price rows", "explicit connector error", "sanitized verification evidence"],
+  "acceptance": ["one request without retry", "no fixture fallback", "credential redacted", "not used for ranking or SKU equivalence"],
+  "test_profiles": ["connector.unit", "provider.sandbox.smoke", "task-package.validation"],
+  "business_refs": ["weak_third_party_sandbox", "THIRD_PARTY_DEMO", "commercial_release_evidence=false"],
+  "development_refs": ["https://api.gowu-ai.com", "GET /open/lm/products", "x-app-key", "x-open-user=rag-commerce-demo"],
+  "risk_refs": ["免费持续性未承诺", "搜索相关性不足", "第三方价格准确性未验证", "禁止映射虚构 SKU", "禁止升级为 LIVE"]
+}

@@ -1,0 +1,46 @@
+{
+  "package_id": "V3-UX-FOUNDATION-01",
+  "checks": [
+    {
+      "id": "source_and_tests",
+      "result": "passed declared non-paid profiles",
+      "evidence": "docs/evidence/v3/android-ux-native-20261021.json"
+    },
+    {
+      "id": "native_acceptance",
+      "result": "passed declared 100% and 200% paths",
+      "cases": [
+        "c2",
+        "c4"
+      ],
+      "evidence": "docs/evidence/v3/android-ux-native-20261021.json"
+    }
+  ],
+  "external_gates": [],
+  "status": "blocked",
+  "date": "2026-10-21",
+  "commands": [
+    "scripts/verify_android_decision_ux.py --case <declared case> --scale 1.0|2.0 --attempt <explicit new number>",
+    "gradlew.bat :app:testDebugUnitTest :app:lintDebug :app:assembleDebug :app:assembleDebugAndroidTest (isolated uxreview/API20882)"
+  ],
+  "results": [
+    {
+      "native_profile": "explicit fake + real API/PostgreSQL; no UI state injection",
+      "font_profiles": [
+        1,
+        2
+      ],
+      "scope": "Declared paths only; not whole package or release."
+    }
+  ],
+  "notes": [
+    "历史设备未连接报告保留在docs/evidence/v3/android-decision-ux-20261021.json；现在设备已连接且指定原生路径通过，不再以设备不可用阻塞本包。",
+    "包级范围未全部关闭，manifest与TASK保持in_progress；不新增付费调用、不提交推送发布。"
+  ],
+  "native_paths_status": "PASS_SCOPED",
+  "mimo_calls": 0,
+  "remaining": [
+    "本次只覆盖指定路径的配色/文案/CTA；完整审批拒绝、外跳与全部状态尚未在本包重新签收。"
+  ]
+}
+

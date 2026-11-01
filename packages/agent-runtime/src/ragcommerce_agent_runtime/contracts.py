@@ -12,7 +12,10 @@ from uuid import UUID
 
 class EventType(StrEnum):
     RUN_STARTED = "run_started"
+    RUN_RESUMED = "run_resumed"
     MISSION_UPDATED = "mission_updated"
+    EXPLORATION_UPDATED = "exploration_updated"
+    MEDIA_INTERPRETED = "media_interpreted"
     TOOL_STARTED = "tool_started"
     TOOL_COMPLETED = "tool_completed"
     TOOL_FAILED = "tool_failed"
@@ -44,6 +47,19 @@ class TurnCommand:
     approved_tools: frozenset[str] = frozenset()
     allow_reversible_writes: bool = False
     consent_preference_memory: bool = False
+    mission_version: int = 1
+    exploration_result: dict[str, Any] | None = None
+    media_confirmation: bool = False
+    # API approvals are scoped to persisted invocation IDs. None is only for
+    # explicitly pre-authorized embedded commands, never constructed by the API.
+    approved_invocations: frozenset[str] | None = None
+    # Shopping goal is distinct from a follow-up action. Embedded commands
+    # without a Thread use their text; API reservations always bind this field.
+    mission_goal: str | None = None
+    excluded_product_ids: tuple[str, ...] = ()
+    excluded_categories: tuple[str, ...] = ()
+    submitted_text: str | None = None
+    recommendation_feedback: Mapping[str, str] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         if not self.idempotency_key.strip() or len(self.idempotency_key) > 128:
@@ -52,6 +68,8 @@ class TurnCommand:
             raise ValueError("turn text exceeds 10000 characters")
         if len(self.media) > 8:
             raise ValueError("a turn may reference at most 8 media objects")
+        if self.mission_version < 1:
+            raise ValueError("mission_version must be positive")
 
 
 @dataclass(frozen=True, slots=True)
@@ -61,6 +79,7 @@ class RuntimeIdentity:
     prompt_version: str
     policy_version: str
     contract_version: str
+    retrieval_mode: str = "fixture"
 
     def __post_init__(self) -> None:
         for name in (
@@ -69,6 +88,7 @@ class RuntimeIdentity:
             "prompt_version",
             "policy_version",
             "contract_version",
+            "retrieval_mode",
         ):
             value = getattr(self, name)
             if not value.strip() or len(value) > 128:
@@ -123,6 +143,8 @@ class ToolExecutionContext:
     run_id: UUID
     invocation_id: UUID
     idempotency_key: str
+    excluded_product_ids: tuple[str, ...] = ()
+    excluded_categories: tuple[str, ...] = ()
 
 
 class StopReason(StrEnum):

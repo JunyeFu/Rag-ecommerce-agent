@@ -1,0 +1,471 @@
+{
+  "date": "2026-10-21",
+  "issue_id": "UXN-05",
+  "priority": "P1",
+  "status": "CLOSED",
+  "native_paths_status": "PASS_SCOPED",
+  "native_cases_passed": 6,
+  "native_cases_total": 6,
+  "supplemental_visual_passed": true,
+  "mimo_calls": 0,
+  "new_real_model_tokens": 0,
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO",
+  "root_cause": "Global cart IDs/quantities were intersected with active-Mission offers; ContinueSaved/OpenHistory rebuilt UI state and discarded global cart display data. A cart read returned no product/quote facts to hydrate after process restart.",
+  "fixes": [
+    {
+      "path": "packages/contracts/openapi.json",
+      "change": "CartItemView includes required ProductView and OfferView; contract remains 0.2.0. Python/Kotlin/TypeScript generated together."
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/demo.py",
+      "change": "Hydrate the user's cart independently of Mission, using catalog facts and the owner's existing quote with fresh=False."
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/postgres_demo.py",
+      "change": "Hydrate persisted cart rows after service recreation without renewing expired quotes; no migration or user-data clearing."
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/ui/ShoppingModels.kt",
+      "change": "Separate waitingOffers from Mission cartGroups; new Mission clears only Mission quotes. Requote/change confirmation also update the global waiting offer."
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/ui/ShoppingViewModel.kt",
+      "change": "Read full waiting cart before thread restore, even without an active thread; ContinueSaved/OpenHistory retain global state while resetting task state."
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/EditorialShoppingApp.kt",
+      "change": "Render waiting cart from independent facts, including product title. Observed 200% confirmation clipping fixed by fully expanded, scrollable native sheet."
+    }
+  ],
+  "environment": {
+    "avd": "Pixel_9a",
+    "serial": "emulator-5554",
+    "android_api": 35,
+    "application_id": "com.ragcommerce.agent.cartreview",
+    "api_url": "http://10.0.2.2:20882/",
+    "api_binding": "127.0.0.1:20882",
+    "postgres_port": 25433,
+    "migration": "20261021_0016",
+    "font_profiles": [
+      1,
+      2
+    ],
+    "original_font_scale": 1,
+    "provider": "direct ApprovalFixture / DemoProvider",
+    "runtime": "Real HTTP/API/PostgreSQL, in-process background execution; not independent Worker capacity acceptance",
+    "ui_state_injection": false,
+    "production_rate_policy_tested": false
+  },
+  "verification": [
+    {
+      "command": ".venv/Scripts/python.exe -m pytest -m 'not integration' -q",
+      "exit_code": 0,
+      "passed": 192,
+      "deselected": 36,
+      "duration_seconds": 11.3
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest apps/api/tests/test_postgres_api_integration.py -q",
+      "exit_code": 0,
+      "passed": 23,
+      "duration_seconds": 4.17
+    },
+    {
+      "command": "gradlew.bat -I scripts/android_ux_review.init.gradle :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug -PapiUrl=http://10.0.2.2:20882/ -PqaApplicationId=com.ragcommerce.agent.cartreview",
+      "exit_code": 0,
+      "unit_tests": 50,
+      "failures": 0,
+      "lint_errors": 0,
+      "lint_warnings": 18,
+      "duration_seconds": 33,
+      "tasks_executed": 20,
+      "tasks_up_to_date": 70
+    },
+    {
+      "command": "scripts/export_openapi.py --check; scripts/generate_contracts.py --check",
+      "exit_code": 0,
+      "openapi_paths": 31,
+      "generated_files": 3
+    },
+    {
+      "command": "npm.cmd run check; npm.cmd test; npm.cmd run build (apps/ops-web)",
+      "exit_code": 0,
+      "unit_tests": 2
+    },
+    {
+      "command": "ruff check scoped API sources/tests and native runner; compileall scoped sources",
+      "exit_code": 0
+    }
+  ],
+  "evidence_boundaries": {
+    "paid_model": "NOT_RUN: no credentials read, no MiMo calls or paid re-test slots used",
+    "quotes": "DEMO_FIXTURE only; readback does not turn demo prices into LIVE data",
+    "native": "Real native actions, real Repository/API/PostgreSQL. Screenshots are supplementary; UI assertions and persistent readback are both required",
+    "history": "All earlier failures and superseded passes retained, never presented as frozen first-pass Agent metrics"
+  },
+  "remaining": [
+    "Saved multi-product direct batch comparison is still open.",
+    "Full Figma states, voice/microphone and final portfolio/release gates are not signed off by this scoped repair."
+  ],
+  "cleanup": {
+    "status": "API_AND_CONTAINER_ABSENT_DEVICE_DISCONNECTED",
+    "api_port_listening": false,
+    "qa_container_present": false,
+    "original_font_scale": 1,
+    "font_restore": "NOT_VERIFIED_DEVICE_DISCONNECTED",
+    "note": "Final read-only check found no QA API/container and no connected emulator. No cache or user data deletion performed. Font restoration must be checked when Pixel_9a reconnects."
+  },
+  "updated_at": "2026-10-22",
+  "navigation_qa": {
+    "status": "PASS_SCOPED",
+    "url": "http://127.0.0.1:24180/",
+    "browser_path": "regular Playwright CLI 0.1.22 / Chrome; Browser plugin not available",
+    "viewports": ["1440x1000", "390x844"],
+    "page_identity": "PASS",
+    "not_blank": "PASS",
+    "no_framework_overlay": "PASS",
+    "no_horizontal_overflow": "PASS",
+    "console_errors": 0,
+    "console_warnings": 0,
+    "interaction": "Two-week plan -> current P1 card -> evidence JSON in new tab -> parsed CLOSED / 6 / 6 / 0 MiMo / visual true",
+    "document_json_image_http_status": [200, 200, 200],
+    "site_build_exit_code": 0,
+    "site_unit_tests_passed": 7,
+    "personal_records_modified": false,
+    "product_execution_from_site": false
+  },
+  "native_cases": [
+    {
+      "record": "c7-1.0-attempt5",
+      "case": "c7",
+      "scale": "1.0",
+      "passed": true,
+      "started_at": "2026-10-21T21:20:57.422044+08:00",
+      "finished_at": "2026-10-21T21:23:33.124801+08:00",
+      "cart": [
+        {
+          "owner_id": "ff39119d-c954-4478-9ddb-2ead5a1f50f5",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 2
+        }
+      ],
+      "new_runs": [
+        {
+          "run_id": "d4fa0b09-deb9-5f2f-8ab5-022593555ed6",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "fbaa262c-440e-557d-86ef-fec93e5434a0",
+          "status": "COMPLETED"
+        }
+      ],
+      "quotes_unchanged": false,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7-1.0-attempt5/result.json"
+    },
+    {
+      "record": "c7b-1.0-attempt3",
+      "case": "c7b",
+      "scale": "1.0",
+      "passed": true,
+      "started_at": "2026-10-21T21:23:33.896667+08:00",
+      "finished_at": "2026-10-21T21:24:26.324354+08:00",
+      "cart": [
+        {
+          "owner_id": "ff39119d-c954-4478-9ddb-2ead5a1f50f5",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 3
+        }
+      ],
+      "new_runs": [],
+      "quotes_unchanged": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7b-1.0-attempt3/result.json"
+    },
+    {
+      "record": "c7c-1.0-attempt3",
+      "case": "c7c",
+      "scale": "1.0",
+      "passed": true,
+      "started_at": "2026-10-21T21:24:26.807527+08:00",
+      "finished_at": "2026-10-21T21:25:13.073169+08:00",
+      "cart": [],
+      "new_runs": [],
+      "quotes_unchanged": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7c-1.0-attempt3/result.json"
+    },
+    {
+      "record": "c7-2.0-attempt3",
+      "case": "c7",
+      "scale": "2.0",
+      "passed": true,
+      "started_at": "2026-10-22T08:59:34.794712+08:00",
+      "finished_at": "2026-10-22T09:00:15.1537+08:00",
+      "cart": [
+        {
+          "owner_id": "ff39119d-c954-4478-9ddb-2ead5a1f50f5",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 2
+        }
+      ],
+      "new_runs": [
+        {
+          "run_id": "db6a81cf-f94d-5276-b3fa-bdbd86f87a94",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "f267f990-bf5b-52d5-b9f7-5370ba44784c",
+          "status": "COMPLETED"
+        }
+      ],
+      "quotes_unchanged": false,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7-2.0-attempt3/result.json"
+    },
+    {
+      "record": "c7b-2.0-attempt2",
+      "case": "c7b",
+      "scale": "2.0",
+      "passed": true,
+      "started_at": "2026-10-22T09:00:15.558097+08:00",
+      "finished_at": "2026-10-22T09:00:26.339201+08:00",
+      "cart": [
+        {
+          "owner_id": "ff39119d-c954-4478-9ddb-2ead5a1f50f5",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 3
+        }
+      ],
+      "new_runs": [],
+      "quotes_unchanged": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7b-2.0-attempt2/result.json"
+    },
+    {
+      "record": "c7c-2.0-attempt2",
+      "case": "c7c",
+      "scale": "2.0",
+      "passed": true,
+      "started_at": "2026-10-22T09:00:26.714892+08:00",
+      "finished_at": "2026-10-22T09:00:36.109675+08:00",
+      "cart": [],
+      "new_runs": [],
+      "quotes_unchanged": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7c-2.0-attempt2/result.json"
+    }
+  ],
+  "supplemental_visual": {
+    "record": "c7v-2.0-attempt5",
+    "case": "c7v",
+    "scale": "2.0",
+    "passed": true,
+    "started_at": "2026-10-22T09:00:36.569315+08:00",
+    "finished_at": "2026-10-22T09:00:45.760558+08:00",
+    "cart": [],
+    "new_runs": [],
+    "quotes_unchanged": false,
+    "failure": null,
+    "source": "output/android-cart-continuity-20261021/c7v-2.0-attempt5/result.json"
+  },
+  "attempts_summary": {
+    "total": 23,
+    "passed": 15,
+    "failed": 8,
+    "note": "All failures and superseded passes retained; selected 6 business + 1 visual records are scoped acceptance, not first-pass Agent success rates."
+  },
+  "attempts": [
+    {
+      "record": "c7-1.0-attempt1",
+      "passed": false,
+      "failure": "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: No node found that matches TestTag = 'new_mission' in scrollable container",
+      "source": "output/android-cart-continuity-20261021/c7-1.0-attempt1/result.json"
+    },
+    {
+      "record": "c7-1.0-attempt2",
+      "passed": false,
+      "failure": "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Failed to inject touch input.",
+      "source": "output/android-cart-continuity-20261021/c7-1.0-attempt2/result.json"
+    },
+    {
+      "record": "c7-1.0-attempt3",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7-1.0-attempt3/result.json"
+    },
+    {
+      "record": "c7-1.0-attempt4",
+      "passed": false,
+      "failure": "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: No node found that matches tag starts with waiting_quantity_ in scrollable container",
+      "source": "output/android-cart-continuity-20261021/c7-1.0-attempt4/result.json"
+    },
+    {
+      "record": "c7-1.0-attempt5",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7-1.0-attempt5/result.json"
+    },
+    {
+      "record": "c7-2.0-attempt1",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7-2.0-attempt1/result.json"
+    },
+    {
+      "record": "c7-2.0-attempt2",
+      "passed": false,
+      "failure": "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms",
+      "source": "output/android-cart-continuity-20261021/c7-2.0-attempt2/result.json"
+    },
+    {
+      "record": "c7-2.0-attempt3",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7-2.0-attempt3/result.json"
+    },
+    {
+      "record": "c7b-1.0-attempt1",
+      "passed": false,
+      "failure": "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Failed to retrieve bounds of the node.",
+      "source": "output/android-cart-continuity-20261021/c7b-1.0-attempt1/result.json"
+    },
+    {
+      "record": "c7b-1.0-attempt2",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7b-1.0-attempt2/result.json"
+    },
+    {
+      "record": "c7b-1.0-attempt3",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7b-1.0-attempt3/result.json"
+    },
+    {
+      "record": "c7b-2.0-attempt1",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7b-2.0-attempt1/result.json"
+    },
+    {
+      "record": "c7b-2.0-attempt2",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7b-2.0-attempt2/result.json"
+    },
+    {
+      "record": "c7c-1.0-attempt1",
+      "passed": false,
+      "failure": "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Failed to assert the following: (Text + EditableText = [])",
+      "source": "output/android-cart-continuity-20261021/c7c-1.0-attempt1/result.json"
+    },
+    {
+      "record": "c7c-1.0-attempt2",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7c-1.0-attempt2/result.json"
+    },
+    {
+      "record": "c7c-1.0-attempt3",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7c-1.0-attempt3/result.json"
+    },
+    {
+      "record": "c7c-2.0-attempt1",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7c-2.0-attempt1/result.json"
+    },
+    {
+      "record": "c7c-2.0-attempt2",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7c-2.0-attempt2/result.json"
+    },
+    {
+      "record": "c7v-2.0-attempt1",
+      "passed": false,
+      "failure": "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Activity never becomes requested state \"[DESTROYED]\" (last lifecycle transition = \"PAUSED\")",
+      "source": "output/android-cart-continuity-20261021/c7v-2.0-attempt1/result.json"
+    },
+    {
+      "record": "c7v-2.0-attempt2",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7v-2.0-attempt2/result.json"
+    },
+    {
+      "record": "c7v-2.0-attempt3",
+      "passed": false,
+      "failure": "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: confirm_user_action extends below viewport: DpRect(left=210.66667.dp, top=899.0476.dp, right=389.33334.dp, bottom=952.7619.dp)",
+      "source": "output/android-cart-continuity-20261021/c7v-2.0-attempt3/result.json"
+    },
+    {
+      "record": "c7v-2.0-attempt4",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7v-2.0-attempt4/result.json"
+    },
+    {
+      "record": "c7v-2.0-attempt5",
+      "passed": true,
+      "failure": null,
+      "source": "output/android-cart-continuity-20261021/c7v-2.0-attempt5/result.json"
+    }
+  ],
+  "red_green": [
+    {
+      "failure": "API response lacked product facts (KeyError: product)",
+      "result": "new global-cart API test passed"
+    },
+    {
+      "failure": "New Mission retained task-scoped cartGroups",
+      "result": "reducer test passed; global waiting offers retained separately"
+    },
+    {
+      "failure": "200% AddToPlan confirm_user_action extends below viewport (bottom 952.76dp)",
+      "result": "full native button bounds assertion passed after fully expanding scrollable confirmation sheet"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "output/android-cart-continuity-20261021/artifacts/cartreview-debug.apk",
+      "sha256": "197749975F066A3FAA2CEB01B5B64C01F0E5D0BF58D98F7B97C0EE3C98DEC476"
+    },
+    {
+      "path": "output/android-cart-continuity-20261021/artifacts/cartreview-test.apk",
+      "sha256": "26DA5C1D14303DB5905D2B8E4FE2CF992C8CAF81D0DBDD26EE89F4656D766C60"
+    },
+    {
+      "path": "docs/media/android-cart-continuity-20261021/default-other-task-cart.png",
+      "sha256": "5CCEA595C5FEC935EB2DB159945CC442B44E332CA84FF0FCFE1CB9ABD8792787"
+    },
+    {
+      "path": "docs/media/android-cart-continuity-20261021/large-confirmation.png",
+      "sha256": "1D65E27AD55ECC115B987AF604CF7C340D522C4D34E27B45D47D50402E9A69EB"
+    },
+    {
+      "path": "docs/media/android-cart-continuity-20261021/large-quantity-controls.png",
+      "sha256": "136232217F29419C31BC21D249734A257448522DB1C487A333D193BAC4E4427E"
+    },
+    {
+      "path": "docs/media/android-cart-continuity-20261021/large-removed.png",
+      "sha256": "2711EBC07609848CB4C1677FBE1CB15F4003EB6E2FEC87B66966607DFCA00C3A"
+    },
+    {
+      "path": "docs/media/android-cart-continuity-20261021/large-restored-product.png",
+      "sha256": "9973E7D8330CCE34807BF9ECB2B14518614B2D3C0622F5CF6FD0392FF6A79DEB"
+    }
+  ],
+  "source": {
+    "branch": "main",
+    "base_head": "d670e291d263a6e4f0f041f9c74c6e0246cb854c",
+    "dirty": true,
+    "committed": false,
+    "pushed": false
+  }
+}

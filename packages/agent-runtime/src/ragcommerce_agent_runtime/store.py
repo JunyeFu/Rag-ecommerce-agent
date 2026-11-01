@@ -7,7 +7,7 @@ from datetime import UTC, datetime
 from typing import Protocol
 from uuid import UUID
 
-from .contracts import AgentEvent, RuntimeIdentity, ToolResult, TurnCommand
+from .contracts import AgentEvent, RuntimeIdentity, ToolCall, ToolResult, TurnCommand
 
 
 @dataclass(slots=True)
@@ -20,6 +20,7 @@ class RunCheckpoint:
     started_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     tool_attempts: int = 0
     replans: int = 0
+    pending_calls: tuple[ToolCall, ...] = ()
 
 
 class CheckpointStore(Protocol):

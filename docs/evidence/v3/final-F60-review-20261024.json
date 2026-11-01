@@ -1,0 +1,465 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-24",
+  "defect": "F60",
+  "status": "CLOSED_LOCAL_ACCEPTANCE",
+  "evidence_level": "normal_cli_real_postgres_two_workers_local_bge_fake_provider",
+  "head": "d670e291d263a6e4f0f041f9c74c6e0246cb854c",
+  "dirty_source": true,
+  "scope": "当前本地源码的原十批×30容量门禁通过；不是MiMo容量、Android重验或最终同版发布签收",
+  "acceptance": {
+    "passed": true,
+    "accepted_at": "2026-10-24T04:03:47.075373+00:00",
+    "batches": 10,
+    "concurrency": 30,
+    "missions": 300,
+    "completed": 300,
+    "accept_p95_ms": 182.0785000018077,
+    "first_state_p95_ms": 111.48180000600405,
+    "worker_started_p95_ms": 828.2357999996748,
+    "max_batch_accept_p95_ms": 190.8320999937132,
+    "accept_threshold_ms": 200,
+    "first_state_threshold_ms": 1000,
+    "percentile_method": "nearest rank ceil(n*p); all300 and all10 per-batch gates; no dropped batch",
+    "report": "docs/evidence/v3/f60-20261024/final-bge-r3-durable-10-batches.json"
+  },
+  "runtime": {
+    "os": "Windows",
+    "logical_processors": 16,
+    "python": "3.12.11",
+    "uvicorn": "0.52.4",
+    "api": "127.0.0.1:20883",
+    "launch": "python -m uvicorn ragcommerce_api.persistent_demo:app --host 127.0.0.1 --port 20883",
+    "access_log": true,
+    "diagnostic_wrapper": false,
+    "model_provider": "fake",
+    "retrieval_mode": "local",
+    "embedding_model": "Qdrant/bge-small-zh-v1.5",
+    "embedding_revision": "46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59",
+    "qdrant_alias": "rag-infra-20261024-shared-current",
+    "worker_processes": 2,
+    "lanes_per_worker": 8,
+    "database": "rag_f60_bge_r3_20261024",
+    "compose_project": "ragcommerce_closeout_infra_20261024",
+    "alembic_head": "20261021_0016"
+  },
+  "verified_contributors": [
+    {
+      "id": "HTTP-FORWARDING",
+      "root": "两层BaseHTTPMiddleware通过任务组/内存流转发，提交前与返回尾部存在可测等待",
+      "fix": "改为直接ASGI消息转发；保留身份/Trace头、结构化日志、错误传播与未缓冲SSE",
+      "before_pre_submit_p95_ms": 89.6324,
+      "after_pre_submit_p95_ms": 4.4759,
+      "before_response_tail_p95_ms": 88.2369,
+      "after_response_tail_p95_ms": 1.8407
+    },
+    {
+      "id": "BGE-DUPLICATION",
+      "root": "每Worker八通道分别加载相同固定快照，8份模型与约1GB常驻内存",
+      "fix": "按同进程快照共享只读BGE提供者，首次构造加锁；Agent/model provider/检索客户端及索引仍通道独立",
+      "before_copies": 8,
+      "after_copies": 1,
+      "observed_before_worker_bytes": [
+        1038172160,
+        1036873728
+      ],
+      "observed_after_worker_bytes": [
+        342417408,
+        342528000
+      ],
+      "parallel_real_queries": 8,
+      "results_identical": true,
+      "qdrant_points_unchanged": 60
+    },
+    {
+      "id": "STATIC-GC-SCAN",
+      "root": "约21万启动期长期存活对象在0回收时仍重复扫描，单次49.8–61.1ms；时间线亦记录到更长GC暂停",
+      "fix": "保留原lifespan，在就绪时collect启动垃圾、freeze进程生命周期静态图；不unfreeze解释器原有永久对象，不关闭GC、不改阈值",
+      "probe_before_ms": [
+        61.068,
+        49.8061,
+        55.0013
+      ],
+      "probe_collected": [
+        40,
+        0,
+        0
+      ],
+      "static_objects": 213200,
+      "probe_after_ms": [
+        0.001,
+        0.0006,
+        0.0003
+      ],
+      "runtime_cycle_collection_verified": true,
+      "gc_enabled": true,
+      "gc_threshold_unchanged": true
+    },
+    {
+      "id": "DEFAULT-LOG-OUTPUT",
+      "root": "应用INFO日志继承WARNING且无默认输出，正常CLI缺少请求耗时，无法对照验收",
+      "fix": "既有结构化请求日志默认写stderr，保留正常access-log；子进程验证无Collector亦输出",
+      "actual_turn_log_rows": 300,
+      "actual_handler_p95_ms": 146.333,
+      "actual_handler_max_ms": 158.165
+    }
+  ],
+  "attribution_limit": "以上为实测贡献项，不将每个历史离群值都唯一归因到GC/日志，也不把诊断通过替代正常CLI复验；中间版本仍失败的完整记录均保留。",
+  "database_readback": {
+    "completed_turns": 300,
+    "agent_runs": 300,
+    "model_version": "deterministic-demo",
+    "retrieval_mode_local_run_started": 300,
+    "terminal_groups": 300,
+    "terminal_once_and_completed": true
+  },
+  "regression": {
+    "python": {
+      "tests": 237,
+      "passed": 237,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "time_seconds": 31.098,
+      "unit": 198,
+      "integration": 39
+    },
+    "contract_check": true,
+    "agent_artifacts_tools": 11,
+    "ruff": true,
+    "android_reexecuted": false,
+    "ops_browser_reexecuted": false
+  },
+  "initial_test_failures_retained": [
+    "BGE测试初版误将QdrantClient当上下文管理器；修正后真实红测8!=1，再绿测",
+    "GC初版全局unfreeze不保留解释器377个既有冻结对象；移除全局unfreeze，保留235通过/1失败记录，再237全套通过",
+    "默认日志子进程初版未传PYTHONPATH；补齐后真实红测0日志，再绿测"
+  ],
+  "batches": [
+    {
+      "batch": 1,
+      "missions": 30,
+      "completed": 30,
+      "accept_p95_ms": 56.7826999904355,
+      "first_state_p95_ms": 65.44279999798164,
+      "terminal_once": true,
+      "database_matches": true,
+      "passed": true
+    },
+    {
+      "batch": 2,
+      "missions": 30,
+      "completed": 30,
+      "accept_p95_ms": 69.68890001007821,
+      "first_state_p95_ms": 77.50420000229497,
+      "terminal_once": true,
+      "database_matches": true,
+      "passed": true
+    },
+    {
+      "batch": 3,
+      "missions": 30,
+      "completed": 30,
+      "accept_p95_ms": 74.54889999644365,
+      "first_state_p95_ms": 67.27759999921545,
+      "terminal_once": true,
+      "database_matches": true,
+      "passed": true
+    },
+    {
+      "batch": 4,
+      "missions": 30,
+      "completed": 30,
+      "accept_p95_ms": 68.36829999519978,
+      "first_state_p95_ms": 79.89710000401828,
+      "terminal_once": true,
+      "database_matches": true,
+      "passed": true
+    },
+    {
+      "batch": 5,
+      "missions": 30,
+      "completed": 30,
+      "accept_p95_ms": 63.66969998634886,
+      "first_state_p95_ms": 73.67009999870788,
+      "terminal_once": true,
+      "database_matches": true,
+      "passed": true
+    },
+    {
+      "batch": 6,
+      "missions": 30,
+      "completed": 30,
+      "accept_p95_ms": 65.1843999949051,
+      "first_state_p95_ms": 73.24179999704938,
+      "terminal_once": true,
+      "database_matches": true,
+      "passed": true
+    },
+    {
+      "batch": 7,
+      "missions": 30,
+      "completed": 30,
+      "accept_p95_ms": 86.22520000790246,
+      "first_state_p95_ms": 80.77000000048429,
+      "terminal_once": true,
+      "database_matches": true,
+      "passed": true
+    },
+    {
+      "batch": 8,
+      "missions": 30,
+      "completed": 30,
+      "accept_p95_ms": 190.8320999937132,
+      "first_state_p95_ms": 194.4729999959236,
+      "terminal_once": true,
+      "database_matches": true,
+      "passed": true
+    },
+    {
+      "batch": 9,
+      "missions": 30,
+      "completed": 30,
+      "accept_p95_ms": 77.9742000013357,
+      "first_state_p95_ms": 81.82369999121875,
+      "terminal_once": true,
+      "database_matches": true,
+      "passed": true
+    },
+    {
+      "batch": 10,
+      "missions": 30,
+      "completed": 30,
+      "accept_p95_ms": 73.98000000102911,
+      "first_state_p95_ms": 73.3159999945201,
+      "terminal_once": true,
+      "database_matches": true,
+      "passed": true
+    }
+  ],
+  "runs": [
+    {
+      "id": "previous-infrastructure",
+      "created_at": "2026-10-24T03:11:17.067245+00:00",
+      "scope": "previous_failed_control",
+      "retrieval_mode": "fixture",
+      "passed": false,
+      "missions": 300,
+      "completed": 300,
+      "accept_p95_ms": 229.73089999868535,
+      "first_state_p95_ms": 218.20970000408124,
+      "batch_passed": 7,
+      "failed_batches": [
+        1,
+        3,
+        5
+      ],
+      "report": "docs/evidence/v3/final-infrastructure-20261024/durable-10-batches-r1.json"
+    },
+    {
+      "id": "cli-baseline",
+      "created_at": "2026-10-24T03:37:57.400287+00:00",
+      "scope": "diagnostic",
+      "retrieval_mode": "fixture",
+      "passed": false,
+      "missions": 300,
+      "completed": 300,
+      "accept_p95_ms": 184.05019999772776,
+      "first_state_p95_ms": 241.92900001071393,
+      "batch_passed": 9,
+      "failed_batches": [
+        10
+      ],
+      "report": "docs/evidence/v3/f60-20261024/cli-baseline-load.json"
+    },
+    {
+      "id": "direct-asgi",
+      "created_at": "2026-10-24T03:40:25.055102+00:00",
+      "scope": "diagnostic",
+      "retrieval_mode": "fixture",
+      "passed": false,
+      "missions": 300,
+      "completed": 300,
+      "accept_p95_ms": 421.5445000008913,
+      "first_state_p95_ms": 634.0023999946425,
+      "batch_passed": 8,
+      "failed_batches": [
+        6,
+        7
+      ],
+      "report": "docs/evidence/v3/f60-20261024/cli-after-load.json"
+    },
+    {
+      "id": "io-timeline",
+      "created_at": "2026-10-24T03:42:51.391583+00:00",
+      "scope": "diagnostic",
+      "retrieval_mode": "fixture",
+      "passed": true,
+      "missions": 300,
+      "completed": 300,
+      "accept_p95_ms": 96.0309999936726,
+      "first_state_p95_ms": 82.659199993941,
+      "batch_passed": 10,
+      "failed_batches": [],
+      "report": "docs/evidence/v3/f60-20261024/cli-io-timeline-load.json"
+    },
+    {
+      "id": "normal-fixture",
+      "created_at": "2026-10-24T03:45:05.235067+00:00",
+      "scope": "intermediate_control",
+      "retrieval_mode": "fixture",
+      "passed": true,
+      "missions": 300,
+      "completed": 300,
+      "accept_p95_ms": 186.26590000349097,
+      "first_state_p95_ms": 205.62690000224393,
+      "batch_passed": 10,
+      "failed_batches": [],
+      "report": "docs/evidence/v3/f60-20261024/final-durable-10-batches.json"
+    },
+    {
+      "id": "normal-bge",
+      "created_at": "2026-10-24T03:46:39.150896+00:00",
+      "scope": "failed_acceptance",
+      "retrieval_mode": "local",
+      "passed": false,
+      "missions": 300,
+      "completed": 300,
+      "accept_p95_ms": 272.7618000062648,
+      "first_state_p95_ms": 126.23160000657663,
+      "batch_passed": 9,
+      "failed_batches": [
+        1
+      ],
+      "report": "docs/evidence/v3/f60-20261024/final-bge-durable-10-batches.json"
+    },
+    {
+      "id": "normal-bge-shared",
+      "created_at": "2026-10-24T03:50:39.357438+00:00",
+      "scope": "failed_acceptance",
+      "retrieval_mode": "local",
+      "passed": false,
+      "missions": 300,
+      "completed": 300,
+      "accept_p95_ms": 222.64809999614954,
+      "first_state_p95_ms": 150.8439999888651,
+      "batch_passed": 9,
+      "failed_batches": [
+        6
+      ],
+      "report": "docs/evidence/v3/f60-20261024/final-bge-r1-durable-10-batches.json"
+    },
+    {
+      "id": "both-timelines",
+      "created_at": "2026-10-24T03:52:45.627907+00:00",
+      "scope": "diagnostic",
+      "retrieval_mode": "local",
+      "passed": true,
+      "missions": 300,
+      "completed": 300,
+      "accept_p95_ms": 93.68170000379905,
+      "first_state_p95_ms": 134.25079999433365,
+      "batch_passed": 10,
+      "failed_batches": [],
+      "report": "docs/evidence/v3/f60-20261024/bge-both-timelines-load.json"
+    },
+    {
+      "id": "normal-bge-static",
+      "created_at": "2026-10-24T03:58:48.975815+00:00",
+      "scope": "failed_acceptance",
+      "retrieval_mode": "local",
+      "passed": false,
+      "missions": 300,
+      "completed": 300,
+      "accept_p95_ms": 218.63580000353977,
+      "first_state_p95_ms": 134.61549999192357,
+      "batch_passed": 9,
+      "failed_batches": [
+        7
+      ],
+      "report": "docs/evidence/v3/f60-20261024/final-bge-r2-durable-10-batches.json"
+    },
+    {
+      "id": "normal-bge-final",
+      "created_at": "2026-10-24T04:03:47.075373+00:00",
+      "scope": "current_acceptance",
+      "retrieval_mode": "local",
+      "passed": true,
+      "missions": 300,
+      "completed": 300,
+      "accept_p95_ms": 182.0785000018077,
+      "first_state_p95_ms": 111.48180000600405,
+      "batch_passed": 10,
+      "failed_batches": [],
+      "report": "docs/evidence/v3/f60-20261024/final-bge-r3-durable-10-batches.json"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "apps/api/src/ragcommerce_api/app.py",
+      "sha256": "a3fc429a67df4ef0f1b34038cb32883c5a22f38534e817cf509cc8febe77c0f5"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/http_middleware.py",
+      "sha256": "661284698adf68278c79b21493acaa27c8e1c13b4935c2e2e844e30d169c6062"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/observability.py",
+      "sha256": "d151ec93fc7f61b3729404f1e66d0d3f125b593b1da2eb5cd881f154bbdc39aa"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/persistent_demo.py",
+      "sha256": "02924e11d60bde04752083a496418def12a9157717f3060a1df467aa21ee5f20"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/retrieval_config.py",
+      "sha256": "14159b1fdd44ac6f6606169c9923d158b9150dec96b620bceb8a708c5dc8bde1"
+    },
+    {
+      "path": "apps/worker/src/ragcommerce_worker/persistent_demo.py",
+      "sha256": "243789527a1adfb7169298fb2698c660625be01cfc4667e2d5c64e8a9ca8de68"
+    },
+    {
+      "path": "scripts/run_v3_durable_load.py",
+      "sha256": "c6138daae436e92e0cd8ca17d157af03f1891cbe95f6f0f9d5361b2af8247435"
+    }
+  ],
+  "commands": [
+    {
+      "command": "pytest -q",
+      "result": "237 passed,0 skipped",
+      "exit_code": 0
+    },
+    {
+      "command": "run_v3_durable_load.py --base-url http://127.0.0.1:20883 --batches 10 --output <new report>",
+      "result": "300/300,10/10 batches passed",
+      "exit_code": 0
+    },
+    {
+      "command": "generate_contracts.py --check",
+      "result": "3 files deterministic",
+      "exit_code": 0
+    },
+    {
+      "command": "generate_agent_artifacts.py --check",
+      "result": "2 files,11 tools",
+      "exit_code": 0
+    }
+  ],
+  "mimo_calls": 0,
+  "mimo_tokens": 0,
+  "recording": "DEFERRED_BY_USER",
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO",
+  "remaining": [
+    "A02/M03本人真实录音继续暂缓",
+    "A09 Chrome首次设置及剩余零模型收尾",
+    "最终同版APK/干净启动/演示材料封版；当前后端237回归不继承为Android发布证据"
+  ],
+  "limitations": [
+    "共享Windows主机存在运行波动，最慢一批p95=190.832ms距200ms余量约9.17ms；仅声明本轮固定30并发本地门禁，不做生产SLA保证",
+    "负载为推荐读取路径；审批/写入幂等和自然租约复验见独立既有报告，不把本轮300Mission当300并发购物写入",
+    "历史全部失败保留，不回写为成功"
+  ]
+}

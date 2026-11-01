@@ -1,0 +1,1115 @@
+{
+  "created_at": "2026-10-12T06:48:10.666525+00:00",
+  "evidence_level": "NATIVE_ANDROID_REAL_API_PROVIDER",
+  "source_state": "dirty local candidate; not a public release",
+  "scenario": {
+    "id": "A04",
+    "slot": "A04-R1",
+    "phase": "retest",
+    "passed": true,
+    "owner_id": "0f71a5c2-3a93-44b0-af6f-5498044ec431",
+    "device": "127.0.0.1:5559",
+    "adb_server_port": 20884,
+    "native_activity": true,
+    "installed_apk_sha256": "9984b55e137c8af4a888a19d2977b7c3c819b71059f80fd30a49ebb0f40b12f1",
+    "injected_ui_state": false,
+    "runtime_source_hashes": {
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/token_budget.py": "5a8c161b4be3cf58e3f0feb93e091aa2e71db42752a82f95f6d90592c3491311",
+      "packages/contracts/openapi.json": "8308bbe9d902a4bda256d8a2e43030d7fbfd876e28344434be19500c2c8ed205",
+      "data/demo/catalog.v3.jsonl": "4c46d177c12bbe0216da84305430c77792ee9feece694a0a1590bf268d05e3a5",
+      "apps/api/src/ragcommerce_api/postgres_index.py": "d0b94801e800282da21ce649298fbc972c381bd3eaa8242793798c2d365e87c1",
+      "apps/worker/src/ragcommerce_worker/persistent_demo.py": "233e86b5fd569b6dab7d4a180ab8dd68c9bb5ffd82e4913c57840fb42de47260",
+      "packages/retrieval/src/ragcommerce_retrieval/semantic.py": "234fe09003bd5bcd2e0bf0d988034163e3d71e119f5f718fe99d8354688d2dae",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/runtime.py": "b25067b20daa81dffe8751a096a7730629c18e608d76e09c7fc4e187682587c4",
+      "apps/api/src/ragcommerce_api/media_tools.py": "9b92a40e783a78e4b2eb5ee4da7216858dd5d6ac9d8fb2917d49b44dc835936d",
+      "apps/api/src/ragcommerce_api/service.py": "12db0a1580a8c6b1b11384a8ab2adc6e3aa59c19e8af6c49e836a75ba0ede47b",
+      "apps/api/src/ragcommerce_api/provider_config.py": "1a80525a19f79a535e3564994467cadb2ae93a584130afc49b7d9986741d9341",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/model_provider.py": "7337ce5321c0a54988ea4254674876e4af51cc04e1e9a0722e49b645542e00ec",
+      "apps/api/src/ragcommerce_api/postgres_demo.py": "8786c6d94c22923a32624990d4c43c2f3208b39b4b31a53e40925055efcf0c8b"
+    },
+    "root_cause": "docs/defects/V3-FINAL-CLOSEOUT.md",
+    "observation_seconds": 600,
+    "model_calls_authorized": true,
+    "initial_comparison_selection": [],
+    "native_receipts": [
+      {
+        "method": "a04DiscoveryFeedbackEndAndPurchase",
+        "runner_pid": 6092,
+        "tests": 1,
+        "failed": 0,
+        "ignored": 0
+      }
+    ],
+    "runner": {
+      "tests": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    "runner_passed": true,
+    "accepted_runs_finished_within_window": true,
+    "backend_runs": [
+      {
+        "run_id": "4b9f8c7f-3562-5936-9fb3-632b19ac19dd",
+        "thread_id": "a784ca02-badb-434e-a424-c27b4251d4b6",
+        "execution_path": "catalog_discovery",
+        "input_text": "随便看看: 发现适合自己的使用方向",
+        "mission_version": 2,
+        "media": [],
+        "media_confirmation": false,
+        "media_interpretations": [],
+        "tools_started": [],
+        "approvals": [],
+        "completion_reasons": [
+          "exploration_updated"
+        ],
+        "tools_completed": [],
+        "exploration_updates": [
+          {
+            "mode": "DISCOVERY",
+            "exploration": {
+              "ended": false,
+              "feedback": {},
+              "exhausted": false,
+              "directions": [
+                {
+                  "title": "日常通勤",
+                  "category": "手机",
+                  "direction_id": "手机:日常通勤",
+                  "evidence_refs": [
+                    "demo:v3:3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "demo:v3:089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "demo:v3:cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ]
+                },
+                {
+                  "title": "旅行记录",
+                  "category": "相机",
+                  "direction_id": "相机:旅行记录",
+                  "evidence_refs": [
+                    "demo:v3:633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "demo:v3:2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "demo:v3:131a604b-2310-57a7-8dd6-6380834625ec"
+                  ],
+                  "experience_tags": [
+                    "novelty"
+                  ],
+                  "supporting_product_ids": [
+                    "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "131a604b-2310-57a7-8dd6-6380834625ec"
+                  ]
+                },
+                {
+                  "title": "软件开发",
+                  "category": "电脑",
+                  "direction_id": "电脑:软件开发",
+                  "evidence_refs": [
+                    "demo:v3:747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                    "demo:v3:b800b918-2694-5e58-876b-bbdfaa527766",
+                    "demo:v3:ce106976-76fd-5a1c-8bd2-b4aceb064633"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                    "b800b918-2694-5e58-876b-bbdfaa527766",
+                    "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+                  ]
+                }
+              ],
+              "experience_tags": [
+                "life_improvement",
+                "novelty"
+              ],
+              "shown_product_ids": [
+                "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                "cc937b7d-cef3-574e-9d1e-50ac354628e7",
+                "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                "131a604b-2310-57a7-8dd6-6380834625ec",
+                "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                "b800b918-2694-5e58-876b-bbdfaa527766",
+                "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+              ],
+              "shown_direction_ids": [
+                "手机:日常通勤",
+                "相机:旅行记录",
+                "电脑:软件开发"
+              ],
+              "selected_direction_id": null
+            },
+            "mission_version": 2
+          }
+        ],
+        "status": "COMPLETED",
+        "model": "mimo-v2.5",
+        "products": [],
+        "offers": [],
+        "evidence_coverage": false,
+        "terminal_events": 1,
+        "unauthorized_write": false,
+        "write_tools_completed": []
+      },
+      {
+        "run_id": "44b10c0a-e694-5af7-99f7-0411eb10e720",
+        "thread_id": "a784ca02-badb-434e-a424-c27b4251d4b6",
+        "execution_path": "catalog_discovery",
+        "input_text": "随便看看: 发现适合自己的使用方向",
+        "mission_version": 3,
+        "media": [],
+        "media_confirmation": false,
+        "media_interpretations": [],
+        "tools_started": [],
+        "approvals": [],
+        "completion_reasons": [
+          "exploration_updated"
+        ],
+        "tools_completed": [],
+        "exploration_updates": [
+          {
+            "mode": "DISCOVERY",
+            "exploration": {
+              "ended": false,
+              "feedback": {
+                "手机:日常通勤": "interested"
+              },
+              "exhausted": false,
+              "directions": [
+                {
+                  "title": "日常通勤",
+                  "category": "手机",
+                  "direction_id": "手机:日常通勤",
+                  "evidence_refs": [
+                    "demo:v3:3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "demo:v3:089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "demo:v3:cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ]
+                },
+                {
+                  "title": "旅行记录",
+                  "category": "相机",
+                  "direction_id": "相机:旅行记录",
+                  "evidence_refs": [
+                    "demo:v3:633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "demo:v3:2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "demo:v3:131a604b-2310-57a7-8dd6-6380834625ec"
+                  ],
+                  "experience_tags": [
+                    "novelty"
+                  ],
+                  "supporting_product_ids": [
+                    "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "131a604b-2310-57a7-8dd6-6380834625ec"
+                  ]
+                },
+                {
+                  "title": "软件开发",
+                  "category": "电脑",
+                  "direction_id": "电脑:软件开发",
+                  "evidence_refs": [
+                    "demo:v3:747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                    "demo:v3:b800b918-2694-5e58-876b-bbdfaa527766",
+                    "demo:v3:ce106976-76fd-5a1c-8bd2-b4aceb064633"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                    "b800b918-2694-5e58-876b-bbdfaa527766",
+                    "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+                  ]
+                }
+              ],
+              "experience_tags": [
+                "life_improvement",
+                "novelty"
+              ],
+              "shown_product_ids": [
+                "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                "cc937b7d-cef3-574e-9d1e-50ac354628e7",
+                "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                "131a604b-2310-57a7-8dd6-6380834625ec",
+                "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                "b800b918-2694-5e58-876b-bbdfaa527766",
+                "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+              ],
+              "shown_direction_ids": [
+                "手机:日常通勤",
+                "相机:旅行记录",
+                "电脑:软件开发"
+              ],
+              "selected_direction_id": null
+            },
+            "mission_version": 3
+          }
+        ],
+        "status": "COMPLETED",
+        "model": "mimo-v2.5",
+        "products": [],
+        "offers": [],
+        "evidence_coverage": false,
+        "terminal_events": 1,
+        "unauthorized_write": false,
+        "write_tools_completed": []
+      },
+      {
+        "run_id": "5873bcc2-bdd6-5d8f-b52e-4543bc946a7f",
+        "thread_id": "a784ca02-badb-434e-a424-c27b4251d4b6",
+        "execution_path": "catalog_discovery",
+        "input_text": "随便看看: 发现适合自己的使用方向",
+        "mission_version": 4,
+        "media": [],
+        "media_confirmation": false,
+        "media_interpretations": [],
+        "tools_started": [],
+        "approvals": [],
+        "completion_reasons": [
+          "exploration_updated"
+        ],
+        "tools_completed": [],
+        "exploration_updates": [
+          {
+            "mode": "DISCOVERY",
+            "exploration": {
+              "ended": false,
+              "feedback": {
+                "手机:日常通勤": "interested",
+                "相机:旅行记录": "not_interested"
+              },
+              "exhausted": false,
+              "directions": [
+                {
+                  "title": "日常通勤",
+                  "category": "手机",
+                  "direction_id": "手机:日常通勤",
+                  "evidence_refs": [
+                    "demo:v3:3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "demo:v3:089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "demo:v3:cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ]
+                },
+                {
+                  "title": "旅行记录",
+                  "category": "相机",
+                  "direction_id": "相机:旅行记录",
+                  "evidence_refs": [
+                    "demo:v3:633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "demo:v3:2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "demo:v3:131a604b-2310-57a7-8dd6-6380834625ec"
+                  ],
+                  "experience_tags": [
+                    "novelty"
+                  ],
+                  "supporting_product_ids": [
+                    "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "131a604b-2310-57a7-8dd6-6380834625ec"
+                  ]
+                },
+                {
+                  "title": "软件开发",
+                  "category": "电脑",
+                  "direction_id": "电脑:软件开发",
+                  "evidence_refs": [
+                    "demo:v3:747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                    "demo:v3:b800b918-2694-5e58-876b-bbdfaa527766",
+                    "demo:v3:ce106976-76fd-5a1c-8bd2-b4aceb064633"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                    "b800b918-2694-5e58-876b-bbdfaa527766",
+                    "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+                  ]
+                }
+              ],
+              "experience_tags": [
+                "life_improvement",
+                "novelty"
+              ],
+              "shown_product_ids": [
+                "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                "cc937b7d-cef3-574e-9d1e-50ac354628e7",
+                "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                "131a604b-2310-57a7-8dd6-6380834625ec",
+                "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                "b800b918-2694-5e58-876b-bbdfaa527766",
+                "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+              ],
+              "shown_direction_ids": [
+                "手机:日常通勤",
+                "相机:旅行记录",
+                "电脑:软件开发"
+              ],
+              "selected_direction_id": null
+            },
+            "mission_version": 4
+          }
+        ],
+        "status": "COMPLETED",
+        "model": "mimo-v2.5",
+        "products": [],
+        "offers": [],
+        "evidence_coverage": false,
+        "terminal_events": 1,
+        "unauthorized_write": false,
+        "write_tools_completed": []
+      },
+      {
+        "run_id": "ed596073-d428-5ac5-ac92-8c729fd263cc",
+        "thread_id": "a784ca02-badb-434e-a424-c27b4251d4b6",
+        "execution_path": "catalog_discovery",
+        "input_text": "随便看看: 发现适合自己的使用方向",
+        "mission_version": 5,
+        "media": [],
+        "media_confirmation": false,
+        "media_interpretations": [],
+        "tools_started": [],
+        "approvals": [],
+        "completion_reasons": [
+          "exploration_updated"
+        ],
+        "tools_completed": [],
+        "exploration_updates": [
+          {
+            "mode": "DISCOVERY",
+            "exploration": {
+              "ended": false,
+              "feedback": {
+                "手机:日常通勤": "interested",
+                "相机:旅行记录": "not_interested"
+              },
+              "exhausted": false,
+              "directions": [
+                {
+                  "title": "地铁通勤",
+                  "category": "耳机",
+                  "direction_id": "耳机:地铁通勤",
+                  "evidence_refs": [
+                    "demo:v3:7677c181-73f4-5369-885f-86f78dd8bd79",
+                    "demo:v3:c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4",
+                    "demo:v3:8298eccb-d89b-5f4c-b276-3b94cb4e75a6"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "7677c181-73f4-5369-885f-86f78dd8bd79",
+                    "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4",
+                    "8298eccb-d89b-5f4c-b276-3b94cb4e75a6"
+                  ]
+                },
+                {
+                  "title": "移动摄影",
+                  "category": "手机",
+                  "direction_id": "手机:移动摄影",
+                  "evidence_refs": [
+                    "demo:v3:3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "demo:v3:089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "demo:v3:cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ],
+                  "experience_tags": [
+                    "novelty"
+                  ],
+                  "supporting_product_ids": [
+                    "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ]
+                },
+                {
+                  "title": "视频创作",
+                  "category": "相机",
+                  "direction_id": "相机:视频创作",
+                  "evidence_refs": [
+                    "demo:v3:633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "demo:v3:2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "demo:v3:131a604b-2310-57a7-8dd6-6380834625ec"
+                  ],
+                  "experience_tags": [
+                    "novelty"
+                  ],
+                  "supporting_product_ids": [
+                    "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "131a604b-2310-57a7-8dd6-6380834625ec"
+                  ]
+                }
+              ],
+              "experience_tags": [
+                "life_improvement",
+                "novelty"
+              ],
+              "shown_product_ids": [
+                "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                "cc937b7d-cef3-574e-9d1e-50ac354628e7",
+                "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                "131a604b-2310-57a7-8dd6-6380834625ec",
+                "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                "b800b918-2694-5e58-876b-bbdfaa527766",
+                "ce106976-76fd-5a1c-8bd2-b4aceb064633",
+                "7677c181-73f4-5369-885f-86f78dd8bd79",
+                "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4",
+                "8298eccb-d89b-5f4c-b276-3b94cb4e75a6"
+              ],
+              "shown_direction_ids": [
+                "手机:日常通勤",
+                "相机:旅行记录",
+                "电脑:软件开发",
+                "耳机:地铁通勤",
+                "手机:移动摄影",
+                "相机:视频创作"
+              ],
+              "selected_direction_id": null
+            },
+            "mission_version": 5
+          }
+        ],
+        "status": "COMPLETED",
+        "model": "mimo-v2.5",
+        "products": [],
+        "offers": [],
+        "evidence_coverage": false,
+        "terminal_events": 1,
+        "unauthorized_write": false,
+        "write_tools_completed": []
+      },
+      {
+        "run_id": "f2f4f8a7-a3f3-50ae-a20a-fc88f02370cc",
+        "thread_id": "a784ca02-badb-434e-a424-c27b4251d4b6",
+        "execution_path": "catalog_discovery",
+        "input_text": "随便看看: 发现适合自己的使用方向",
+        "mission_version": 6,
+        "media": [],
+        "media_confirmation": false,
+        "media_interpretations": [],
+        "tools_started": [],
+        "approvals": [],
+        "completion_reasons": [
+          "exploration_updated"
+        ],
+        "tools_completed": [],
+        "exploration_updates": [
+          {
+            "mode": "DISCOVERY",
+            "exploration": {
+              "ended": true,
+              "feedback": {
+                "手机:日常通勤": "interested",
+                "相机:旅行记录": "not_interested"
+              },
+              "exhausted": false,
+              "directions": [
+                {
+                  "title": "地铁通勤",
+                  "category": "耳机",
+                  "direction_id": "耳机:地铁通勤",
+                  "evidence_refs": [
+                    "demo:v3:7677c181-73f4-5369-885f-86f78dd8bd79",
+                    "demo:v3:c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4",
+                    "demo:v3:8298eccb-d89b-5f4c-b276-3b94cb4e75a6"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "7677c181-73f4-5369-885f-86f78dd8bd79",
+                    "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4",
+                    "8298eccb-d89b-5f4c-b276-3b94cb4e75a6"
+                  ]
+                },
+                {
+                  "title": "移动摄影",
+                  "category": "手机",
+                  "direction_id": "手机:移动摄影",
+                  "evidence_refs": [
+                    "demo:v3:3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "demo:v3:089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "demo:v3:cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ],
+                  "experience_tags": [
+                    "novelty"
+                  ],
+                  "supporting_product_ids": [
+                    "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ]
+                },
+                {
+                  "title": "视频创作",
+                  "category": "相机",
+                  "direction_id": "相机:视频创作",
+                  "evidence_refs": [
+                    "demo:v3:633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "demo:v3:2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "demo:v3:131a604b-2310-57a7-8dd6-6380834625ec"
+                  ],
+                  "experience_tags": [
+                    "novelty"
+                  ],
+                  "supporting_product_ids": [
+                    "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "131a604b-2310-57a7-8dd6-6380834625ec"
+                  ]
+                }
+              ],
+              "experience_tags": [
+                "life_improvement",
+                "novelty"
+              ],
+              "shown_product_ids": [
+                "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                "cc937b7d-cef3-574e-9d1e-50ac354628e7",
+                "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                "131a604b-2310-57a7-8dd6-6380834625ec",
+                "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                "b800b918-2694-5e58-876b-bbdfaa527766",
+                "ce106976-76fd-5a1c-8bd2-b4aceb064633",
+                "7677c181-73f4-5369-885f-86f78dd8bd79",
+                "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4",
+                "8298eccb-d89b-5f4c-b276-3b94cb4e75a6"
+              ],
+              "shown_direction_ids": [
+                "手机:日常通勤",
+                "相机:旅行记录",
+                "电脑:软件开发",
+                "耳机:地铁通勤",
+                "手机:移动摄影",
+                "相机:视频创作"
+              ],
+              "selected_direction_id": null
+            },
+            "mission_version": 6
+          }
+        ],
+        "status": "COMPLETED",
+        "model": "mimo-v2.5",
+        "products": [],
+        "offers": [],
+        "evidence_coverage": false,
+        "terminal_events": 1,
+        "unauthorized_write": false,
+        "write_tools_completed": []
+      },
+      {
+        "run_id": "873a3dc9-320c-5376-bc8b-1c209b3440a5",
+        "thread_id": "422db8f5-1679-4caf-8665-2868af8c7497",
+        "execution_path": "catalog_discovery",
+        "input_text": "随便看看: 发现适合自己的使用方向",
+        "mission_version": 2,
+        "media": [],
+        "media_confirmation": false,
+        "media_interpretations": [],
+        "tools_started": [],
+        "approvals": [],
+        "completion_reasons": [
+          "exploration_updated"
+        ],
+        "tools_completed": [],
+        "exploration_updates": [
+          {
+            "mode": "DISCOVERY",
+            "exploration": {
+              "ended": false,
+              "feedback": {},
+              "exhausted": false,
+              "directions": [
+                {
+                  "title": "日常通勤",
+                  "category": "手机",
+                  "direction_id": "手机:日常通勤",
+                  "evidence_refs": [
+                    "demo:v3:3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "demo:v3:089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "demo:v3:cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ]
+                },
+                {
+                  "title": "旅行记录",
+                  "category": "相机",
+                  "direction_id": "相机:旅行记录",
+                  "evidence_refs": [
+                    "demo:v3:633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "demo:v3:2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "demo:v3:131a604b-2310-57a7-8dd6-6380834625ec"
+                  ],
+                  "experience_tags": [
+                    "novelty"
+                  ],
+                  "supporting_product_ids": [
+                    "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "131a604b-2310-57a7-8dd6-6380834625ec"
+                  ]
+                },
+                {
+                  "title": "软件开发",
+                  "category": "电脑",
+                  "direction_id": "电脑:软件开发",
+                  "evidence_refs": [
+                    "demo:v3:747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                    "demo:v3:b800b918-2694-5e58-876b-bbdfaa527766",
+                    "demo:v3:ce106976-76fd-5a1c-8bd2-b4aceb064633"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                    "b800b918-2694-5e58-876b-bbdfaa527766",
+                    "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+                  ]
+                }
+              ],
+              "experience_tags": [
+                "life_improvement",
+                "novelty"
+              ],
+              "shown_product_ids": [
+                "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                "cc937b7d-cef3-574e-9d1e-50ac354628e7",
+                "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                "131a604b-2310-57a7-8dd6-6380834625ec",
+                "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                "b800b918-2694-5e58-876b-bbdfaa527766",
+                "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+              ],
+              "shown_direction_ids": [
+                "手机:日常通勤",
+                "相机:旅行记录",
+                "电脑:软件开发"
+              ],
+              "selected_direction_id": null
+            },
+            "mission_version": 2
+          }
+        ],
+        "status": "COMPLETED",
+        "model": "mimo-v2.5",
+        "products": [],
+        "offers": [],
+        "evidence_coverage": false,
+        "terminal_events": 1,
+        "unauthorized_write": false,
+        "write_tools_completed": []
+      },
+      {
+        "run_id": "fa4c654d-d459-53da-9681-1faf8adec4e2",
+        "thread_id": "422db8f5-1679-4caf-8665-2868af8c7497",
+        "execution_path": "catalog_discovery",
+        "input_text": "想选手机, 主要用途是日常通勤",
+        "mission_version": 3,
+        "media": [],
+        "media_confirmation": false,
+        "media_interpretations": [],
+        "tools_started": [],
+        "approvals": [],
+        "completion_reasons": [],
+        "tools_completed": [],
+        "exploration_updates": [
+          {
+            "mode": "PURCHASE",
+            "exploration": {
+              "ended": false,
+              "feedback": {},
+              "exhausted": false,
+              "directions": [
+                {
+                  "title": "日常通勤",
+                  "category": "手机",
+                  "direction_id": "手机:日常通勤",
+                  "evidence_refs": [
+                    "demo:v3:3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "demo:v3:089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "demo:v3:cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                    "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                    "cc937b7d-cef3-574e-9d1e-50ac354628e7"
+                  ]
+                },
+                {
+                  "title": "旅行记录",
+                  "category": "相机",
+                  "direction_id": "相机:旅行记录",
+                  "evidence_refs": [
+                    "demo:v3:633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "demo:v3:2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "demo:v3:131a604b-2310-57a7-8dd6-6380834625ec"
+                  ],
+                  "experience_tags": [
+                    "novelty"
+                  ],
+                  "supporting_product_ids": [
+                    "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                    "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                    "131a604b-2310-57a7-8dd6-6380834625ec"
+                  ]
+                },
+                {
+                  "title": "软件开发",
+                  "category": "电脑",
+                  "direction_id": "电脑:软件开发",
+                  "evidence_refs": [
+                    "demo:v3:747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                    "demo:v3:b800b918-2694-5e58-876b-bbdfaa527766",
+                    "demo:v3:ce106976-76fd-5a1c-8bd2-b4aceb064633"
+                  ],
+                  "experience_tags": [
+                    "life_improvement"
+                  ],
+                  "supporting_product_ids": [
+                    "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                    "b800b918-2694-5e58-876b-bbdfaa527766",
+                    "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+                  ]
+                }
+              ],
+              "experience_tags": [
+                "life_improvement",
+                "novelty"
+              ],
+              "shown_product_ids": [
+                "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                "cc937b7d-cef3-574e-9d1e-50ac354628e7",
+                "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                "131a604b-2310-57a7-8dd6-6380834625ec",
+                "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                "b800b918-2694-5e58-876b-bbdfaa527766",
+                "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+              ],
+              "shown_direction_ids": [
+                "手机:日常通勤",
+                "相机:旅行记录",
+                "电脑:软件开发"
+              ],
+              "selected_direction_id": "手机:日常通勤"
+            },
+            "mission_version": 3
+          }
+        ],
+        "status": "WAITING_CLARIFICATION",
+        "model": "mimo-v2.5",
+        "products": [],
+        "offers": [],
+        "evidence_coverage": false,
+        "terminal_events": 0,
+        "unauthorized_write": false,
+        "write_tools_completed": []
+      },
+      {
+        "run_id": "c0e297fd-7c94-5e2b-95db-07c6211e2498",
+        "thread_id": "422db8f5-1679-4caf-8665-2868af8c7497",
+        "execution_path": "model_and_tools",
+        "input_text": "想选手机, 主要用途是日常通勤; 预算5000元",
+        "mission_version": 4,
+        "media": [],
+        "media_confirmation": false,
+        "media_interpretations": [],
+        "tools_started": [
+          "catalog.search",
+          "catalog.get_product_facts",
+          "offer.find",
+          "comparison.build"
+        ],
+        "approvals": [],
+        "completion_reasons": [
+          "COMPLETED"
+        ],
+        "tools_completed": [
+          "catalog.search",
+          "catalog.get_product_facts",
+          "offer.find",
+          "comparison.build"
+        ],
+        "exploration_updates": [],
+        "status": "COMPLETED",
+        "model": "mimo-v2.5",
+        "products": [
+          "062967ea-f561-5c86-8c43-622cb42ac67a",
+          "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d",
+          "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+          "4ad72d27-ddc2-5621-a9f3-cd7290987f88",
+          "051e1e11-995c-5fe7-986b-d13744ad06b3"
+        ],
+        "offers": [
+          {
+            "product_id": "062967ea-f561-5c86-8c43-622cb42ac67a",
+            "price_minor": 165100,
+            "verification": "DEMO_FIXTURE"
+          },
+          {
+            "product_id": "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d",
+            "price_minor": 169000,
+            "verification": "DEMO_FIXTURE"
+          },
+          {
+            "product_id": "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+            "price_minor": 159900,
+            "verification": "DEMO_FIXTURE"
+          }
+        ],
+        "evidence_coverage": true,
+        "terminal_events": 1,
+        "unauthorized_write": false,
+        "write_tools_completed": []
+      }
+    ],
+    "paid_call_count": 3,
+    "token_usage": 9271,
+    "provider_cost": "NOT_AVAILABLE_FROM_PROVIDER",
+    "threads": [
+      {
+        "thread_id": "a784ca02-badb-434e-a424-c27b4251d4b6",
+        "mode": "DISCOVERY",
+        "goal": "随便看看: 发现适合自己的使用方向",
+        "mission_version": 6,
+        "exploration": {
+          "ended": true,
+          "feedback": {
+            "手机:日常通勤": "interested",
+            "相机:旅行记录": "not_interested"
+          },
+          "exhausted": false,
+          "directions": [
+            {
+              "title": "地铁通勤",
+              "category": "耳机",
+              "direction_id": "耳机:地铁通勤",
+              "evidence_refs": [
+                "demo:v3:7677c181-73f4-5369-885f-86f78dd8bd79",
+                "demo:v3:c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4",
+                "demo:v3:8298eccb-d89b-5f4c-b276-3b94cb4e75a6"
+              ],
+              "experience_tags": [
+                "life_improvement"
+              ],
+              "supporting_product_ids": [
+                "7677c181-73f4-5369-885f-86f78dd8bd79",
+                "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4",
+                "8298eccb-d89b-5f4c-b276-3b94cb4e75a6"
+              ]
+            },
+            {
+              "title": "移动摄影",
+              "category": "手机",
+              "direction_id": "手机:移动摄影",
+              "evidence_refs": [
+                "demo:v3:3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                "demo:v3:089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                "demo:v3:cc937b7d-cef3-574e-9d1e-50ac354628e7"
+              ],
+              "experience_tags": [
+                "novelty"
+              ],
+              "supporting_product_ids": [
+                "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                "cc937b7d-cef3-574e-9d1e-50ac354628e7"
+              ]
+            },
+            {
+              "title": "视频创作",
+              "category": "相机",
+              "direction_id": "相机:视频创作",
+              "evidence_refs": [
+                "demo:v3:633d005b-263c-57a5-bb16-5f16aa1553d1",
+                "demo:v3:2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                "demo:v3:131a604b-2310-57a7-8dd6-6380834625ec"
+              ],
+              "experience_tags": [
+                "novelty"
+              ],
+              "supporting_product_ids": [
+                "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                "131a604b-2310-57a7-8dd6-6380834625ec"
+              ]
+            }
+          ],
+          "experience_tags": [
+            "life_improvement",
+            "novelty"
+          ],
+          "shown_product_ids": [
+            "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+            "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+            "cc937b7d-cef3-574e-9d1e-50ac354628e7",
+            "633d005b-263c-57a5-bb16-5f16aa1553d1",
+            "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+            "131a604b-2310-57a7-8dd6-6380834625ec",
+            "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+            "b800b918-2694-5e58-876b-bbdfaa527766",
+            "ce106976-76fd-5a1c-8bd2-b4aceb064633",
+            "7677c181-73f4-5369-885f-86f78dd8bd79",
+            "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4",
+            "8298eccb-d89b-5f4c-b276-3b94cb4e75a6"
+          ],
+          "shown_direction_ids": [
+            "手机:日常通勤",
+            "相机:旅行记录",
+            "电脑:软件开发",
+            "耳机:地铁通勤",
+            "手机:移动摄影",
+            "相机:视频创作"
+          ],
+          "selected_direction_id": null
+        }
+      },
+      {
+        "thread_id": "422db8f5-1679-4caf-8665-2868af8c7497",
+        "mode": "PURCHASE",
+        "goal": "想选手机, 主要用途是日常通勤; 预算5000元",
+        "mission_version": 4,
+        "exploration": {
+          "ended": false,
+          "feedback": {},
+          "exhausted": false,
+          "directions": [
+            {
+              "title": "日常通勤",
+              "category": "手机",
+              "direction_id": "手机:日常通勤",
+              "evidence_refs": [
+                "demo:v3:3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                "demo:v3:089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                "demo:v3:cc937b7d-cef3-574e-9d1e-50ac354628e7"
+              ],
+              "experience_tags": [
+                "life_improvement"
+              ],
+              "supporting_product_ids": [
+                "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+                "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+                "cc937b7d-cef3-574e-9d1e-50ac354628e7"
+              ]
+            },
+            {
+              "title": "旅行记录",
+              "category": "相机",
+              "direction_id": "相机:旅行记录",
+              "evidence_refs": [
+                "demo:v3:633d005b-263c-57a5-bb16-5f16aa1553d1",
+                "demo:v3:2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                "demo:v3:131a604b-2310-57a7-8dd6-6380834625ec"
+              ],
+              "experience_tags": [
+                "novelty"
+              ],
+              "supporting_product_ids": [
+                "633d005b-263c-57a5-bb16-5f16aa1553d1",
+                "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+                "131a604b-2310-57a7-8dd6-6380834625ec"
+              ]
+            },
+            {
+              "title": "软件开发",
+              "category": "电脑",
+              "direction_id": "电脑:软件开发",
+              "evidence_refs": [
+                "demo:v3:747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                "demo:v3:b800b918-2694-5e58-876b-bbdfaa527766",
+                "demo:v3:ce106976-76fd-5a1c-8bd2-b4aceb064633"
+              ],
+              "experience_tags": [
+                "life_improvement"
+              ],
+              "supporting_product_ids": [
+                "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+                "b800b918-2694-5e58-876b-bbdfaa527766",
+                "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+              ]
+            }
+          ],
+          "experience_tags": [
+            "life_improvement",
+            "novelty"
+          ],
+          "shown_product_ids": [
+            "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+            "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+            "cc937b7d-cef3-574e-9d1e-50ac354628e7",
+            "633d005b-263c-57a5-bb16-5f16aa1553d1",
+            "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+            "131a604b-2310-57a7-8dd6-6380834625ec",
+            "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+            "b800b918-2694-5e58-876b-bbdfaa527766",
+            "ce106976-76fd-5a1c-8bd2-b4aceb064633"
+          ],
+          "shown_direction_ids": [
+            "手机:日常通勤",
+            "相机:旅行记录",
+            "电脑:软件开发"
+          ],
+          "selected_direction_id": "手机:日常通勤"
+        }
+      }
+    ],
+    "cart_unchanged": true,
+    "elapsed_seconds": 54.765,
+    "shared_budget": {
+      "session_id": "internship-final-20261009",
+      "limit": 2000000,
+      "blocked": false,
+      "used": 233007,
+      "held": 0,
+      "calls": 74
+    }
+  }
+}

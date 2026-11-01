@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "task": "FINAL-N01",
+  "date": "2026-10-13",
+  "status": "complete_for_runtime_baseline_scope",
+  "baseline_ref": "docs/task-packages/packages/V3-FINAL-01/evidence/next-steps-baseline-20261013.json",
+  "baseline_dirty_count": 344,
+  "branch": "main",
+  "head": "d670e291d263a6e4f0f041f9c74c6e0246cb854c",
+  "runtime": {
+    "project": "ragcommerce_v3_demo",
+    "database": "ragcommerce_final_20261009",
+    "provider": "mimo-v2.5",
+    "retrieval": "local",
+    "api_port": 20881,
+    "ops_port": 24174,
+    "api_health": "ok",
+    "contract_version": "0.2.0",
+    "postgres_revision": "20261013_0015",
+    "qdrant_alias": "rag-commerce-v3-local-bge-current",
+    "qdrant_points": 60,
+    "qdrant_status": "green",
+    "compose_services_healthy": ["postgres", "qdrant", "redis", "object-storage"],
+    "owned_processes_observed": [97048, 97620, 95596, 95736],
+    "worker_count": 2,
+    "process_record": "output/v3-demo/processes.json",
+    "note": "PIDs are an observation, not proof of later process liveness; recheck before reuse. Subsequent source formatting requires reload before paid acceptance."
+  },
+  "device": {
+    "adb_server_port": 20884,
+    "isolated_safety_avd": "RagFinalSafetyR220261012",
+    "serial": "127.0.0.1:5573",
+    "connected": true,
+    "additional_approval_avd": "RagFinalSafety20261012",
+    "additional_serial": "127.0.0.1:5571",
+    "additional_boot_completed": true,
+    "additional_free_data_gb": 5.8,
+    "no_wipe_performed": true
+  },
+  "budget": {
+    "session": "internship-final-20261009",
+    "limit": 2000000,
+    "calls": 86,
+    "used_tokens": 253785,
+    "reserved_tokens": 0,
+    "active_scenarios": 0,
+    "running_or_queued_turns": 0,
+    "retained_waiting_approval_turns": 1,
+    "ledger_reset": false
+  },
+  "evidence_scope": {
+    "previous_source_report": "docs/evidence/v3/final-source-analysis-repair-20261012.json",
+    "previous_report_files_compared": 11,
+    "previous_report_hash_mismatches": 0,
+    "current_change": "F54 quote lifecycle repair adds new source and migration beyond the previous report scope",
+    "historical_F06": "Current golden first run G03 passed; historical failure root cause not reconstructed or deleted",
+    "historical_F08": "Current Compose four-service health confirmed; current-version capacity/Android/Ops acceptance remains N03-N07 work",
+    "health_is_business_acceptance": false
+  },
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO"
+}

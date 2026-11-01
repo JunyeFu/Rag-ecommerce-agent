@@ -1,0 +1,92 @@
+{
+  "package_id": "V3-UX-FIGMA-01",
+  "status": "blocked",
+  "date": "2026-10-24",
+  "external_gates": [
+    "持久化、基础设施与F60容量复验已完成；最终同版交付仍未签收",
+    "真实人声、Chrome首次设置和最终封版仍独立保留；远端发布未授权"
+  ],
+  "native_paths_status": "PASS_SCOPED",
+  "mimo_calls": 0,
+  "checks": [
+    {
+      "id": "F60_capacity_follow_up",
+      "result": "Normal CLI, realPG/twoWorkers/localBGE full10x30 passed at182.079ms acceptp95, max batch190.832ms;237 Python/0skip. Android not reexecuted; final same-source delivery remains pending. Historical failed controls retained.",
+      "evidence": "docs/evidence/v3/final-F60-review-20261024.json"
+    },
+    {
+      "id": "docker_recovered_follow_up",
+      "result": "Current four-service/PG/MinIO/Qdrant and persistence functionality passed; MinIO concurrent startup fixed. F60 remains failed at229.731ms. Android was not rerun under this infrastructure follow-up.",
+      "evidence": "docs/evidence/v3/final-infrastructure-recheck-20261024.json"
+    },
+    {
+      "id": "non_docker_regression_20261024",
+      "result": "Android55 unit; lint0errors19warnings; final ordinary-touch fixture41/41 after restoring original TalkBack disabled/font1.0 settings. First fixture41/2fail retained. Host pytest1, ruff, compileall and navigation7/build plus desktop/mobile Playwright passed.",
+      "evidence": "docs/evidence/v3/android-talkback-20261024.json"
+    },
+    {
+      "id": "talkback_non_docker_follow_up",
+      "result": "Final same-APK native matrix 8/8: two fonts, touchscreen/keyboard navigation, dialogs and vertical recommendation business through actual HTTP in-memory fake API; no state injection or PostgreSQL durability claim. Historical failures retained.",
+      "evidence": "docs/evidence/v3/android-talkback-20261024.json"
+    },
+    {
+      "id": "historical_native",
+      "result": "retained declared c1-c6 default/200% scope",
+      "evidence": "docs/evidence/v3/android-ux-native-20261021.json"
+    },
+    {
+      "id": "editable_state_alignment",
+      "result": "source-backed 31-state catalogue; 0 horizontal overflow; no per-data pixel-equivalence claim",
+      "evidence": "docs/design/android-state-parity-20261022.json"
+    },
+    {
+      "id": "owner_bound_native",
+      "result": "passed 10 of 10 default and 200% paths on same application APK",
+      "cases": [
+        "c1",
+        "c2",
+        "c8",
+        "c8b",
+        "c9"
+      ],
+      "evidence": "docs/evidence/v3/android-figma-accessibility-20261022.json"
+    },
+    {
+      "id": "nonpaid_regression",
+      "result": "192 unit + 36 isolated infrastructure + 1 owner binding; Android55 unit/lint/build; Ops5; local BGE and30 durable Missions passed"
+    },
+    {
+      "id": "visual_fixtures",
+      "result": "passed final full 39 of 39, 0 skipped; original 39/4fail,39/1fail,39/1fail and targeted correction retained"
+    },
+    {
+      "id": "talkback_traversal",
+      "result": "Historical 2026-10-22 not accepted; subsequent scoped native follow-up is recorded above, not retroactively applied to this result",
+      "evidence": "docs/evidence/v3/android-figma-accessibility-20261022.json"
+    }
+  ],
+  "commands": [
+    "2026-10-24: verify_android_talkback.py --package com.ragcommerce.agent.talkbackfinalreview --flow navigation|dialogs|core --scale1.0|2.0 --input touchscreen|keyboard (eight declared final combinations)",
+    "2026-10-24: adb am instrument ShoppingFlowTest (same APK,41 tests; first TalkBack-on39/41, restored ordinary-touch control41/41)",
+    "2026-10-24: pytest scripts/tests/test_talkback_evidence.py; ruff; compileall; validate_task_packages.py; scoped git diff --check",
+    "2026-10-24: navigation npm test/build; existing Playwright CLI desktop1440x1000/mobile390x844; evidence link HTTP200",
+    "pytest -q -m 'not integration' (explicit fake, no DATABASE_URL)",
+    "pytest -q -m integration (isolated PostgreSQL/Qdrant/MinIO)",
+    "pytest -q scripts/tests/test_android_ux_owner_binding.py",
+    "scripts/verify_android_decision_ux.py --owner-id <verified isolated install ID> --case c1|c2|c8|c8b|c9 --scale 1.0|2.0 --attempt 10",
+    "gradlew :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug (a11yreview/API20882)",
+    "npm run test:ops:e2e (persistent fake API20883 and PostgreSQL)",
+    "scripts/run_frozen_retrieval_acceptance.py --qdrant-url <isolated URL> --output <new report>",
+    "scripts/run_v3_durable_load.py --base-url <isolated persistent API> --output <new report>"
+  ],
+  "remaining": [
+    "Current infrastructure functionality passed; capacity F60 remains unaccepted, and earlier fake HTTP accessibility is not itself a durability claim.",
+    "One historical zero-test observer exception was not retained and remains unknown; the failed attempt is not accepted.",
+    "A02/M03 human microphone, A09 Chrome FTU and final portfolio sealing remain separate."
+  ],
+  "notes": [
+    "Manifest remains in_progress, not complete. No new paid calls, staging, commit, push or publication.",
+    "Older first-row-owner database attributions excluded; original attempts and failures retained."
+  ]
+}
+

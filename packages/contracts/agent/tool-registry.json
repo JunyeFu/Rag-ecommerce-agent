@@ -125,27 +125,31 @@
       "arguments_schema": {
         "additionalProperties": false,
         "properties": {
-          "item_id": {
-            "title": "Item Id",
+          "list_id": {
+            "format": "uuid",
+            "title": "List Id",
             "type": "string"
           },
           "operation": {
+            "enum": [
+              "add",
+              "remove"
+            ],
             "title": "Operation",
             "type": "string"
           },
-          "quantity": {
-            "default": 1,
-            "maximum": 99,
-            "minimum": 1,
-            "title": "Quantity",
-            "type": "integer"
+          "variant_id": {
+            "format": "uuid",
+            "title": "Variant Id",
+            "type": "string"
           }
         },
         "required": [
           "operation",
-          "item_id"
+          "list_id",
+          "variant_id"
         ],
-        "title": "UpdateArgs",
+        "title": "ListUpdateArgs",
         "type": "object"
       },
       "name": "list.update",
@@ -155,11 +159,17 @@
       "arguments_schema": {
         "additionalProperties": false,
         "properties": {
-          "item_id": {
-            "title": "Item Id",
+          "offer_id": {
+            "format": "uuid",
+            "title": "Offer Id",
             "type": "string"
           },
           "operation": {
+            "enum": [
+              "add",
+              "set",
+              "remove"
+            ],
             "title": "Operation",
             "type": "string"
           },
@@ -173,9 +183,9 @@
         },
         "required": [
           "operation",
-          "item_id"
+          "offer_id"
         ],
-        "title": "UpdateArgs",
+        "title": "CartUpdateArgs",
         "type": "object"
       },
       "name": "cart.update",
@@ -227,6 +237,24 @@
         "type": "object"
       },
       "name": "vision.identify",
+      "risk": "CONSENT"
+    },
+    {
+      "arguments_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "media_ref": {
+            "title": "Media Ref",
+            "type": "string"
+          }
+        },
+        "required": [
+          "media_ref"
+        ],
+        "title": "MediaArgs",
+        "type": "object"
+      },
+      "name": "audio.transcribe",
       "risk": "CONSENT"
     },
     {

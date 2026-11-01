@@ -1,11 +1,11 @@
 {
+  "challenge_consumed": false,
   "dataset": "data/demo/catalog.v3.jsonl",
   "evaluation": "evals/v3/golden-scenarios.json",
   "evidence_level": "project_authored_demo_ablation",
-  "heldout_consumed": false,
   "limitations": [
     "Deterministic vectors are a CI fixture, not real-provider evidence.",
-    "The ten golden scenarios are public and not a held-out human evaluation."
+    "The ten golden scenarios are separate from the automated challenge split."
   ],
   "numeric_guard": {
     "all_metrics_finite": true

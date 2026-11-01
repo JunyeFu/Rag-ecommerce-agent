@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "authorized_on": "2026-10-12",
+  "authority": "Direct human reply in this chat",
+  "user_reply": "允许一次 A10-R4 零模型调用收尾",
+  "additional_slots": ["A10-R4"],
+  "resume_erasure_from": "A10-R3",
+  "scope": "Only the existing completed isolated A10-R3 task: native read-only recovery, owner isolation, cancel deletion once, confirm deletion once. No approval, new Turn, Run or model call.",
+  "model_calls_allowed": false,
+  "budget_session_unchanged": "internship-final-20261009",
+  "total_token_limit_unchanged": 2000000,
+  "observation_seconds_unchanged": 600,
+  "first_and_previous_failures_preserved": true,
+  "no_automatic_retry_authorized": true
+}

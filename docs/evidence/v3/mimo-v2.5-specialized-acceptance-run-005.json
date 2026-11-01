@@ -1,0 +1,110 @@
+{
+  "created_at": "2026-09-21T07:59:31.499270+00:00",
+  "evidence_level": "REAL_PROVIDER_SPECIALIZED_ACCEPTANCE",
+  "passed": true,
+  "provider": {
+    "cost": "NOT_AVAILABLE_FROM_PROVIDER",
+    "endpoint_host": "api.xiaomimimo.com",
+    "model": "mimo-v2.5"
+  },
+  "scenarios": [
+    {
+      "actual_tool": null,
+      "approval_blocked_before_decision": null,
+      "call_count": 0,
+      "expected_tool": null,
+      "id": "clarification",
+      "idempotent_replay": null,
+      "latency_ms": 11014.488,
+      "passed": true,
+      "schema_valid": true,
+      "state_changed_after_approval": null,
+      "usage": {
+        "completion_tokens": 315,
+        "forced_write": false,
+        "model": "mimo-v2.5",
+        "planning_path": "empty_model_decision",
+        "prompt_tokens": 1841,
+        "provider": "openai_compatible",
+        "tool_call_count": 0,
+        "tool_calls_present": false,
+        "total_tokens": 2156
+      }
+    },
+    {
+      "actual_tool": "offer.requote",
+      "approval_blocked_before_decision": null,
+      "call_count": 1,
+      "expected_tool": "offer.requote",
+      "id": "requote",
+      "idempotent_replay": null,
+      "latency_ms": 11733.659,
+      "passed": true,
+      "schema_valid": true,
+      "state_changed_after_approval": null,
+      "usage": {
+        "completion_tokens": 181,
+        "forced_write": false,
+        "model": "mimo-v2.5",
+        "planning_path": "model_tool_call",
+        "prompt_tokens": 2687,
+        "provider": "openai_compatible",
+        "tool_call_count": 1,
+        "tool_calls_present": true,
+        "total_tokens": 2868
+      }
+    },
+    {
+      "actual_tool": "list.update",
+      "approval_blocked_before_decision": true,
+      "call_count": 1,
+      "expected_tool": "list.update",
+      "id": "list_write",
+      "idempotent_replay": true,
+      "latency_ms": 24118.505,
+      "passed": true,
+      "schema_valid": true,
+      "state_changed_after_approval": true,
+      "usage": {
+        "completion_tokens": 530,
+        "forced_write": false,
+        "model": "mimo-v2.5",
+        "planning_path": "model_tool_call",
+        "prompt_tokens": 2711,
+        "provider": "openai_compatible",
+        "tool_call_count": 1,
+        "tool_calls_present": true,
+        "total_tokens": 3241
+      }
+    },
+    {
+      "actual_tool": "cart.update",
+      "approval_blocked_before_decision": true,
+      "call_count": 1,
+      "expected_tool": "cart.update",
+      "id": "cart_write",
+      "idempotent_replay": true,
+      "latency_ms": 25005.977,
+      "passed": true,
+      "schema_valid": true,
+      "state_changed_after_approval": true,
+      "usage": {
+        "completion_tokens": 511,
+        "forced_write": true,
+        "model": "mimo-v2.5",
+        "planning_path": "model_tool_call",
+        "prompt_tokens": 2683,
+        "provider": "openai_compatible",
+        "tool_call_count": 1,
+        "tool_calls_present": true,
+        "total_tokens": 3194
+      }
+    }
+  ],
+  "schema_version": 1,
+  "single_attempt_per_scenario": true,
+  "summary": {
+    "passed": 4,
+    "total": 4
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-UX-DECISION-01",
+  "owner": "current-task",
+  "objective": "候选反馈、差异比较与无匹配调整",
+  "inputs": [
+    "docs/plans/ANDROID-DECISION-UX-UPGRADE.md",
+    "data/demo/catalog.v3.jsonl"
+  ],
+  "outputs": [
+    "docs/task-packages/packages/V3-UX-DECISION-01/evidence/verification.json"
+  ],
+  "acceptance": [
+    "第二款太重但保留续航：上下文指向第二款，否定不自动排除整个类别。",
+    "两款电脑差异缺字段时显示未知，比较返回保留选择。",
+    "预算和硬约束冲突时可以编辑，不显示伪合格结果。"
+  ],
+  "test_profiles": [
+    "targeted Python",
+    "Android unit/lint/build",
+    "contract drift",
+    "native QA when available"
+  ],
+  "business_refs": [
+    "shared.business_model"
+  ],
+  "development_refs": [
+    "profiles.task_packages"
+  ],
+  "risk_refs": [
+    "shared.pitfalls"
+  ]
+}
+

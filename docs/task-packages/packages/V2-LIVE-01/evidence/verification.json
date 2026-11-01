@@ -20,7 +20,7 @@
   ],
   "artifacts": {"docs/live/readiness.json": "92db6696b9ebc43804aeb85649ee61e2d7403bed9fe9045e44c04a1c57ae2224"},
   "external_gates": [
-    "真实模型评测、100条held-out双人盲评与外部安全门禁",
+    "真实模型challenge评测与外部安全门禁",
     "live联盟/模型凭据、获批生产环境与真实运营流量",
     "候选身份、物理Android设备、TalkBack验收与live回滚责任人"
   ],

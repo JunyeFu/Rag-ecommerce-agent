@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "authorized_on": "2026-10-13",
+  "authority": "Direct human reply in this chat",
+  "user_reply": "允许一次 A08-R5 完整复测",
+  "additional_slots": ["A08-R5"],
+  "root_cause": "F56: FAILED snapshot requires actual failed composer, not COMPLETED recovery receipt",
+  "preflight": {"native_method": "inspectActualFailedMissionComposerReadOnly", "runner_pid": 6256, "tests": 1, "failed": 0, "ignored": 0, "new_model_calls": 0},
+  "execution_before_unstarted_slots": ["A10-R5", "A09-R1"],
+  "total_token_limit": 2000000,
+  "run_token_limit": 48000,
+  "observation_seconds": 600,
+  "automatic_retries": false,
+  "prior_failures_preserved": true
+}

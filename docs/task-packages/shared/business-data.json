@@ -12,7 +12,7 @@
   "source_repo": {
     "root_hint": ".",
     "products": {"path":"data/demo/catalog.v3.jsonl","sha256":"70122f467bbac0b32a1d1f3a6b6338d0854b3c1870db06bd0a248849be0dc909"},
-    "evaluation": {"path":"evals/v3/golden-scenarios.json","sha256":"b65506f821f6982e8eb35211e3ffc46a110a7bd8ceadf432998735ffe1390ad5"},
+    "evaluation": {"path":"evals/v3/golden-scenarios.json","sha256":"f3295a79fef52b6ec8d9f1db092a6918f21bdac9c9bde8dad93dc938ffb155c9"},
     "ui_tokens": {"path":"apps/android/app/src/main/java/com/ragcommerce/agent/ui/DesignTokens.kt","sha256":"d872984b019e70df419dc05b346e554b2c6e13d41510abc2dbbc5060c0352968"}
   },
   "catalog": {
@@ -28,7 +28,7 @@
   },
   "evaluation": {
     "path": "evals/v3/golden-scenarios.json",
-    "sha256": "b65506f821f6982e8eb35211e3ffc46a110a7bd8ceadf432998735ffe1390ad5",
+    "sha256": "f3295a79fef52b6ec8d9f1db092a6918f21bdac9c9bde8dad93dc938ffb155c9",
     "cases": 10,
     "held_out": false
   },

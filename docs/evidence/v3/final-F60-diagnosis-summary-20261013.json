@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-13",
+  "defect": "F60",
+  "status": "OPEN_CAUSE_NOT_ESTABLISHED",
+  "observations": {
+    "direct_service": {
+      "requests": 30,
+      "work_p95_ms": 38.61099999630824,
+      "awaited_p95_ms": 48.90799999702722,
+      "get_thread_p95_ms": 16.84270001715049,
+      "reserve_p95_ms": 23.496400011936203,
+      "report": "docs/evidence/v3/final-F60-submit-stage-timing-20261013.json"
+    },
+    "same_process_http": {
+      "requests": 30,
+      "completed": 30,
+      "accept_p95_ms": 327.57959997979924,
+      "first_state_p95_ms": 182.63850000221282,
+      "work_p95_ms": 127.43939997744747,
+      "reserve_p95_ms": 124.97789997723885,
+      "report": "docs/evidence/v3/final-F60-http-stage-timing-20261013.json"
+    }
+  },
+  "invalid_attribution": {
+    "cprofile": "Concurrent profiler tool conflict on CPython3.12; subsequent one-profiler output contains other thread calls and is not per-thread attribution",
+    "first_failure_report": "docs/evidence/v3/final-F60-submit-profile-first-failure-20261013.json",
+    "old_output_preserved": "docs/evidence/v3/final-F60-submit-profile-20261013.json"
+  },
+  "conclusion": "Direct service and HTTP differ, but shared-client/server event loop changes workload. Evidence does not identify connection pool, thread pool or SQL as sole root cause. No speculative production fix.",
+  "next": "Use separate-process HTTP stage timing before choosing a minimal production fix; preserve failed ten-batch denominator",
+  "safety": {
+    "provider": "fake",
+    "new_paid_calls": 0,
+    "production_code_changed": false,
+    "owned_runtime_stopped": true,
+    "volumes_preserved": true
+  },
+  "validation": {
+    "ruff": "passed",
+    "task_packages": 44,
+    "errors": 0
+  },
+  "LOCAL_PORTFOLIO_READY": "HOLD"
+}

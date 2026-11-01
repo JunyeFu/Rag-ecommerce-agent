@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-13",
+  "task": "FINAL-N10",
+  "status": "reference_materials_verified_final_handoff_pending",
+  "references": {
+    "questions": 24,
+    "scripts": 4,
+    "materials": 8,
+    "code_or_evidence_paths": 42,
+    "missing_paths": 0,
+    "personal_contribution_signed": false,
+    "personal_records_modified": false
+  },
+  "navigation": {
+    "url": "http://127.0.0.1:24180/",
+    "unit_tests": 7,
+    "failed": 0,
+    "build": "passed",
+    "browser": "Browser plugin not available; existing Playwright used",
+    "viewports": [
+      "1440x1000",
+      "390x844"
+    ],
+    "execution_rows": 11,
+    "checks": {
+      "page_identity": true,
+      "not_blank": true,
+      "no_framework_overlay": true,
+      "no_console_errors": true,
+      "screenshot_review": true,
+      "reference_export_24_4_8": true,
+      "record_preservation_unit_test": true,
+      "no_horizontal_overflow": true
+    },
+    "raw_visual_report": "next-steps-qa.json outside repository",
+    "export_fix": "Eight reference material summaries were missing from Markdown; failing export assertion preserved in execution transcript, fixed and passed."
+  },
+  "independent_start": {
+    "report": "docs/evidence/v3/final-N08-independent-start-20261013.json",
+    "scope": "Preliminary 810-file source, independent venv/database/storage; shared download caches",
+    "bootstrap_initial": "Pinned uv 0.11.13 mismatch with default 0.12.18; failed; no version relaxation",
+    "bootstrap_corrected": "Process PATH selected already-installed uv 0.11.13; 17 commands passed; Python 184 passed/31 infrastructure tests skipped at bootstrap",
+    "business": "Actual API/durable Worker/events/products verified; fake/local; 0 paid calls",
+    "owned_stop": {
+      "exit_code": 0,
+      "volumes_preserved": true,
+      "ports_released": true,
+      "main_runtime_untouched": true
+    }
+  },
+  "latest_android": {
+    "command": "gradlew.bat :app:testDebugUnitTest :app:assembleDebug --max-workers=1 -PapiUrl=http://10.0.2.2:20881/",
+    "jdk": "21.0.12.101",
+    "initial_failure": "SDK location not found in current terminal; no local.properties read",
+    "correction": "Explicit process ANDROID_HOME points to existing SDK",
+    "exit_code": 0,
+    "unit_tests": 41,
+    "failures": 0,
+    "skipped": 0,
+    "gradle_tasks": {
+      "executed": 15,
+      "from_cache": 1,
+      "up_to_date": 34
+    },
+    "apk": "apps/android/app/build/outputs/apk/debug/app-debug.apk",
+    "sha256": "c3e6db772149fdfdb556218a86e251ff958c27a973e32a80f65200e0a7a59c91",
+    "scope": "Current product directory build, not final independently sealed APK/video"
+  },
+  "remaining": [
+    "A02/M03 actual human microphone input deferred by user",
+    "A09 Chrome first setup deferred by user; one 0-model retest remains unused",
+    "Final same-source APK/media export and independent final review"
+  ],
+  "new_paid_calls_in_this_materials_batch": 0,
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO"
+}

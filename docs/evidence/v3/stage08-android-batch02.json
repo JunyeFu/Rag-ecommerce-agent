@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-08",
+  "verified_at": "2026-10-08T20:55:04+08:00",
+  "package_id": "V3-CAREER-CLOSE-01",
+  "status": "LOCAL_ANDROID_CHECKS_PASSED",
+  "product_gate": "HOLD",
+  "commercial_gate": "NO_GO",
+  "scope": "Consume server run/cursor pairing and synchronize persisted pending approval during recovery; no visual redesign.",
+  "root_causes": [
+    "RemoteThreadSnapshot ignored active_run_id; ViewModel merged cursors from different runs using maxOf.",
+    "Local pending approval was not reconciled with terminal server snapshots and local observation raced initial remote recovery."
+  ],
+  "changes": [
+    "Parse active_run_id, replace resumable run/cursor in one DataStore edit; clear obsolete pending approval and cursor for closed, idle or clarifying snapshots.",
+    "Start local observation after initial remote recovery; refresh server snapshot before reconnect consumption; ignore old-run stream results and prevent old-run preference writes.",
+    "Known IO/HTTP recovery errors become explicit offline UI; unknown contract failures are not silently replaced with old state."
+  ],
+  "checks": [
+    {"command": "gradlew.bat :app:testDebugUnitTest --tests com.ragcommerce.agent.ShoppingProtocolTest --offline", "phase": "RED", "result": "GRADLE_BUILD_FAILED", "tests": 8, "failed": 1, "summary": "Expected server active_run_id, received null. Shell wrapper reported exit 0 despite Gradle task failure; assertion and Gradle output are authoritative."},
+    {"command": "gradlew.bat :app:testDebugUnitTest :app:lintDebug :app:assembleDebug --offline", "phase": "FINAL_GREEN", "exit_code": 0, "tests": 29, "failed": 0, "errors": 0, "lint_warnings": 18, "gradle_tasks": 60, "executed": 21, "up_to_date": 39},
+    {"command": "git diff --check -- <three edited Android files>", "exit_code": 0, "summary": "LF/CRLF warnings only."}
+  ],
+  "test_boundary": "JVM protocol, preference transformation and reducer tests. Preference reload is immutable in-memory readback, not process death or disk restart. ViewModel sequencing and stale-stream guards are code-reviewed and compile/lint checked, not device acceptance.",
+  "apk": "apps/android/app/build/outputs/apk/debug/app-debug.apk",
+  "environment": "Existing Java 21 and Android SDK via process variables; offline Gradle; no credential files read or dependencies installed.",
+  "remaining": ["Android device recovery acceptance", "PostgreSQL concurrent approval and restart", "Structured exploration and RAG projection"],
+  "real_model_calls": 0,
+  "git_actions": "No stage, commit, push or release."
+}

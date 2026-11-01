@@ -1,0 +1,34 @@
+{
+  "created_at": "2026-10-09T16:44:26Z",
+  "evidence_level": "NATIVE_ANDROID_READ_ONLY_DIAGNOSIS",
+  "defect": "F36",
+  "formal_scenario_retest": false,
+  "first_failure_report": "docs/evidence/v3/final-real-A08-first-20261009.json",
+  "commands": [
+    {
+      "command": "Android assembleDebugAndroidTest",
+      "exit_code": 0,
+      "duration_seconds": 4,
+      "tasks_executed": 6,
+      "tasks_up_to_date": 48
+    },
+    {
+      "command": "FinalScenarioApiTest#inspectActualCartQuantityReadOnly",
+      "exit_code": 0,
+      "native_runner_pid": 9538,
+      "tests": 1,
+      "failed": 0,
+      "duration_seconds": 4.789
+    }
+  ],
+  "actual_owner": "0f71a5c2-3a93-44b0-af6f-5498044ec431",
+  "actual_offer": "ec17f15f-fc9e-5154-9b1d-49ee749aa6e9",
+  "actual_quantity": 0,
+  "injected_ui_state": false,
+  "new_turns": 0,
+  "model_calls": 0,
+  "tokens": 0,
+  "apk_sha256": "c7c6978c41bacf57519fd37d566e448364d912a2749e1da31763665a4137ba26",
+  "test_apk_sha256": "5338df82b6b298283b2aad86c0d6a9ee57822fbfb5f28ff3a8dc31f9a54977f9",
+  "remaining": "Actual rejection/approval/UI refresh/idempotency await separately authorized A08-R1; F35 is not signed."
+}

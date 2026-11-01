@@ -1,0 +1,127 @@
+{
+  "task": "FINAL-N07",
+  "date": "2026-10-13",
+  "status": "passed_for_current_local_quality_scope",
+  "python": {
+    "passed": 215,
+    "failed": 0,
+    "skipped": 0,
+    "database": "ragcommerce_next_20261013",
+    "migration_revision": "20261013_0015",
+    "alembic_check": "No new upgrade operations detected"
+  },
+  "contracts": {
+    "version": "0.2.0",
+    "openapi_paths": 27,
+    "generated_type_files": 3,
+    "tool_count": 11,
+    "drift": false
+  },
+  "android": {
+    "unit_tests": 41,
+    "unit_execution": "UP-TO-DATE",
+    "visual_fixture_tests": 34,
+    "build": "passed",
+    "lint_errors": 0,
+    "lint_warnings": 18,
+    "native_business_reports": [
+      "final-real-A08-R5-20261013.json",
+      "final-real-A10-R5-20261013.json"
+    ],
+    "later_build_observation": {
+      "initial_combined_command": "unit/lint/assembleBenchmark -PapiUrl=https://ci.invalid",
+      "initial_result": "Unexpected lint analysis internal failure in lintAnalyzeDebugUnitTest/lintAnalyzeDebugAndroidTest",
+      "cause": "NOT_ESTABLISHED",
+      "diagnostic_lint": "lintDebug --max-workers=1 passed; 0 errors, 18 warnings",
+      "benchmark": "assembleBenchmark --max-workers=1 -PapiUrl=https://ci.invalid passed",
+      "not_automatic_retry": true
+    }
+  },
+  "ops": {
+    "typecheck": "passed",
+    "unit_tests": 2,
+    "build": "passed",
+    "playwright_workflows": 5,
+    "failed": 0,
+    "persisted_api": true,
+    "refresh_verified": true,
+    "initial_failure": "Duplicate React tool-attempt key; F58 fixed",
+    "raw_report": "output/final-next-20261013/ops-playwright-02.json",
+    "raw_report_public": false
+  },
+  "retrieval": {
+    "report": "docs/evidence/v3/final-N07-retrieval-20261013.json",
+    "queries": 120,
+    "dev": 40,
+    "heldout": 80,
+    "positive_heldout": 64,
+    "no_match_heldout": 16,
+    "recall_at_10": 1,
+    "rrf_ndcg_at_10": 0.9934768615761483,
+    "bm25_ndcg_at_10": 1,
+    "bge_ndcg_at_10": 0.9810184531200775,
+    "fusion_gain_claimed": false,
+    "heldout_used_for_tuning": false
+  },
+  "capacity": {
+    "report": "docs/evidence/v3/final-N07-durable-load-20261013.json",
+    "database": "ragcommerce_nativepreflight_20261013",
+    "worker_processes": 2,
+    "missions": 30,
+    "completed": 30,
+    "terminal_once": true,
+    "turn_accept_p95_ms": 134.94380001793616,
+    "first_state_p95_ms": 676.4706999820191,
+    "provider": "fake",
+    "retrieval": "local",
+    "real_model_latency_claimed": false
+  },
+  "recovery": {
+    "report": "docs/evidence/v3/final-N07-worker-process-recovery-02-20261013.json",
+    "elapsed_seconds": 304.438,
+    "natural_lease_seconds": 300,
+    "clock_modified": false,
+    "write_receipt_terminal_once": true,
+    "cursor_replay_exact": true,
+    "first_failure_preserved": "docs/evidence/v3/final-N07-worker-process-recovery-first-20261013.json"
+  },
+  "challenge_layers": {
+    "reference_constructor": {
+      "cases": 1000,
+      "split": {
+        "dev": 600,
+        "test": 250,
+        "challenge": 150
+      },
+      "generation_validation": "passed",
+      "not_agent_success_rate": true
+    },
+    "actual_retrieval": "120 frozen BM25/BGE/RRF queries on owned 60-SKU data",
+    "AgentRuntime_and_API": "215 unit/integration checks plus actual fake durable 30-Mission load; not 1000 real-model cases",
+    "real_provider": "Historical golden first 10/10 parsed, 9/10 flow; current changed approval/recovery accepted by A08-R5/A10-R5",
+    "native_voice": "A02/M03 still awaiting actual human microphone participation"
+  },
+  "governance": {
+    "minimality": "passed",
+    "secret_findings": 0,
+    "sast_findings": 0,
+    "external_security_scans": "not performed",
+    "sbom_components": 242,
+    "ci_policy_gates": 18,
+    "task_packages": 44,
+    "task_package_errors": 0,
+    "ruff": "passed",
+    "compose_config": "passed",
+    "diff_check": "passed",
+    "windows_line_ending_warnings": "retained; not diff whitespace errors"
+  },
+  "remaining": [
+    "A02/M03 real native speech",
+    "A09 Chrome setup and complete native quote/external flow",
+    "Final same-source export/start; preliminary independent 810-file candidate already verified",
+    "Same-candidate APK/media/interview handoff and independent final review"
+  ],
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO"
+}

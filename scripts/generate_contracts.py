@@ -6,22 +6,32 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OPENAPI = ROOT / "packages/contracts/openapi.json"
 HEALTH_SCHEMA = ROOT / "packages/contracts/schemas/health-response.schema.json"
-GENERATOR_VERSION = "3"
+GENERATOR_VERSION = "4"
 EXPECTED_OPERATIONS = {
+    "getThreads",
+    "patchThread",
+    "getThreadMessages",
+    "updateCandidateFeedback",
+    "getVariant",
+    "undoCandidateFeedback",
     "createAgentRunDecision",
     "createCartMutation",
     "createList",
     "createMedia",
     "createThread",
     "createTurn",
+    "createWatcher",
     "deleteMedia",
     "deleteMyData",
     "getCart",
+    "getComparisonSelection",
     "getAgentRunEvents",
     "getHealth",
     "getLists",
@@ -35,36 +45,50 @@ EXPECTED_OPERATIONS = {
     "getProduct",
     "getProductOffers",
     "getThread",
+    "getWatchers",
     "patchCart",
     "patchList",
+    "parseMission",
     "resolveOffer",
     "resolveOpsEntityConflict",
     "startOpsEvaluationRun",
+    "updateThreadConstraints",
+    "updateComparisonSelection",
 }
 EXPECTED_MODELS = {
     "AgentDecision",
+    "BusinessFactView",
     "CartItemView",
     "CartMutation",
     "CartView",
+    "ComparisonSelection",
     "CreateListRequest",
     "CreateThreadRequest",
+    "CreateWatcherRequest",
     "DecisionAccepted",
     "DeletionResult",
     "HealthResponse",
     "MediaCreated",
+    "MediaInterpretation",
+    "MediaConfirmation",
     "OfferCollection",
     "OfferView",
     "PatchListRequest",
     "ProductCandidateView",
     "ProductView",
+    "RecommendationRouteView",
     "ResolveOfferRequest",
     "ResolvedOffer",
     "ShoppingListView",
     "ShoppingListsResponse",
+    "MissionItemView",
+    "ShoppingMissionView",
     "ThreadCreated",
     "ThreadSnapshot",
     "TurnAccepted",
     "TurnRequest",
+    "WatcherCollection",
+    "WatcherView",
 }
 
 
@@ -140,6 +164,22 @@ class ThreadCreated(StrictModel):
     mission_id: UUID
 
 
+class MissionItemView(StrictModel):
+    category: str
+    quantity: int = Field(ge=1, le=99)
+
+
+class ShoppingMissionView(StrictModel):
+    goal: str
+    version: int = Field(ge=1)
+    items: list[MissionItemView] = Field(default_factory=list)
+    hard_constraints: list[str] = Field(default_factory=list)
+    soft_preferences: list[str] = Field(default_factory=list)
+    unknowns: list[str] = Field(default_factory=list)
+    budget_total_minor: int | None = Field(default=None, ge=0)
+    currency: Literal["CNY"] = "CNY"
+
+
 class ProductCandidateView(StrictModel):
     product_id: UUID
     variant_id: UUID
@@ -149,9 +189,98 @@ class ProductCandidateView(StrictModel):
     unmet_constraints: list[str] = Field(default_factory=list)
     risks: list[str] = Field(default_factory=list)
     evidence_refs: list[str] = Field(default_factory=list)
+    recommendation_type: Literal["STRICT", "BUDGET", "ALTERNATIVE"] = "STRICT"
+    relaxed_constraints: list[str] = Field(default_factory=list)
+
+
+class RecommendationRouteView(StrictModel):
+    route_type: Literal["STRICT", "BUDGET", "ALTERNATIVE"]
+    status: Literal["AVAILABLE", "UNAVAILABLE"]
+    summary: str
+    relaxed_constraints: list[str] = Field(default_factory=list)
+    product_ids: list[UUID] = Field(default_factory=list)
+
+
+class ComparisonSelection(StrictModel):
+    product_ids: list[UUID] = Field(default_factory=list, max_length=4)
+
+
+class ExplorationDirection(StrictModel):
+    direction_id: str
+    title: str
+    category: str
+    experience_tags: list[str]
+    evidence_refs: list[str]
+    supporting_product_ids: list[UUID]
+    scenario_hint: str = ""
+    try_first: str = ""
+    to_confirm: str = ""
+
+
+class ExplorationState(StrictModel):
+    directions: list[ExplorationDirection] = Field(default_factory=list)
+    feedback: dict[str, Literal["interested", "not_interested"]] = Field(default_factory=dict)
+    shown_direction_ids: list[str] = Field(default_factory=list)
+    shown_product_ids: list[UUID] = Field(default_factory=list)
+    experience_tags: list[str] = Field(default_factory=list)
+    selected_direction_id: str | None = None
+    exhausted: bool = False
+    ended: bool = False
+    outcome: Literal["UNDECIDED", "USE_EXISTING", "NOT_BUYING"] | None = None
+
+
+class MediaInterpretation(StrictModel):
+    media_id: UUID
+    kind: Literal["image", "audio"]
+    recognized_text: str = Field(max_length=2000)
+    category: Literal["手机", "电脑", "耳机", "相机"] | None = None
+    visible_attributes: list[str] = Field(default_factory=list)
+    uncertainties: list[str] = Field(default_factory=list)
+    supported: bool
+
+
+class MediaConfirmation(StrictModel):
+    source_run_id: UUID
+    text: str = Field(min_length=1, max_length=500)
+
+
+class ThreadExperience(StrictModel):
+    title: str | None = None
+    archived: bool = False
+    feedback: dict[str, str] = Field(default_factory=dict)
+
+
+class CandidateFeedback(StrictModel):
+    product_id: UUID
+    expected_mission_version: int = Field(ge=1)
+    scope: Literal["PRODUCT", "CATEGORY"] = "PRODUCT"
+    reason: str = Field(min_length=1, max_length=200)
+    undo: bool = False
+
+
+class ThreadHistoryPatch(StrictModel):
+    title: str | None = Field(default=None, min_length=1, max_length=80)
+    archived: bool | None = None
+
+
+class ThreadHistoryEntry(StrictModel):
+    thread_id: UUID
+    goal: str
+    experience: ThreadExperience
+    mode: Literal["PURCHASE", "DISCOVERY"]
+
+
+class ConversationMessage(StrictModel):
+    run_id: UUID
+    role: Literal["user", "assistant", "system"]
+    text: str
 
 
 class ThreadSnapshot(StrictModel):
+    experience: ThreadExperience = Field(default_factory=ThreadExperience)
+    mode: Literal["PURCHASE", "DISCOVERY"] = "PURCHASE"
+    exploration: ExplorationState | None = None
+    pending_media_interpretations: list[MediaInterpretation] = Field(default_factory=list)
     thread_id: UUID
     mission_id: UUID
     goal: str
@@ -160,7 +289,12 @@ class ThreadSnapshot(StrictModel):
     ]
     last_event_id: int = Field(ge=0)
     pending_action: str | None = None
+    pending_action_arguments: dict[str, str | int] = Field(default_factory=dict)
+    active_run_id: UUID | None = None
     candidates: list[ProductCandidateView] = Field(default_factory=list)
+    recommendation_routes: list[RecommendationRouteView] = Field(default_factory=list)
+    mission: ShoppingMissionView
+    selected_product_ids: list[UUID] = Field(default_factory=list, max_length=4)
 
 
 class ProductView(StrictModel):
@@ -183,9 +317,20 @@ class MediaCreated(StrictModel):
     expires_at: datetime
 
 
+class ExplorationAction(StrictModel):
+    kind: Literal["start", "feedback", "next", "select_for_purchase", "end"]
+    experience_tags: list[Literal["life_improvement", "novelty"]] = Field(default_factory=list, max_length=2)
+    direction_id: str | None = Field(default=None, min_length=1, max_length=100)
+    value: Literal["interested", "not_interested", "neutral"] | None = None
+    outcome: Literal["UNDECIDED", "USE_EXISTING", "NOT_BUYING"] | None = None
+
+
 class TurnRequest(StrictModel):
     text: str = Field(default="", max_length=10000)
     media_ids: tuple[UUID, ...] = Field(default=(), max_length=8)
+    exploration_action: ExplorationAction | None = None
+    expected_mission_version: int | None = Field(default=None, ge=1)
+    media_confirmation: MediaConfirmation | None = None
 
 
 class TurnAccepted(StrictModel):
@@ -209,6 +354,17 @@ class DeletionResult(StrictModel):
     deleted: bool
 
 
+class BusinessFactView(StrictModel):
+    fact_type: Literal["price", "inventory", "delivery", "merchant", "after_sales"]
+    summary: str
+    verification_level: Literal[
+        "LIVE_AUTHORIZED", "FEED_VERIFIED", "DISCOVERY_ONLY", "DEMO_FIXTURE"
+    ]
+    observed_at: datetime
+    expires_at: datetime | None = None
+    evidence_ref: str
+
+
 class OfferView(StrictModel):
     offer_id: UUID
     merchant_name: str
@@ -220,6 +376,7 @@ class OfferView(StrictModel):
     collected_at: datetime
     expires_at: datetime
     source_ref: str
+    business_facts: list[BusinessFactView] = Field(default_factory=list)
 
 
 class OfferCollection(StrictModel):
@@ -264,6 +421,8 @@ class PatchListRequest(StrictModel):
 class CartItemView(StrictModel):
     offer_id: UUID
     quantity: int = Field(ge=1, le=99)
+    product: ProductView
+    quote: OfferView
 
 
 class CartView(StrictModel):
@@ -276,32 +435,62 @@ class CartMutation(StrictModel):
     quantity: int = Field(default=1, ge=1, le=99)
 
 
+class CreateWatcherRequest(StrictModel):
+    kind: Literal["PRICE_BELOW", "RESTOCK"]
+    offer_id: UUID
+    threshold_minor: int | None = Field(default=None, ge=0)
+
+
+class WatcherView(StrictModel):
+    watcher_id: UUID
+    thread_id: UUID
+    offer_id: UUID
+    kind: Literal["PRICE_BELOW", "RESTOCK"]
+    threshold_minor: int | None = Field(default=None, ge=0)
+    status: Literal["DEMO_DRAFT"] = "DEMO_DRAFT"
+    scheduler_active: Literal[False] = False
+    disclosure: str
+    created_at: datetime
+
+
+class WatcherCollection(StrictModel):
+    watchers: list[WatcherView]
+
+
 __all__ = [
     "CONTRACT_SOURCE_SHA256",
     "CONTRACT_VERSION",
     "AgentDecision",
+    "BusinessFactView",
     "CartItemView",
     "CartMutation",
     "CartView",
+    "ComparisonSelection",
     "CreateListRequest",
     "CreateThreadRequest",
+    "CreateWatcherRequest",
     "DecisionAccepted",
     "DeletionResult",
     "HealthResponse",
     "MediaCreated",
+    "MissionItemView",
     "OfferCollection",
     "OfferView",
     "PatchListRequest",
     "ProductCandidateView",
     "ProductView",
+    "RecommendationRouteView",
     "ResolveOfferRequest",
     "ResolvedOffer",
     "ShoppingListView",
     "ShoppingListsResponse",
+    "ShoppingMissionView",
     "ThreadCreated",
     "ThreadSnapshot",
     "TurnAccepted",
     "TurnRequest",
+    "WatcherCollection",
+    "WatcherView",
 ]
 '''
     kotlin = f'''// Generated file; do not edit. {banner}
@@ -313,6 +502,17 @@ const val CONTRACT_SOURCE_SHA256: String = "{digest}"
 data class HealthResponse(val status: String, val contract_version: String)
 data class CreateThreadRequest(val goal: String)
 data class ThreadCreated(val thread_id: String, val mission_id: String)
+data class MissionItemView(val category: String, val quantity: Int)
+data class ShoppingMissionView(
+    val goal: String,
+    val version: Int,
+    val items: List<MissionItemView> = emptyList(),
+    val hard_constraints: List<String> = emptyList(),
+    val soft_preferences: List<String> = emptyList(),
+    val unknowns: List<String> = emptyList(),
+    val budget_total_minor: Long? = null,
+    val currency: String = "CNY",
+)
 data class ProductCandidateView(
     val product_id: String,
     val variant_id: String,
@@ -322,15 +522,39 @@ data class ProductCandidateView(
     val unmet_constraints: List<String> = emptyList(),
     val risks: List<String> = emptyList(),
     val evidence_refs: List<String> = emptyList(),
+    val recommendation_type: String = "STRICT",
+    val relaxed_constraints: List<String> = emptyList(),
 )
+data class RecommendationRouteView(
+    val route_type: String,
+    val status: String,
+    val summary: String,
+    val relaxed_constraints: List<String> = emptyList(),
+    val product_ids: List<String> = emptyList(),
+)
+data class ComparisonSelection(val product_ids: List<String> = emptyList())
+data class ThreadExperience(val title: String? = null, val archived: Boolean = false, val feedback: Map<String, String> = emptyMap())
+data class CandidateFeedback(val product_id: String, val expected_mission_version: Int, val scope: String = "PRODUCT", val reason: String, val undo: Boolean = false)
+data class ThreadHistoryPatch(val title: String? = null, val archived: Boolean? = null)
+data class ThreadHistoryEntry(val thread_id: String, val goal: String, val experience: ThreadExperience, val mode: String)
+data class ConversationMessage(val run_id: String, val role: String, val text: String)
 data class ThreadSnapshot(
+    val experience: ThreadExperience = ThreadExperience(),
+    val mode: String = "PURCHASE",
+    val exploration: ExplorationState? = null,
+    val pending_media_interpretations: List<MediaInterpretation> = emptyList(),
     val thread_id: String,
     val mission_id: String,
     val goal: String,
     val status: String,
     val last_event_id: Long,
     val pending_action: String? = null,
+    val pending_action_arguments: Map<String, Any> = emptyMap(),
+    val active_run_id: String? = null,
     val candidates: List<ProductCandidateView> = emptyList(),
+    val recommendation_routes: List<RecommendationRouteView> = emptyList(),
+    val mission: ShoppingMissionView,
+    val selected_product_ids: List<String> = emptyList(),
 )
 data class ProductView(
     val product_id: String,
@@ -342,6 +566,13 @@ data class ProductView(
     val image_ref: String? = null,
     val evidence_refs: List<String>,
 )
+data class MediaInterpretation(
+    val media_id: String, val kind: String, val recognized_text: String,
+    val category: String? = null, val visible_attributes: List<String> = emptyList(),
+    val uncertainties: List<String> = emptyList(), val supported: Boolean,
+)
+data class MediaConfirmation(val source_run_id: String, val text: String)
+
 data class MediaCreated(
     val media_id: String,
     val kind: String,
@@ -350,7 +581,32 @@ data class MediaCreated(
     val sha256: String,
     val expires_at: String,
 )
-data class TurnRequest(val text: String = "", val media_ids: List<String> = emptyList())
+data class ExplorationDirection(
+    val direction_id: String, val title: String, val category: String,
+    val experience_tags: List<String>, val evidence_refs: List<String>,
+    val supporting_product_ids: List<String>,
+    val scenario_hint: String = "", val try_first: String = "", val to_confirm: String = "",
+)
+data class ExplorationState(
+    val directions: List<ExplorationDirection> = emptyList(),
+    val feedback: Map<String, String> = emptyMap(),
+    val shown_direction_ids: List<String> = emptyList(),
+    val shown_product_ids: List<String> = emptyList(),
+    val experience_tags: List<String> = emptyList(),
+    val selected_direction_id: String? = null,
+    val exhausted: Boolean = false, val ended: Boolean = false,
+    val outcome: String? = null,
+)
+data class ExplorationAction(
+    val kind: String, val experience_tags: List<String> = emptyList(),
+    val direction_id: String? = null, val value: String? = null,
+    val outcome: String? = null,
+)
+data class TurnRequest(
+    val text: String = "", val media_ids: List<String> = emptyList(),
+    val exploration_action: ExplorationAction? = null, val expected_mission_version: Int? = null,
+    val media_confirmation: MediaConfirmation? = null,
+)
 data class TurnAccepted(val run_id: String, val replayed: Boolean, val event_count: Int)
 data class AgentDecision(val tool_name: String, val approved: Boolean)
 data class DecisionAccepted(val run_id: String, val approved: Boolean, val event_count: Int)
@@ -366,6 +622,15 @@ data class OfferView(
     val collected_at: String,
     val expires_at: String,
     val source_ref: String,
+    val business_facts: List<BusinessFactView> = emptyList(),
+)
+data class BusinessFactView(
+    val fact_type: String,
+    val summary: String,
+    val verification_level: String,
+    val observed_at: String,
+    val expires_at: String? = null,
+    val evidence_ref: String,
 )
 data class OfferCollection(val product_id: String, val offers: List<OfferView>)
 data class ResolveOfferRequest(val quote_id: String? = null, val confirmed_quote_change: Boolean = false)
@@ -385,9 +650,22 @@ data class PatchListRequest(
     val add_variant_id: String? = null,
     val remove_variant_id: String? = null,
 )
-data class CartItemView(val offer_id: String, val quantity: Int)
+data class CartItemView(val offer_id: String, val quantity: Int, val product: ProductView, val quote: OfferView)
 data class CartView(val items: List<CartItemView>)
 data class CartMutation(val operation: String, val offer_id: String, val quantity: Int = 1)
+data class CreateWatcherRequest(val kind: String, val offer_id: String, val threshold_minor: Long? = null)
+data class WatcherView(
+    val watcher_id: String,
+    val thread_id: String,
+    val offer_id: String,
+    val kind: String,
+    val threshold_minor: Long? = null,
+    val status: String = "DEMO_DRAFT",
+    val scheduler_active: Boolean = false,
+    val disclosure: String,
+    val created_at: String,
+)
+data class WatcherCollection(val watchers: List<WatcherView>)
 '''
     typescript = f'''// Generated file; do not edit. {banner}
 export const CONTRACT_VERSION = "{version}" as const;
@@ -396,6 +674,17 @@ export const CONTRACT_SOURCE_SHA256 = "{digest}" as const;
 export type HealthResponse = {{ status: "ok"; contract_version: string }};
 export type CreateThreadRequest = {{ goal: string }};
 export type ThreadCreated = {{ thread_id: string; mission_id: string }};
+export type MissionItemView = {{ category: string; quantity: number }};
+export type ShoppingMissionView = {{
+  goal: string;
+  version: number;
+  items?: MissionItemView[];
+  hard_constraints?: string[];
+  soft_preferences?: string[];
+  unknowns?: string[];
+  budget_total_minor?: number | null;
+  currency: "CNY";
+}};
 export type ProductCandidateView = {{
   product_id: string;
   variant_id: string;
@@ -405,15 +694,39 @@ export type ProductCandidateView = {{
   unmet_constraints?: string[];
   risks?: string[];
   evidence_refs?: string[];
+  recommendation_type?: "STRICT" | "BUDGET" | "ALTERNATIVE";
+  relaxed_constraints?: string[];
 }};
+export type RecommendationRouteView = {{
+  route_type: "STRICT" | "BUDGET" | "ALTERNATIVE";
+  status: "AVAILABLE" | "UNAVAILABLE";
+  summary: string;
+  relaxed_constraints?: string[];
+  product_ids?: string[];
+}};
+export type ComparisonSelection = {{ product_ids?: string[] }};
+export type ThreadExperience = {{ title?: string | null; archived?: boolean; feedback?: Record<string, string> }};
+export type CandidateFeedback = {{ product_id: string; expected_mission_version: number; scope?: "PRODUCT" | "CATEGORY"; reason: string; undo?: boolean }};
+export type ThreadHistoryPatch = {{ title?: string | null; archived?: boolean | null }};
+export type ThreadHistoryEntry = {{ thread_id: string; goal: string; experience: ThreadExperience; mode: "PURCHASE" | "DISCOVERY" }};
+export type ConversationMessage = {{ run_id: string; role: "user" | "assistant" | "system"; text: string }};
 export type ThreadSnapshot = {{
+  experience?: ThreadExperience;
+  mode?: "PURCHASE" | "DISCOVERY";
+  exploration?: ExplorationState | null;
+  pending_media_interpretations: MediaInterpretation[];
   thread_id: string;
   mission_id: string;
   goal: string;
   status: "IDLE" | "RUNNING" | "WAITING_APPROVAL" | "WAITING_CLARIFICATION" | "COMPLETED" | "FAILED";
   last_event_id: number;
   pending_action?: string | null;
+  pending_action_arguments?: Record<string, string | number>;
+  active_run_id?: string | null;
   candidates?: ProductCandidateView[];
+  recommendation_routes?: RecommendationRouteView[];
+  mission: ShoppingMissionView;
+  selected_product_ids?: string[];
 }};
 export type ProductView = {{
   product_id: string;
@@ -425,6 +738,12 @@ export type ProductView = {{
   image_ref?: string | null;
   evidence_refs: string[];
 }};
+export type MediaInterpretation = {{
+  media_id: string; kind: "image" | "audio"; recognized_text: string;
+  category?: "手机" | "电脑" | "耳机" | "相机" | null;
+  visible_attributes: string[]; uncertainties: string[]; supported: boolean;
+}};
+export type MediaConfirmation = {{ source_run_id: string; text: string }};
 export type MediaCreated = {{
   media_id: string;
   kind: "image" | "audio";
@@ -433,7 +752,27 @@ export type MediaCreated = {{
   sha256: string;
   expires_at: string;
 }};
-export type TurnRequest = {{ text?: string; media_ids?: string[] }};
+export type ExplorationDirection = {{
+  direction_id: string; title: string; category: string; experience_tags: string[];
+  evidence_refs: string[]; supporting_product_ids: string[];
+  scenario_hint?: string; try_first?: string; to_confirm?: string;
+}};
+export type ExplorationState = {{
+  directions: ExplorationDirection[]; feedback: Record<string, "interested" | "not_interested">;
+  shown_direction_ids: string[]; shown_product_ids: string[]; experience_tags: string[];
+  selected_direction_id: string | null; exhausted: boolean; ended: boolean;
+  outcome?: "UNDECIDED" | "USE_EXISTING" | "NOT_BUYING" | null;
+}};
+export type ExplorationAction = {{
+  kind: "start" | "feedback" | "next" | "select_for_purchase" | "end";
+  experience_tags?: ("life_improvement" | "novelty")[];
+  direction_id?: string | null; value?: "interested" | "not_interested" | "neutral" | null;
+  outcome?: "UNDECIDED" | "USE_EXISTING" | "NOT_BUYING" | null;
+}};
+export type TurnRequest = {{ text?: string; media_ids?: string[];
+  exploration_action?: ExplorationAction | null; expected_mission_version?: number | null;
+  media_confirmation?: MediaConfirmation | null;
+}};
 export type TurnAccepted = {{ run_id: string; replayed: boolean; event_count: number }};
 export type AgentDecision = {{ tool_name: string; approved: boolean }};
 export type DecisionAccepted = {{ run_id: string; approved: boolean; event_count: number }};
@@ -449,6 +788,15 @@ export type OfferView = {{
   collected_at: string;
   expires_at: string;
   source_ref: string;
+  business_facts?: BusinessFactView[];
+}};
+export type BusinessFactView = {{
+  fact_type: "price" | "inventory" | "delivery" | "merchant" | "after_sales";
+  summary: string;
+  verification_level: "LIVE_AUTHORIZED" | "FEED_VERIFIED" | "DISCOVERY_ONLY" | "DEMO_FIXTURE";
+  observed_at: string;
+  expires_at?: string | null;
+  evidence_ref: string;
 }};
 export type OfferCollection = {{ product_id: string; offers: OfferView[] }};
 export type ResolveOfferRequest = {{ quote_id?: string | null; confirmed_quote_change?: boolean }};
@@ -468,9 +816,22 @@ export type PatchListRequest = {{
   add_variant_id?: string | null;
   remove_variant_id?: string | null;
 }};
-export type CartItemView = {{ offer_id: string; quantity: number }};
+export type CartItemView = {{ offer_id: string; quantity: number; product: ProductView; quote: OfferView }};
 export type CartView = {{ items: CartItemView[] }};
 export type CartMutation = {{ operation: "add" | "set" | "remove"; offer_id: string; quantity?: number }};
+export type CreateWatcherRequest = {{ kind: "PRICE_BELOW" | "RESTOCK"; offer_id: string; threshold_minor?: number | null }};
+export type WatcherView = {{
+  watcher_id: string;
+  thread_id: string;
+  offer_id: string;
+  kind: "PRICE_BELOW" | "RESTOCK";
+  threshold_minor?: number | null;
+  status: "DEMO_DRAFT";
+  scheduler_active: false;
+  disclosure: string;
+  created_at: string;
+}};
+export type WatcherCollection = {{ watchers: WatcherView[] }};
 export type EvidenceBoundary = {{ local_evidence: string; external_gate?: string | null }};
 export type ConnectorStatus = {{
   source_id: string;
@@ -504,13 +865,14 @@ export type ToolInvocationSummary = {{
 }};
 export type AgentTraceSummary = {{
   run_id: string;
-  status: "COMPLETED" | "FAILED" | "WAITING_APPROVAL" | "WAITING_CLARIFICATION";
+  status: "RUNNING" | "COMPLETED" | "FAILED" | "WAITING_APPROVAL" | "WAITING_CLARIFICATION";
   prompt_version: string;
   model_version: string;
+  retrieval_mode: string;
   duration_ms: number;
-  estimated_cost_microunits: number;
-  input_tokens: number;
-  output_tokens: number;
+  estimated_cost_microunits: number | null;
+  input_tokens: number | null;
+  output_tokens: number | null;
   retrieval_hits: number;
   last_event_id: number;
   recovered: boolean;
@@ -532,7 +894,7 @@ export type StartEvaluationRequest = {{ dataset_version: string; runner_version:
 export type ReleaseGate = {{
   gate_id: string;
   title: string;
-  evidence_level: "LOCAL" | "INTEGRATION" | "LIVE" | "HUMAN" | "RELEASE";
+  evidence_level: "LOCAL" | "INTEGRATION" | "CHALLENGE" | "LIVE" | "RELEASE";
   status: "PASSED" | "FAILED" | "BLOCKED" | "NOT_RUN";
   evidence_ref?: string | null;
   blocker?: string | null;
@@ -554,6 +916,17 @@ export type OpsPolicy = {{
   audit_append_only: boolean;
 }};
 '''
+    # Generated Python participates in the same pinned formatter gate as source.
+    # Format before comparison so codegen and ruff cannot invalidate each other.
+    python = subprocess.run(
+        [sys.executable, "-m", "ruff", "format", "--stdin-filename", "generated.py", "-"],
+        input=python,
+        text=True,
+        capture_output=True,
+        check=True,
+        cwd=ROOT,
+        encoding="utf-8",
+    ).stdout
     return {
         ROOT / "packages/contracts/generated/python/ragcommerce_contracts/__init__.py": python,
         ROOT

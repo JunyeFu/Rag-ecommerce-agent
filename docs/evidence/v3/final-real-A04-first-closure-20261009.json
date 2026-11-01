@@ -1,0 +1,17 @@
+{
+  "checked_on": "2026-10-09",
+  "evidence_level": "READ_ONLY_LATE_DATABASE_AND_BUDGET_CLOSURE_NOT_RETEST",
+  "first_report_unchanged": "docs/evidence/v3/final-real-A04-first-20261009.json",
+  "first_native_result": "FAILED",
+  "accepted_runs": {"catalog_discovery": 7, "model_and_tools": 1},
+  "last_run_id": "a7018ca1-a2c6-55f1-b6e3-2eb68763ef7f",
+  "last_run_final_status": "FAILED",
+  "last_run_failure": "ProviderBudgetExceeded after runner prematurely closed scenario permit",
+  "paid_calls": 2,
+  "tokens": 9215,
+  "provider_cost": "NOT_AVAILABLE_FROM_PROVIDER",
+  "shared_budget": {"used": 185797, "held": 0, "calls": 58, "limit": 2000000, "blocked": false},
+  "first_report_held_tokens": "Pending at first report checkpoint, now settled; first report preserved",
+  "additional_model_calls_during_readback": 0,
+  "retest_authorized": false
+}

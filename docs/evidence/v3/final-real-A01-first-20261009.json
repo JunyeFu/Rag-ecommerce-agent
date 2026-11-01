@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-09T12:11:28Z",
+  "evidence_level": "NATIVE_ANDROID_REAL_API_PROVIDER",
+  "scenario": {
+    "id": "A01",
+    "slot": "A01",
+    "phase": "first",
+    "passed": false,
+    "run_id": "3e3447bd-caa8-52f6-9276-6833c2bf7948",
+    "failure_type": "AndroidSseObservationTimeout",
+    "ui": {
+      "device": "Pixel_9 emulator-5558",
+      "application_id": "com.ragcommerce.agent.finaltest",
+      "runner": "FinalScenarioApiTest#a01RealTextRecommendationAndEvidence",
+      "native_activity": true,
+      "injected_ui_state": false,
+      "observation_seconds": 600,
+      "runner_finished_at": "2026-10-09T12:10:42.700Z",
+      "tests": 1,
+      "failed": 1,
+      "ignored": 0,
+      "shell_stream_exit_code": 1,
+      "backend_completed_but_ui_loading": true
+    },
+    "backend": {
+      "installed_apk_sha256": "64fd528f08a32f2b2d898808acd3e5f5684a9249b216ff8e15add907690df4be",
+      "backend_status": "COMPLETED",
+      "created_at": "2026-10-09 12:00:43.219834+00:00",
+      "provider": "mimo-v2.5",
+      "tools": [
+        "catalog.search",
+        "catalog.get_product_facts",
+        "offer.find",
+        "comparison.build"
+      ],
+      "recommended_products": 5,
+      "recommendation_evidence_coverage": true,
+      "paid_http_calls": 2,
+      "token_usage": 8095,
+      "paid_calls_successful": true
+    },
+    "recommendation_evidence_coverage": 1,
+    "root_cause": "docs/defects/V3-FINAL-CLOSEOUT.md#f26-android长sse读取不能沿用rest整次时限"
+  },
+  "limits": {
+    "run_token_limit": 48000,
+    "total_token_limit": 2000000,
+    "retest_slots_used": 6
+  },
+  "notes": [
+    "The first native attempt remains failed. Non-paid recovery of this existing completed run cannot replace real end-to-end retest.",
+    "Local APK/source are dirty candidates, not the historical public Release."
+  ]
+}

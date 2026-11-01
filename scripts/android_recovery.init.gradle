@@ -1,0 +1,8 @@
+// Separate acceptance installation: preserve existing demo app data.
+allprojects {
+    afterEvaluate { project ->
+        if (project.path == ':app') {
+            android.defaultConfig.applicationId = project.findProperty('acceptanceApplicationId') ?: 'com.ragcommerce.agent.recoverytest'
+        }
+    }
+}

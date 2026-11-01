@@ -48,7 +48,7 @@ export function PageHeading({ title, summary }: { title: string; summary: string
         <h1>{title}</h1>
         <p>{summary}</p>
       </div>
-      <time dateTime="2026-08-26T17:00:00+08:00">证据时点 2026-08-26 17:00 CST</time>
+      <span className="evidence-scope">按当前 API 返回状态展示</span>
     </header>
   );
 }

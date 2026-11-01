@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-DEMO-PRICE-01",
+  "status": "passed",
+  "verified_at": "2026-09-08T09:50:02+08:00",
+  "checks": [
+    {
+      "command": "uv run pytest packages/connectors/tests/test_connector_contract.py -q",
+      "exit_code": 0,
+      "result": "passed",
+      "summary": "15 connector, weak-authority mapping and fail-closed tests passed; fixture hash verification is stable across LF and CRLF checkouts."
+    },
+    {
+      "command": "uv run ruff check packages/connectors/src/ragcommerce_connectors/gowu_demo.py packages/connectors/tests/test_connector_contract.py scripts/check_gowu_demo_prices.py",
+      "exit_code": 0,
+      "result": "passed",
+      "summary": "All checks passed."
+    },
+    {
+      "command": "GOWU_DEMO_APP_KEY=<redacted> uv run python scripts/check_gowu_demo_prices.py 降噪耳机 --limit 2",
+      "exit_code": 0,
+      "result": "passed",
+      "summary": "One external item returned with authority=weak_third_party_sandbox, verification=THIRD_PARTY_DEMO and commercial_release_evidence=false; no credential or raw response retained."
+    },
+    {
+      "command": "uv run pytest -q && uv run ruff check apps packages scripts && uv run python scripts/validate_task_packages.py && git diff --check",
+      "exit_code": 0,
+      "result": "passed",
+      "summary": "Python 88 passed and 10 environment integrations skipped; Ruff and all 37 task packages passed; diff check reported line-ending conversion warnings only."
+    },
+    {
+      "command": "uv run python scripts/verify_local.py --quick",
+      "exit_code": 1,
+      "result": "blocked_outside_package",
+      "summary": "Repository-wide quick profile is not green in this checkout: default Java is 21 rather than locked 17, and historical generated agent/evaluation/security artifacts report drift. The focused connector, full Python, Ruff and task-package gates pass."
+    }
+  ],
+  "boundaries": {
+    "rag_catalog_changed": false,
+    "android_recommendation_changed": false,
+    "live_authority_claimed": false,
+    "transaction_permissions_used": false,
+    "credential_committed": false
+  },
+  "external_gates": ["第三方沙箱持续免费、额度、目录相关性和价格准确性未获平台承诺"]
+}

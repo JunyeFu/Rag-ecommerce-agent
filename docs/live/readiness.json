@@ -15,7 +15,7 @@
   "required_inputs": [
     "approved affiliate and model-provider principals and credentials",
     "approved production-like environment, domains, traffic ceiling and rollback owner",
-    "held-out human-review result and external security approvals",
+    "automated challenge-split result and external security approvals",
     "physical Android device matrix and TalkBack reviewer",
     "candidate identity and signed test build"
   ],

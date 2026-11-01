@@ -21,6 +21,11 @@ api_threads = Table(
     Column("mission_id", UUID(as_uuid=True), nullable=False, unique=True),
     Column("owner_id", UUID(as_uuid=True), nullable=False, index=True),
     Column("goal", String(500), nullable=False),
+    Column("mission_version", BigInteger, nullable=False, default=1),
+    Column("selected_product_ids", JSONB, nullable=False, default=list),
+    Column("mode", String(16), nullable=False, server_default="PURCHASE"),
+    Column("exploration", JSONB, nullable=True),
+    Column("experience", JSONB, nullable=False, server_default="{}"),
     Column("created_at", DateTime(timezone=True), nullable=False),
 )
 

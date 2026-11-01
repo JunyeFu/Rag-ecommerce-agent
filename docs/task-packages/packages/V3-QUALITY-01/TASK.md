@@ -13,7 +13,7 @@
 ## 路径所有权
 - `.github`、`packages/evaluation`、`docs/evaluation`、观测代码。
 ## 现状证据
-- 2026-08-31：本地 22 项回归门禁、30 Mission fixture 负载、Alembic upgrade/current/check 与 PostgreSQL/Qdrant/Redis/MinIO 集成测试均已实测。真实模型和 held-out 人工质量仍为明确外部门禁。
+- 2026-09-21：本地回归、30 Mission fixture 负载、Alembic 与 PostgreSQL/Qdrant/Redis/MinIO 集成测试均已实测。competition-v2 已改为 1,000 条全自动 dev/test/challenge；真实模型 challenge 执行仍单独报告。
 ## 执行步骤
 1. CI 矩阵。2. 消融。3. 故障与并发。4. 指标报告。
 ## 数据引用

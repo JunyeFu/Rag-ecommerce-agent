@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-FINAL-04",
+  "status": "blocked",
+  "updated_at": "2026-10-12T08:39:59Z",
+  "commands": [
+    "scripts/run_final_acceptance.py",
+    "scripts/run_final_media_acceptance.py",
+    "scripts/run_final_android_acceptance.py --case A01 --retest-slot A01-R1",
+    "scripts/run_final_android_acceptance.py --case A06 --retest-slot A06-R1",
+    "scripts/run_final_android_acceptance.py --case A07",
+    "scripts/run_final_android_acceptance.py --case A07 --retest-slot A07-R1",
+    "scripts/run_final_android_acceptance.py --case A04",
+    "scripts/run_final_android_acceptance.py --case A03",
+    "scripts/run_final_android_acceptance.py --case A05",
+    "scripts/run_final_android_acceptance.py --case A08",
+    "run_final_android_safety_acceptance.py --retest-slot A10-R4 --resume-erasure-from A10-R3"
+  ],
+  "checks": [
+    {
+      "id": "golden_first",
+      "parsed": 10,
+      "total": 10,
+      "flow_passed": 9,
+      "failed": [
+        "G07"
+      ],
+      "evidence_coverage": 1
+    },
+    {
+      "id": "media",
+      "passed": [
+        "M01-R2",
+        "M02",
+        "M04"
+      ],
+      "not_run": [
+        "M03"
+      ],
+      "injected_audio": false
+    },
+    {
+      "id": "android_first",
+      "failed": [
+        "A01",
+        "A03",
+        "A04",
+        "A06",
+        "A07",
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "not_run": [
+        "A02"
+      ],
+      "passed": [
+        "A05"
+      ]
+    },
+    {
+      "id": "android_complete_signed",
+      "passed": [
+        "A01",
+        "A03",
+        "A04",
+        "A05",
+        "A06",
+        "A07"
+      ],
+      "total": 10,
+      "fixtures_excluded": true
+    },
+    {
+      "id": "additional_retests",
+      "used": 12,
+      "all_directly_authorized": true,
+      "original_retests_used": 6,
+      "failures_preserved": true
+    },
+    {
+      "id": "A10_R4_remaining_steps",
+      "passed": true,
+      "report": "docs/evidence/v3/final-real-A10-R4-20261012.json",
+      "native_tests": 2,
+      "paid_calls": 0,
+      "tokens": 0,
+      "new_turns": 0,
+      "new_runs": 0,
+      "approval_repeated": false,
+      "full_A10_pass": false,
+      "foreign_owner_http": 404,
+      "remaining_owner_rows": 0,
+      "other_cart_rows_unchanged": true
+    },
+    {
+      "id": "A08_R3",
+      "passed": false,
+      "report": "docs/evidence/v3/final-real-A08-R3-20261012.json",
+      "failure": "ProviderInvalidResponse: invalid cart.update proposal",
+      "writes": 0,
+      "raw_invalid_field_unknown": true
+    },
+    {
+      "id": "A10_R3",
+      "passed": false,
+      "report": "docs/evidence/v3/final-real-A10-R3-20261012.json",
+      "partial_backend_completed": true,
+      "original_failure_preserved": true
+    },
+    {
+      "id": "shared_budget",
+      "session": "internship-final-20261009",
+      "tokens_used": 253785,
+      "held": 0,
+      "calls": 86,
+      "limit": 2000000,
+      "provider_cost": "NOT_AVAILABLE_FROM_PROVIDER"
+    }
+  ],
+  "external_gates": [
+    "真实模型凭据/额度及模拟器音频输入"
+  ],
+  "remaining": [
+    "A02/M03有效原生人声未执行，用户选择稍后配合",
+    "A08完整审批未通过：真实模型非法cart.update提案保留失败，不自动重试",
+    "A10-R4剩余恢复/隔离/删除通过；A10整程首测及R1/R2/R3仍失败，不把分段收尾计完整通过",
+    "A09浏览器初始配置阻塞，报价过期原生分支未签收；没有追加复测授权",
+    "当前所有已授权追加槽位已使用；最终同版源码/APK/视频与独立启动未封版"
+  ],
+  "historical_checks": [
+    {
+      "id": "golden_first",
+      "parsed": 10,
+      "total": 10,
+      "flow_passed": 9,
+      "failed": [
+        "G07"
+      ],
+      "evidence_coverage": 1
+    },
+    {
+      "id": "original_retests",
+      "used": 6,
+      "successful": [
+        "M01-R2",
+        "G07-R4"
+      ],
+      "failures_preserved": true
+    },
+    {
+      "id": "additional_A01_only",
+      "authorization": "docs/task-packages/packages/V3-FINAL-04/evidence/A01-EXTRA-AUTHORIZATION.json",
+      "used": 1,
+      "passed": true,
+      "report": "docs/evidence/v3/final-real-A01-R1-20261009.json",
+      "native_tests": 1,
+      "injected_ui_state": false
+    },
+    {
+      "id": "additional_A06_zero_model_calls",
+      "authorization": "docs/task-packages/packages/V3-FINAL-04/evidence/A06-EXTRA-AUTHORIZATION.json",
+      "used": 1,
+      "passed": true,
+      "report": "docs/evidence/v3/final-real-A06-R1-20261009.json",
+      "native_tests": 1,
+      "paid_calls": 0,
+      "tokens": 0,
+      "new_turns": 0,
+      "persisted_comparison_candidates": 2,
+      "injected_ui_state": false
+    },
+    {
+      "id": "additional_A07_zero_model_calls",
+      "authorization": "docs/task-packages/packages/V3-FINAL-04/evidence/A07-EXTRA-AUTHORIZATION.json",
+      "used": 1,
+      "passed": true,
+      "report": "docs/evidence/v3/final-real-A07-R1-20261009.json",
+      "native_tests": 2,
+      "actual_process_stop_between_phases": true,
+      "paid_calls": 0,
+      "tokens": 0,
+      "new_turns": 0,
+      "injected_ui_state": false
+    },
+    {
+      "id": "media_first",
+      "passed": [
+        "M02",
+        "M04"
+      ],
+      "failed": [
+        "M01"
+      ],
+      "not_run": [
+        "M03"
+      ]
+    },
+    {
+      "id": "android_first",
+      "failed": [
+        "A01",
+        "A06",
+        "A07",
+        "A04",
+        "A03",
+        "A08"
+      ],
+      "not_run": [
+        "A02",
+        "A09",
+        "A10"
+      ],
+      "passed": [
+        "A05"
+      ]
+    },
+    {
+      "id": "shared_budget",
+      "session": "internship-final-20261009",
+      "tokens_used": 213773,
+      "held": 0,
+      "calls": 67,
+      "limit": 2000000,
+      "provider_cost": "NOT_AVAILABLE_FROM_PROVIDER"
+    },
+    {
+      "id": "A04_first_failed",
+      "report": "docs/evidence/v3/final-real-A04-first-20261009.json",
+      "closure": "docs/evidence/v3/final-real-A04-first-closure-20261009.json",
+      "root_cause": "F31",
+      "paid_calls": 2,
+      "tokens": 9215,
+      "retest_authorized": false
+    },
+    {
+      "id": "FAILED_snapshot_readonly",
+      "report": "docs/evidence/v3/final-A04-readonly-restoration-20261009.json",
+      "passed": true,
+      "new_turns": 0,
+      "new_model_calls": 0,
+      "not_A04_retest": true
+    },
+    {
+      "id": "A03_first_failed_before_upload",
+      "report": "docs/evidence/v3/final-real-A03-first-20261009.json",
+      "paid_calls": 0,
+      "tokens": 0,
+      "local_native_diagnosis": "docs/evidence/v3/final-A03-gallery-diagnostic-20261009.json",
+      "complete_retest_authorized": false
+    },
+    {
+      "id": "A05_first",
+      "report": "docs/evidence/v3/final-real-A05-first-20261009.json",
+      "passed": true,
+      "native_tests": 1,
+      "runs": 3,
+      "mission_version_increment": true,
+      "independent_new_mission": true,
+      "injected_ui_state": false
+    },
+    {
+      "id": "A08_first_failed_before_business",
+      "report": "docs/evidence/v3/final-real-A08-first-20261009.json",
+      "paid_calls": 0,
+      "tokens": 0,
+      "root_cause": "F36",
+      "readonly_native_tests": 1,
+      "readonly_passed": true,
+      "complete_retest_authorized": false
+    }
+  ]
+}

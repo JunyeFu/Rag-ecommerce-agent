@@ -13,6 +13,7 @@ from .contracts import (
     TurnCommand,
 )
 from .fake_model import ScriptedPlanner
+from .mission import parse_shopping_mission
 from .model_provider import (
     ModelProvider,
     OpenAICompatibleProvider,
@@ -56,4 +57,5 @@ __all__ = [
     "ToolRegistry",
     "ToolResult",
     "TurnCommand",
+    "parse_shopping_mission",
 ]

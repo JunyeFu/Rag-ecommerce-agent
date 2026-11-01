@@ -1,0 +1,159 @@
+{
+  "created_at": "2026-10-08",
+  "stage08_batch01": "docs/evidence/v3/stage08-state-batch01.json",
+  "stage08_batch02": "docs/evidence/v3/stage08-android-batch02.json",
+  "stage08_batch03": "docs/evidence/v3/stage08-postgres-batch03.json",
+  "stage08_batch04": "docs/evidence/v3/stage08-mission-batch04.json",
+  "stage08_batch05": "docs/evidence/v3/stage08-receipt-batch05.json",
+  "stage08_batch06": "docs/evidence/v3/stage08-emulator-batch06.json",
+  "stage08_batch07": "docs/evidence/v3/stage08-exploration-batch07.json",
+  "status": "failed",
+  "product_gate": "HOLD",
+  "commercial_gate": "NO_GO",
+  "checks": [
+    {
+      "command": "pytest -m 'not integration'",
+      "exit_code": 0,
+      "passed": 130,
+      "deselected": 15,
+      "evidence_level": "LOCAL_UNIT"
+    },
+    {
+      "command": "generate_contracts.py --check",
+      "exit_code": 0,
+      "files": 3
+    },
+    {
+      "command": "validate_task_packages.py",
+      "exit_code": 0,
+      "packages": 39,
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "command": "Android testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest -PapiUrl=http://10.0.2.2:20881/",
+      "exit_code": 0,
+      "unit_tests": 26,
+      "tasks": 90,
+      "executed": 9,
+      "up_to_date": 81,
+      "profile": "Java21; latest incremental run; no instrumentation"
+    },
+    {
+      "command": "Ops npm run check / npm test / npm run build",
+      "exit_code": 0,
+      "tests": 2,
+      "scope": "five persistent workflows not run"
+    },
+    {
+      "command": "run_local_embedding_acceptance.py --write",
+      "exit_code": 0,
+      "queries": 10,
+      "recall_at_10": {
+        "bm25": 1,
+        "bge": 1,
+        "rrf": 1
+      },
+      "ndcg_at_10": {
+        "bm25": 1,
+        "bge": 1,
+        "rrf": 1
+      },
+      "scope": "cached real BGE ONNX; in-memory Qdrant; public queries"
+    },
+    {
+      "command": "run_real_model_evaluation.py",
+      "exit_code": 1,
+      "parseable": 9,
+      "total": 10,
+      "failure": "G03 ProviderUnsupportedAmount",
+      "report": "docs/evidence/v3/career-close-golden-20261008.json",
+      "run_time_utc": "2026-10-08T01:50:53.345931+00:00"
+    },
+    {
+      "command": "run_mimo_specialized_acceptance.py",
+      "exit_code": 0,
+      "passed": 4,
+      "total": 4,
+      "report": "docs/evidence/v3/career-close-specialized-20261008.json",
+      "run_time_utc": "2026-10-08T01:47:44.976582+00:00"
+    },
+    {
+      "command": "site npm test / npm run build",
+      "exit_code": 0,
+      "tests": 7
+    },
+    {
+      "command": "Playwright CLI career-close isolated Chromium",
+      "exit_code": 0,
+      "checks": [
+        "Q01/Q24 reference navigation",
+        "personal draft preserved",
+        "Markdown download with personal and reference answers",
+        "four scripts reference",
+        "eight materials reference",
+        "390px no document horizontal overflow",
+        "five static material URLs HTTP200"
+      ],
+      "screenshots": [
+        "sites/rag-commerce/output/playwright/closeout-desktop.png",
+        "sites/rag-commerce/output/playwright/closeout-mobile.png"
+      ],
+      "scope": "external management site only; no product E2E"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "note": "CRLF conversion warnings are not diff errors"
+    },
+    {
+      "command": "adb -s emulator-5554 get-state",
+      "exit_code": 0,
+      "result": "device"
+    },
+    {
+      "command": "docker info",
+      "exit_code": 1,
+      "failure": "Docker Desktop Linux engine named pipe unavailable"
+    },
+    {
+      "command": "docker info",
+      "exit_code": 0,
+      "server_version": "29.8.0",
+      "scope": "follow-up after user started Desktop"
+    },
+    {
+      "command": "alembic upgrade head / current / check; pytest four PostgreSQL integration modules",
+      "exit_code": 0,
+      "passed": 12,
+      "database_version": "18.3",
+      "scope": "isolated cached image, not pinned PostgreSQL16; Qdrant/MinIO not covered",
+      "evidence": "docs/evidence/v3/career-close-docker-followup-20261008.json"
+    },
+    {
+      "command": "Docker pinned image acquisition",
+      "exit_code": 1,
+      "failure": "DockerHub auth EOF; Qdrant GHCR pinned tag not found; MinIO Quay401"
+    }
+  ],
+  "real_scenario_slots": {
+    "limit": 24,
+    "used": 14,
+    "remaining_android": 10,
+    "retries": 0
+  },
+  "remaining": [
+    "G03 model output root cause remains undetermined",
+    "Docker persistent integration / durable load / Ops workflows",
+    "Android ten real complex workflows",
+    "actual retrieval and AgentRuntime challenge layers",
+    "clean startup / current media / career evidence package"
+  ],
+  "version_scope": "current dirty checkout; real reports precede later numeric diagnostic patch",
+  "package_id": "V3-CAREER-CLOSE-01",
+  "external_gates": [
+    "Android真实业务与干净环境验收",
+    "当前候选版本GitHub发布另行授权"
+  ],
+  "docker_followup": "2026-10-08: engine available, pinned image retrieval blocked; 12 PostgreSQL18.3 integration tests passed"
+}

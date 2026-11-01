@@ -1,77 +1,66 @@
-# V2-EVAL-01 竞赛级评测集与可复现实验
+# V2-EVAL-01 全自动竞赛评测集
 
 ## 目标
 
-建立不少于 600 条、含 held-out、故障和安全场景的 Agent 评测体系与可复现实验包。
+建立 1,000 条覆盖 Agent、RAG、状态、安全与故障边界的全自动测试集，取消人工盲评数据与人工 gold 门禁。
 
 ## 状态
 
-`complete`（本地可自主范围；真实模型质量与 held-out 人工结论仍受外部门禁约束）
+`complete`（数据生成、机器判分与本地重放完成；真实 Provider challenge 执行独立报告）
 
 ## 范围
 
-- 以 226 条旧评测为种子，重新审查 gold、许可、去重和数据泄漏。
-- 建立 300 购物、100 多轮、80 多模态、60 报价故障、60 安全/隐私用例。
-- 实现检索、约束、事实依据、工具选择、任务完成、延迟和成本指标。
-- 固定 dev/test/held-out，运行 BM25、向量、混合、重排、记忆和工具规划消融。
-- 建立至少 100 条 held-out 双人盲评、仲裁、一致性和置信区间报告。
+- 十个测试家族，固定 dev/test/challenge 为 600/250/150。
+- 所有用例携带机器规则 gold、许可状态、风险标签与唯一 query 指纹。
+- 判分覆盖 outcome、工具 precision/recall、证据、商业事实、审批、链接和敏感信息。
 
 ## 非目标
 
-- 不把 LLM-as-judge 单独作为商业真相或安全结论。
-- 不使用 held-out 调提示、选模型或修规则。
-- 不把历史测试数字、截图或演示视频当成本次评测结果。
+- 不使用人工盲评、LLM-as-judge 或 LIVE 报价替代确定性 gold。
+- 不把 reference 构造器的 100% 当作模型质量。
 
 ## 前置依赖
 
-- `V2-AGENT-01` 的 Trace 与确定性 fake-model 测试完成。
-- `V2-API-01` 的统一 Turn 契约完成。
+- `V2-AGENT-01` 的 Trace 与工具契约。
+- `V2-API-01` 的统一 Turn 契约。
 
 ## 路径所有权
 
-- `evals/`、`packages/evaluation/`、`docs/evaluation/`。
-- 评测运行脚本、grader、报告生成和脱敏样本。
+- `evals/v2/`、`packages/evaluation/`、`docs/evaluation/` 与对应脚本。
 
 ## 现状证据
 
-- 旧仓有 226 条评测种子，但不覆盖商业报价、工具授权、恢复、多模态和安全全链路。
-- 竞赛质量要求数据、版本、模型、提示、随机性和失败案例均可复现。
+- competition-v1 的 500 公开 + 100 人工 held-out 已退役。
+- competition-v2 的全部 split 均可由相同 runner 和 grader 自动执行。
 
 ## 执行步骤
 
-1. 冻结 case schema、数据许可、split 和 leakage 检查。
-2. 构建五类用例并进行 gold 双审。
-3. 实现确定性指标、Trace grader 和人工评审工具。
-4. 运行基线、消融、故障和安全实验，保存 Manifest 与原始脱敏结果。
-5. 生成指标、95% 置信区间、一致性、成本和失败案例报告。
+1. 冻结 schema、seed、家族与 split。
+2. 生成 1,000 条唯一用例并校验规则一致性。
+3. 重放 reference、负控、指标与置信区间。
+4. 在 CI 检查数据漂移、grader 和完整 Python 回归。
 
 ## 数据引用
 
-- `../../shared/business-data.json`
-- `../../shared/development-data.json`
-- `../../shared/pitfalls.md`
+- `evals/v2/cases.v2.jsonl`
+- `evals/v2/manifest.json`
+- `docs/evaluation/methodology.md`
 
 ## 验收
 
-- [x] unique cases = 600 且五类最低数量满足。
-- [x] held-out 未进入本地 runner、参考结果或消融；当前队列仅为流程隔离，尚未独立外部封存。
-- [x] 本地结构化 BM25 基线达到 Recall@10=0.9444、NDCG@10=0.9168；这是检索基线与评测框架自洽性证据，不是生产模型质量结论。
-- [ ] 至少 100 条 held-out 完成盲态双评并报告一致性。
-- [x] 本地参考实验可由 Manifest、锁文件、seed、版本和命令重放。
-- [x] 失败案例、负向控制及 3 个未达标消融完整保留，不只输出总体平均数。
+- [x] cases = 1,000，十个家族与三个 split 数量准确。
+- [x] query fingerprint 无重复，全部 gold 可机器判分。
+- [x] 人工 review queue、rubric、状态脚本和 CI 门禁已移除。
+- [x] reference 和负控可确定性重放。
 
 ## 回滚
 
-- 不覆盖已冻结评测版本；新建修订版本并记录样本迁移和影响。
+- 保留 Git 历史；新版本只通过生成器和 manifest 切换，不混用旧数据。
 
 ## 停止条件
 
-- 数据许可不明、held-out 泄漏、真实提供方预算未批准或人工评审身份/规则未冻结时停止对应结论。
+- Schema 漂移、重复 query、规则冲突或失败样本未进入分母时停止发布评测结果。
 
 ## 交接格式
 
-- 结果：数据版本、运行 ID、指标和未达标项。
-- 变更路径：evals、evaluation package、docs/evaluation。
-- 验证命令与结果：schema、leakage、metric、replay、human review。
-- 剩余外部门禁：真实提供方预算与人工双评。
-- 风险与下一包：交给 V2-LIVE-01 和竞赛材料。
+- 提供数据版本、split 指标、失败 case ID、Provider/模型版本和运行命令。

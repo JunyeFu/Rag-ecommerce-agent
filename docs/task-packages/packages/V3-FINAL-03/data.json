@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-FINAL-03",
+  "owner": "internship-closeout",
+  "objective": "真实质量证据",
+  "inputs": [
+    "docs/plans/INTERNSHIP-FINAL-CLOSEOUT.md"
+  ],
+  "outputs": [
+    "docs/evidence/v3/final-F60-review-20261024.json",
+    "docs/evidence/v3/final-infrastructure-recheck-20261024.json",
+    "冻结分层查询与多相关qrels。",
+    "执行真实BGE三路消融并报告困难项。",
+    "执行真实基础设施、并发与恢复测试。",
+    "执行Python、契约、Android、Ops与治理验证。"
+  ],
+  "acceptance": [
+    "冻结120查询，40开发/80验收，BM25/BGE/RRF同输入",
+    "真实PG Worker30并发无丢失或重复写入",
+    "必要全套回归与Ops五工作流通过"
+  ],
+  "test_profiles": [
+    "unit",
+    "contract",
+    "integration",
+    "android",
+    "runtime"
+  ],
+  "business_refs": [
+    "data/demo/catalog.v3.jsonl",
+    "DEMO_FIXTURE"
+  ],
+  "development_refs": [
+    "V3-FINAL-02"
+  ],
+  "risk_refs": [
+    "保留脏工作树",
+    "真实与fixture证据分层",
+    "不自动发布"
+  ]
+}

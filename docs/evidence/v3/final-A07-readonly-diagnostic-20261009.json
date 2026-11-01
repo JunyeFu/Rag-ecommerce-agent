@@ -1,0 +1,22 @@
+{
+  "finished_at": "2026-10-09T14:08:15.395+00:00",
+  "evidence_level": "NATIVE_ANDROID_READ_ONLY_DIAGNOSTIC_NOT_BUSINESS_RETEST",
+  "device": "emulator-5558",
+  "avd": "Pixel_9",
+  "emulator_mode": "official SDK no-window; native Android UI rendered",
+  "method": "FinalScenarioApiTest#inspectWaitingControlReadOnly",
+  "runner_pid": 3676,
+  "tests": 1,
+  "failed": 0,
+  "ignored": 0,
+  "target_offer": "a951a91b-78c6-534b-866a-144b70f6db9b",
+  "before_child_scroll": {"bounds_px": [0, 0, 0, 0], "disabled": false},
+  "after_child_scroll": {"bounds_px": [531, 2025, 683, 2151], "disabled": false},
+  "finding": "LazyColumn item scroll composes the tall merchant group but does not expose the specific child button. The enabled button was fully clipped; precise child scroll exposes it.",
+  "previous_disabled_button_hypothesis": "not supported; corrected by these actual bounds",
+  "business_writes": 0,
+  "new_turns": 0,
+  "new_model_calls": 0,
+  "tokens": 0,
+  "a07_business_result": "first failed; no retest performed or authorized"
+}

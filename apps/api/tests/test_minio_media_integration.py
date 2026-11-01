@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import os
+from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
+from threading import Barrier
 from uuid import uuid4
 
 import psycopg
@@ -40,8 +42,11 @@ def test_minio_media_create_delete_and_ttl_cleanup() -> None:
         active = store.create(owner_id, "image/png", content)
 
         assert store.require_owned(owner_id, (active.id,)) == (active,)
+        assert store.read_owned(owner_id, active.id) == (active, content)
         with pytest.raises(KeyError):
             store.require_owned(other_owner_id, (active.id,))
+        with pytest.raises(KeyError):
+            store.read_owned(other_owner_id, active.id)
         assert verifier.stat_object(bucket, f"{owner_id}/{active.id}").size == len(content)
 
         assert store.delete(other_owner_id, active.id) is False
@@ -58,6 +63,8 @@ def test_minio_media_create_delete_and_ttl_cleanup() -> None:
             ttl=timedelta(seconds=-1),
         )
         expired = expiring.create(owner_id, "image/png", content)
+        with pytest.raises(KeyError):
+            expiring.read_owned(owner_id, expired.id)
         assert expiring.purge_expired() == 1
         with pytest.raises(KeyError):
             expiring.require_owned(owner_id, (expired.id,))
@@ -67,6 +74,44 @@ def test_minio_media_create_delete_and_ttl_cleanup() -> None:
         with psycopg.connect(dsn) as connection:
             connection.execute("DELETE FROM api_media_objects WHERE owner_id=%s", (owner_id,))
         if verifier.bucket_exists(bucket):
+            for item in verifier.list_objects(bucket, recursive=True):
+                verifier.remove_object(bucket, item.object_name)
+            verifier.remove_bucket(bucket)
+
+
+def test_concurrent_minio_startup_keeps_both_media_stores_usable(monkeypatch):
+    dsn = database_url()
+    endpoint = required("MINIO_ENDPOINT")
+    access_key = required("MINIO_ACCESS_KEY")
+    secret_key = required("MINIO_SECRET_KEY")
+    bucket = f"ragcommerce-startup-test-{uuid4().hex}"
+    owner = uuid4()
+    barrier = Barrier(2)
+    bucket_exists = Minio.bucket_exists
+
+    def observe_absence_together(client, name):
+        exists = bucket_exists(client, name)
+        if name == bucket and not exists:
+            barrier.wait(timeout=10)
+        return exists
+
+    monkeypatch.setattr(Minio, "bucket_exists", observe_absence_together)
+    verifier = Minio(endpoint, access_key=access_key, secret_key=secret_key, secure=False)
+    try:
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            stores = list(
+                pool.map(
+                    lambda _: MinioMediaStore(dsn, endpoint, access_key, secret_key, bucket=bucket),
+                    range(2),
+                )
+            )
+        content = b"\x89PNG\r\n\x1a\nconcurrent-startup"
+        media = stores[0].create(owner, "image/png", content)
+        assert stores[1].read_owned(owner, media.id) == (media, content)
+    finally:
+        with psycopg.connect(dsn) as connection:
+            connection.execute("DELETE FROM api_media_objects WHERE owner_id=%s", (owner,))
+        if bucket_exists(verifier, bucket):
             for item in verifier.list_objects(bucket, recursive=True):
                 verifier.remove_object(bucket, item.object_name)
             verifier.remove_bucket(bucket)

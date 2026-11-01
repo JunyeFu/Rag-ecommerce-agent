@@ -1,0 +1,513 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-22",
+  "updated_at": "2026-10-22T07:32:36+00:00",
+  "status": "PARTIAL_TALKBACK_NOT_ACCEPTED",
+  "native_paths_status": "PASS_SCOPED",
+  "native_cases_passed": 10,
+  "native_cases_total": 10,
+  "mimo_calls": 0,
+  "real_embedding_api_calls": 0,
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO",
+  "baseline": {
+    "branch": "main",
+    "head": "d670e291d263a6e4f0f041f9c74c6e0246cb854c",
+    "dirty_items_before": 394
+  },
+  "figma": {
+    "file_key": "Wp0w0GwfT6Ip8uR93tX5vR",
+    "url": "https://www.figma.com/design/Wp0w0GwfT6Ip8uR93tX5vR",
+    "original_states": 14,
+    "added_states": 17,
+    "total_states": 31,
+    "horizontal_overflow": 0,
+    "alignment": "source-backed editable state catalogue, shared components, action wording and visual-token alignment; not pixel-identical proof for every data combination",
+    "state_matrix": "docs/design/android-state-parity-20261022.json",
+    "prototype_scope": "New runtime screens are editable state catalogue; 19 inherited wrong recommendation jumps removed; three-entry navigation retained; no executable business-prototype claim.",
+    "media_confirmation_inputs": [
+      "22:638",
+      "22:640"
+    ],
+    "unsupported_empty_confirmation_disabled": true
+  },
+  "android": {
+    "device": "Pixel_9a / emulator-5554 / API35",
+    "application_id": "com.ragcommerce.agent.a11yreview",
+    "apk_sha256": "FB5AF3B7DEA019DBFD248C47465619D46F4BD1F8FBBF954B9FBE587E06785C8B",
+    "font_scales": [
+      1,
+      2
+    ],
+    "provider": "explicit fake DemoProvider",
+    "api": "isolated real HTTP/PostgreSQL",
+    "install_owner": "e8b99333-24b5-4292-8aa3-99f30f7f9f49",
+    "owner_verified_by": "isolated install_user_id readback equals persisted emulator-acceptance run owner",
+    "state_injection": false,
+    "cases": [
+      {
+        "case": "c1",
+        "scale": "1.0",
+        "owner_id": "e8b99333-24b5-4292-8aa3-99f30f7f9f49",
+        "passed": true,
+        "new_runs": 4,
+        "read_only_checks": null
+      },
+      {
+        "case": "c1",
+        "scale": "2.0",
+        "owner_id": "e8b99333-24b5-4292-8aa3-99f30f7f9f49",
+        "passed": true,
+        "new_runs": 4,
+        "read_only_checks": null
+      },
+      {
+        "case": "c2",
+        "scale": "1.0",
+        "owner_id": "e8b99333-24b5-4292-8aa3-99f30f7f9f49",
+        "passed": true,
+        "new_runs": 1,
+        "read_only_checks": null
+      },
+      {
+        "case": "c2",
+        "scale": "2.0",
+        "owner_id": "e8b99333-24b5-4292-8aa3-99f30f7f9f49",
+        "passed": true,
+        "new_runs": 1,
+        "read_only_checks": null
+      },
+      {
+        "case": "c8",
+        "scale": "1.0",
+        "owner_id": "e8b99333-24b5-4292-8aa3-99f30f7f9f49",
+        "passed": true,
+        "new_runs": 3,
+        "read_only_checks": null
+      },
+      {
+        "case": "c8",
+        "scale": "2.0",
+        "owner_id": "e8b99333-24b5-4292-8aa3-99f30f7f9f49",
+        "passed": true,
+        "new_runs": 3,
+        "read_only_checks": null
+      },
+      {
+        "case": "c8b",
+        "scale": "1.0",
+        "owner_id": "e8b99333-24b5-4292-8aa3-99f30f7f9f49",
+        "passed": true,
+        "new_runs": 0,
+        "read_only_checks": {
+          "no_new_runs": true,
+          "original_quotes_not_renewed": true,
+          "waiting_cart_unchanged": true,
+          "mission_selection_unchanged": true,
+          "saved_list_unchanged": true
+        }
+      },
+      {
+        "case": "c8b",
+        "scale": "2.0",
+        "owner_id": "e8b99333-24b5-4292-8aa3-99f30f7f9f49",
+        "passed": true,
+        "new_runs": 0,
+        "read_only_checks": {
+          "no_new_runs": true,
+          "original_quotes_not_renewed": true,
+          "waiting_cart_unchanged": true,
+          "mission_selection_unchanged": true,
+          "saved_list_unchanged": true
+        }
+      },
+      {
+        "case": "c9",
+        "scale": "1.0",
+        "owner_id": "e8b99333-24b5-4292-8aa3-99f30f7f9f49",
+        "passed": true,
+        "new_runs": 1,
+        "read_only_checks": null
+      },
+      {
+        "case": "c9",
+        "scale": "2.0",
+        "owner_id": "e8b99333-24b5-4292-8aa3-99f30f7f9f49",
+        "passed": true,
+        "new_runs": 1,
+        "read_only_checks": null
+      }
+    ],
+    "accepted_attempt": 10,
+    "new_fake_runs_in_accepted_paths": 18,
+    "earlier_ui_only_records_excluded_from_database_acceptance": 10,
+    "initial_native_failures_retained": 2,
+    "database_readback": {
+      "total_install_runs_completed": 36,
+      "invalid_terminal_counts": 0,
+      "includes_historical_current_turns": true
+    },
+    "test_apk_sha256": "227B1EBFE4BD92BC065FC6DB8AE16D1D6CAD781EF82D5EA87FD17A9345C660B0"
+  },
+  "accessibility": {
+    "semantic_labels": "PASS_SCOPED",
+    "touch_target": "explicit 48dp; native c9 passed at both font scales",
+    "headings": "Compose heading semantics on reusable title components",
+    "status_announcements": "polite progress/error live regions",
+    "contrast": {
+      "schema_version": 1,
+      "verified_at": "2026-10-22T14:41:35.804229+08:00",
+      "standard": "WCAG 2 contrast formula; 4.5:1 small-text threshold",
+      "checks": [
+        {
+          "foreground": "TextPrimary",
+          "background": "Background",
+          "ratio": 16.17,
+          "required": 4.5,
+          "passed": true
+        },
+        {
+          "foreground": "TextPrimary",
+          "background": "Surface",
+          "ratio": 18.31,
+          "required": 4.5,
+          "passed": true
+        },
+        {
+          "foreground": "TextSecondary",
+          "background": "Background",
+          "ratio": 5.76,
+          "required": 4.5,
+          "passed": true
+        },
+        {
+          "foreground": "TextSecondary",
+          "background": "Surface",
+          "ratio": 6.52,
+          "required": 4.5,
+          "passed": true
+        },
+        {
+          "foreground": "Brand",
+          "background": "Surface",
+          "ratio": 7.78,
+          "required": 4.5,
+          "passed": true
+        },
+        {
+          "foreground": "Warning",
+          "background": "Background",
+          "ratio": 5.62,
+          "required": 4.5,
+          "passed": true
+        },
+        {
+          "foreground": "Warning",
+          "background": "Surface",
+          "ratio": 6.36,
+          "required": 4.5,
+          "passed": true
+        },
+        {
+          "foreground": "Warning",
+          "background": "WarningContainer",
+          "ratio": 4.92,
+          "required": 4.5,
+          "passed": true
+        },
+        {
+          "foreground": "Danger",
+          "background": "Surface",
+          "ratio": 6.37,
+          "required": 4.5,
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "limitations": [
+        "TalkBack focus order still requires physical-device human acceptance."
+      ]
+    },
+    "talkback": {
+      "version": "15.0.0.639625893",
+      "status": "NOT_ACCEPTED",
+      "service_bound": true,
+      "automation_flag": "FLAG_DONT_SUPPRESS_ACCESSIBILITY_SERVICES",
+      "touch_attempts": 5,
+      "keyboard_attempts": 5,
+      "passed": 0,
+      "observed": "Optional notification prompt, clickable/text node separation, and no valid advancing traversal/activation receipt. No confirmed product-level root cause for the full TalkBack failure.",
+      "not_substituted_by": "semantic or fixture passes",
+      "desktop_input_blocker": "Computer Use node_repl tool not provided; no custom Windows UI helper used"
+    }
+  },
+  "regression": {
+    "python_unit": {
+      "passed": 192,
+      "integration_excluded": 36,
+      "command": "MODEL_PROVIDER_MODE=fake DATABASE_URL=\"\" AUTO_IMPORT_DATA=false pytest -q -m \"not integration\"",
+      "exit_code": 0
+    },
+    "python_integration": {
+      "passed": 36,
+      "unit_excluded": 192,
+      "profiles": [
+        "PostgreSQL migrated 0016",
+        "Qdrant v1.18.2",
+        "local/ragcommerce-minio:20250422-source"
+      ],
+      "command": "pytest -q -m integration (isolated service URLs)",
+      "exit_code": 0
+    },
+    "owner_binding_test": {
+      "passed": 1,
+      "command": "pytest -q scripts/tests/test_android_ux_owner_binding.py",
+      "exit_code": 0
+    },
+    "contracts": {
+      "python_kotlin_typescript": "PASS",
+      "agent_artifacts": "PASS; 11 tools"
+    },
+    "android_unit": {
+      "passed": 55,
+      "skipped": 0
+    },
+    "android_build": "PASS debug and androidTest",
+    "android_lint": {
+      "errors": 0,
+      "warnings": 18
+    },
+    "android_visual_fixture": {
+      "status": "PASS",
+      "first_total": 39,
+      "first_passed": 35,
+      "first_failed": 4,
+      "second_total": 39,
+      "second_passed": 38,
+      "second_failed": 1,
+      "third_total": 39,
+      "third_status": "FAILED",
+      "note": "The final stale loading test assumed four simultaneous progress chips; current implementation exposes one real public stage at a time. Revised to exercise each stage as an explicit visual fixture. No business threshold lowered.",
+      "third_passed": 38,
+      "third_failed": 1,
+      "fourth_status": "PASSED",
+      "targeted_loading_retest": {
+        "passed": 1,
+        "total": 1,
+        "seconds": 9.622,
+        "reason": "Scoped to polite progress subtree because current stage also appears in connection/status text; not a globally unique label."
+      },
+      "fourth_passed": 39,
+      "fourth_failed": 0,
+      "skipped": 0,
+      "duration_seconds": 294.081,
+      "application_apk_same_as_native_10": true,
+      "total": 39,
+      "passed": 39
+    },
+    "ops": {
+      "check": "PASS",
+      "unit_passed": 2,
+      "build": "PASS",
+      "playwright_workflows_passed": 5,
+      "backend": "persistent_demo API and PostgreSQL; explicit fake; independent Worker",
+      "console_errors": 0,
+      "browser": "Chromium; Browser plugin not available"
+    },
+    "retrieval": {
+      "targets_met": true,
+      "revision": "46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59",
+      "summary": {
+        "development": {
+          "bm25": {
+            "cases": 40,
+            "positive_cases": 32,
+            "no_match_cases": 8,
+            "recall_at_10": 1,
+            "ndcg_at_10": 1,
+            "no_match_accuracy": 1,
+            "hard_constraint_violations": 0
+          },
+          "bge_vector": {
+            "cases": 40,
+            "positive_cases": 32,
+            "no_match_cases": 8,
+            "recall_at_10": 1,
+            "ndcg_at_10": 0.9873546533090507,
+            "no_match_accuracy": 1,
+            "hard_constraint_violations": 0
+          },
+          "rrf_hybrid": {
+            "cases": 40,
+            "positive_cases": 32,
+            "no_match_cases": 8,
+            "recall_at_10": 1,
+            "ndcg_at_10": 0.9974658446620425,
+            "no_match_accuracy": 1,
+            "hard_constraint_violations": 0
+          }
+        },
+        "acceptance": {
+          "bm25": {
+            "cases": 80,
+            "positive_cases": 64,
+            "no_match_cases": 16,
+            "recall_at_10": 1,
+            "ndcg_at_10": 1,
+            "no_match_accuracy": 1,
+            "hard_constraint_violations": 0
+          },
+          "bge_vector": {
+            "cases": 80,
+            "positive_cases": 64,
+            "no_match_cases": 16,
+            "recall_at_10": 1,
+            "ndcg_at_10": 0.9810184531200775,
+            "no_match_accuracy": 1,
+            "hard_constraint_violations": 0
+          },
+          "rrf_hybrid": {
+            "cases": 80,
+            "positive_cases": 64,
+            "no_match_cases": 16,
+            "recall_at_10": 1,
+            "ndcg_at_10": 0.9934768615761483,
+            "no_match_accuracy": 1,
+            "hard_constraint_violations": 0
+          }
+        }
+      },
+      "model": "Qdrant/bge-small-zh-v1.5",
+      "gain": {
+        "recall_at_10": 0,
+        "ndcg_at_10": -0.00652313842385166
+      }
+    },
+    "durable": {
+      "fixture_only": true,
+      "persisted_terminal_once": true,
+      "missions": 30,
+      "first_state_p95_ms": 106.05980000036652,
+      "turn_accept_p95_ms": 84.15610000156448,
+      "passed": true,
+      "worker_started_p95_ms": 1257.3927999983425,
+      "completed": 30
+    },
+    "task_packages": {
+      "packages": 49,
+      "errors": 0,
+      "warnings": 0
+    },
+    "code_quality": {
+      "ruff": "PASS targeted runner/contrast/owner test",
+      "owner_test_format": "PASS after mechanical formatting",
+      "diff_check": "PASS in scoped tracked files; Windows LF/CRLF notices only, not whitespace failures"
+    }
+  },
+  "fixes": [
+    {
+      "id": "A11Y-01",
+      "root_cause": "Checkboxes exposed checked state without a meaningful product or exploration label",
+      "fix": "Explicit labels for exploration, current/saved compare, history/archive and exclusion scope",
+      "status": "CLOSED_SCOPED"
+    },
+    {
+      "id": "A11Y-02",
+      "root_cause": "Exploration controls relied on the ambient Material touch-target enforcement; actual native bounds were below 48dp; fixed row was unsuitable for 200% text",
+      "fix": "Explicit 48dp sizing and FlowRow-wrapped interest groups",
+      "status": "CLOSED_SCOPED"
+    },
+    {
+      "id": "A11Y-03",
+      "root_cause": "Coral small text on Bone had 2.47:1 contrast, while the old token test never checked that actual usage",
+      "fix": "Use existing Warning text color (5.62:1 on Bone); keep Coral decoration/buttons/dark-header accents; add two actual warning contrast pairs",
+      "status": "CLOSED_SCOPED"
+    },
+    {
+      "id": "QA-OWNER-01",
+      "root_cause": "First api_threads row was assumed to belong to the isolated installation",
+      "fix": "Required --owner-id, independently read back install identity, reran 10 native paths; older DB attribution not accepted",
+      "status": "CLOSED"
+    },
+    {
+      "id": "QA-FIXTURE-01",
+      "root_cause": "Old visual fixtures changed task offers instead of global waitingOffers, omitted a resolved host, scrolled to an obsolete index, and assumed four static progress labels or globally unique stage text.",
+      "fix": "Update visual fixture inputs and scroll to actual controls; do not weaken expected behavior",
+      "status": "CLOSED"
+    }
+  ],
+  "limits": [
+    "No real MiMo calls, microphone capture, user media upload or browser terms acceptance.",
+    "TalkBack complete traversal and activation have not passed; this package remains in_progress/blocked.",
+    "A02/M03, A09, final source/APK/media/interview same-version sealing and remote publication remain separate gates.",
+    "One 30-Mission durable fixture batch is not the full ten-batch performance acceptance; first SSE state is queued feedback, not model completion."
+  ],
+  "cleanup": {
+    "status": "SCOPED_RESOURCES_STOPPED_AND_VERIFIED",
+    "restore_font_scale": 1,
+    "restore_accessibility_services": "null",
+    "restore_accessibility_enabled": 0,
+    "restoration_readback": true,
+    "worker_stopped": true,
+    "private_test_resources_only": true,
+    "containers": [
+      "b94a6e1dca62",
+      "4c319d05ed81",
+      "812a67392487"
+    ],
+    "temporary_data": "regenerable isolated test databases/index/media only; --rm resources; evidence retained",
+    "navigation_service_preserved": true,
+    "released_ports": [
+      20882,
+      20883,
+      25433,
+      16333,
+      19003,
+      24174
+    ],
+    "container_absence_verified": true,
+    "isolated_app_force_stopped": true,
+    "isolated_application_ids": [
+      "com.ragcommerce.agent.a11yreview",
+      "com.ragcommerce.agent.a11yreview.test"
+    ]
+  },
+  "navigation_qa": {
+    "status": "PASS_SCOPED",
+    "url": "http://127.0.0.1:24180/",
+    "title": "项目导航 · AI应用 / 全栈准备",
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "browser_plugin": "not available; existing Playwright CLI 0.1.22; no dependency installation",
+    "checks": {
+      "identity": true,
+      "meaningful_content": true,
+      "no_error_overlay": true,
+      "console_errors": 0,
+      "console_warnings": 0,
+      "horizontal_overflow": false,
+      "screenshots_reviewed": true,
+      "interaction": "Two-week plan -> actual evidence JSON new tab -> read PARTIAL/10 of 10/0 calls/HOLD -> return and responsive check; actual 200% screenshot link opened and natural dimensions 1080x2424 verified"
+    },
+    "unit_tests_passed": 7,
+    "build": "PASS",
+    "drafts": "personal .local and browser records not modified"
+  },
+  "artifacts": {
+    "retrieval": "docs/evidence/v3/android-figma-retrieval-20261022.json",
+    "durable": "docs/evidence/v3/android-figma-durable-20261022.json",
+    "navigation_qa": "docs/evidence/v3/android-figma-navigation-qa-20261022.json",
+    "design_matrix": "docs/design/android-state-parity-20261022.json",
+    "screenshots": "docs/media/android-figma-a11y-20261022/",
+    "raw_attempts": "output/android-figma-a11y-20261022/"
+  }
+}

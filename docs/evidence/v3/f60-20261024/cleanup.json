@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-24",
+  "scope": "F60 owned QA resources only",
+  "active_jobs_before_stop": 0,
+  "stopped_api_and_worker_processes": 6,
+  "stopped_containers": [
+    "ragcommerce_closeout_infra_20261024-postgres-1",
+    "ragcommerce_closeout_infra_20261024-qdrant-1",
+    "ragcommerce_closeout_infra_20261024-redis-1",
+    "ragcommerce_closeout_infra_20261024-object-storage-1"
+  ],
+  "containers_and_volumes_deleted": false,
+  "failed_databases_and_reports_preserved": true,
+  "released_ports": [
+    20882,
+    20883,
+    25433,
+    16333,
+    16334,
+    16379,
+    19003,
+    19004
+  ],
+  "navigation": {
+    "host": "127.0.0.1",
+    "port": 24180,
+    "pid": 110284,
+    "kept_running": true
+  },
+  "other_running_containers": 15,
+  "docker_engine_stopped": false,
+  "emulator_or_recording_touched": false,
+  "git_commit_push_release_performed": false,
+  "source_files_verified": 7
+}

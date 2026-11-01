@@ -1,0 +1,1768 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-24",
+  "status": "PASS_SCOPED_NON_DOCKER",
+  "native_paths_status": "PASS_SCOPED",
+  "native_cases_passed": 8,
+  "native_cases_total": 8,
+  "mimo_calls": 0,
+  "mimo_tokens": 0,
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO",
+  "baseline": {
+    "branch": "main",
+    "head": "d670e291d263a6e4f0f041f9c74c6e0246cb854c",
+    "preserved_existing_dirty_work": true
+  },
+  "figma": {
+    "url": "https://www.figma.com/design/Wp0w0GwfT6Ip8uR93tX5vR",
+    "states": 31,
+    "design_evidence_date": "2026-10-22",
+    "new_cloud_edits_this_follow_up": false,
+    "scope": "Retained editable state catalogue; native accessibility fixes, no visual redesign"
+  },
+  "android": {
+    "device": "Pixel_9a / emulator-5554 / API35",
+    "application_id": "com.ragcommerce.agent.talkbackfinalreview",
+    "apk_sha256": "7FE8E9801B08D0620E1FE85514021873B92941832C2B073A4AB0476FB2E9DC58",
+    "font_scales": [
+      1,
+      2
+    ],
+    "provider": "explicit fake",
+    "api": "actual local HTTP; in-memory fixture, not PostgreSQL",
+    "state_injection": false,
+    "installed_talkback": true,
+    "hardware_input": "Official SDK EmulatorController: touchscreen, multitouch, Evdev keyboard",
+    "direct_node_focus_or_click_actions": false,
+    "sdk_input_security": "127.0.0.1, ephemeral token in memory only; no credentials copied"
+  },
+  "closed_product_defects": [
+    {
+      "id": "TB-02",
+      "root": "Checkbox and adjacent identical text both focusable",
+      "fix": "One named 48dp row toggle; clear child semantics",
+      "red_green": "200% fixture expected one but got two; targeted green + final native toggle"
+    },
+    {
+      "id": "TB-03",
+      "root": "Back button scrolled away with recommendation controls",
+      "fix": "Pinned Back/title/connection row; remaining controls scroll within same max240dp",
+      "red_green": "200% fixture Back not displayed before fix; targeted green + two-font native return"
+    }
+  ],
+  "test_harness_fixes": [
+    "Hardware inputs replace unproven shell key injection and direct node focus actions",
+    "Wait for actual focus events after automatic scrolling, not fixed450ms sampling",
+    "80 percent native viewport two-finger movement rather than fixed650px",
+    "Wait for connection/recovery before task preparation; scroll to actual recovery CTA",
+    "Preserve previous receipts; record bounded native observer failure summary"
+  ],
+  "unresolved_historical_observer": {
+    "attempt": "20261024/core-1.0-touchscreen-attempt1",
+    "result": "failed, zero observer tests, empty active window; original exception not retained",
+    "root_cause": "UNKNOWN; no retroactive pass claim",
+    "current_observability": "exit code and up to24 diagnostic lines retained on future failure"
+  },
+  "final_native_matrix": [
+    {
+      "attempt": "core-1.0-touchscreen-attempt2",
+      "flow": "core",
+      "font_scale": "1.0",
+      "input_mode": "touchscreen",
+      "passed": true,
+      "error": null,
+      "observer": {
+        "passed": true,
+        "tests": 1,
+        "skipped": 0
+      },
+      "started_at": "2026-10-24T00:43:13.701081+08:00",
+      "finished_at": "2026-10-24T00:45:46.869831+08:00",
+      "actions_count": 230,
+      "checks": [
+        {
+          "action": "TalkBack activate",
+          "target": "继续任务",
+          "focused_label": "继续任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "返回 Mission 对话",
+          "focused_label": "返回 Mission 对话",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "新建任务",
+          "focused_label": "新建任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "例如",
+          "focused_label": "例如：1000 元内，通勤降噪，不要入耳式",
+          "focused_class": "android.widget.EditText",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "发送",
+          "focused_label": "发送",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "加入比较",
+          "focused_label": "加入比较 · Nova Mobile Pulse 01 演示手机",
+          "focused_class": "android.widget.CheckBox",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "加入比较",
+          "focused_label": "加入比较 · Nova Mobile Pulse 12 演示手机",
+          "focused_class": "android.widget.CheckBox",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "查看来源与依据",
+          "focused_label": "查看来源与依据",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "关闭依据",
+          "focused_label": "关闭依据",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "保存候选",
+          "focused_label": "保存候选",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "取消",
+          "focused_label": "取消",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "保存候选",
+          "focused_label": "保存候选",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "确认保存",
+          "focused_label": "确认保存",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "加入待购",
+          "focused_label": "加入待购",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "确认加入",
+          "focused_label": "确认加入",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "返回 Mission 对话",
+          "focused_label": "返回 Mission 对话",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "决策",
+          "focused_label": "决策",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "owner_id": "391c6968-aab9-4ba5-a851-16f0392fa31a",
+          "thread_id": "8fb080f0-9b29-4539-9ff9-e44ec7f2a85d",
+          "status": "COMPLETED",
+          "selected_product_ids": [
+            "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+            "051e1e11-995c-5fe7-986b-d13744ad06b3"
+          ],
+          "saved_variants": 1,
+          "waiting_items": 1,
+          "backend": "in-memory HTTP fixture; not PostgreSQL"
+        },
+        {
+          "screen": "vertical-recommendations",
+          "primary_secondary_tertiary_reverse": true,
+          "primary_and_secondary_selected": true,
+          "returned_to_decisions": true,
+          "backend": "explicit fake HTTP fixture; no PostgreSQL durability claim"
+        }
+      ]
+    },
+    {
+      "attempt": "core-2.0-touchscreen-attempt2",
+      "flow": "core",
+      "font_scale": "2.0",
+      "input_mode": "touchscreen",
+      "passed": true,
+      "error": null,
+      "observer": {
+        "passed": true,
+        "tests": 1,
+        "skipped": 0
+      },
+      "started_at": "2026-10-24T00:47:47.87654+08:00",
+      "finished_at": "2026-10-24T00:49:57.137526+08:00",
+      "actions_count": 175,
+      "checks": [
+        {
+          "action": "TalkBack activate",
+          "target": "继续任务",
+          "focused_label": "继续任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "返回 Mission 对话",
+          "focused_label": "返回 Mission 对话",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "新建任务",
+          "focused_label": "新建任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "例如",
+          "focused_label": "例如：1000 元内，通勤降噪，不要入耳式",
+          "focused_class": "android.widget.EditText",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "发送",
+          "focused_label": "发送",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "加入比较",
+          "focused_label": "加入比较 · Nova Mobile Pulse 01 演示手机",
+          "focused_class": "android.widget.CheckBox",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "加入比较",
+          "focused_label": "加入比较 · Nova Mobile Pulse 12 演示手机",
+          "focused_class": "android.widget.CheckBox",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "查看来源与依据",
+          "focused_label": "查看来源与依据",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "关闭依据",
+          "focused_label": "关闭依据",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "保存候选",
+          "focused_label": "保存候选",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "取消",
+          "focused_label": "取消",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "保存候选",
+          "focused_label": "保存候选",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "确认保存",
+          "focused_label": "确认保存",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "加入待购",
+          "focused_label": "加入待购",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "确认加入",
+          "focused_label": "确认加入",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "返回 Mission 对话",
+          "focused_label": "返回 Mission 对话",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "决策",
+          "focused_label": "决策",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "owner_id": "391c6968-aab9-4ba5-a851-16f0392fa31a",
+          "thread_id": "0fad45e8-0bca-403b-a9de-8c166399192c",
+          "status": "COMPLETED",
+          "selected_product_ids": [
+            "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+            "051e1e11-995c-5fe7-986b-d13744ad06b3"
+          ],
+          "saved_variants": 1,
+          "waiting_items": 1,
+          "backend": "in-memory HTTP fixture; not PostgreSQL"
+        },
+        {
+          "screen": "vertical-recommendations",
+          "primary_secondary_tertiary_reverse": true,
+          "primary_and_secondary_selected": true,
+          "returned_to_decisions": true,
+          "backend": "explicit fake HTTP fixture; no PostgreSQL durability claim"
+        }
+      ]
+    },
+    {
+      "attempt": "dialogs-1.0-touchscreen-attempt1",
+      "flow": "dialogs",
+      "font_scale": "1.0",
+      "input_mode": "touchscreen",
+      "passed": true,
+      "error": null,
+      "observer": {
+        "passed": true,
+        "tests": 1,
+        "skipped": 0
+      },
+      "started_at": "2026-10-24T00:54:32.921521+08:00",
+      "finished_at": "2026-10-24T00:55:47.435856+08:00",
+      "actions_count": 88,
+      "checks": [
+        {
+          "action": "TalkBack activate",
+          "target": "我的",
+          "focused_label": "我的",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "删除我的数据",
+          "focused_label": "删除我的数据",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "取消",
+          "focused_label": "取消",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "delete-confirmation",
+          "focused_labels": [
+            "这会删除当前开发身份的 Mission、清单、待购、偏好和短期媒体引用。此操作不会下单或影响商家数据。",
+            "取消",
+            "确认删除",
+            "确认删除",
+            "删除我的数据",
+            "这会删除当前开发身份的 Mission、清单、待购、偏好和短期媒体引用。此操作不会下单或影响商家数据。",
+            "取消",
+            "确认删除"
+          ],
+          "cancelled": true,
+          "deletion_executed": false,
+          "restored_focus": {
+            "label": "删除我的数据",
+            "path": "",
+            "package": "com.ragcommerce.agent.talkbackfinalreview",
+            "class": "android.view.View",
+            "clickable": true,
+            "enabled": true,
+            "selected": false,
+            "checkable": false,
+            "checked": false,
+            "editable": false,
+            "heading": false,
+            "focused": true,
+            "visible": true,
+            "scrollable": false,
+            "bounds": [
+              47,
+              1394,
+              1033,
+              1541
+            ],
+            "actions": [
+              128,
+              1,
+              16
+            ]
+          }
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "任务",
+          "focused_label": "任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "改善生活",
+          "focused_label": "改善生活",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "改善生活",
+          "focused_label": "改善生活",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "exploration",
+          "checkbox": "改善生活",
+          "toggle_off_on": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "发现新玩法",
+          "focused_label": "发现新玩法",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "发现新玩法",
+          "focused_label": "发现新玩法",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "exploration",
+          "checkbox": "发现新玩法",
+          "toggle_off_on": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "添加语音",
+          "focused_label": "添加语音 · 语音",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "Only this time",
+          "focused_label": "Only this time",
+          "focused_class": "android.widget.Button",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "取消",
+          "focused_label": "取消",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "native-voice-dialog",
+          "focused_labels": [
+            "录音不会自动上传，发送后由模型转写，可修改再继续。",
+            "按住录音",
+            "取消",
+            "发送识别",
+            "发送识别",
+            "用语音说出你的需求",
+            "录音不会自动上传，发送后由模型转写，可修改再继续。"
+          ],
+          "recorded": false,
+          "uploaded": false,
+          "send_disabled_without_recording": true,
+          "not_human_voice_acceptance": true
+        }
+      ]
+    },
+    {
+      "attempt": "dialogs-2.0-touchscreen-attempt1",
+      "flow": "dialogs",
+      "font_scale": "2.0",
+      "input_mode": "touchscreen",
+      "passed": true,
+      "error": null,
+      "observer": {
+        "passed": true,
+        "tests": 1,
+        "skipped": 0
+      },
+      "started_at": "2026-10-24T00:55:47.677923+08:00",
+      "finished_at": "2026-10-24T00:56:58.785141+08:00",
+      "actions_count": 83,
+      "checks": [
+        {
+          "action": "TalkBack activate",
+          "target": "我的",
+          "focused_label": "我的",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "删除我的数据",
+          "focused_label": "删除我的数据",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "取消",
+          "focused_label": "取消",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "delete-confirmation",
+          "focused_labels": [
+            "这会删除当前开发身份的 Mission、清单、待购、偏好和短期媒体引用。此操作不会下单或影响商家数据。",
+            "取消",
+            "确认删除",
+            "确认删除",
+            "删除我的数据",
+            "这会删除当前开发身份的 Mission、清单、待购、偏好和短期媒体引用。此操作不会下单或影响商家数据。",
+            "取消",
+            "确认删除"
+          ],
+          "cancelled": true,
+          "deletion_executed": false,
+          "restored_focus": {
+            "label": "删除我的数据",
+            "path": "",
+            "package": "com.ragcommerce.agent.talkbackfinalreview",
+            "class": "android.view.View",
+            "clickable": true,
+            "enabled": true,
+            "selected": false,
+            "checkable": false,
+            "checked": false,
+            "editable": false,
+            "heading": false,
+            "focused": true,
+            "visible": true,
+            "scrollable": false,
+            "bounds": [
+              47,
+              2004,
+              1033,
+              2151
+            ],
+            "actions": [
+              128,
+              1,
+              16
+            ]
+          }
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "任务",
+          "focused_label": "任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "改善生活",
+          "focused_label": "改善生活",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "改善生活",
+          "focused_label": "改善生活",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "exploration",
+          "checkbox": "改善生活",
+          "toggle_off_on": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "发现新玩法",
+          "focused_label": "发现新玩法",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "发现新玩法",
+          "focused_label": "发现新玩法",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "exploration",
+          "checkbox": "发现新玩法",
+          "toggle_off_on": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "添加语音",
+          "focused_label": "添加语音 · 语音",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "取消",
+          "focused_label": "取消",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "native-voice-dialog",
+          "focused_labels": [
+            "录音不会自动上传，发送后由模型转写，可修改再继续。",
+            "按住录音",
+            "取消",
+            "发送识别",
+            "发送识别",
+            "用语音说出你的需求",
+            "录音不会自动上传，发送后由模型转写，可修改再继续。"
+          ],
+          "recorded": false,
+          "uploaded": false,
+          "send_disabled_without_recording": true,
+          "not_human_voice_acceptance": true
+        }
+      ]
+    },
+    {
+      "attempt": "navigation-1.0-keyboard-attempt1",
+      "flow": "navigation",
+      "font_scale": "1.0",
+      "input_mode": "keyboard",
+      "passed": true,
+      "error": null,
+      "observer": {
+        "passed": true,
+        "tests": 1,
+        "skipped": 0
+      },
+      "started_at": "2026-10-24T00:52:48.343878+08:00",
+      "finished_at": "2026-10-24T00:53:41.719073+08:00",
+      "actions_count": 111,
+      "checks": [
+        {
+          "action": "TalkBack activate",
+          "target": "决策",
+          "focused_label": "决策",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "决策",
+          "forward_labels": [
+            "决策工作台",
+            "比较之后\n再行动",
+            "比较、已保存方案与待购集合，不创建订单",
+            "已保存",
+            "已保存方案",
+            "跨任务选2–4款同品类商品，直接比较目录事实；不会改动当前任务。",
+            "已选 0/4",
+            "比较已选商品",
+            "Nova Mobile Pulse 12 演示手机",
+            "来源与依据 · 已保存",
+            "加入比较 · Nova Mobile Pulse 12 演示手机",
+            "加入比较",
+            "查看或管理商品",
+            "待购",
+            "待购计划",
+            "演示商家 · RAG Commerce Demo Store",
+            "Nova Mobile Pulse 12 演示手机",
+            "演示数据 · 不代表可购买",
+            "¥1742.00",
+            "运费 ¥0.00",
+            "演示报价 · 不可作为成交价 · 采集 2026-10-23T16:48:32.926635Z",
+            "有效至 2026-10-23T17:03:32.926635Z",
+            "查看来源与依据",
+            "重新询价",
+            "查看演示来源",
+            "演示报价仅用于本地导购流程，不代表真实市场供应",
+            "计划数量 1",
+            "减少",
+            "增加",
+            "移除",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "已保存方案",
+            "比较已选商品",
+            "待购计划",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "我的",
+          "focused_label": "我的",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "我的",
+          "forward_labels": [
+            "TRUST CENTER",
+            "知道 Agent\n如何工作",
+            "商业来源",
+            "价格、库存、物流、保障和店铺身份不由客户端推导。",
+            "当前操作",
+            "已连接",
+            "模型与数据声明",
+            "演示商品与报价，不代表真实市场信息",
+            "删除我的数据",
+            "证据等级",
+            "演示报价仅用于本地流程，不会升级为真实商业证据。",
+            "匿名质量数据",
+            "未同意：仅用于改进本地演示质量，不包含商家交易数据。",
+            "同意使用",
+            "连接与恢复",
+            "已连接 · 任务、清单与待购集合可恢复。",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "商业来源",
+            "模型与数据声明",
+            "删除我的数据",
+            "匿名质量数据",
+            "连接与恢复",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "任务",
+          "focused_label": "任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "任务",
+          "forward_labels": [
+            "SHOPPING MISSION",
+            "把需求交给\nAgent 决策",
+            "已连接",
+            "已连接",
+            "最近任务",
+            "告诉我预算、用途与不能妥协的条件",
+            "例如：1000 元内，通勤降噪，不要入耳式",
+            "添加商品图片 · 图片",
+            "添加语音 · 语音",
+            "发送",
+            "还没想好买什么？",
+            "从使用方向开始，不必先填预算。当前支持手机、电脑、耳机和相机。",
+            "改善生活",
+            "发现新玩法",
+            "随便看看",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "最近任务",
+            "添加商品图片",
+            "添加语音",
+            "发送",
+            "改善生活",
+            "发现新玩法",
+            "随便看看",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        }
+      ]
+    },
+    {
+      "attempt": "navigation-1.0-touchscreen-attempt1",
+      "flow": "navigation",
+      "font_scale": "1.0",
+      "input_mode": "touchscreen",
+      "passed": true,
+      "error": null,
+      "observer": {
+        "passed": true,
+        "tests": 1,
+        "skipped": 0
+      },
+      "started_at": "2026-10-24T00:50:17.427976+08:00",
+      "finished_at": "2026-10-24T00:51:52.049305+08:00",
+      "actions_count": 166,
+      "checks": [
+        {
+          "action": "TalkBack activate",
+          "target": "继续任务",
+          "focused_label": "继续任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "返回 Mission 对话",
+          "focused_label": "返回 Mission 对话",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "新建任务",
+          "focused_label": "新建任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "决策",
+          "focused_label": "决策",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "决策",
+          "forward_labels": [
+            "决策工作台",
+            "比较之后\n再行动",
+            "比较、已保存方案与待购集合，不创建订单",
+            "已保存",
+            "已保存方案",
+            "跨任务选2–4款同品类商品，直接比较目录事实；不会改动当前任务。",
+            "已选 0/4",
+            "比较已选商品",
+            "Nova Mobile Pulse 12 演示手机",
+            "来源与依据 · 已保存",
+            "加入比较 · Nova Mobile Pulse 12 演示手机",
+            "加入比较",
+            "查看或管理商品",
+            "待购",
+            "待购计划",
+            "演示商家 · RAG Commerce Demo Store",
+            "Nova Mobile Pulse 12 演示手机",
+            "演示数据 · 不代表可购买",
+            "¥1742.00",
+            "运费 ¥0.00",
+            "演示报价 · 不可作为成交价 · 采集 2026-10-23T16:48:32.926635Z",
+            "有效至 2026-10-23T17:03:32.926635Z",
+            "查看来源与依据",
+            "重新询价",
+            "查看演示来源",
+            "演示报价仅用于本地导购流程，不代表真实市场供应",
+            "计划数量 1",
+            "减少",
+            "增加",
+            "移除",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "已保存方案",
+            "比较已选商品",
+            "待购计划",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "我的",
+          "focused_label": "我的",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "我的",
+          "forward_labels": [
+            "TRUST CENTER",
+            "知道 Agent\n如何工作",
+            "商业来源",
+            "价格、库存、物流、保障和店铺身份不由客户端推导。",
+            "当前操作",
+            "已新建购物任务",
+            "模型与数据声明",
+            "演示商品与报价，不代表真实市场信息",
+            "删除我的数据",
+            "证据等级",
+            "演示报价仅用于本地流程，不会升级为真实商业证据。",
+            "匿名质量数据",
+            "未同意：仅用于改进本地演示质量，不包含商家交易数据。",
+            "同意使用",
+            "连接与恢复",
+            "已连接 · 任务、清单与待购集合可恢复。",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "商业来源",
+            "模型与数据声明",
+            "删除我的数据",
+            "匿名质量数据",
+            "连接与恢复",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "任务",
+          "focused_label": "任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "任务",
+          "forward_labels": [
+            "SHOPPING MISSION",
+            "把需求交给\nAgent 决策",
+            "已连接",
+            "已新建购物任务",
+            "最近任务",
+            "告诉我预算、用途与不能妥协的条件",
+            "例如：1000 元内，通勤降噪，不要入耳式",
+            "添加商品图片 · 图片",
+            "添加语音 · 语音",
+            "发送",
+            "还没想好买什么？",
+            "从使用方向开始，不必先填预算。当前支持手机、电脑、耳机和相机。",
+            "改善生活",
+            "发现新玩法",
+            "随便看看",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "最近任务",
+            "添加商品图片",
+            "添加语音",
+            "发送",
+            "改善生活",
+            "发现新玩法",
+            "随便看看",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        }
+      ]
+    },
+    {
+      "attempt": "navigation-2.0-keyboard-attempt1",
+      "flow": "navigation",
+      "font_scale": "2.0",
+      "input_mode": "keyboard",
+      "passed": true,
+      "error": null,
+      "observer": {
+        "passed": true,
+        "tests": 1,
+        "skipped": 0
+      },
+      "started_at": "2026-10-24T00:53:41.981243+08:00",
+      "finished_at": "2026-10-24T00:54:32.660548+08:00",
+      "actions_count": 105,
+      "checks": [
+        {
+          "action": "TalkBack activate",
+          "target": "决策",
+          "focused_label": "决策",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "决策",
+          "forward_labels": [
+            "决策工作台",
+            "比较之后\n再行动",
+            "比较、已保存方案与待购集合，不创建订单",
+            "已保存",
+            "已保存方案",
+            "跨任务选2–4款同品类商品，直接比较目录事实；不会改动当前任务。",
+            "已选 0/4",
+            "比较已选商品",
+            "Nova Mobile Pulse 12 演示手机",
+            "来源与依据 · 已保存",
+            "加入比较 · Nova Mobile Pulse 12 演示手机",
+            "加入比较",
+            "查看或管理商品",
+            "待购",
+            "待购计划",
+            "演示商家 · RAG Commerce Demo Store",
+            "Nova Mobile Pulse 12 演示手机",
+            "演示数据 · 不代表可购买",
+            "¥1742.00",
+            "运费 ¥0.00",
+            "演示报价 · 不可作为成交价 · 采集 2026-10-23T16:48:32.926635Z",
+            "有效至 2026-10-23T17:03:32.926635Z",
+            "查看来源与依据",
+            "重新询价",
+            "查看演示来源",
+            "演示报价仅用于本地导购流程，不代表真实市场供应",
+            "计划数量 1",
+            "减少",
+            "增加",
+            "移除",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "已保存方案",
+            "比较已选商品",
+            "待购计划",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "我的",
+          "focused_label": "我的",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "我的",
+          "forward_labels": [
+            "TRUST CENTER",
+            "知道 Agent\n如何工作",
+            "商业来源",
+            "价格、库存、物流、保障和店铺身份不由客户端推导。",
+            "当前操作",
+            "已连接",
+            "模型与数据声明",
+            "演示商品与报价，不代表真实市场信息",
+            "删除我的数据",
+            "证据等级",
+            "演示报价仅用于本地流程，不会升级为真实商业证据。",
+            "匿名质量数据",
+            "未同意：仅用于改进本地演示质量，不包含商家交易数据。",
+            "同意使用",
+            "连接与恢复",
+            "已连接 · 任务、清单与待购集合可恢复。",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "商业来源",
+            "模型与数据声明",
+            "删除我的数据",
+            "匿名质量数据",
+            "连接与恢复",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "任务",
+          "focused_label": "任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "任务",
+          "forward_labels": [
+            "SHOPPING MISSION",
+            "把需求交给\nAgent 决策",
+            "已连接",
+            "已连接",
+            "最近任务",
+            "告诉我预算、用途与不能妥协的条件",
+            "例如：1000 元内，通勤降噪，不要入耳式",
+            "添加商品图片 · 图片",
+            "添加语音 · 语音",
+            "发送",
+            "还没想好买什么？",
+            "从使用方向开始，不必先填预算。当前支持手机、电脑、耳机和相机。",
+            "改善生活",
+            "发现新玩法",
+            "随便看看",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "最近任务",
+            "添加商品图片",
+            "添加语音",
+            "发送",
+            "改善生活",
+            "发现新玩法",
+            "随便看看",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        }
+      ]
+    },
+    {
+      "attempt": "navigation-2.0-touchscreen-attempt1",
+      "flow": "navigation",
+      "font_scale": "2.0",
+      "input_mode": "touchscreen",
+      "passed": true,
+      "error": null,
+      "observer": {
+        "passed": true,
+        "tests": 1,
+        "skipped": 0
+      },
+      "started_at": "2026-10-24T00:51:52.27977+08:00",
+      "finished_at": "2026-10-24T00:52:48.057391+08:00",
+      "actions_count": 99,
+      "checks": [
+        {
+          "action": "TalkBack activate",
+          "target": "决策",
+          "focused_label": "决策",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "决策",
+          "forward_labels": [
+            "决策工作台",
+            "比较之后\n再行动",
+            "比较、已保存方案与待购集合，不创建订单",
+            "已保存",
+            "已保存方案",
+            "跨任务选2–4款同品类商品，直接比较目录事实；不会改动当前任务。",
+            "已选 0/4",
+            "比较已选商品",
+            "Nova Mobile Pulse 12 演示手机",
+            "来源与依据 · 已保存",
+            "加入比较 · Nova Mobile Pulse 12 演示手机",
+            "加入比较",
+            "查看或管理商品",
+            "待购",
+            "待购计划",
+            "演示商家 · RAG Commerce Demo Store",
+            "Nova Mobile Pulse 12 演示手机",
+            "演示数据 · 不代表可购买",
+            "¥1742.00",
+            "运费 ¥0.00",
+            "演示报价 · 不可作为成交价 · 采集 2026-10-23T16:48:32.926635Z",
+            "有效至 2026-10-23T17:03:32.926635Z",
+            "查看来源与依据",
+            "重新询价",
+            "查看演示来源",
+            "演示报价仅用于本地导购流程，不代表真实市场供应",
+            "计划数量 1",
+            "减少",
+            "增加",
+            "移除",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "已保存方案",
+            "比较已选商品",
+            "待购计划",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "我的",
+          "focused_label": "我的",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "我的",
+          "forward_labels": [
+            "TRUST CENTER",
+            "知道 Agent\n如何工作",
+            "商业来源",
+            "价格、库存、物流、保障和店铺身份不由客户端推导。",
+            "当前操作",
+            "已连接",
+            "模型与数据声明",
+            "演示商品与报价，不代表真实市场信息",
+            "删除我的数据",
+            "证据等级",
+            "演示报价仅用于本地流程，不会升级为真实商业证据。",
+            "匿名质量数据",
+            "未同意：仅用于改进本地演示质量，不包含商家交易数据。",
+            "同意使用",
+            "连接与恢复",
+            "已连接 · 任务、清单与待购集合可恢复。",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "商业来源",
+            "模型与数据声明",
+            "删除我的数据",
+            "匿名质量数据",
+            "连接与恢复",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        },
+        {
+          "action": "TalkBack activate",
+          "target": "任务",
+          "focused_label": "任务",
+          "focused_class": "android.view.View",
+          "enabled": true,
+          "native_click_action": true
+        },
+        {
+          "screen": "任务",
+          "forward_labels": [
+            "SHOPPING MISSION",
+            "把需求交给\nAgent 决策",
+            "已连接",
+            "已连接",
+            "最近任务",
+            "告诉我预算、用途与不能妥协的条件",
+            "例如：1000 元内，通勤降噪，不要入耳式",
+            "添加商品图片 · 图片",
+            "添加语音 · 语音",
+            "发送",
+            "还没想好买什么？",
+            "从使用方向开始，不必先填预算。当前支持手机、电脑、耳机和相机。",
+            "改善生活",
+            "发现新玩法",
+            "随便看看",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "required_labels": [
+            "最近任务",
+            "添加商品图片",
+            "添加语音",
+            "发送",
+            "改善生活",
+            "发现新玩法",
+            "随便看看",
+            "任务",
+            "决策",
+            "我的"
+          ],
+          "hardware_two_finger_scrolls": 0,
+          "reverse_then_forward": true
+        }
+      ]
+    }
+  ],
+  "attempt_accounting": {
+    "final_selected_matrix_passed": 8,
+    "final_selected_matrix_total": 8,
+    "historical_and_current_receipts": 27,
+    "reported_passes": 17,
+    "reported_failures": 10,
+    "incomplete_without_final_receipt": 5,
+    "note": "Historical development probes include weaker checks; not part of the final eight-case acceptance. All failures remain retained."
+  },
+  "attempts": [
+    {
+      "date": "20261023",
+      "attempt": "core-1.0-touchscreen-attempt1",
+      "receipt": "present",
+      "passed": false,
+      "error": "TypeError: list indices must be integers or slices, not str"
+    },
+    {
+      "date": "20261023",
+      "attempt": "core-1.0-touchscreen-attempt2",
+      "receipt": "present",
+      "passed": false,
+      "error": "AssertionError: TalkBack two-finger scroll did not reach secondary"
+    },
+    {
+      "date": "20261023",
+      "attempt": "core-1.0-touchscreen-attempt3",
+      "receipt": "present",
+      "passed": false,
+      "error": "AssertionError: TalkBack could not naturally reach '返回 Mission 对话'"
+    },
+    {
+      "date": "20261023",
+      "attempt": "core-1.0-touchscreen-attempt4",
+      "receipt": "incomplete",
+      "passed": null,
+      "error": "No final result; not accepted"
+    },
+    {
+      "date": "20261023",
+      "attempt": "dialogs-1.0-touchscreen-attempt1",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261023",
+      "attempt": "dialogs-2.0-touchscreen-attempt1",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261023",
+      "attempt": "keyboard-probe-01",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261023",
+      "attempt": "navigation-1.0-attempt1",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261023",
+      "attempt": "navigation-1.0-keyboard-attempt1",
+      "receipt": "present",
+      "passed": false,
+      "error": "AssertionError: 任务: traversal missed ['随便看看']"
+    },
+    {
+      "date": "20261023",
+      "attempt": "navigation-1.0-keyboard-attempt2",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261023",
+      "attempt": "navigation-1.0-touch-attempt2",
+      "receipt": "present",
+      "passed": false,
+      "error": "AssertionError: 我的 did not open"
+    },
+    {
+      "date": "20261023",
+      "attempt": "navigation-1.0-touch-attempt3",
+      "receipt": "present",
+      "passed": false,
+      "error": "AssertionError: 任务: traversal missed ['随便看看']"
+    },
+    {
+      "date": "20261023",
+      "attempt": "navigation-1.0-touch-attempt4",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261023",
+      "attempt": "navigation-2.0-keyboard-attempt1",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261023",
+      "attempt": "navigation-2.0-touchscreen-attempt1",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261023",
+      "attempt": "probe-01",
+      "receipt": "incomplete",
+      "passed": null,
+      "error": "No final result; not accepted"
+    },
+    {
+      "date": "20261023",
+      "attempt": "probe-02",
+      "receipt": "present",
+      "passed": false,
+      "error": "AssertionError: Hardware input also failed to advance TalkBack"
+    },
+    {
+      "date": "20261023",
+      "attempt": "probe-03",
+      "receipt": "incomplete",
+      "passed": null,
+      "error": "No final result; not accepted"
+    },
+    {
+      "date": "20261023",
+      "attempt": "probe-04",
+      "receipt": "incomplete",
+      "passed": null,
+      "error": "No final result; not accepted"
+    },
+    {
+      "date": "20261023",
+      "attempt": "probe-05",
+      "receipt": "incomplete",
+      "passed": null,
+      "error": "No final result; not accepted"
+    },
+    {
+      "date": "20261023",
+      "attempt": "probe-06",
+      "receipt": "present",
+      "passed": false,
+      "error": "RuntimeError: ADB failed: emu avd name: error: could not connect to TCP port 5554: cannot connect to 127.0.0.1:5554: 由于目标计算机积极拒绝，无法连接。 (10061)\n"
+    },
+    {
+      "date": "20261023",
+      "attempt": "probe-07",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261024",
+      "attempt": "core-1.0-touchscreen-attempt1",
+      "receipt": "present",
+      "passed": false,
+      "error": "AssertionError: TalkBack could not naturally reach '加入比较'"
+    },
+    {
+      "date": "20261024",
+      "attempt": "core-1.0-touchscreen-attempt2",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261024",
+      "attempt": "core-2.0-touchscreen-attempt1",
+      "receipt": "present",
+      "passed": false,
+      "error": "AssertionError: TalkBack could not naturally reach '例如'"
+    },
+    {
+      "date": "20261024",
+      "attempt": "core-2.0-touchscreen-attempt2",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261024",
+      "attempt": "dialogs-1.0-touchscreen-attempt1",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261024",
+      "attempt": "dialogs-2.0-touchscreen-attempt1",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261024",
+      "attempt": "navigation-1.0-keyboard-attempt1",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261024",
+      "attempt": "navigation-1.0-touchscreen-attempt1",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261024",
+      "attempt": "navigation-2.0-keyboard-attempt1",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    },
+    {
+      "date": "20261024",
+      "attempt": "navigation-2.0-touchscreen-attempt1",
+      "receipt": "present",
+      "passed": true,
+      "error": null
+    }
+  ],
+  "regression": {
+    "android_unit": {
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0,
+      "report_date": "2026-10-24"
+    },
+    "android_build": {
+      "debug": "PASS",
+      "instrumentation_apk": "PASS",
+      "java": 21
+    },
+    "lint": {
+      "errors": 0,
+      "warnings": 19,
+      "by_id": {
+        "GradleDependency": 15,
+        "IconLocation": 1,
+        "ObsoleteLintCustomCheck": 3
+      },
+      "note": "Current count; older report had18. Do not suppress or relabel warnings."
+    },
+    "android_visual_fixture": {
+      "passed": 41,
+      "total": 41,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASS_TALKBACK_OFF_CONTROL",
+      "first_run": {
+        "total": 41,
+        "failed": 2,
+        "talkback_bound": true,
+        "failures": [
+          "recommendationShowsTypedQuoteTruth: not displayed",
+          "mediaConfirmationIsEditableAndRequiresExplicitContinue: expected ConfirmMedia, last action UpdateDraft"
+        ]
+      },
+      "control": "Same unmodified APK and same41 tests passed,0 skipped after restoring original TalkBack disabled/font1.0 settings. Initial ordinary-touch fixture run had TalkBack bound and two failures; preserve both receipts. Native TalkBack8/8 remains a separate acceptance layer."
+    },
+    "python_helper": {
+      "passed": 1,
+      "failed": 0
+    },
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "task_packages": {
+      "packages": 49,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "media": [
+    "docs/media/android-talkback-20261024/default-primary.png",
+    "docs/media/android-talkback-20261024/large-primary.png",
+    "docs/media/android-talkback-20261024/large-decisions.png",
+    "docs/media/android-talkback-20261024/large-voice-dialog.png",
+    "docs/media/android-talkback-20261024/large-delete-dialog.png"
+  ],
+  "historical_evidence": "docs/evidence/v3/android-figma-accessibility-20261022.json; infrastructure, BGE and Ops were not rerun under this follow-up",
+  "navigation_qa": {
+    "url": "http://127.0.0.1:24180/",
+    "flow": "Two-week plan -> TalkBack8/8 card -> evidence link -> new JSON tab with8/8 and fixture41",
+    "browser_plugin": "Browser plugin not available; existing Playwright CLI0.1.22 used, no new install",
+    "viewports": ["1440x1000", "390x844"],
+    "page_title": "项目导航 · AI应用 / 全栈准备",
+    "meaningful_render": true,
+    "framework_error_overlay": false,
+    "horizontal_overflow": false,
+    "app_console_errors": 0,
+    "app_console_warnings": 0,
+    "json_link_http_status": 200,
+    "site_tests_passed": 7,
+    "site_build": "PASS",
+    "screenshots": "Desktop and mobile captures retained outside repositories; visually inspected",
+    "tool_error_retained": "Initial CLI evaluation lost double quotes and raised ReferenceError; corrected single-quoted expression succeeded. Not an application error.",
+    "personal_records_changed": false
+  },
+  "remaining": [
+    "Docker engine recovery and current persistent/infrastructure recheck deferred by user; no IPC deletion/reset",
+    "A02/M03 actual human microphone, not replaced by voice-dialog cancellation",
+    "A09 Chrome first-run setup and final same-source portfolio seal",
+    "Historical zero-test observer root cause remains unknown; original failure retained"
+  ],
+  "publication": {
+    "staged": false,
+    "committed": false,
+    "pushed": false,
+    "published": false
+  },
+  "cleanup": {
+    "font_scale_readback": "1.0",
+    "enabled_accessibility_services_readback": "null",
+    "accessibility_enabled_readback": "0",
+    "owned_fixture_api_stopped": true,
+    "owned_pixel_9a_emulator_stopped": true,
+    "ports_20882_8554_released": true,
+    "avd_and_application_data_preserved": true,
+    "other_emulator_5556_and_shared_adb_preserved": true,
+    "navigation_24180_kept_running": true,
+    "docker_socket_or_data_deleted": false
+  }
+}

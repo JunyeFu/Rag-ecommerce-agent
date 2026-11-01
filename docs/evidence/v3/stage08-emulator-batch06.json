@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-08",
+  "status": "SCOPED_EMULATOR_RECOVERY_PASSED",
+  "product_gate": "HOLD",
+  "device": "Pixel_9 / emulator-5558",
+  "application_id": "com.ragcommerce.agent.recoverytest",
+  "mode": "Explicit fake planner, real UI/API/AgentRuntime/PostgreSQL18.3; in-memory media, API background execution, not durable Worker acceptance.",
+  "instrumentation": {
+    "command": "adb -s emulator-5558 shell am instrument -w -e class com.ragcommerce.agent.EmulatorRecoveryApiTest -e phase <phase> com.ragcommerce.agent.recoverytest.test/androidx.test.runner.AndroidJUnitRunner",
+    "phases_passed": ["seed-reject", "reject", "verify-rejected", "seed-approve", "approve", "verify-approved"],
+    "additional_passed": ["com.ragcommerce.agent.FixtureApiFlowTest"],
+    "total_passed": 7,
+    "setup_failures_retained": "Two initial seed attempts timed out because the emulator retained an unreachable proxy; resolved by temporarily disabling that proxy."
+  },
+  "process_stop_evidence": {"command": "adb shell am force-stop com.ragcommerce.agent.recoverytest", "observed_pre_stop_pids": [4361, 4618, 4762]},
+  "database_checks": {"rejected_cart_rows": 0, "approved_quantity_before_and_after_restart": 1, "write_receipts_before_and_after_restart": 1, "completed_runs": 3, "duplicate_terminal_runs": 0},
+  "migration": {"initial_failure": "Fresh metadata-based migration0006 already created v3_tool_receipts; 0010 failed with DuplicateTable.", "fix": "CREATE TABLE IF NOT EXISTS in 0010; fresh migration rerun and Alembic check succeeded without drift.", "head": "20261008_0010"},
+  "screenshots": ["output/emulator-recovery/approval-restored.png", "output/emulator-recovery/completed-restored.png"],
+  "cleanup": "Restored original emulator proxy, removed temporary adb reverse, stopped owned API and removed owned PostgreSQL container/synthetic data. Original app and CatLife untouched; independent test app retained.",
+  "limits": ["No real MiMo calls", "Not all ten Android scenarios", "No server process kill or power-loss test", "Technical approval/recovery copy remains visible", "Test backend stopped after acceptance"],
+  "git_actions": "No staging, commit, push or release."
+}

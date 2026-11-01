@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-13",
+  "command": "python scripts/verify_worker_process_recovery.py",
+  "database": "ragcommerce_next_20261013",
+  "exit_code": 1,
+  "passed": false,
+  "failure": "committed tool receipt not observed within 45 seconds",
+  "root_cause": "Fault-injection harness set approved_tools directly without binding an exact approved invocation; the current executor failed with TOOL_FAILURE: approved invocation changed; start a new Turn.",
+  "business_receipts": 0,
+  "correction": "Use production Worker to create pending proposal, then TurnService.decide to freeze and approve the exact invocation before interrupting the actual child",
+  "paid_calls": 0,
+  "original_failure_preserved": true
+}

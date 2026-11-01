@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-13",
+  "defect": "F54",
+  "status": "source_fixed_database_verified_native_pending",
+  "root_cause": "Ordinary reads ignored fresh and regenerated expiry; tool calls bypassed shared quote state.",
+  "changes": ["Owner-bound quote snapshots", "Explicit requote only", "Expired links blocked", "PostgreSQL API/Worker shared state", "Owner erasure includes quotes"],
+  "verification": [
+    {"command": "pytest -q apps/api/tests/test_demo_quote_lifecycle.py", "stage": "before_fix", "failed": 2},
+    {"command": "pytest -q apps/api/tests/test_demo_quote_lifecycle.py apps/api/tests/test_demo_flow.py packages/agent-runtime/tests/test_runtime.py", "exit_code": 0, "passed": 31},
+    {"command": "alembic -c apps/api/alembic.ini upgrade head", "database": "ragcommerce_next_20261013", "exit_code": 0, "revision": "20261013_0015"},
+    {"command": "alembic -c apps/api/alembic.ini check", "exit_code": 0, "result": "No new upgrade operations detected"},
+    {"command": "pytest -q apps/api/tests/test_postgres_quote_integration.py apps/api/tests/test_postgres_api_integration.py", "exit_code": 0, "passed": 20}
+  ],
+  "limitations": ["Expiry tested with controlled clock, not a natural 15-minute Android wait", "No new native or real-model acceptance", "Active demo runtime has not been migrated or restarted to this change"],
+  "new_model_calls": 0,
+  "audio_acceptance": "User deferred microphone participation; A02/M03 remain pending",
+  "LOCAL_PORTFOLIO_READY": "HOLD"
+}

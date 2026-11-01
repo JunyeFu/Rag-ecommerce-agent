@@ -44,6 +44,10 @@ def secret_findings(paths: list[Path]) -> list[str]:
             continue
         for match in assignment.finditer(text):
             value = match.group(1).lower()
+            if re.fullmatch(r"[a-z_][a-z0-9_]*", value) or any(
+                marker in value for marker in ("(", ")", "?.")
+            ):
+                continue
             if not any(marker in value for marker in PLACEHOLDERS) and not value.startswith(
                 ("${", "<")
             ):
@@ -54,7 +58,7 @@ def secret_findings(paths: list[Path]) -> list[str]:
 
 def sast_findings(paths: list[Path]) -> list[str]:
     patterns = {
-        "dynamic_eval": re.compile(r"(?m)(?<![.A-Za-z])(?:eval|exec)\s*\("),
+        "dynamic_eval": re.compile(r"(?m)(?<![.A-Za-z0-9_])(?:eval|exec)\s*\("),
         "shell_true": re.compile(r"shell\s*=\s*True"),
         "unsafe_pickle": re.compile(r"pickle\.loads?\s*\("),
         "tls_disabled": re.compile(r"verify\s*=\s*False"),

@@ -1,0 +1,73 @@
+{
+  "created_at": "2026-10-12T08:39:59Z",
+  "evidence_level": "LOCAL_REGRESSION_POST_A10_R4",
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "commands": [
+    {
+      "command": "pytest -q (independent regression database)",
+      "exit_code": 0,
+      "tests": 196,
+      "failed": 0,
+      "skipped": 0,
+      "elapsed_seconds": 11.71
+    },
+    {
+      "command": "pytest apps/api/tests/test_final_android_acceptance_runner.py -q",
+      "exit_code": 0,
+      "tests": 8,
+      "failed": 0,
+      "red_test": "test_erasure_resume_requires_exact_completed_isolated_assets: KeyError before implementation",
+      "green_after_implementation": true
+    },
+    {
+      "command": "ruff check (two native harnesses and focused tests)",
+      "exit_code": 0
+    },
+    {
+      "command": "Android assembleDebugAndroidTest",
+      "exit_code": 0,
+      "build_seconds": 3,
+      "tasks": 54,
+      "executed": 6,
+      "up_to_date": 48
+    },
+    {
+      "command": "validate_task_packages.py",
+      "exit_code": 0,
+      "packages": 44,
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "command": "compileall (changed harnesses and focused test)",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "line_ending_warnings_present": true
+    }
+  ],
+  "earlier_same_product_source_quality_ref": "docs/evidence/v3/final-local-quality-20261012.json",
+  "paid_model_calls_in_quality_tests": 0,
+  "real_acceptance_ref": "docs/evidence/v3/final-real-A10-R4-20261012.json",
+  "real_acceptance_scope": "Remaining recovery/isolation/deletion only; no repeat of approval or initial offline steps",
+  "full_android_signed": [
+    "A01",
+    "A03",
+    "A04",
+    "A05",
+    "A06",
+    "A07"
+  ],
+  "original_real_failures_preserved": true,
+  "independent_readonly_review": {
+    "passed": true,
+    "slot_closed": true,
+    "model_authorization_inactive": true,
+    "calls": 0,
+    "erased_test_owner_rows": 0,
+    "new_identity_cart_empty": true,
+    "scope": "Post-execution SQL/API inspection; no new Turn, Run, model call or deletion"
+  }
+}

@@ -60,6 +60,11 @@ def main() -> int:
     for name, image in VERSIONS["containers"].items():
         if image not in compose:
             raise AssertionError(f"container lock missing from Compose: {name}")
+    minio = (ROOT / "infra/minio-source.Dockerfile").read_text(encoding="utf-8")
+    if "dockerfile: minio-source.Dockerfile" not in compose or any(
+        value not in minio for value in VERSIONS["minio_source"].values()
+    ):
+        raise AssertionError("MinIO source build differs from the fixed upstream release")
     print(f"PASS container tags {len(VERSIONS['containers'])}")
     return 0
 

@@ -5,14 +5,26 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Literal
 
-Family = Literal["shopping", "multi_turn", "multimodal", "quote_failure", "security"]
-Split = Literal["dev", "test", "heldout"]
+Family = Literal[
+    "retrieval_exact",
+    "retrieval_semantic",
+    "constraint_conflict",
+    "no_match",
+    "multi_turn",
+    "approval_state",
+    "quote_evidence",
+    "multimodal",
+    "recovery_concurrency",
+    "security",
+]
+Split = Literal["dev", "test", "challenge"]
 
 
 @dataclass(frozen=True, slots=True)
 class ExpectedBehavior:
     outcome: str
     allowed_tools: tuple[str, ...]
+    required_tools: tuple[str, ...]
     forbidden_tools: tuple[str, ...]
     requires_approval: bool
     minimum_evidence_refs: int
@@ -24,6 +36,7 @@ class ExpectedBehavior:
         return cls(
             outcome=str(value["outcome"]),
             allowed_tools=tuple(value["allowed_tools"]),
+            required_tools=tuple(value["required_tools"]),
             forbidden_tools=tuple(value["forbidden_tools"]),
             requires_approval=bool(value["requires_approval"]),
             minimum_evidence_refs=int(value["minimum_evidence_refs"]),
@@ -45,10 +58,10 @@ class EvalCase:
 
     @classmethod
     def from_dict(cls, value: dict[str, Any]) -> EvalCase:
-        if value.get("schema_version") != 1:
+        if value.get("schema_version") != 2:
             raise ValueError("unsupported case schema")
-        if value.get("split") == "heldout" or "expected" not in value:
-            raise ValueError("blinded held-out cases cannot be executed by the local runner")
+        if "expected" not in value:
+            raise ValueError("automated cases require expected behavior")
         turns = tuple(str(item) for item in value["turns"])
         if not turns or any(not item.strip() for item in turns):
             raise ValueError("case turns must be non-empty")

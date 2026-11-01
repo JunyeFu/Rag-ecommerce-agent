@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-UX-FIGMA-01",
+  "owner": "current-task",
+  "objective": "Figma可编辑Android设计与原生落地",
+  "inputs": [
+    "docs/plans/ANDROID-DECISION-UX-UPGRADE.md",
+    "data/demo/catalog.v3.jsonl"
+  ],
+  "outputs": [
+    "docs/task-packages/packages/V3-UX-FIGMA-01/evidence/verification.json",
+    "docs/design/android-state-parity-20261022.json",
+    "docs/evidence/v3/android-figma-accessibility-20261022.json",
+    "docs/evidence/v3/android-talkback-20261024.json",
+    "docs/design/ANDROID-TALKBACK-20261024.md"
+  ],
+  "acceptance": [
+    "不是网页套壳，不嵌入整张截图当成页面。",
+    "所有公开控件连接真实Repository/API，测试不注入成功作为E2E通过。",
+    "默认/大字号、加载/空态/失败/恢复、纵向候选动作均可达。"
+  ],
+  "test_profiles": [
+    "targeted Python",
+    "Android unit/lint/build",
+    "contract drift",
+    "native QA when available"
+  ],
+  "business_refs": [
+    "shared.business_model"
+  ],
+  "development_refs": [
+    "profiles.task_packages"
+  ],
+  "risk_refs": [
+    "shared.pitfalls"
+  ]
+}
+

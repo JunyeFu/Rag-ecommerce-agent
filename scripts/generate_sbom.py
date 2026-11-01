@@ -58,11 +58,26 @@ def container_components() -> list[dict]:
     result = []
     for image in versions["containers"].values():
         name, version = image.rsplit(":", 1)
-        result.append(component("container", name, version))
+        result.append(
+            component(
+                "container",
+                name,
+                version,
+                versions["minio_source"]["license"]
+                if name == "local/ragcommerce-minio"
+                else "NOASSERTION",
+            )
+        )
+        if name == "local/ragcommerce-minio":
+            result[-1]["properties"] = [
+                {"name": f"upstream.{key}", "value": versions["minio_source"][key]}
+                for key in ("release", "commit", "builder")
+            ]
     return result
 
 
 def render() -> tuple[str, str]:
+    project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
     components = (
         python_components() + node_components() + gradle_components() + container_components()
     )
@@ -74,8 +89,8 @@ def render() -> tuple[str, str]:
         "metadata": {
             "component": {
                 "type": "application",
-                "name": "rag-commerce-v2",
-                "version": "0.1.0",
+                "name": project["name"],
+                "version": project["version"],
             },
             "properties": [
                 {"name": "evidence.scope", "value": "locked local dependency inventory"},

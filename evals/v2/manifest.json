@@ -1,56 +1,51 @@
 {
-  "case_count": 600,
+  "case_count": 1000,
   "claims": {
-    "heldout_dual_review_complete": false,
-    "old_seed_license_clear": false,
-    "real_provider_evaluated": false,
-    "synthetic_cases_license_clear": true
+    "all_cases_machine_gradable": true,
+    "project_generated_license_clear": true,
+    "real_provider_evaluated": false
   },
-  "dataset_version": "competition-v1",
+  "dataset_version": "competition-v2",
   "family_counts": {
-    "multi_turn": 100,
+    "approval_state": 100,
+    "constraint_conflict": 100,
+    "multi_turn": 120,
     "multimodal": 80,
-    "quote_failure": 60,
-    "security": 60,
-    "shopping": 300
+    "no_match": 80,
+    "quote_evidence": 100,
+    "recovery_concurrency": 80,
+    "retrieval_exact": 120,
+    "retrieval_semantic": 120,
+    "security": 100
   },
   "files": {
     "evals/v2/case.schema.json": {
       "records": 1,
-      "sha256": "7262156ec3f818d78c3a32cea90a2850e8fa66e3830c8c2c8f370624ed189b34"
+      "sha256": "f649732e1966e9c91e6eec9feebe6894dd67a3b1034c94b815bf73c434e55d87"
     },
-    "evals/v2/heldout/human-review-status.json": {
-      "records": 1,
-      "sha256": "d367aa24be2ae9ce623c568ab79470adcb3e255a127e9b925c45f4e035fb31a6"
-    },
-    "evals/v2/heldout/review-queue.v1.jsonl": {
-      "records": 100,
-      "sha256": "97b0e167a644dc82987c9bb4c915dfb0d1042aac36ed30644c53a83d37580ad3"
-    },
-    "evals/v2/public-cases.v1.jsonl": {
-      "records": 500,
-      "sha256": "f04be24b5bda96e1d2844e61b37a58f0319bb54ebf9999245cd06bb8ab0dab0c"
+    "evals/v2/cases.v2.jsonl": {
+      "records": 1000,
+      "sha256": "7edb2c1e3c1ca28f2187267f52c3fcb84c1bf0d6fa2109da5ccbda11c2392444"
     },
     "evals/v2/seed-audit.json": {
       "records": 1,
-      "sha256": "a7e850709cb88e969648be6ef16ee3c97e6b3a5a55906f943d85ed3d208eb0e8"
+      "sha256": "b45bb6bb5ba591d19355b4ef803d807e22d7971f92ac31e016d9845017bc6d8b"
     }
   },
-  "generator_version": "competition-eval-generator-v1",
-  "heldout_consumers": [
-    "dual_human_review_only"
+  "final_gate_inputs": [
+    "challenge"
   ],
-  "old_seed_decision": "source_removed_from_current_tree_and_never_used_by_v3",
-  "schema_version": 1,
-  "seed": 20260826,
+  "generator_version": "competition-eval-generator-v2",
+  "human_review_required": false,
+  "schema_version": 2,
+  "seed": 20260921,
   "selection_inputs": [
-    "dev",
     "test"
   ],
   "split_counts": {
-    "dev": 360,
-    "heldout": 100,
-    "test": 140
+    "challenge": 150,
+    "dev": 600,
+    "test": 250
   },
   "tuning_inputs": [
     "dev"

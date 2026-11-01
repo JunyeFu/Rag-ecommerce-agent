@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-CAREER-CLOSE-01",
+  "owner": "career-close",
+  "objective": "真实Agent求职闭环与运行质量收口",
+  "inputs": [
+    "docs/defects/V3-REAL-ACCEPTANCE-20261002.md"
+  ],
+  "outputs": [
+    "FR02/03/04探索反馈转选购与FR11结束的局部实现/验收",
+    "运行配置统一",
+    "Provider预算隔离",
+    "真实消融/并发/Android验收"
+  ],
+  "acceptance": [
+    "单run预算不串线",
+    "真实模型不回退/重跑",
+    "真实证据分层，未完成保持HOLD"
+  ],
+  "test_profiles": [
+    "pytest",
+    "local-embedding",
+    "durable-load",
+    "android-real",
+    "task-package-validator"
+  ],
+  "business_refs": [
+    "60SKU",
+    "DEMO_FIXTURE"
+  ],
+  "development_refs": [
+    "V3-PLATFORM-01"
+  ],
+  "risk_refs": [
+    "跨run预算污染",
+    "虚假验收",
+    "覆盖用户脏树"
+  ]
+}

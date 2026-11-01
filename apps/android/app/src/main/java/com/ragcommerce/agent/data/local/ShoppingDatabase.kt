@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.flow.Flow
 
@@ -49,6 +50,15 @@ interface ShoppingDao {
 
     @Query("DELETE FROM saved_items")
     suspend fun clearSavedItems()
+
+    @Query("DELETE FROM saved_items WHERE kind = 'LIST'")
+    suspend fun clearCandidateCache()
+
+    @Transaction
+    suspend fun replaceCandidateCache(items: List<SavedItemEntity>) {
+        clearCandidateCache()
+        items.forEach { saveItem(it) }
+    }
 }
 
 @Database(

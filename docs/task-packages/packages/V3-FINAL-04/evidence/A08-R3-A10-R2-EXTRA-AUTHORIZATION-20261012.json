@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "authorized_on": "2026-10-12",
+  "authority": "Direct human reply in this chat",
+  "user_reply": "允许各一次完整复测",
+  "question_scope": "A08-R3 and A10-R2 each one complete retest after the observed approval-consumer race and missing native result receipt corrections",
+  "additional_slots": ["A08-R3", "A10-R2"],
+  "execution_order": ["A08-R3", "A10-R2"],
+  "first_and_previous_failures_preserved": true,
+  "budget_session_unchanged": "internship-final-20261009",
+  "total_token_limit_unchanged": 2000000,
+  "agent_run_token_limit_unchanged": 48000,
+  "observation_seconds_unchanged": 600,
+  "no_automatic_retry_authorized": true,
+  "root_causes": ["F42", "F43"]
+}

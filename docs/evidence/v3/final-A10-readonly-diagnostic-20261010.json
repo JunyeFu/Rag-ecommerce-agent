@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-10-09T16:44:26Z",
+  "evidence_level": "NATIVE_ANDROID_READ_ONLY_DIAGNOSIS",
+  "defect": "F39",
+  "scenario_retest": false,
+  "first_failure_report": "docs/evidence/v3/final-real-A10-first-20261010.json",
+  "native_runner_pid": 11252,
+  "tests": 1,
+  "failed": 0,
+  "elapsed_seconds": 7.009,
+  "application_id": "com.ragcommerce.agent.safetytest",
+  "actual_tag": "send_turn",
+  "control_displayed_and_enabled": true,
+  "send_clicked": false,
+  "new_turns": 0,
+  "model_calls": 0,
+  "tokens": 0,
+  "deleted_business_rows": 0,
+  "injected_ui_state": false,
+  "complete_safety_acceptance": "pending separate A10-R1 authorization"
+}

@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-13",
+  "task": "FINAL-N11",
+  "status": "partial_review_failed_capacity_gate",
+  "capacity": {
+    "report": "docs/evidence/v3/final-N07-durable-load-10-batches-20261013.json",
+    "missions": 300,
+    "completed": 300,
+    "terminal_once": true,
+    "accept_p95_ms": 265.89060001424514,
+    "first_state_after_202_p95_ms": 322.9993999993894,
+    "passed": false,
+    "failed_batches": [
+      3,
+      5,
+      6,
+      7,
+      8
+    ],
+    "provider": "fake",
+    "retrieval": "local",
+    "worker_count": 2,
+    "machine": {
+      "logical_processors": 16,
+      "physical_memory_bytes": 33517940736
+    },
+    "fixture_calls_retried": false,
+    "root_cause": "NOT_ESTABLISHED",
+    "previous_single_batch_report_preserved": true
+  },
+  "measurement_fix": {
+    "id": "F59",
+    "red_expected_ms": 250,
+    "red_actual_ms": 400,
+    "green_tests": 1,
+    "scope": "Mocked HTTP and clock boundary; not capacity pass"
+  },
+  "accessibility": {
+    "token_contrast": "docs/evidence/v3/final-N11-token-contrast-20261013.json",
+    "seven_pairs_passed": true,
+    "full_48dp_200_percent_font_talkback": "NOT_VERIFIED",
+    "not_native_business_acceptance": true
+  },
+  "cold_start": {
+    "fixed_device_30_launches": "NOT_VERIFIED",
+    "p95_under_2_seconds": "NOT_VERIFIED",
+    "fatal_strictmode_full_receipt": "NOT_VERIFIED"
+  },
+  "remaining": [
+    "F60 measured accept latency exceeds 200ms; profile before fix/retest",
+    "NFR06 complete native accessibility coverage",
+    "NFR07 30 process cold starts with fatal/StrictMode review",
+    "A02/M03 actual human voice deferred",
+    "A09 user Chrome setup deferred",
+    "Final same-source source/APK/media and independent signoff"
+  ],
+  "new_paid_calls": 0,
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO"
+}

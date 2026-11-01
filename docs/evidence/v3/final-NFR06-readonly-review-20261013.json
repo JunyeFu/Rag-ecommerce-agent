@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-13",
+  "requirement": "NFR06",
+  "status": "PARTIAL_NOT_SIGNED",
+  "device": {
+    "avd": "RagFinalSafety20261012",
+    "package": "com.ragcommerce.agent.safetytest",
+    "android_api": 35,
+    "density_dpi": 420,
+    "installed_qa_not_final_same_source": true
+  },
+  "large_font": {
+    "scales": [
+      1,
+      2
+    ],
+    "native_screens": 6,
+    "source_folder": "output/final-nfr06-font-20261013-05",
+    "injected_state": false,
+    "scroll_edge_rechecks": [
+      {
+        "screen": "我的",
+        "scale": 2,
+        "initial_visible_height_dp": 6.48,
+        "fully_revealed_label": "删除我的数据",
+        "height_dp": 56,
+        "width_dp": 375.62,
+        "activated": false
+      },
+      {
+        "screen": "决策",
+        "scale": 1,
+        "initial_visible_height_dp": 8.38,
+        "fully_revealed_label": "查看来源与依据",
+        "height_dp": 48,
+        "width_dp": 108.19,
+        "activated": false
+      }
+    ],
+    "result": "Two small visible regions were viewport clipping, not confirmed small touch targets. Full key-flow coverage remains pending."
+  },
+  "talkback": {
+    "service_bound": true,
+    "touch_exploration_enabled_during_check": true,
+    "notification_permission_granted": false,
+    "observed": "Notification permission dialog intercepted initial traversal. After Back, application title focus was visible, but 20 keyboard events did not demonstrate traversal. Final swipe probe again reached the permission dialog.",
+    "result": "NOT_PASSED_NO_PRODUCT_DEFECT_ATTRIBUTION",
+    "ui_automation_used_while_service_enabled": false,
+    "business_buttons_activated": 0,
+    "reference": "https://support.google.com/accessibility/android/answer/6006598?hl=en"
+  },
+  "restore": {
+    "font_scale": 1,
+    "enabled_accessibility_services": "null",
+    "accessibility_enabled": 0,
+    "permission_dialog_dismissed_with_back": true
+  },
+  "new_turns": 0,
+  "new_model_calls": 0,
+  "new_model_tokens": 0,
+  "remaining": [
+    "Effective TalkBack traversal and key control labels/actions",
+    "200% recommendation/comparison/approval key-flow coverage",
+    "Final same-source APK verification"
+  ],
+  "LOCAL_PORTFOLIO_READY": "HOLD"
+}

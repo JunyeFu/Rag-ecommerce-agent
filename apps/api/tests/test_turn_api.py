@@ -122,6 +122,247 @@ def event_ids(payload: str) -> list[int]:
     return [int(value) for value in re.findall(r"^id: (\d+)$", payload, re.MULTILINE)]
 
 
+def test_mission_edit_http_conflict_preserves_goal_until_approval_lock_released() -> None:
+    client, _, _ = build_client()
+    thread_id = create_thread(client)
+    path = f"/v1/threads/{thread_id}"
+    service = client.app.state.turn_service
+    before = client.get(path, headers=headers()).json()
+    with service.index.mission_guard(UUID(thread_id)):
+        conflict = client.patch(path + "/constraints", json={"goal": "new goal"}, headers=headers())
+        assert conflict.status_code == 409
+        assert client.get(path, headers=headers()).json() == before
+    edited = client.patch(path + "/constraints", json={"goal": "new goal"}, headers=headers())
+    assert edited.status_code == 200
+    assert edited.json()["version"] == 2
+
+
+def test_snapshot_pairs_cursor_with_its_run_and_clears_it_after_mission_edit() -> None:
+    client, _, _ = build_client()
+    thread_id = create_thread(client)
+    path = f"/v1/threads/{thread_id}"
+    empty = client.get(path, headers=headers()).json()
+    assert empty["active_run_id"] is None
+    assert empty["last_event_id"] == 0
+    run_ids = []
+    for key in ("cursor-first", "cursor-second"):
+        turn = client.post(
+            path + "/turns",
+            json={"text": "fixture", "media_ids": []},
+            headers=headers(**{"Idempotency-Key": key}),
+        )
+        assert turn.status_code == 202
+        run_ids.append(turn.json()["run_id"])
+        snapshot = client.get(path, headers=headers()).json()
+        events = client.get(f"/v1/agent-runs/{run_ids[-1]}/events", headers=headers()).text
+        assert snapshot["active_run_id"] == run_ids[-1]
+        assert snapshot["last_event_id"] == max(event_ids(events))
+    assert run_ids[0] != run_ids[1]
+    assert (
+        client.patch(
+            path + "/constraints",
+            json={"goal": "new goal"},
+            headers=headers(),
+        ).status_code
+        == 200
+    )
+    edited = client.get(path, headers=headers()).json()
+    assert edited["active_run_id"] is None
+    assert edited["last_event_id"] == 0
+
+
+def test_snapshot_keeps_mission_candidates_during_followup_approval() -> None:
+    client, planner, _ = build_client()
+    thread_id = create_thread(client)
+    path = f"/v1/threads/{thread_id}"
+    first = client.post(
+        path + "/turns",
+        json={"text": "fixture", "media_ids": []},
+        headers=headers(**{"Idempotency-Key": "recommendation"}),
+    )
+    assert first.status_code == 202
+    candidates = client.get(path, headers=headers()).json()["candidates"]
+    assert len(candidates) == 1
+    planner.call = ToolCall(
+        "cart.update", {"operation": "add", "offer_id": "00000000-0000-5000-8000-000000000202"}
+    )
+    second = client.post(
+        path + "/turns",
+        json={"text": "add the recommended offer", "media_ids": []},
+        headers=headers(**{"Idempotency-Key": "proposal"}),
+    )
+    assert second.status_code == 202
+    run_id = second.json()["run_id"]
+    snapshot = client.get(path, headers=headers()).json()
+    assert snapshot["candidates"] == candidates
+    assert snapshot["status"] == "WAITING_APPROVAL"
+    assert snapshot["pending_action"] == "cart.update"
+    assert snapshot["active_run_id"] == run_id
+    assert snapshot["last_event_id"] == max(
+        event_ids(client.get(f"/v1/agent-runs/{run_id}/events", headers=headers()).text)
+    )
+    assert client.get(path, headers=headers(USER_B)).status_code == 404
+    assert (
+        client.post(
+            f"/v1/agent-runs/{run_id}/decisions",
+            json={"tool_name": "cart.update", "approved": False},
+            headers=headers(),
+        ).status_code
+        == 200
+    )
+    assert client.get(path, headers=headers()).json()["candidates"] == candidates
+    assert (
+        client.patch(
+            path + "/constraints", json={"goal": "a different Mission"}, headers=headers()
+        ).status_code
+        == 200
+    )
+    assert client.get(path, headers=headers()).json()["candidates"] == []
+
+
+def test_explicit_empty_product_result_does_not_restore_previous_candidates() -> None:
+    values = [
+        {
+            "product_id": str(PRODUCT_ID),
+            "variant_id": "00000000-0000-5000-8000-000000000203",
+            "title": "Fixture Product",
+        }
+    ]
+
+    def read(_context, _args):
+        return ToolResult(
+            {"products": list(values)},
+            (ToolEvidence("seed:fixture", "0" * 64, ("title",)),),
+            frozenset({"title"}),
+        )
+
+    client, _, _ = build_client(override=read)
+    path = f"/v1/threads/{create_thread(client)}"
+    for index in range(2):
+        assert (
+            client.post(
+                path + "/turns",
+                json={"text": "fixture", "media_ids": []},
+                headers=headers(**{"Idempotency-Key": f"search-{index}"}),
+            ).status_code
+            == 202
+        )
+        assert len(client.get(path, headers=headers()).json()["candidates"]) == (
+            1 if index == 0 else 0
+        )
+        values.clear()
+
+
+def test_parse_mission_returns_typed_multi_item_constraints() -> None:
+    client, _, _ = build_client()
+
+    response = client.post(
+        "/v1/missions/parse",
+        json={"goal": "预算 5000 元以内, 显示器必须 4K, 耳机优先降噪, 周五前送达。"},
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "goal": "预算 5000 元以内, 显示器必须 4K, 耳机优先降噪, 周五前送达。",
+        "version": 1,
+        "items": [
+            {"category": "显示器", "quantity": 1},
+            {"category": "耳机", "quantity": 1},
+        ],
+        "hard_constraints": ["预算 5000 元以内", "显示器必须 4K", "周五前送达"],
+        "soft_preferences": ["耳机优先降噪"],
+        "unknowns": ["各品类预算分配"],
+        "budget_total_minor": 500000,
+        "currency": "CNY",
+    }
+
+
+def test_thread_snapshot_keeps_the_structured_mission_from_the_event_log() -> None:
+    client, _, _ = build_client()
+    created = client.post(
+        "/v1/threads",
+        json={"goal": "预算 3000 元, 笔记本必须 16GB, 外观可以妥协。"},
+        headers=headers(),
+    )
+    thread_id = created.json()["thread_id"]
+
+    before_turn = client.get(f"/v1/threads/{thread_id}", headers=headers()).json()
+    assert before_turn["mission"]["items"] == [{"category": "笔记本", "quantity": 1}]
+
+    accepted = client.post(
+        f"/v1/threads/{thread_id}/turns",
+        json={"text": "预算 3000 元, 笔记本必须 16GB, 外观可以妥协。"},
+        headers=headers(**{"Idempotency-Key": "mission-structure-1"}),
+    )
+    assert accepted.status_code == 202
+    snapshot = client.get(f"/v1/threads/{thread_id}", headers=headers()).json()
+    assert snapshot["mission"]["hard_constraints"] == ["笔记本必须 16GB"]
+    assert snapshot["mission"]["soft_preferences"] == ["外观可以妥协"]
+
+
+def test_constraint_edit_creates_a_new_mission_version_before_recalculation() -> None:
+    client, _, _ = build_client()
+    thread_id = create_thread(client)
+    accepted = client.post(
+        f"/v1/threads/{thread_id}/turns",
+        json={"text": "fixture shopping"},
+        headers=headers(**{"Idempotency-Key": "mission-before-edit"}),
+    )
+    assert accepted.status_code == 202
+
+    edited = client.patch(
+        f"/v1/threads/{thread_id}/constraints",
+        json={"goal": "预算 1200 元, 耳机必须降噪, 外观可以妥协。"},
+        headers=headers(),
+    )
+
+    assert edited.status_code == 200
+    assert edited.json()["version"] == 2
+    assert edited.json()["hard_constraints"] == ["耳机必须降噪"]
+    assert edited.json()["soft_preferences"] == ["外观可以妥协"]
+    snapshot = client.get(f"/v1/threads/{thread_id}", headers=headers()).json()
+    assert snapshot["goal"] == edited.json()["goal"]
+    assert snapshot["mission"]["version"] == 2
+
+
+def test_user_comparison_selection_is_persisted_and_rejects_foreign_products() -> None:
+    client, _, _ = build_client()
+    thread_id = create_thread(client)
+    accepted = client.post(
+        f"/v1/threads/{thread_id}/turns",
+        json={"text": "headphones"},
+        headers=headers(**{"Idempotency-Key": "comparison-selection-1"}),
+    )
+    assert accepted.status_code == 202
+
+    selected = client.put(
+        f"/v1/threads/{thread_id}/comparison",
+        json={"product_ids": [str(PRODUCT_ID)]},
+        headers=headers(),
+    )
+    replayed = client.put(
+        f"/v1/threads/{thread_id}/comparison",
+        json={"product_ids": [str(PRODUCT_ID)]},
+        headers=headers(),
+    )
+    restored = client.get(
+        f"/v1/threads/{thread_id}/comparison",
+        headers=headers(),
+    )
+    snapshot = client.get(f"/v1/threads/{thread_id}", headers=headers())
+
+    assert selected.status_code == replayed.status_code == restored.status_code == 200
+    assert restored.json() == {"product_ids": [str(PRODUCT_ID)]}
+    assert snapshot.json()["selected_product_ids"] == [str(PRODUCT_ID)]
+
+    foreign = client.put(
+        f"/v1/threads/{thread_id}/comparison",
+        json={"product_ids": ["00000000-0000-5000-8000-000000000999"]},
+        headers=headers(),
+    )
+    assert foreign.status_code == 422
+
+
 def test_turn_idempotency_and_lossless_sse_cursor_resume() -> None:
     client, _, _ = build_client()
     thread_id = create_thread(client)
@@ -227,10 +468,9 @@ def test_text_image_and_audio_use_the_same_turn_command_and_runtime() -> None:
         )
         assert response.status_code == 202
 
-    assert len(planner.commands) == 3
+    # Media now takes the typed consent/understanding stage before model planning.
+    assert len(planner.commands) == 1
     assert planner.commands[0].text == "text turn"
-    assert planner.commands[1].media[0].kind == "image"
-    assert planner.commands[2].media[0].kind == "audio"
 
 
 def test_media_signature_size_owner_and_deletion_boundaries() -> None:
@@ -288,7 +528,11 @@ def test_explicit_decision_resumes_the_same_agent_run() -> None:
         return ToolResult()
 
     client, _, _ = build_client(
-        ToolCall("cart.update", {"operation": "add", "item_id": "o1"}), update
+        ToolCall(
+            "cart.update",
+            {"operation": "add", "offer_id": "00000000-0000-5000-8000-000000000202"},
+        ),
+        update,
     )
     thread_id = create_thread(client)
     turn = client.post(
@@ -330,7 +574,11 @@ def test_cancelled_decision_has_no_tool_side_effect() -> None:
         return ToolResult()
 
     client, _, _ = build_client(
-        ToolCall("cart.update", {"operation": "add", "item_id": "o1"}), update
+        ToolCall(
+            "cart.update",
+            {"operation": "add", "offer_id": "00000000-0000-5000-8000-000000000202"},
+        ),
+        update,
     )
     thread_id = create_thread(client)
     turn = client.post(
@@ -344,6 +592,39 @@ def test_cancelled_decision_has_no_tool_side_effect() -> None:
         headers=headers(),
     )
     assert cancelled.status_code == 200
+    assert calls == 0
+
+    # Rebuild the service/runtime over the same stores: recovery must use saved events.
+    service = client.app.state.turn_service
+    agent = service.agent
+    client = TestClient(
+        create_app(
+            service=TurnService(
+                ShoppingAgent(agent.planner, agent.tools, agent.store, agent.identity),
+                service.media,
+                service.index,
+            )
+        )
+    )
+    run_id = turn.json()["run_id"]
+    snapshot = client.get(f"/v1/threads/{thread_id}", headers=headers()).json()
+    assert snapshot["status"] == "COMPLETED"
+    assert snapshot["pending_action"] is None
+    events = client.get(f"/v1/agent-runs/{run_id}/events", headers=headers()).text
+    assert '"reason":"approval_rejected"' in events
+    repeated = client.post(
+        f"/v1/agent-runs/{run_id}/decisions",
+        json={"tool_name": "cart.update", "approved": False},
+        headers=headers(),
+    )
+    assert repeated.status_code == 200
+    assert repeated.json()["event_count"] == cancelled.json()["event_count"]
+    contradictory = client.post(
+        f"/v1/agent-runs/{run_id}/decisions",
+        json={"tool_name": "cart.update", "approved": True},
+        headers=headers(),
+    )
+    assert contradictory.status_code == 409
     assert calls == 0
 
 
@@ -432,7 +713,17 @@ class FixtureCommerce:
         return self.carts.get(user_id, CartView(items=[]))
 
     def mutate_cart(self, user_id: UUID, request: CartMutation) -> CartView:
-        value = CartView(items=[CartItemView(offer_id=request.offer_id, quantity=request.quantity)])
+        product = self.get_product(user_id, PRODUCT_ID)
+        value = CartView(
+            items=[
+                CartItemView(
+                    offer_id=request.offer_id,
+                    quantity=request.quantity,
+                    product=product,
+                    quote=self.get_offers(user_id, PRODUCT_ID, False).offers[0],
+                )
+            ]
+        )
         self.carts[user_id] = value
         return value
 
@@ -474,7 +765,11 @@ def test_commerce_routes_delegate_grounded_facts_lists_and_cart() -> None:
         json={"operation": "add", "offer_id": str(commerce.offer_id), "quantity": 2},
         headers=headers(),
     )
-    assert cart.json()["items"] == [{"offer_id": str(commerce.offer_id), "quantity": 2}]
+    assert len(cart.json()["items"]) == 1
+    assert cart.json()["items"][0]["offer_id"] == str(commerce.offer_id)
+    assert cart.json()["items"][0]["quantity"] == 2
+    assert cart.json()["items"][0]["product"]["title"] == "Fixture Product"
+    assert cart.json()["items"][0]["quote"]["offer_id"] == str(commerce.offer_id)
     assert client.get("/v1/cart", headers=headers()).json() == cart.json()
 
 

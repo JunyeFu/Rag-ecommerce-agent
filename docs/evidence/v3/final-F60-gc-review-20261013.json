@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-13",
+  "defect": "F60",
+  "status": "OPEN_LAUNCH_PATH_DIFFERENCE_REPRODUCED",
+  "diagnostic": {
+    "requests": 300,
+    "completed": 300,
+    "all_batches_passed": true,
+    "accept_p95_ms": 125.18,
+    "first_state_p95_ms": 153.5,
+    "gc_events": {
+      "generation_0": 594,
+      "generation_1": 54,
+      "generation_2": 5
+    },
+    "largest_gc_pause_ms": 86.24,
+    "report": "docs/evidence/v3/final-F60-gc-observed-10-batches-20261013.json"
+  },
+  "normal_launch_control": {
+    "requests": 300,
+    "completed": 300,
+    "passed": false,
+    "accept_p95_ms": 477.54,
+    "first_state_p95_ms": 648.16,
+    "batches_passed": 3,
+    "report": "docs/evidence/v3/final-F60-normal-gc-control-10-batches-20261013.json"
+  },
+  "interpretation": "GC pauses are observed in a passing diagnostic workload. This does not establish GC as the cause of the normal-launch failure or rule it out in the normal process. No GC disabling, threshold change, access-log disabling or speculative production change was performed.",
+  "source_scope": {
+    "diagnostic": "Current product source with read-only method timing and GC observation",
+    "normal_api_and_workers": "Earlier 810-file independent candidate; not final same-source signoff",
+    "database": "ragcommerce_gc_20261013",
+    "provider": "fake",
+    "retrieval": "local BGE",
+    "client": "Separate process for both paths",
+    "limitations": [
+      "GC callbacks do not instrument the unmodified standard-launch process",
+      "Candidate source predates F62; do not count as current final regression",
+      "Host-load and launch I/O attribution not established"
+    ]
+  },
+  "preflight": {
+    "normal_client_missing_API_DATABASE_URL": "Failed before any requests; corrected explicit environment for actual ten-batch run"
+  },
+  "cleanup": {
+    "owned_runtime_stopped": true,
+    "volumes_preserved": true,
+    "ports_released": [
+      15433,
+      16333,
+      16334,
+      16379,
+      29000,
+      29001,
+      20882,
+      24175,
+      20885
+    ],
+    "main_api_health": "ok"
+  },
+  "new_paid_calls": 0,
+  "new_paid_tokens": 0,
+  "LOCAL_PORTFOLIO_READY": "HOLD"
+}

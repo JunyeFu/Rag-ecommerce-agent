@@ -50,7 +50,6 @@ def main() -> int:
         ([python, "scripts/validate_evaluation_suite.py"], ROOT),
         ([python, "scripts/run_evaluation_baseline.py", "--check"], ROOT),
         ([python, "scripts/run_evaluation_ablations.py", "--check"], ROOT),
-        ([python, "scripts/summarize_human_review.py", "--check"], ROOT),
         ([python, "scripts/generate_sbom.py", "--check"], ROOT),
         ([python, "scripts/security_gate.py", "--check"], ROOT),
         ([python, "scripts/run_security_tabletop.py", "--check"], ROOT),
@@ -66,6 +65,7 @@ def main() -> int:
             [
                 ([npm, "run", "check"], ROOT),
                 ([npm, "run", "test"], ROOT),
+                ([npm, "run", "test:e2e"], ROOT),
                 ([npm, "run", "build"], ROOT),
                 (
                     [

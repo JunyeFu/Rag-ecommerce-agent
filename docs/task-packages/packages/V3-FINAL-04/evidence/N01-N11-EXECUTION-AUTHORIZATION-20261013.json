@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "authorized_on": "2026-10-13",
+  "authority": "Human instruction selecting the previously presented N01-N11 execution plan",
+  "user_instruction": "从N01开始逐项完成",
+  "plan_ref": "docs/plans/INTERNSHIP-FINAL-CLOSEOUT.md",
+  "additional_slots": ["A08-R4", "A09-R1", "A10-R5"],
+  "execution_order": ["A08-R4", "A10-R5", "A09-R1"],
+  "slot_limit": "One execution per listed slot; retain all earlier failures",
+  "zero_model_slots": ["A09-R1"],
+  "budget_session": "internship-final-20261009",
+  "total_token_limit": 2000000,
+  "run_token_limit": 48000,
+  "observation_seconds": 600,
+  "automatic_retries": false,
+  "microphone": "User deferred participation; A02/M03 cannot execute until actual microphone input is available",
+  "publication": "No commit, push, merge or release authorized by this execution"
+}

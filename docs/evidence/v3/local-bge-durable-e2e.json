@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "evidence_level": "local_real_embedding_durable_runtime",
+  "date": "2026-09-21",
+  "model": "Qdrant/bge-small-zh-v1.5",
+  "revision": "46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59",
+  "retrieval_mode": "local",
+  "runtime_path": [
+    "HTTP API",
+    "PostgreSQL durable job",
+    "Worker",
+    "ONNX Runtime CPU embedding",
+    "Qdrant",
+    "BM25 and RRF",
+    "Agent typed tools",
+    "ThreadSnapshot"
+  ],
+  "scenario": {
+    "query": "Nova Mobile Pulse 01 演示手机，预算 2000 元",
+    "terminal_status": "COMPLETED",
+    "candidate_count": 5,
+    "first_title": "Nova Mobile Pulse 01 演示手机",
+    "last_event_id": 29
+  },
+  "qdrant": {
+    "collection": "rag-commerce-v3-local-bge",
+    "points_count": 60,
+    "status": "green"
+  },
+  "verification": {
+    "cold_cache_download": "PASS: complete pinned snapshot downloaded without credentials",
+    "cold_cache_durable_start": "PASS: API, Worker and Qdrant completed a five-candidate Agent turn",
+    "non_integration_tests": "97 passed",
+    "integration_tests": "12 passed",
+    "full_python_suite": "109 passed",
+    "retrieval_tests": "5 passed",
+    "ops": "typecheck, 2 tests and production build passed",
+    "android_java_21": "unit, lint, debug APK and benchmark APK passed",
+    "ruff": "passed",
+    "compileall": "passed",
+    "diff_check": "passed"
+  },
+  "result": "PASS"
+}

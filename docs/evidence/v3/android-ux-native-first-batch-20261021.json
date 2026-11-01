@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-21",
+  "provider": "explicit fake; no paid calls",
+  "subsequent_qa_profile": "Later final native cases use an explicitly isolated 600/minute QA limiter and direct read-only PostgreSQL collection. Production remains 60/minute; production rate policy is not signed off by those runs. All early failures and superseded native-only passes remain preserved.",
+  "later_discovery": "Earlier UI-only passes are not full business acceptance: c2 event replay contained TOOL_FAILURE / offer is expired and no offers event. A product card and ONLINE are insufficient. New acceptance requires visible completed status plus COMPLETED rows for every current Run and actual comparison prices.",
+  "quote_fix": "offer.find now explicitly acquires a fresh demo quote for a new lookup. Cached read/restore expiry and manual-requote checks are unchanged. PostgreSQL regression failed with offer is expired before the fix and passed after it.",
+  "first_attempts": {
+    "c1": "native passed and HTTP/database evidence saved",
+    "c2": "native passed and HTTP/database evidence saved",
+    "c3": "native passed; host evidence collector failed with 429 before result.json write; incomplete record retained",
+    "c4": "native setup timeout after rate-limited restore; collector also received 429; no pass claimed",
+    "c5": "native setup timeout after rate-limited restore; failure preserved",
+    "c6": "end outcome persisted USE_EXISTING; native assertion expected wording that differed from product text; failure preserved"
+  },
+  "root_causes": [
+    "Collector requested lists/cart repeatedly for every historical thread under one user, consuming the 60/minute user allowance and contaminating following native startup.",
+    "C6 test expected abbreviated wording rather than the actual visible outcome label. Database and native text distinguish this test issue from a failed exploration transition.",
+    "Native screenshot review found M3 surfaceContainerHigh inherited lavender instead of the approved cream palette. Explicit source surface-container tokens now cover dialogs."
+  ],
+  "corrections": [
+    "Save native result before additional collection; use independent read-only PostgreSQL snapshots instead of repetitive rate-limited HTTP reads.",
+    "Retain production limiter unchanged; pace independent cases instead of adding retries.",
+    "Use actual user-visible C6 conclusion label and require both USE_EXISTING and NOT_BUYING paths."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-11-01",
+  "version": "0.3.0",
+  "contract_version": "0.2.0",
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO",
+  "scope": "Current development candidate synchronized to GitHub main; historical release decisions do not apply",
+  "verified": {
+    "current_approval": "docs/evidence/v3/final-real-A08-R5-20261013.json",
+    "current_native_recovery_isolation_erasure": "docs/evidence/v3/final-real-A10-R5-20261013.json",
+    "local_quality": "docs/evidence/v3/final-N07-quality-20261013.json",
+    "preliminary_independent_start": "docs/evidence/v3/final-N08-independent-start-20261013.json",
+    "reference_materials": "docs/evidence/v3/final-N10-materials-20261013.json",
+    "capacity_20261024": "docs/evidence/v3/final-F60-review-20261024.json",
+    "scoped_talkback_20261024": "docs/evidence/v3/android-talkback-20261024.json"
+  },
+  "delivery": [
+    {
+      "id": "source",
+      "status": "preliminary_only",
+      "location": "rag-commerce-preflight-20261013-01",
+      "files": 810,
+      "manifest_sha256": "fbe9a227faff99cee25755d080268b06643a3aa226ad957b22578026d50cb0d3",
+      "final_same_source_verified": false
+    },
+    {
+      "id": "apk",
+      "status": "current_product_build_only",
+      "path": "output/f63-qa-20261013/product-app.apk",
+      "api_url": "http://10.0.2.2:20881/",
+      "sha256": "1784fc4b71d8404993928bc868b2074e8a9b4ee121e6b96ccae4e59a5427f10d",
+      "final_same_source_verified": false
+    },
+    {
+      "id": "video",
+      "status": "not_sealed",
+      "storyboard": "docs/demo/V3-NINETY-SECOND-STORYBOARD.md",
+      "historical_video_is_current_evidence": false
+    },
+    {
+      "id": "screenshots",
+      "status": "final_same_source_selection_pending"
+    },
+    {
+      "id": "architecture",
+      "status": "current_reference",
+      "paths": [
+        "docs/architecture/V3-C4.md",
+        "docs/architecture/V3-AGENT-SEQUENCE.md"
+      ]
+    },
+    {
+      "id": "interview",
+      "status": "reference_export_verified",
+      "questions": 24,
+      "scripts": 4,
+      "materials": 8,
+      "location": "External project-navigation closeout/INTERVIEW-KIT.md",
+      "personal_contribution_signed": false
+    }
+  ],
+  "required_remaining": [
+    "PRD NFR06 full native accessibility; NFR07 final same-source APK preparation/reverification (installed QA 30-start proof already passed)",
+    "A02/M03 actual native human speech and real transcription; user deferred",
+    "A09 browser setup by user and authorized zero-model quote/expiry/external navigation retest",
+    "Final affected regression after remaining acceptance",
+    "Final same-source export, independent startup, APK, video, screenshots and independent final review"
+  ],
+  "paid_budget": {
+    "session": "internship-final-20261009",
+    "total_token_limit": 2000000,
+    "run_token_limit": 48000,
+    "automatic_retry": false
+  },
+  "publication_authorized": false,
+  "latest_independent_review": "docs/task-packages/packages/V3-FINAL-05/evidence/independent-review-partial-20261013.json",
+  "installed_qa_startup": {
+    "verified_historical_apk_sha256": "08ff34cb9dbe9b995ba5bf924bf10762e7990675973d6dc3e2628d4e2b618c86",
+    "current_installed_apk_sha256": "026223013a91a81268d85af6a5ec23f72f48c782e55a722d20421ee01008d614",
+    "current_installed_startup_verified": false,
+    "report": "docs/evidence/v3/final-NFR07-verified-dex-review-20261013.json",
+    "prepared_mode": "verify",
+    "p95_ms": 1785,
+    "initial_unprepared_failure_p95_ms": 3179,
+    "final_same_source_verified": false
+  },
+  "source_sync_authorized": true,
+  "publication_scope": "GitHub source/docs sync authorized 2026-11-01; new Release and deployment not authorized"
+}

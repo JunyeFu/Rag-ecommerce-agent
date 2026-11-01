@@ -1,0 +1,218 @@
+{
+  "created_at": "2026-10-09T15:40:20.513440+00:00",
+  "evidence_level": "NATIVE_ANDROID_REAL_API_PROVIDER",
+  "source_state": "dirty local candidate; not a public release",
+  "scenario": {
+    "id": "A05",
+    "slot": "A05",
+    "phase": "first",
+    "passed": true,
+    "owner_id": "0f71a5c2-3a93-44b0-af6f-5498044ec431",
+    "device": "127.0.0.1:5559",
+    "adb_server_port": 20884,
+    "native_activity": true,
+    "installed_apk_sha256": "b061bd71a177ff15b6311adb0b78340293ca8c1a9418f59e474b1de30958e51f",
+    "injected_ui_state": false,
+    "runtime_source_hashes": {
+      "apps/api/src/ragcommerce_api/postgres_index.py": "44c69c78dc5d1c9ec7e9c29365975f744b01472046d360e9afa6f6ae56e2323b",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/token_budget.py": "754b7af70d90f5837e8f8866c61ef1385c13d5dd2da4fbc29ab472a25e2fb0d3",
+      "packages/retrieval/src/ragcommerce_retrieval/semantic.py": "a09c94a79885cd6b7c953e3ef7beb2aaa2b4759fb6a366f89b4383fe5749bd6b",
+      "packages/contracts/openapi.json": "8308bbe9d902a4bda256d8a2e43030d7fbfd876e28344434be19500c2c8ed205",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/runtime.py": "7709cafdea394605691144dc1a7c64e8222f49ff0fac3a86d8692e8d23c176cf",
+      "data/demo/catalog.v3.jsonl": "4c46d177c12bbe0216da84305430c77792ee9feece694a0a1590bf268d05e3a5",
+      "apps/api/src/ragcommerce_api/postgres_demo.py": "d1b5dcddd1d394d8e6f99322b9aad799ac889b601ee533c86d82d266c7189bdc",
+      "apps/api/src/ragcommerce_api/provider_config.py": "b30c0867670c4b504062b64917af8dc49948ca5555933f265bad7e8238dea562",
+      "apps/api/src/ragcommerce_api/service.py": "c9a974f9eabc422eb5c2fff0b61d3446aa8e96925a81e07976d23ea75412e47b",
+      "apps/worker/src/ragcommerce_worker/persistent_demo.py": "a6360a729c860e8eb056731ad3e5221ab99f1694846da5a9e5510ab432d4803a",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/model_provider.py": "7a1656ad7f5a8c8578dde72e89c26209a93289b12f7269260c010f9b70df5101",
+      "apps/api/src/ragcommerce_api/media_tools.py": "f1e427892d13417cb17eee81459b9405223f3cf8b3f2bdf51d1872e864006ad6"
+    },
+    "root_cause": null,
+    "observation_seconds": 600,
+    "model_calls_authorized": true,
+    "initial_comparison_selection": [],
+    "native_receipts": [
+      {
+        "method": "a05ChangeBudgetBrandAndStartIndependentMission",
+        "runner_pid": 8780,
+        "tests": 1,
+        "failed": 0,
+        "ignored": 0
+      }
+    ],
+    "runner": {
+      "tests": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    "runner_passed": true,
+    "accepted_runs_finished_within_window": true,
+    "backend_runs": [
+      {
+        "run_id": "e3450db7-e131-5369-94aa-e297ba6db72d",
+        "thread_id": "8753dc19-fec9-4848-819f-cde8b0245e91",
+        "execution_path": "model_and_tools",
+        "input_text": "手机, 预算2500元, 用于日常通勤",
+        "mission_version": 1,
+        "media": [],
+        "media_confirmation": false,
+        "media_interpretations": [],
+        "tools_started": [
+          "catalog.search",
+          "catalog.get_product_facts",
+          "offer.find",
+          "comparison.build"
+        ],
+        "exploration_updates": [],
+        "status": "COMPLETED",
+        "model": "mimo-v2.5",
+        "products": [
+          "1e5a2212-aec9-537a-b892-264cb8573ae9",
+          "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d",
+          "051e1e11-995c-5fe7-986b-d13744ad06b3",
+          "062967ea-f561-5c86-8c43-622cb42ac67a",
+          "7f0c16c3-1f51-5eff-ac80-6070f7d46c32"
+        ],
+        "offers": [
+          {
+            "product_id": "1e5a2212-aec9-537a-b892-264cb8573ae9",
+            "price_minor": 167700,
+            "verification": "DEMO_FIXTURE"
+          },
+          {
+            "product_id": "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d",
+            "price_minor": 169000,
+            "verification": "DEMO_FIXTURE"
+          },
+          {
+            "product_id": "051e1e11-995c-5fe7-986b-d13744ad06b3",
+            "price_minor": 174200,
+            "verification": "DEMO_FIXTURE"
+          }
+        ],
+        "evidence_coverage": true,
+        "terminal_events": 1,
+        "unauthorized_write": false
+      },
+      {
+        "run_id": "083e8f60-263f-56fc-866f-611ec7b09cc1",
+        "thread_id": "8753dc19-fec9-4848-819f-cde8b0245e91",
+        "execution_path": "model_and_tools",
+        "input_text": "只要 Nova Mobile 品牌手机, 预算1800元",
+        "mission_version": 2,
+        "media": [],
+        "media_confirmation": false,
+        "media_interpretations": [],
+        "tools_started": [
+          "catalog.search",
+          "catalog.get_product_facts",
+          "offer.find",
+          "comparison.build"
+        ],
+        "exploration_updates": [],
+        "status": "COMPLETED",
+        "model": "mimo-v2.5",
+        "products": [
+          "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d",
+          "051e1e11-995c-5fe7-986b-d13744ad06b3",
+          "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+          "1e5a2212-aec9-537a-b892-264cb8573ae9",
+          "7f0c16c3-1f51-5eff-ac80-6070f7d46c32"
+        ],
+        "offers": [
+          {
+            "product_id": "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d",
+            "price_minor": 169000,
+            "verification": "DEMO_FIXTURE"
+          },
+          {
+            "product_id": "051e1e11-995c-5fe7-986b-d13744ad06b3",
+            "price_minor": 174200,
+            "verification": "DEMO_FIXTURE"
+          },
+          {
+            "product_id": "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+            "price_minor": 159900,
+            "verification": "DEMO_FIXTURE"
+          }
+        ],
+        "evidence_coverage": true,
+        "terminal_events": 1,
+        "unauthorized_write": false
+      },
+      {
+        "run_id": "1f231893-147a-5265-88b9-462bc6a45ae1",
+        "thread_id": "0dc8403e-ca27-4e02-84d2-3940e88963de",
+        "execution_path": "model_and_tools",
+        "input_text": "耳机, 预算1000元, 用于日常通勤",
+        "mission_version": 1,
+        "media": [],
+        "media_confirmation": false,
+        "media_interpretations": [],
+        "tools_started": [
+          "catalog.search",
+          "catalog.get_product_facts",
+          "offer.find",
+          "comparison.build"
+        ],
+        "exploration_updates": [],
+        "status": "COMPLETED",
+        "model": "mimo-v2.5",
+        "products": [
+          "32c53384-59fc-5ed5-aff9-b050683cb2f1",
+          "2a5e42e6-4c47-5ad8-a615-62ff5188319c",
+          "7677c181-73f4-5369-885f-86f78dd8bd79",
+          "5415bc73-2de3-50bf-a7a8-906ee98c2d4e",
+          "71edbb32-6ca2-56a9-a8ae-91db9e673f0b"
+        ],
+        "offers": [
+          {
+            "product_id": "32c53384-59fc-5ed5-aff9-b050683cb2f1",
+            "price_minor": 52900,
+            "verification": "DEMO_FIXTURE"
+          },
+          {
+            "product_id": "2a5e42e6-4c47-5ad8-a615-62ff5188319c",
+            "price_minor": 55500,
+            "verification": "DEMO_FIXTURE"
+          },
+          {
+            "product_id": "7677c181-73f4-5369-885f-86f78dd8bd79",
+            "price_minor": 39900,
+            "verification": "DEMO_FIXTURE"
+          }
+        ],
+        "evidence_coverage": true,
+        "terminal_events": 1,
+        "unauthorized_write": false
+      }
+    ],
+    "paid_call_count": 9,
+    "token_usage": 27976,
+    "provider_cost": "NOT_AVAILABLE_FROM_PROVIDER",
+    "threads": [
+      {
+        "id": "8753dc19-fec9-4848-819f-cde8b0245e91",
+        "goal": "只要 Nova Mobile 品牌手机, 预算1800元",
+        "version": 2,
+        "selected_product_ids": []
+      },
+      {
+        "id": "0dc8403e-ca27-4e02-84d2-3940e88963de",
+        "goal": "耳机, 预算1000元, 用于日常通勤",
+        "version": 1,
+        "selected_product_ids": []
+      }
+    ],
+    "cart_unchanged": true,
+    "elapsed_seconds": 193.89,
+    "shared_budget": {
+      "session_id": "internship-final-20261009",
+      "limit": 2000000,
+      "blocked": false,
+      "used": 213773,
+      "held": 0,
+      "calls": 67
+    }
+  }
+}

@@ -49,6 +49,12 @@ class PostgresUserDataEraser:
                 ).fetchall()
             ]
             count = 0
+            count += connection.execute(
+                "DELETE FROM v3_demo_quotes WHERE owner_id=%s", (user_id,)
+            ).rowcount
+            count += connection.execute(
+                "DELETE FROM v3_tool_receipts WHERE owner_id=%s", (user_id,)
+            ).rowcount
             if run_ids:
                 count += connection.execute(
                     "DELETE FROM agent_events WHERE run_id=ANY(%s)", (run_ids,)
@@ -62,6 +68,9 @@ class PostgresUserDataEraser:
                 ).rowcount
             count += connection.execute(
                 "DELETE FROM v3_lists WHERE owner_id=%s", (user_id,)
+            ).rowcount
+            count += connection.execute(
+                "DELETE FROM v3_watchers WHERE owner_id=%s", (user_id,)
             ).rowcount
             count += connection.execute(
                 "DELETE FROM v3_cart_items WHERE owner_id=%s", (user_id,)

@@ -1,0 +1,140 @@
+{
+  "issue": "UXN-06 / saved multi-product direct comparison",
+  "date": "2026-10-22",
+  "status": "CLOSED",
+  "native_paths_status": "PASS_SCOPED",
+  "native_cases_passed": 16,
+  "native_cases_total": 16,
+  "regression_status": "passed 8/8 final same-APK paths in addition to 8/8 saved-comparison paths",
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO",
+  "mimo_calls": 0,
+  "new_real_model_tokens": 0,
+  "baseline": {
+    "branch": "main",
+    "head": "d670e291d263a6e4f0f041f9c74c6e0246cb854c",
+    "dirty_paths": 392,
+    "preserved_existing_changes": true
+  },
+  "environment": {
+    "device": "Pixel_9a / emulator-5554 / Android 15 API 35 / 1080x2424",
+    "fonts": [1.0, 2.0],
+    "application_id": "com.ragcommerce.agent.savedreview",
+    "api": "http://127.0.0.1:20882",
+    "postgres_port": 25433,
+    "database": "isolated temporary PostgreSQL, migration 20261021_0016",
+    "provider": "explicit fake DemoProvider, not MiMo",
+    "real_http_and_database": true,
+    "injected_ShoppingUiState": false,
+    "independent_durable_worker_test": false,
+    "qa_rate_limit_per_minute": 600,
+    "production_rate_policy_tested": false
+  },
+  "implementation": {
+    "entry": "决策 → 已保存方案 → 勾选2–4款同品类 → 比较已选商品",
+    "scope": "Read catalog facts and original per-user demo quotes through existing APIs; no new Agent run or public API.",
+    "selection_persistence": "Confirmed comparison IDs in install-local DataStore; rehydrate from current-user APIs after restart. Not server-side or cross-device selection sync.",
+    "category_policy": "Mixed or unknown categories explicitly rejected; fifth selection disabled.",
+    "quotes": "fresh=false for saved details and comparison; expired quotes remain expired. Explicit requote still uses fresh=true.",
+    "mission_isolation": "Saved detail offers and saved comparison are separate from current Mission products, offers, comparison and global waiting cart.",
+    "removal": "Removing a participating saved item invalidates old comparison and its persisted selection. Clear comparison leaves saved list and waiting cart intact.",
+    "visual": "Three tabs and vertical recommendation retained; Bone/Lime/Emerald/Coral hard-edge style retained. Sources and raw timestamps use existing evidence disclosure dialog."
+  },
+  "root_causes": [
+    "Saved cards only opened a single product; continuing started a new blank Mission, so multiple saved products could not be compared directly.",
+    "OpenSaved reduced TurnOffers into current Mission state and replaced its quotes.",
+    "productOffers used fresh=true, so an ordinary saved-detail read refreshed quote validity.",
+    "New-Mission persistence completed asynchronously and forced TASK, undoing a later DECISIONS navigation. Completion now preserves the user's latest tab."
+  ],
+  "tdd": {
+    "observed_red": "openingSavedFactsDoesNotReplaceCurrentMissionOffers: 1 test / 1 failure before implementation",
+    "navigation_red": "newMissionPersistenceCannotUndoLaterUserNavigation: 1 test / 1 failure after native c7b reproduced asynchronous navigation reset",
+    "green": "Both red tests passed; added 2–4 distinct/same-category validation, selection limit/isolation, and no-active-Mission restoration/clear checks.",
+    "android_unit": {"passed": 55, "failed": 0, "skipped": 0},
+    "build": "debug and androidTest assembled successfully with Java 21",
+    "lint": {"errors": 0, "warnings": 18},
+    "gradle": "Final build 90 actionable tasks: 24 executed, 66 up-to-date; unit test task executed. LintReportDebug up-to-date, analysis tasks executed.",
+    "task_packages": "49 packages / 0 errors / 0 warnings after native evidence and task-package synchronization",
+    "diff_check": "passed; Windows LF/CRLF warnings are not diff-check errors"
+  },
+  "candidate_artifacts": {
+    "qa_apk_sha256": "11C614D6281B69027C7E938C65767544C93DEDCEA61C538C2620A55C561CE6D6",
+    "qa_test_apk_sha256": "12ABBE1C23D609983842CCC952C93165562AD8CEF7063359DA102817EF4B3B22",
+    "note": "Isolated QA application/API URL, not a newly published portfolio APK."
+  },
+  "core_cases": [
+    {"case": "c8", "fonts": [1.0, 2.0], "attempt": 3, "passed": true, "scope": "Three saved earphones from two Missions; mixed-category error; maximum four; direct comparison; actual evidence dialogs; current computer selection and recommendation page retained; new blank task retains saved comparison."},
+    {"case": "c8b", "fonts": [1.0, 2.0], "attempt": 3, "passed": true, "scope": "Real force-stop/relaunch without active Mission restores three selections, facts, quotes and evidence.", "database_readback": "no new runs, original quote timestamps unchanged, saved list/cart/Mission comparison unchanged"},
+    {"case": "c8c", "fonts": [1.0, 2.0], "attempt": 3, "passed": true, "scope": "Native remove saved item invalidates result; two remaining products can compare; clear resets selection only.", "database_readback": "exactly one saved item removed; cart, original quotes and Mission selection unchanged; no new runs"},
+    {"case": "c8d", "fonts": [1.0, 2.0], "attempt": 3, "passed": true, "scope": "Real force-stop/relaunch keeps comparison cleared and other saved products present.", "database_readback": "no new runs; saved list, cart, original quotes and Mission selection unchanged"}
+  ],
+  "regression_cases": [
+    {"case": "c2", "fonts": [1.0, 2.0], "attempt": 2, "passed": true, "scope": "Native vertical primary/secondary/tertiary swipes, comparison facts and return with selection/page retained."},
+    {"case": "c7", "fonts": [1.0, 2.0], "attempt": 2, "passed": true, "scope": "Saved facts to waiting cart, continue/new Mission and earphone/computer history switching; actual quantity 2."},
+    {"case": "c7b", "fonts": [1.0, 2.0], "attempt": 2, "passed": true, "scope": "Real process restart, cancelled increase unchanged, confirmed quantity 3, immediate new-task to Decisions navigation retained."},
+    {"case": "c7c", "fonts": [1.0, 2.0], "attempt": 2, "passed": true, "scope": "No-active-Mission restart with original product/quantity; decrease, cancel removal and confirm removal; UI and database agree."}
+  ],
+  "attempt_history": {
+    "all_native_invocations": 36,
+    "passed": 35,
+    "failed": 1,
+    "all_fake_runs": 27,
+    "core_pre_visual_refinement": "8/8 passed at attempt 1; retained separately, not final APK evidence",
+    "core_pre_navigation_fix": "8/8 passed at attempt 2; retained separately, not final APK evidence",
+    "core_final_apk": "8/8 passed at attempt 3, plus 8/8 regression at attempt 2",
+    "retained_failure": "c7b / 1.0 / attempt 1: navigation reset after persisted quantity 3, no new Run. Native failure led to red unit test and minimal source fix; never overwritten.",
+    "supplemental": "c7c / 1.0 / attempt 1: completed remaining native remove/cleanup on the existing quantity-3 test cart before final full regression.",
+    "local_receipts": "output/android-saved-comparison-20261022/<case>-<font>-attempt<n>/result.json",
+    "retries_until_pass": false
+  },
+  "commands": [
+    "gradlew.bat -p apps/android -I scripts/android_ux_review.init.gradle :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug -PapiUrl=http://10.0.2.2:20882/ -PqaApplicationId=com.ragcommerce.agent.savedreview",
+    "python scripts/verify_android_decision_ux.py --case c8|c8b|c8c|c8d --scale 1.0|2.0 --attempt 3 --package com.ragcommerce.agent.savedreview --output-root output/android-saved-comparison-20261022",
+    "python scripts/verify_android_decision_ux.py --case c2|c7|c7b|c7c --scale 1.0|2.0 --attempt 2 --package com.ragcommerce.agent.savedreview --output-root output/android-saved-comparison-20261022"
+  ],
+  "screenshots": {
+    "directory": "docs/media/android-saved-comparison-20261022/",
+    "default-comparison.png": "616327822A46BABE13551412921200787AC64C4E62230E4D4EF0F255FC939289",
+    "large-comparison.png": "0CED36A70C14C389A3CA1721E166C3155EE5B155A99E22844DF6E866981C3253",
+    "large-facts.png": "DAD4819077D97B30FF3E65745D97AF214DD00599CC162E079ADB59022B63C668",
+    "large-mixed-category.png": "6710B4E3FC04DBA5BE15F33CBB1EDB3632C5960D0BC8C2F442881BF13AFF72F8",
+    "large-restored.png": "FF497C886DA48C8D5CD44BFFA6A822385D54B3658A253F820D790D98A1697D10",
+    "large-vertical-retained.png": "2A451F53BD9EEDD986E68423FDC41724883C2059835C3E78BC9C87F26FF88E18"
+  },
+  "cleanup": {
+    "font_on_connect": 2.0,
+    "font_restored_and_read_back": 1.0,
+    "font_note": "Completed previous QA's pending restoration to original 1.0, confirmed while device connected.",
+    "qa_api_pid": 63444,
+    "qa_api_stopped_after_command_line_ownership_check": true,
+    "qa_container": "ragcommerce-saved-compare-20261022-pg",
+    "temporary_database_stopped_and_auto_removed": true,
+    "ports_20882_25433_released": true,
+    "user_emulator_and_shared_adb_kept": true,
+    "original_application_and_other_projects_untouched": true
+  },
+  "navigation": {
+    "url": "http://127.0.0.1:24180/",
+    "flow": "两周计划 → 已保存批量比较收口 → 实际打开证据JSON和200%原生截图",
+    "browser": "Browser plugin not available; existing Playwright CLI 0.1.22 / Chrome isolated session, no dependency installation",
+    "viewports": ["1440x1000", "390x844"],
+    "identity_and_meaningful_content": true,
+    "no_framework_overlay": true,
+    "no_document_horizontal_overflow": true,
+    "console_errors": 0,
+    "console_warnings": 0,
+    "json_link_readback": "CLOSED, 16/16, 0 model calls, overall HOLD",
+    "screenshots_visually_inspected": true,
+    "site_build": "passed",
+    "site_tests": "7 passed / 0 failed",
+    "canonical_and_public_mirrors_synchronized": true,
+    "personal_records_untouched": true,
+    "no_product_execution_from_site": true,
+    "remaining": "Chrome at two viewports only; not an all-browser or all-site workflow audit."
+  },
+  "remaining": [
+    "This is explicit-fake native/API/PostgreSQL acceptance, not new real-model acceptance, whole-package completion, physical-device or release proof.",
+    "Full Figma state audit, human microphone A02/M03, Chrome setup/A09 and final portfolio release gates remain separate."
+  ]
+}

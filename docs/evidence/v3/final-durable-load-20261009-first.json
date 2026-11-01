@@ -1,0 +1,348 @@
+{
+  "created_at": "2026-10-09T09:37:26.494229+00:00",
+  "evidence_level": "durable_fixture_worker_load",
+  "missions": 30,
+  "completed": 30,
+  "database_matches": true,
+  "fixture_only": true,
+  "turn_accept_p95_ms": 769.6840999997221,
+  "persisted_terminal_once": true,
+  "first_state_p95_ms": 12378.111500001978,
+  "passed": false,
+  "results": [
+    {
+      "run_id": "ea847cd2-8c6e-5917-a685-7e9d99246620",
+      "user_id": "2a323a64-583d-4efc-bf5a-733dae2c31fd",
+      "thread_id": "d7944288-3385-4ae3-ab45-a3d20836a41c",
+      "accepted_ms": 67.50340000144206,
+      "first_state_ms": 709.3947999819648,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "e821109a-904c-5514-ba63-fa5a318f353d",
+      "user_id": "42275653-73b7-4657-91bc-454783869640",
+      "thread_id": "9416894c-a5ac-4376-8848-b17e1e9f8412",
+      "accepted_ms": 67.72560000536032,
+      "first_state_ms": 1414.0974000038113,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "0233e9de-bf2c-5902-9f66-7a665920b689",
+      "user_id": "86eafc52-00d4-4b59-8045-b53d91917fae",
+      "thread_id": "15f0fef8-c9fc-4cbf-aa28-29c835cc7fae",
+      "accepted_ms": 309.0721000044141,
+      "first_state_ms": 1943.1630999897607,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "c0f185ec-75b7-5307-871d-6e49df06b0ed",
+      "user_id": "4993b84a-dde3-4dde-86e9-3b0e23b3e7ab",
+      "thread_id": "ad6378f9-df9f-4c4d-9040-832db2d565a6",
+      "accepted_ms": 309.21889998717234,
+      "first_state_ms": 2537.4903999909293,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "51a27959-16d3-5f97-90b5-10d6a44c8e27",
+      "user_id": "b16a29da-ed6f-437d-82f6-9ad5e1613d91",
+      "thread_id": "98f40f5e-2f6e-4a7a-a06c-7d00d6b36903",
+      "accepted_ms": 309.2136000050232,
+      "first_state_ms": 2537.2549000021536,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "7cfc0079-5cb6-5454-8bd1-b389c8c2a406",
+      "user_id": "c91cbf9c-b646-4f2b-a060-a60dda9d85ae",
+      "thread_id": "f6dac22b-5458-434b-8cb6-17fe107c79bb",
+      "accepted_ms": 309.18369998107664,
+      "first_state_ms": 3029.895799991209,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "e69f0ecb-6e1c-5851-9c6a-dbbcf6ec1890",
+      "user_id": "f472c8c4-ad24-48c0-9ebe-19f1ac58ef23",
+      "thread_id": "beed07de-f27e-469a-9337-8184a6dba1a4",
+      "accepted_ms": 310.40469999425113,
+      "first_state_ms": 3789.505399996415,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "87640a44-9fff-525c-bab2-816820f0f6a3",
+      "user_id": "56af0ff8-7e99-4c55-b5a0-05ba5521c3e0",
+      "thread_id": "55b0c891-e4eb-48aa-9a64-65ab384196a3",
+      "accepted_ms": 309.22140000620857,
+      "first_state_ms": 4262.797300005332,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "b2121028-5dd8-500c-b1ee-fb3c25f28c38",
+      "user_id": "06b45dc1-3906-4bff-8b5b-2559d431271f",
+      "thread_id": "180964ff-bb8a-4981-a894-d3f0de2971e3",
+      "accepted_ms": 309.2727999901399,
+      "first_state_ms": 4262.425399996573,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "a8574bee-460c-59c8-90c4-0c8e1900a8b9",
+      "user_id": "696aab50-7c7a-4090-98ec-b0b9d4f71f22",
+      "thread_id": "1b9b346f-feb2-4df1-8b00-79d7cd912816",
+      "accepted_ms": 309.34359997627325,
+      "first_state_ms": 4922.830700001214,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "071ba9d2-7673-564a-bb3e-765c65ce362f",
+      "user_id": "c1cd1c40-30d0-4969-aa4e-90ecaf764d9a",
+      "thread_id": "821208b0-7b9e-4165-bfed-9d228b6df1db",
+      "accepted_ms": 303.94969999906607,
+      "first_state_ms": 1442.3128000053111,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "e7b167b6-6607-5a48-802a-8906f0fd644d",
+      "user_id": "eefb5637-7914-47fa-8fef-0e46e8441396",
+      "thread_id": "4d29c66a-df0c-407d-bdd3-0e46763dcdcb",
+      "accepted_ms": 321.32990000536665,
+      "first_state_ms": 5507.997800013982,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "b50555b1-8f55-5726-b754-c97a8cd41d85",
+      "user_id": "38a745d9-32c0-471b-94d2-fd3ed0dff4f6",
+      "thread_id": "fff46782-45e1-45ee-8fba-8e62c533d3a4",
+      "accepted_ms": 337.6370999903884,
+      "first_state_ms": 5505.704099981813,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "ab9a2fa6-ae93-57c6-bf0d-451a8904ea31",
+      "user_id": "903d18b0-1813-4d11-b3e4-accc8756fd73",
+      "thread_id": "21ef878e-b859-47f4-b9b6-fecd9d4c1c83",
+      "accepted_ms": 354.94950000429526,
+      "first_state_ms": 6380.10489998851,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "e6cddf68-e591-5f86-b58e-78bc0f51bfc8",
+      "user_id": "4408c0d0-c096-4bb0-8623-ea5a4e4ef456",
+      "thread_id": "c26d98ed-7310-4f7c-b138-8b4d9698d38b",
+      "accepted_ms": 373.3714999980293,
+      "first_state_ms": 6379.733300011139,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "441c48f5-5d88-5cbe-8f47-55594b7779e6",
+      "user_id": "903638ac-07e5-4b57-82f5-45284554c116",
+      "thread_id": "1e8e9043-5cf1-44ef-bed1-a415123a4acb",
+      "accepted_ms": 386.86670002061874,
+      "first_state_ms": 7010.55490001454,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "abea9b3b-f9a9-5c6b-86ca-099aef9627ee",
+      "user_id": "e0649876-3cb8-49b9-b229-97d818a8797f",
+      "thread_id": "482a0885-8988-487d-bfbf-738a6a2396b8",
+      "accepted_ms": 403.97249997477047,
+      "first_state_ms": 7612.9409999994095,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "09c27530-a975-579f-be55-3316682ba75f",
+      "user_id": "6c740b11-6c1b-4e02-8403-777146a42895",
+      "thread_id": "c90e63cd-0307-4cfb-9812-8c487acbbcb0",
+      "accepted_ms": 421.84910000651143,
+      "first_state_ms": 8086.228100000881,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "416ab2d3-37eb-5904-9223-ff0c125294ec",
+      "user_id": "a8f0ad55-f142-4666-8c6f-5f6377914ac6",
+      "thread_id": "9e04c64f-2b67-4e8e-80d9-456d4c546cef",
+      "accepted_ms": 437.0606000011321,
+      "first_state_ms": 8085.85810000659,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "b769acfb-b14a-5abd-9d5a-c3729ad02b62",
+      "user_id": "8ac39c2b-07ee-42b2-8a93-6543f25f6417",
+      "thread_id": "fadb1bf2-166c-4efa-b50a-1e1fbb644433",
+      "accepted_ms": 472.1577000163961,
+      "first_state_ms": 8661.550999997417,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "37f22285-b08b-5039-aba7-2db9b3d8fb34",
+      "user_id": "fc2e12cd-3ba4-4687-8870-a734e1b0a4d4",
+      "thread_id": "51704456-4d04-4576-a043-a4682da685fe",
+      "accepted_ms": 498.7144000187982,
+      "first_state_ms": 9357.817700016312,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "be4eb354-06db-569f-9626-f2d1f61a4b2d",
+      "user_id": "db64a114-08bf-498a-9615-aaa8d521f36f",
+      "thread_id": "2922c5ab-16a2-41b2-b2ed-9a9e0200c2eb",
+      "accepted_ms": 541.8193000077736,
+      "first_state_ms": 9357.326800003648,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "854915e5-ba0f-5bd2-9e65-29c9b0979dae",
+      "user_id": "0af91be5-c268-4b99-b109-2bd979b37897",
+      "thread_id": "d8b4ac7c-b028-467f-8db1-8cbd4e879715",
+      "accepted_ms": 616.1404000013135,
+      "first_state_ms": 10451.939399994444,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "d47cccb4-6e7e-5d73-8251-d128d89bb15a",
+      "user_id": "9719665e-954c-4908-b2b1-538886a997e2",
+      "thread_id": "690f448c-bf8c-4827-b46a-d1c2e06a745d",
+      "accepted_ms": 662.8170000039972,
+      "first_state_ms": 10451.837700005854,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "21ddc125-1fe9-5b4a-b1f1-dee319d1bbc6",
+      "user_id": "66587cd1-6473-47b9-a117-5df204d81341",
+      "thread_id": "09ca382d-68e5-4223-ae94-28e0471ccac9",
+      "accepted_ms": 687.4781000078656,
+      "first_state_ms": 11003.597700007958,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "16156f64-0a89-5842-adf4-9b4dd51c1118",
+      "user_id": "706fac07-7283-49c5-ab7b-7dd1033f4d69",
+      "thread_id": "378f4026-ae69-47eb-a959-ad8b2b2c7599",
+      "accepted_ms": 715.1971999846864,
+      "first_state_ms": 11558.228599984432,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "11b375f9-4780-54a2-8472-a3c523646fd9",
+      "user_id": "20a81a26-1f26-45c2-b69b-c6f8cb53522f",
+      "thread_id": "3016fcab-22df-4c37-9c46-e0c28e8f7152",
+      "accepted_ms": 741.7300000088289,
+      "first_state_ms": 12103.73190001701,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "7897a22d-627a-540d-9e47-d6eb9bb4828e",
+      "user_id": "630cbd0b-750e-44c3-8f5b-2ba49fa63478",
+      "thread_id": "2a207f6a-076d-44b7-8d47-1688239f4e1d",
+      "accepted_ms": 769.6840999997221,
+      "first_state_ms": 12378.111500001978,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "6b9e346d-b324-548d-90f5-1643417f1984",
+      "user_id": "93c06133-42f8-4843-b769-338619b4381e",
+      "thread_id": "3469f992-5cb8-4c2b-87a1-74995f9152e3",
+      "accepted_ms": 795.4575000039767,
+      "first_state_ms": 12928.905199980363,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    },
+    {
+      "run_id": "14feee96-b8f3-526b-82b4-782a1b6d7405",
+      "user_id": "51359281-9d47-4c39-8e58-b9fcc47b692c",
+      "thread_id": "d702418f-5656-4f57-b420-6bcf276b56c7",
+      "accepted_ms": 579.0641999919899,
+      "first_state_ms": 9924.152399995364,
+      "terminal": [
+        "completed"
+      ],
+      "snapshot_status": "COMPLETED"
+    }
+  ],
+  "limitations": [
+    "Not real-provider capacity; no production throughput claim.",
+    "Failure injection and restart acceptance are separate checks."
+  ]
+}

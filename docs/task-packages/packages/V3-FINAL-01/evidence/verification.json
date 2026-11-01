@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-FINAL-01",
+  "status": "passed",
+  "verified_on": "2026-10-09",
+  "evidence_level": "local_environment_and_config_only",
+  "commands": ["start_v3_demo.ps1 -ProviderMode fake -RetrievalMode local -DatabaseName ragcommerce_final_20261009", "stop_v3_demo.ps1", "start_v3_demo.ps1 -ProviderMode mimo -RetrievalMode local -DatabaseName ragcommerce_final_20261009", "alembic upgrade head / check", "generate_demo_catalog.py --check"],
+  "checks": [
+    {"name": "baseline", "passed": true, "dirty_paths_before": 195, "report": "docs/task-packages/packages/V3-FINAL-01/evidence/current-state.json"},
+    {"name": "complete_fixed_infrastructure", "passed": true, "api_port": 20881, "ops_port": 24174, "worker_processes": 2, "migration": "20261009_0014", "minio": "fixed official source build; AGPL retained"},
+    {"name": "explicit_index_and_dual_readers", "passed": true, "query_rebuilds_index": false, "report": "docs/evidence/v3/final-durable-load-20261009-two-workers.json", "failure_path_tests": "current Python regression"},
+    {"name": "owned_stop_and_restart", "passed": true, "old_data_deleted": false, "volumes_preserved": true},
+    {"name": "actual_identity", "passed": true, "model": "mimo-v2.5", "retrieval": "local BGE/Qdrant", "report": "docs/evidence/v3/final-real-G03-first-20261009.json"}
+  ],
+  "external_gates": [],
+  "remaining": [],
+  "does_not_sign": ["native multimodal acceptance", "all real scenarios", "independent delivery export", "portfolio GO"]
+}

@@ -1,6 +1,6 @@
 {
-  "cases": 226,
-  "decision": "source_removed_from_current_tree_and_never_used_by_v3",
-  "schema_version": 1,
-  "source": "legacy_v2_summary_only"
+  "decision": "human heldout suite retired and excluded from competition-v2",
+  "legacy_cases": 600,
+  "schema_version": 2,
+  "source": "project_generated_only"
 }

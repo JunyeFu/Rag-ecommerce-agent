@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-FINAL-04",
+  "owner": "internship-closeout",
+  "objective": "MiMo与Android联合验收",
+  "inputs": [
+    "docs/plans/INTERNSHIP-FINAL-CLOSEOUT.md"
+  ],
+  "outputs": [
+    "先实现跨进程用量、调用前额度与输出上限。",
+    "各执行10黄金、4多模态、10Android一次。",
+    "修复真实失败，仅在6复测槽位内复测。",
+    "保存首测、复测及实际数据库/UI/Trace证据。"
+  ],
+  "acceptance": [
+    "24首次场景与最多6根因修复复测，总预算2000000Token",
+    "黄金10/10可解析、流程>=8/10；多模态4项正确",
+    "Android>=8/10且媒体、审批、隔离、恢复通过"
+  ],
+  "test_profiles": [
+    "unit",
+    "contract",
+    "integration",
+    "android",
+    "runtime"
+  ],
+  "business_refs": [
+    "data/demo/catalog.v3.jsonl",
+    "DEMO_FIXTURE"
+  ],
+  "development_refs": [
+    "V3-FINAL-03"
+  ],
+  "risk_refs": [
+    "保留脏工作树",
+    "真实与fixture证据分层",
+    "不自动发布"
+  ]
+}

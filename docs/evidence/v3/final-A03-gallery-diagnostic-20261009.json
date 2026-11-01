@@ -1,0 +1,23 @@
+{
+  "finished_at": "2026-10-09T15:36:54.578Z",
+  "evidence_level": "NATIVE_GALLERY_LOCAL_SELECTION_DIAGNOSTIC_NOT_AGENT_RETEST",
+  "passed": true,
+  "runner_pid": 8528,
+  "tests": 1,
+  "failed": 0,
+  "elapsed_seconds": 8.421,
+  "native_os_picker": true,
+  "typed_text_before_selection": true,
+  "picked_then_removed_actual_attachment": true,
+  "image": {"name": "RagFinalPhone.png", "media_store_id": 1000000250, "modified_epoch_seconds": 1791544790},
+  "initial_unique_photo_matches": 1,
+  "injected_ui_state": false,
+  "injected_intent_result": false,
+  "new_model_calls": 0,
+  "upload": false,
+  "tokens": 0,
+  "first_failure_preserved": "docs/evidence/v3/final-real-A03-first-20261009.json",
+  "unproven": "Exact transient OS tree at the first failure was not recorded",
+  "prior_local_failures_preserved": ["new-mission control absent on already empty task", "attachment lazy item not composed", "system window root temporarily null"],
+  "business_scenario_signed": false
+}

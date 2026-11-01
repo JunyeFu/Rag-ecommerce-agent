@@ -1,0 +1,91 @@
+{
+  "ablations": {
+    "bge_vector": {
+      "cases": 10,
+      "ndcg_at_10": 1.0,
+      "recall_at_10": 1.0
+    },
+    "bm25": {
+      "cases": 10,
+      "ndcg_at_10": 1.0,
+      "recall_at_10": 1.0
+    },
+    "rrf_hybrid": {
+      "cases": 10,
+      "ndcg_at_10": 1.0,
+      "recall_at_10": 1.0
+    }
+  },
+  "documents": 60,
+  "embedding_dimensions": 512,
+  "evidence_level": "local_real_embedding_public_golden_set",
+  "latency_ms": {
+    "first_search_including_index_build": 149.98,
+    "subsequent_search_mean": 5.37
+  },
+  "limitations": [
+    "The ten golden scenarios are public project-authored cases, not the automated challenge split.",
+    "Latency is a local machine observation and not a cross-device benchmark."
+  ],
+  "model": "Qdrant/bge-small-zh-v1.5",
+  "ndcg_at_10": 1.0,
+  "recall_at_10": 1.0,
+  "results": [
+    {
+      "expected_product_id": "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+      "rank": 1,
+      "scenario_id": "G01"
+    },
+    {
+      "expected_product_id": "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+      "rank": 1,
+      "scenario_id": "G02"
+    },
+    {
+      "expected_product_id": "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da",
+      "rank": 1,
+      "scenario_id": "G03"
+    },
+    {
+      "expected_product_id": "b800b918-2694-5e58-876b-bbdfaa527766",
+      "rank": 1,
+      "scenario_id": "G04"
+    },
+    {
+      "expected_product_id": "ce106976-76fd-5a1c-8bd2-b4aceb064633",
+      "rank": 1,
+      "scenario_id": "G05"
+    },
+    {
+      "expected_product_id": "7677c181-73f4-5369-885f-86f78dd8bd79",
+      "rank": 1,
+      "scenario_id": "G06"
+    },
+    {
+      "expected_product_id": "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4",
+      "rank": 1,
+      "scenario_id": "G07"
+    },
+    {
+      "expected_product_id": "8298eccb-d89b-5f4c-b276-3b94cb4e75a6",
+      "rank": 1,
+      "scenario_id": "G08"
+    },
+    {
+      "expected_product_id": "633d005b-263c-57a5-bb16-5f16aa1553d1",
+      "rank": 1,
+      "scenario_id": "G09"
+    },
+    {
+      "expected_product_id": "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca",
+      "rank": 1,
+      "scenario_id": "G10"
+    }
+  ],
+  "retrieval": "BGE vector + BM25 + RRF",
+  "revision": "46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59",
+  "runtime": "ONNX Runtime CPU",
+  "scenarios": 10,
+  "schema_version": 1,
+  "targets_met": true
+}

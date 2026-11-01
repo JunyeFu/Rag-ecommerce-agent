@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "authorized_on": "2026-10-12",
+  "authority": "Direct human request in this chat",
+  "user_reply": "允许 A03、A04、A08、A10 各追加一次复测，继续完成剩余验收并同步导航站，真实调用仍受原 200 万 Token 总预算限制。",
+  "additional_slots": ["A03-R1", "A04-R1", "A08-R1", "A10-R1"],
+  "execution_order": ["A03-R1", "A04-R1", "A08-R1", "A10-R1"],
+  "model_calls_allowed": true,
+  "budget_session_unchanged": "internship-final-20261009",
+  "total_token_limit_unchanged": 2000000,
+  "agent_run_token_limit_unchanged": 48000,
+  "observation_seconds_unchanged": 600,
+  "first_attempts_preserved": true,
+  "no_other_retest_or_automatic_retry_authorized": true,
+  "scope": "Native Android flows and PostgreSQL business readback; one corrected retest per named case. Navigation source references may be updated; personal browser records must remain unchanged."
+}

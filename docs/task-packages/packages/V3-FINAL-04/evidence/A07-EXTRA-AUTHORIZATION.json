@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "authorized_on": "2026-10-09",
+  "authority": "Direct human reply in this chat",
+  "user_reply": "允许一次 A07 零模型调用复测",
+  "scope": "A07-R1 only; reuse existing real recommendations, native save/quantity/removal, actual process stop and API-backed restore after corrected child-button scrolling",
+  "additional_slots": ["A07-R1"],
+  "model_calls_allowed": false,
+  "new_token_limit": 0,
+  "total_token_limit_unchanged": 2000000,
+  "observation_seconds_unchanged": 600,
+  "no_other_retest_or_automatic_retry_authorized": true,
+  "first_attempt_report": "docs/evidence/v3/final-real-A07-first-20261009.json",
+  "corrected_root_cause": "docs/defects/V3-FINAL-CLOSEOUT.md#f30-a07验收滚动分组不等于子按钮可见",
+  "readonly_diagnostic": "docs/evidence/v3/final-A07-readonly-diagnostic-20261009.json"
+}

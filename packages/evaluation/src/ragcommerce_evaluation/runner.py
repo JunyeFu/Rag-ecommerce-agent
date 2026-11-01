@@ -7,7 +7,7 @@ from .model import EvalCase, EvalResult
 
 def reference_result(case: EvalCase) -> EvalResult:
     """Construct a contract-perfect fixture result; this is not a model-quality score."""
-    tools = case.expected.allowed_tools[:1]
+    tools = case.expected.required_tools
     evidence_refs = tuple(
         f"synthetic:{case.case_id}:evidence:{index + 1}"
         for index in range(case.expected.minimum_evidence_refs)

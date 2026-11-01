@@ -35,12 +35,26 @@
             "type": "integer"
           },
           "estimated_cost_microunits": {
-            "title": "Estimated Cost Microunits",
-            "type": "integer"
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estimated Cost Microunits"
           },
           "input_tokens": {
-            "title": "Input Tokens",
-            "type": "integer"
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Tokens"
           },
           "last_event_id": {
             "title": "Last Event Id",
@@ -51,8 +65,15 @@
             "type": "string"
           },
           "output_tokens": {
-            "title": "Output Tokens",
-            "type": "integer"
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Tokens"
           },
           "prompt_version": {
             "title": "Prompt Version",
@@ -70,12 +91,18 @@
             "title": "Retrieval Hits",
             "type": "integer"
           },
+          "retrieval_mode": {
+            "default": "fixture",
+            "title": "Retrieval Mode",
+            "type": "string"
+          },
           "run_id": {
             "title": "Run Id",
             "type": "string"
           },
           "status": {
             "enum": [
+              "RUNNING",
               "COMPLETED",
               "FAILED",
               "WAITING_APPROVAL",
@@ -156,6 +183,108 @@
         "title": "AuditEvent",
         "type": "object"
       },
+      "BusinessFactView": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_ref": {
+            "title": "Evidence Ref",
+            "type": "string"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At"
+          },
+          "fact_type": {
+            "enum": [
+              "price",
+              "inventory",
+              "delivery",
+              "merchant",
+              "after_sales"
+            ],
+            "title": "Fact Type",
+            "type": "string"
+          },
+          "observed_at": {
+            "format": "date-time",
+            "title": "Observed At",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "verification_level": {
+            "enum": [
+              "LIVE_AUTHORIZED",
+              "FEED_VERIFIED",
+              "DISCOVERY_ONLY",
+              "DEMO_FIXTURE"
+            ],
+            "title": "Verification Level",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fact_type",
+          "summary",
+          "verification_level",
+          "observed_at",
+          "evidence_ref"
+        ],
+        "title": "BusinessFactView",
+        "type": "object"
+      },
+      "CandidateFeedback": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_mission_version": {
+            "minimum": 1.0,
+            "title": "Expected Mission Version",
+            "type": "integer"
+          },
+          "product_id": {
+            "format": "uuid",
+            "title": "Product Id",
+            "type": "string"
+          },
+          "reason": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          },
+          "scope": {
+            "default": "PRODUCT",
+            "enum": [
+              "PRODUCT",
+              "CATEGORY"
+            ],
+            "title": "Scope",
+            "type": "string"
+          },
+          "undo": {
+            "default": false,
+            "title": "Undo",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "product_id",
+          "expected_mission_version",
+          "reason"
+        ],
+        "title": "CandidateFeedback",
+        "type": "object"
+      },
       "CartItemView": {
         "additionalProperties": false,
         "properties": {
@@ -164,16 +293,24 @@
             "title": "Offer Id",
             "type": "string"
           },
+          "product": {
+            "$ref": "#/components/schemas/ProductView"
+          },
           "quantity": {
             "maximum": 99.0,
             "minimum": 1.0,
             "title": "Quantity",
             "type": "integer"
+          },
+          "quote": {
+            "$ref": "#/components/schemas/OfferView"
           }
         },
         "required": [
           "offer_id",
-          "quantity"
+          "quantity",
+          "product",
+          "quote"
         ],
         "title": "CartItemView",
         "type": "object"
@@ -225,6 +362,22 @@
           "items"
         ],
         "title": "CartView",
+        "type": "object"
+      },
+      "ComparisonSelection": {
+        "additionalProperties": false,
+        "properties": {
+          "product_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "maxItems": 4,
+            "title": "Product Ids",
+            "type": "array"
+          }
+        },
+        "title": "ComparisonSelection",
         "type": "object"
       },
       "ConnectorStatus": {
@@ -310,6 +463,36 @@
         "title": "ConnectorStatus",
         "type": "object"
       },
+      "ConversationMessage": {
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "enum": [
+              "user",
+              "assistant",
+              "system"
+            ],
+            "title": "Role",
+            "type": "string"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "run_id",
+          "role",
+          "text"
+        ],
+        "title": "ConversationMessage",
+        "type": "object"
+      },
       "CreateListRequest": {
         "additionalProperties": false,
         "properties": {
@@ -340,6 +523,42 @@
           "goal"
         ],
         "title": "CreateThreadRequest",
+        "type": "object"
+      },
+      "CreateWatcherRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "PRICE_BELOW",
+              "RESTOCK"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "offer_id": {
+            "format": "uuid",
+            "title": "Offer Id",
+            "type": "string"
+          },
+          "threshold_minor": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Threshold Minor"
+          }
+        },
+        "required": [
+          "kind",
+          "offer_id"
+        ],
+        "title": "CreateWatcherRequest",
         "type": "object"
       },
       "DecisionAccepted": {
@@ -525,6 +744,232 @@
         "title": "EvidenceBoundary",
         "type": "object"
       },
+      "ExplorationAction": {
+        "additionalProperties": false,
+        "properties": {
+          "direction_id": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Direction Id"
+          },
+          "experience_tags": {
+            "items": {
+              "enum": [
+                "life_improvement",
+                "novelty"
+              ],
+              "type": "string"
+            },
+            "maxItems": 2,
+            "title": "Experience Tags",
+            "type": "array"
+          },
+          "kind": {
+            "enum": [
+              "start",
+              "feedback",
+              "next",
+              "select_for_purchase",
+              "end"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "enum": [
+                  "UNDECIDED",
+                  "USE_EXISTING",
+                  "NOT_BUYING"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outcome"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "enum": [
+                  "interested",
+                  "not_interested",
+                  "neutral"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "kind"
+        ],
+        "title": "ExplorationAction",
+        "type": "object"
+      },
+      "ExplorationDirection": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "direction_id": {
+            "title": "Direction Id",
+            "type": "string"
+          },
+          "evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Evidence Refs",
+            "type": "array"
+          },
+          "experience_tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Experience Tags",
+            "type": "array"
+          },
+          "scenario_hint": {
+            "default": "",
+            "title": "Scenario Hint",
+            "type": "string"
+          },
+          "supporting_product_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Supporting Product Ids",
+            "type": "array"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "to_confirm": {
+            "default": "",
+            "title": "To Confirm",
+            "type": "string"
+          },
+          "try_first": {
+            "default": "",
+            "title": "Try First",
+            "type": "string"
+          }
+        },
+        "required": [
+          "direction_id",
+          "title",
+          "category",
+          "experience_tags",
+          "evidence_refs",
+          "supporting_product_ids"
+        ],
+        "title": "ExplorationDirection",
+        "type": "object"
+      },
+      "ExplorationState": {
+        "additionalProperties": false,
+        "properties": {
+          "directions": {
+            "items": {
+              "$ref": "#/components/schemas/ExplorationDirection"
+            },
+            "title": "Directions",
+            "type": "array"
+          },
+          "ended": {
+            "default": false,
+            "title": "Ended",
+            "type": "boolean"
+          },
+          "exhausted": {
+            "default": false,
+            "title": "Exhausted",
+            "type": "boolean"
+          },
+          "experience_tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Experience Tags",
+            "type": "array"
+          },
+          "feedback": {
+            "additionalProperties": {
+              "enum": [
+                "interested",
+                "not_interested"
+              ],
+              "type": "string"
+            },
+            "title": "Feedback",
+            "type": "object"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "enum": [
+                  "UNDECIDED",
+                  "USE_EXISTING",
+                  "NOT_BUYING"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outcome"
+          },
+          "selected_direction_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Direction Id"
+          },
+          "shown_direction_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Shown Direction Ids",
+            "type": "array"
+          },
+          "shown_product_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Shown Product Ids",
+            "type": "array"
+          }
+        },
+        "title": "ExplorationState",
+        "type": "object"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -556,6 +1001,28 @@
           "contract_version"
         ],
         "title": "HealthResponse",
+        "type": "object"
+      },
+      "MediaConfirmation": {
+        "additionalProperties": false,
+        "properties": {
+          "source_run_id": {
+            "format": "uuid",
+            "title": "Source Run Id",
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source_run_id",
+          "text"
+        ],
+        "title": "MediaConfirmation",
         "type": "object"
       },
       "MediaCreated": {
@@ -603,6 +1070,93 @@
         "title": "MediaCreated",
         "type": "object"
       },
+      "MediaInterpretation": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "anyOf": [
+              {
+                "enum": [
+                  "手机",
+                  "电脑",
+                  "耳机",
+                  "相机"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
+          "kind": {
+            "enum": [
+              "image",
+              "audio"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "media_id": {
+            "format": "uuid",
+            "title": "Media Id",
+            "type": "string"
+          },
+          "recognized_text": {
+            "maxLength": 2000,
+            "title": "Recognized Text",
+            "type": "string"
+          },
+          "supported": {
+            "title": "Supported",
+            "type": "boolean"
+          },
+          "uncertainties": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Uncertainties",
+            "type": "array"
+          },
+          "visible_attributes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Visible Attributes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "media_id",
+          "kind",
+          "recognized_text",
+          "supported"
+        ],
+        "title": "MediaInterpretation",
+        "type": "object"
+      },
+      "MissionItemView": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "quantity": {
+            "maximum": 99.0,
+            "minimum": 1.0,
+            "title": "Quantity",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "category",
+          "quantity"
+        ],
+        "title": "MissionItemView",
+        "type": "object"
+      },
       "OfferCollection": {
         "additionalProperties": false,
         "properties": {
@@ -637,6 +1191,13 @@
             ],
             "title": "Availability",
             "type": "string"
+          },
+          "business_facts": {
+            "items": {
+              "$ref": "#/components/schemas/BusinessFactView"
+            },
+            "title": "Business Facts",
+            "type": "array"
           },
           "collected_at": {
             "format": "date-time",
@@ -830,6 +1391,23 @@
             "title": "Product Id",
             "type": "string"
           },
+          "recommendation_type": {
+            "default": "STRICT",
+            "enum": [
+              "STRICT",
+              "BUDGET",
+              "ALTERNATIVE"
+            ],
+            "title": "Recommendation Type",
+            "type": "string"
+          },
+          "relaxed_constraints": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Relaxed Constraints",
+            "type": "array"
+          },
           "risks": {
             "items": {
               "type": "string"
@@ -925,6 +1503,54 @@
         "title": "ProductView",
         "type": "object"
       },
+      "RecommendationRouteView": {
+        "additionalProperties": false,
+        "properties": {
+          "product_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Product Ids",
+            "type": "array"
+          },
+          "relaxed_constraints": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Relaxed Constraints",
+            "type": "array"
+          },
+          "route_type": {
+            "enum": [
+              "STRICT",
+              "BUDGET",
+              "ALTERNATIVE"
+            ],
+            "title": "Route Type",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "AVAILABLE",
+              "UNAVAILABLE"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          }
+        },
+        "required": [
+          "route_type",
+          "status",
+          "summary"
+        ],
+        "title": "RecommendationRouteView",
+        "type": "object"
+      },
       "ReleaseGate": {
         "additionalProperties": false,
         "properties": {
@@ -943,8 +1569,8 @@
             "enum": [
               "LOCAL",
               "INTEGRATION",
+              "CHALLENGE",
               "LIVE",
-              "HUMAN",
               "RELEASE"
             ],
             "title": "Evidence Level",
@@ -1137,6 +1763,72 @@
         "title": "ShoppingListsResponse",
         "type": "object"
       },
+      "ShoppingMissionView": {
+        "additionalProperties": false,
+        "properties": {
+          "budget_total_minor": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Budget Total Minor"
+          },
+          "currency": {
+            "const": "CNY",
+            "default": "CNY",
+            "title": "Currency",
+            "type": "string"
+          },
+          "goal": {
+            "title": "Goal",
+            "type": "string"
+          },
+          "hard_constraints": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Hard Constraints",
+            "type": "array"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MissionItemView"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "soft_preferences": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Soft Preferences",
+            "type": "array"
+          },
+          "unknowns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Unknowns",
+            "type": "array"
+          },
+          "version": {
+            "minimum": 1.0,
+            "title": "Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "goal",
+          "version"
+        ],
+        "title": "ShoppingMissionView",
+        "type": "object"
+      },
       "StartEvaluationRequest": {
         "additionalProperties": false,
         "properties": {
@@ -1179,15 +1871,134 @@
         "title": "ThreadCreated",
         "type": "object"
       },
+      "ThreadExperience": {
+        "additionalProperties": false,
+        "properties": {
+          "archived": {
+            "default": false,
+            "title": "Archived",
+            "type": "boolean"
+          },
+          "feedback": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Feedback",
+            "type": "object"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          }
+        },
+        "title": "ThreadExperience",
+        "type": "object"
+      },
+      "ThreadHistoryEntry": {
+        "additionalProperties": false,
+        "properties": {
+          "experience": {
+            "$ref": "#/components/schemas/ThreadExperience"
+          },
+          "goal": {
+            "title": "Goal",
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "PURCHASE",
+              "DISCOVERY"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "thread_id": {
+            "format": "uuid",
+            "title": "Thread Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "thread_id",
+          "goal",
+          "experience",
+          "mode"
+        ],
+        "title": "ThreadHistoryEntry",
+        "type": "object"
+      },
+      "ThreadHistoryPatch": {
+        "additionalProperties": false,
+        "properties": {
+          "archived": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Archived"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "maxLength": 80,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          }
+        },
+        "title": "ThreadHistoryPatch",
+        "type": "object"
+      },
       "ThreadSnapshot": {
         "additionalProperties": false,
         "properties": {
+          "active_run_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active Run Id"
+          },
           "candidates": {
             "items": {
               "$ref": "#/components/schemas/ProductCandidateView"
             },
             "title": "Candidates",
             "type": "array"
+          },
+          "experience": {
+            "$ref": "#/components/schemas/ThreadExperience"
+          },
+          "exploration": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExplorationState"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "goal": {
             "title": "Goal",
@@ -1198,9 +2009,21 @@
             "title": "Last Event Id",
             "type": "integer"
           },
+          "mission": {
+            "$ref": "#/components/schemas/ShoppingMissionView"
+          },
           "mission_id": {
             "format": "uuid",
             "title": "Mission Id",
+            "type": "string"
+          },
+          "mode": {
+            "default": "PURCHASE",
+            "enum": [
+              "PURCHASE",
+              "DISCOVERY"
+            ],
+            "title": "Mode",
             "type": "string"
           },
           "pending_action": {
@@ -1213,6 +2036,43 @@
               }
             ],
             "title": "Pending Action"
+          },
+          "pending_action_arguments": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Pending Action Arguments",
+            "type": "object"
+          },
+          "pending_media_interpretations": {
+            "items": {
+              "$ref": "#/components/schemas/MediaInterpretation"
+            },
+            "title": "Pending Media Interpretations",
+            "type": "array"
+          },
+          "recommendation_routes": {
+            "items": {
+              "$ref": "#/components/schemas/RecommendationRouteView"
+            },
+            "title": "Recommendation Routes",
+            "type": "array"
+          },
+          "selected_product_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "maxItems": 4,
+            "title": "Selected Product Ids",
+            "type": "array"
           },
           "status": {
             "enum": [
@@ -1237,7 +2097,8 @@
           "mission_id",
           "goal",
           "status",
-          "last_event_id"
+          "last_event_id",
+          "mission"
         ],
         "title": "ThreadSnapshot",
         "type": "object"
@@ -1312,6 +2173,38 @@
       "TurnRequest": {
         "additionalProperties": false,
         "properties": {
+          "expected_mission_version": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Mission Version"
+          },
+          "exploration_action": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExplorationAction"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "media_confirmation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MediaConfirmation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "media_ids": {
             "default": [],
             "items": {
@@ -1370,6 +2263,94 @@
           "type"
         ],
         "title": "ValidationError",
+        "type": "object"
+      },
+      "WatcherCollection": {
+        "additionalProperties": false,
+        "properties": {
+          "watchers": {
+            "items": {
+              "$ref": "#/components/schemas/WatcherView"
+            },
+            "title": "Watchers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "watchers"
+        ],
+        "title": "WatcherCollection",
+        "type": "object"
+      },
+      "WatcherView": {
+        "additionalProperties": false,
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "disclosure": {
+            "title": "Disclosure",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "PRICE_BELOW",
+              "RESTOCK"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "offer_id": {
+            "format": "uuid",
+            "title": "Offer Id",
+            "type": "string"
+          },
+          "scheduler_active": {
+            "const": false,
+            "default": false,
+            "title": "Scheduler Active",
+            "type": "boolean"
+          },
+          "status": {
+            "const": "DEMO_DRAFT",
+            "default": "DEMO_DRAFT",
+            "title": "Status",
+            "type": "string"
+          },
+          "thread_id": {
+            "format": "uuid",
+            "title": "Thread Id",
+            "type": "string"
+          },
+          "threshold_minor": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Threshold Minor"
+          },
+          "watcher_id": {
+            "format": "uuid",
+            "title": "Watcher Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "watcher_id",
+          "thread_id",
+          "offer_id",
+          "kind",
+          "disclosure",
+          "created_at"
+        ],
+        "title": "WatcherView",
         "type": "object"
       }
     }
@@ -1994,6 +2975,47 @@
         "summary": "Delete Media",
         "tags": [
           "media"
+        ]
+      }
+    },
+    "/v1/missions/parse": {
+      "post": {
+        "operationId": "parseMission",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateThreadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingMissionView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Parse Mission",
+        "tags": [
+          "agent"
         ]
       }
     },
@@ -2863,6 +3885,57 @@
       }
     },
     "/v1/threads": {
+      "get": {
+        "operationId": "getThreads",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ThreadHistoryEntry"
+                  },
+                  "title": "Response Getthreads",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Threads",
+        "tags": [
+          "threads"
+        ]
+      },
       "post": {
         "operationId": "createThread",
         "parameters": [
@@ -2978,6 +4051,497 @@
         "tags": [
           "threads"
         ]
+      },
+      "patch": {
+        "operationId": "patchThread",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ThreadHistoryPatch"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadSnapshot"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Patch Thread",
+        "tags": [
+          "threads"
+        ]
+      }
+    },
+    "/v1/threads/{thread_id}/comparison": {
+      "get": {
+        "operationId": "getComparisonSelection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComparisonSelection"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Comparison Selection",
+        "tags": [
+          "threads"
+        ]
+      },
+      "put": {
+        "operationId": "updateComparisonSelection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComparisonSelection"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComparisonSelection"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Comparison Selection",
+        "tags": [
+          "threads"
+        ]
+      }
+    },
+    "/v1/threads/{thread_id}/constraints": {
+      "patch": {
+        "operationId": "updateThreadConstraints",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateThreadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingMissionView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Thread Constraints",
+        "tags": [
+          "threads"
+        ]
+      }
+    },
+    "/v1/threads/{thread_id}/feedback": {
+      "patch": {
+        "operationId": "updateCandidateFeedback",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CandidateFeedback"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadSnapshot"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Feedback",
+        "tags": [
+          "threads"
+        ]
+      }
+    },
+    "/v1/threads/{thread_id}/feedback/{key}": {
+      "delete": {
+        "operationId": "undoCandidateFeedback",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "title": "Key",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "title": "Version",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadSnapshot"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Undo Feedback",
+        "tags": [
+          "threads"
+        ]
+      }
+    },
+    "/v1/threads/{thread_id}/messages": {
+      "get": {
+        "operationId": "getThreadMessages",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ConversationMessage"
+                  },
+                  "title": "Response Getthreadmessages",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Thread Messages",
+        "tags": [
+          "threads"
+        ]
       }
     },
     "/v1/threads/{thread_id}/turns": {
@@ -3065,6 +4629,132 @@
         ]
       }
     },
+    "/v1/threads/{thread_id}/watchers": {
+      "get": {
+        "operationId": "getWatchers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WatcherCollection"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Watchers",
+        "tags": [
+          "commerce"
+        ]
+      },
+      "post": {
+        "operationId": "createWatcher",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWatcherRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WatcherView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Watcher",
+        "tags": [
+          "commerce"
+        ]
+      }
+    },
     "/v1/users/me/data": {
       "delete": {
         "operationId": "deleteMyData",
@@ -3127,6 +4817,65 @@
         "summary": "Delete My Data",
         "tags": [
           "privacy"
+        ]
+      }
+    },
+    "/v1/variants/{variant_id}": {
+      "get": {
+        "operationId": "getVariant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "variant_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Variant Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-user-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Variant",
+        "tags": [
+          "products"
         ]
       }
     }

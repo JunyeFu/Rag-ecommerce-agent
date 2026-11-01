@@ -34,6 +34,6 @@ export const opsClient = {
   startEvaluation: () => request<EvaluationRun>("/v1/ops/evaluation-runs", {
     method: "POST",
     headers: { "Idempotency-Key": crypto.randomUUID() },
-    body: JSON.stringify({ dataset_version: "v3-golden-1", runner_version: "deterministic-2" }),
+    body: JSON.stringify({ dataset_version: "competition-v2", runner_version: "automated-challenge-v2" }),
   }),
 };

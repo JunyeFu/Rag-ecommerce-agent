@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-ANDROID-UX-CLOSE-01",
+  "owner": "android-agent-product",
+  "objective": "完成 Android Agent 前端的接口语义、写操作审批、推荐信息层级与决策工作台收口",
+  "inputs": [
+    "docs/defects/V3-ANDROID-AGENT-UX-BUSINESS-AUDIT-20260922.md",
+    "output/adb-real-click-20260922/ui-07-after-send.xml",
+    "output/adb-real-click-20260922/ui-08-approval.xml",
+    "output/adb-real-click-20260922/screen-13-decisions.png"
+  ],
+  "outputs": [
+    "写操作统一审批与幂等状态机",
+    "澄清/公开进度/失败恢复 Android UI",
+    "推荐卡与移动端比较工作台",
+    "接口、视觉、可访问性和 ADB 真点击证据"
+  ],
+  "acceptance": [
+    "未确认不写入，确认恰好写入一次，取消和恢复无副作用",
+    "演示报价、采集时间、验证级别和商家信息在价格附近可理解展示",
+    "澄清、阶段进度、失败恢复和重新询价可由同一 Mission 完成",
+    "推荐选择与比较数量一致，决策页显示关键差异",
+    "保存、待购、重新询价和外跳均有可见成功/失败/取消状态",
+    "Android/API/契约测试和 ADB 真点击证据通过"
+  ],
+  "test_profiles": [
+    "api.contract",
+    "api.write-idempotency",
+    "agent.clarification-progress",
+    "android.unit",
+    "android.instrumentation",
+    "android.adb-real-click",
+    "android.accessibility",
+    "task-package-validator"
+  ],
+  "business_refs": [
+    "demo fixture offer",
+    "saved candidate",
+    "waiting purchase plan",
+    "quote freshness",
+    "merchant safe-link"
+  ],
+  "development_refs": [
+    "V3-AGENT-PROGRESS-01",
+    "V3-DECISION-WORKBENCH-01",
+    "V3-ACTION-APPROVAL-01",
+    "V3-ANDROID-01"
+  ],
+  "risk_refs": [
+    "未授权写入",
+    "演示价格被误认为真实报价",
+    "重复点击造成重复状态",
+    "澄清或恢复状态丢失",
+    "内部证据字段污染用户界面",
+    "移动端关键决策信息被视觉装饰遮蔽"
+  ]
+}

@@ -1,0 +1,2458 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-10-09",
+  "catalog": "data/demo/catalog.v3.jsonl",
+  "catalog_sha256": "4c46d177c12bbe0216da84305430c77792ee9feece694a0a1590bf268d05e3a5",
+  "cases": [
+    {
+      "id": "R001",
+      "split": "development",
+      "family": "alias_exact",
+      "category": "手机",
+      "query": "比较Nova Mobile Pulse 01 演示手机和Nova Mobile Pulse 02 演示手机",
+      "constraints": {
+        "category": "手机"
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R002",
+      "split": "development",
+      "family": "alias_exact",
+      "category": "手机",
+      "query": "新星牌的手机，预算1651元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1651.0,
+        "brand_candidates": [
+          "新星"
+        ]
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R003",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "手机",
+      "query": "比较Nova Mobile Pulse 03 演示手机和Nova Mobile Pulse 04 演示手机",
+      "constraints": {
+        "category": "手机"
+      },
+      "qrels": {
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R004",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "手机",
+      "query": "新星牌的手机，预算1677元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1677.0,
+        "brand_candidates": [
+          "新星"
+        ]
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 3,
+        "1e5a2212-aec9-537a-b892-264cb8573ae9": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R005",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "手机",
+      "query": "比较Nova Mobile Pulse 05 演示手机和Nova Mobile Pulse 06 演示手机",
+      "constraints": {
+        "category": "手机"
+      },
+      "qrels": {
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R006",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "手机",
+      "query": "新星牌的手机，预算1703元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1703.0,
+        "brand_candidates": [
+          "新星"
+        ]
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 3,
+        "1e5a2212-aec9-537a-b892-264cb8573ae9": 3,
+        "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d": 3,
+        "66a006fd-cbce-5bf7-91ae-155e3fbd21ba": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R007",
+      "split": "development",
+      "family": "implicit_use",
+      "category": "手机",
+      "query": "每天坐车想随手记录生活，预算不超过1638元",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1638.0
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R008",
+      "split": "development",
+      "family": "implicit_use",
+      "category": "手机",
+      "query": "带着去拍街景同时接电话，预算不超过1651元",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1651.0
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R009",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "手机",
+      "query": "只做日常通讯和出行拍照，预算不超过1664元",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1664.0
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R010",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "手机",
+      "query": "通勤时记录沿途风景，预算不超过1677元",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1677.0
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 3,
+        "1e5a2212-aec9-537a-b892-264cb8573ae9": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R011",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "手机",
+      "query": "轻装出门拍照和通讯，预算不超过1690元",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1690.0
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 3,
+        "1e5a2212-aec9-537a-b892-264cb8573ae9": 3,
+        "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R012",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "手机",
+      "query": "上下班路上拍生活照片，预算不超过1703元",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1703.0
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 3,
+        "1e5a2212-aec9-537a-b892-264cb8573ae9": 3,
+        "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d": 3,
+        "66a006fd-cbce-5bf7-91ae-155e3fbd21ba": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R013",
+      "split": "development",
+      "family": "hard_constraints",
+      "category": "手机",
+      "query": "手机需要屏幕6.1英寸 OLED，预算1638元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1638.0,
+        "屏幕": "6.1英寸 OLED"
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R014",
+      "split": "development",
+      "family": "hard_constraints",
+      "category": "手机",
+      "query": "手机需要屏幕6.1英寸 OLED，预算1651元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1651.0,
+        "屏幕": "6.1英寸 OLED"
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R015",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "手机",
+      "query": "手机需要屏幕6.1英寸 OLED，预算1664元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1664.0,
+        "屏幕": "6.1英寸 OLED"
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R016",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "手机",
+      "query": "手机需要屏幕6.1英寸 OLED，预算1677元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1677.0,
+        "屏幕": "6.1英寸 OLED"
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 3,
+        "1e5a2212-aec9-537a-b892-264cb8573ae9": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R017",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "手机",
+      "query": "手机需要屏幕6.1英寸 OLED，预算1690元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1690.0,
+        "屏幕": "6.1英寸 OLED"
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 3,
+        "1e5a2212-aec9-537a-b892-264cb8573ae9": 3,
+        "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R018",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "手机",
+      "query": "手机需要屏幕6.1英寸 OLED，预算1703元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1703.0,
+        "屏幕": "6.1英寸 OLED"
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "089f04cb-b770-5de2-a756-c4c7aa5b6905": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 3,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "062967ea-f561-5c86-8c43-622cb42ac67a": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 3,
+        "1e5a2212-aec9-537a-b892-264cb8573ae9": 3,
+        "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d": 3,
+        "66a006fd-cbce-5bf7-91ae-155e3fbd21ba": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R019",
+      "split": "development",
+      "family": "tradeoff",
+      "category": "手机",
+      "query": "手机轻量档和旗舰档怎么取舍，预算1638元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1638.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 2,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R020",
+      "split": "development",
+      "family": "tradeoff",
+      "category": "手机",
+      "query": "手机轻量档和旗舰档怎么取舍，预算1651元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1651.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 2,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R021",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "手机",
+      "query": "手机轻量档和旗舰档怎么取舍，预算1664元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1664.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 2,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 2
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R022",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "手机",
+      "query": "手机轻量档和旗舰档怎么取舍，预算1677元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1677.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 2,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 2,
+        "1e5a2212-aec9-537a-b892-264cb8573ae9": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R023",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "手机",
+      "query": "手机轻量档和旗舰档怎么取舍，预算1690元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1690.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 2,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 2,
+        "1e5a2212-aec9-537a-b892-264cb8573ae9": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R024",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "手机",
+      "query": "手机轻量档和旗舰档怎么取舍，预算1703元以内",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1703.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "3c0668b8-1315-54ea-8d88-90c652c9aaf8": 3,
+        "cc937b7d-cef3-574e-9d1e-50ac354628e7": 2,
+        "410c10fd-1701-5ded-b35b-5d5ed2ee7df4": 3,
+        "aae52cba-999b-5e93-950f-5ea0b0f81638": 2,
+        "1e5a2212-aec9-537a-b892-264cb8573ae9": 3,
+        "66a006fd-cbce-5bf7-91ae-155e3fbd21ba": 2
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R025",
+      "split": "development",
+      "family": "no_match",
+      "category": "手机",
+      "query": "1元以内的手机",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R026",
+      "split": "development",
+      "family": "no_match",
+      "category": "手机",
+      "query": "手机需要屏幕未提供的超高规格",
+      "constraints": {
+        "category": "手机",
+        "屏幕": "未提供的超高规格"
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R027",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "手机",
+      "query": "不接受演示目录品牌的手机",
+      "constraints": {
+        "category": "手机",
+        "exclude_brands": [
+          "Nova Mobile"
+        ]
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R028",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "手机",
+      "query": "1元以内的手机",
+      "constraints": {
+        "category": "手机",
+        "price_max": 1
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R029",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "手机",
+      "query": "手机需要屏幕未提供的超高规格",
+      "constraints": {
+        "category": "手机",
+        "屏幕": "未提供的超高规格"
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R030",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "手机",
+      "query": "不接受演示目录品牌的手机",
+      "constraints": {
+        "category": "手机",
+        "exclude_brands": [
+          "Nova Mobile"
+        ]
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R031",
+      "split": "development",
+      "family": "alias_exact",
+      "category": "电脑",
+      "query": "比较Arc Compute Forge 01 演示电脑和Arc Compute Forge 02 演示电脑",
+      "constraints": {
+        "category": "电脑"
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R032",
+      "split": "development",
+      "family": "alias_exact",
+      "category": "电脑",
+      "query": "弧算牌的电脑，预算4651元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4651.0,
+        "brand_candidates": [
+          "弧算"
+        ]
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R033",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "电脑",
+      "query": "比较Arc Compute Forge 03 演示电脑和Arc Compute Forge 04 演示电脑",
+      "constraints": {
+        "category": "电脑"
+      },
+      "qrels": {
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R034",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "电脑",
+      "query": "弧算牌的电脑，预算4677元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4677.0,
+        "brand_candidates": [
+          "弧算"
+        ]
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 3,
+        "b4938242-e5cd-5d38-9c81-c536ff557528": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R035",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "电脑",
+      "query": "比较Arc Compute Forge 05 演示电脑和Arc Compute Forge 06 演示电脑",
+      "constraints": {
+        "category": "电脑"
+      },
+      "qrels": {
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R036",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "电脑",
+      "query": "弧算牌的电脑，预算4703元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4703.0,
+        "brand_candidates": [
+          "弧算"
+        ]
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 3,
+        "b4938242-e5cd-5d38-9c81-c536ff557528": 3,
+        "3aecc4e4-0289-5340-b54d-726f8fa4dee3": 3,
+        "62d27cac-6cd7-5ba1-af0d-245f5ba5f941": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R037",
+      "split": "development",
+      "family": "implicit_use",
+      "category": "电脑",
+      "query": "背着到图书馆写代码，预算不超过4638元",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4638.0
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R038",
+      "split": "development",
+      "family": "implicit_use",
+      "category": "电脑",
+      "query": "来回办公室写程序带着不累，预算不超过4651元",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4651.0
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R039",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "电脑",
+      "query": "常出差要做软件开发，预算不超过4664元",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4664.0
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R040",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "电脑",
+      "query": "带到咖啡馆写代码，预算不超过4677元",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4677.0
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 3,
+        "b4938242-e5cd-5d38-9c81-c536ff557528": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R041",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "电脑",
+      "query": "上课后还要写程序和办公，预算不超过4690元",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4690.0
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 3,
+        "b4938242-e5cd-5d38-9c81-c536ff557528": 3,
+        "3aecc4e4-0289-5340-b54d-726f8fa4dee3": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R042",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "电脑",
+      "query": "移动办公兼顾开发，预算不超过4703元",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4703.0
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 3,
+        "b4938242-e5cd-5d38-9c81-c536ff557528": 3,
+        "3aecc4e4-0289-5340-b54d-726f8fa4dee3": 3,
+        "62d27cac-6cd7-5ba1-af0d-245f5ba5f941": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R043",
+      "split": "development",
+      "family": "hard_constraints",
+      "category": "电脑",
+      "query": "电脑需要内存16GB，预算4638元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4638.0,
+        "内存": "16GB"
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R044",
+      "split": "development",
+      "family": "hard_constraints",
+      "category": "电脑",
+      "query": "电脑需要内存16GB，预算4651元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4651.0,
+        "内存": "16GB"
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R045",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "电脑",
+      "query": "电脑需要内存16GB，预算4664元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4664.0,
+        "内存": "16GB"
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R046",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "电脑",
+      "query": "电脑需要内存16GB，预算4677元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4677.0,
+        "内存": "16GB"
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 3,
+        "b4938242-e5cd-5d38-9c81-c536ff557528": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R047",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "电脑",
+      "query": "电脑需要内存16GB，预算4690元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4690.0,
+        "内存": "16GB"
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 3,
+        "b4938242-e5cd-5d38-9c81-c536ff557528": 3,
+        "3aecc4e4-0289-5340-b54d-726f8fa4dee3": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R048",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "电脑",
+      "query": "电脑需要内存16GB，预算4703元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4703.0,
+        "内存": "16GB"
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "b800b918-2694-5e58-876b-bbdfaa527766": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 3,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "5d03fbd2-034e-5943-9a76-6c93c7930cc3": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 3,
+        "b4938242-e5cd-5d38-9c81-c536ff557528": 3,
+        "3aecc4e4-0289-5340-b54d-726f8fa4dee3": 3,
+        "62d27cac-6cd7-5ba1-af0d-245f5ba5f941": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R049",
+      "split": "development",
+      "family": "tradeoff",
+      "category": "电脑",
+      "query": "电脑轻量档和旗舰档怎么取舍，预算4638元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4638.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 2,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R050",
+      "split": "development",
+      "family": "tradeoff",
+      "category": "电脑",
+      "query": "电脑轻量档和旗舰档怎么取舍，预算4651元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4651.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 2,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R051",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "电脑",
+      "query": "电脑轻量档和旗舰档怎么取舍，预算4664元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4664.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 2,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 2
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R052",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "电脑",
+      "query": "电脑轻量档和旗舰档怎么取舍，预算4677元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4677.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 2,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 2,
+        "b4938242-e5cd-5d38-9c81-c536ff557528": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R053",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "电脑",
+      "query": "电脑轻量档和旗舰档怎么取舍，预算4690元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4690.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 2,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 2,
+        "b4938242-e5cd-5d38-9c81-c536ff557528": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R054",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "电脑",
+      "query": "电脑轻量档和旗舰档怎么取舍，预算4703元以内",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 4703.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "747af6fc-c4c8-5a79-9ddb-0ec83e60a1da": 3,
+        "ce106976-76fd-5a1c-8bd2-b4aceb064633": 2,
+        "063283d2-1809-51d7-9d6d-6933ec162d2d": 3,
+        "6a1dedb2-e738-5254-9ed2-b8c67849a8b9": 2,
+        "b4938242-e5cd-5d38-9c81-c536ff557528": 3,
+        "62d27cac-6cd7-5ba1-af0d-245f5ba5f941": 2
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R055",
+      "split": "development",
+      "family": "no_match",
+      "category": "电脑",
+      "query": "1元以内的电脑",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 1
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R056",
+      "split": "development",
+      "family": "no_match",
+      "category": "电脑",
+      "query": "电脑需要内存未提供的超高规格",
+      "constraints": {
+        "category": "电脑",
+        "内存": "未提供的超高规格"
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R057",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "电脑",
+      "query": "不接受演示目录品牌的电脑",
+      "constraints": {
+        "category": "电脑",
+        "exclude_brands": [
+          "Arc Compute"
+        ]
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R058",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "电脑",
+      "query": "1元以内的电脑",
+      "constraints": {
+        "category": "电脑",
+        "price_max": 1
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R059",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "电脑",
+      "query": "电脑需要内存未提供的超高规格",
+      "constraints": {
+        "category": "电脑",
+        "内存": "未提供的超高规格"
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R060",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "电脑",
+      "query": "不接受演示目录品牌的电脑",
+      "constraints": {
+        "category": "电脑",
+        "exclude_brands": [
+          "Arc Compute"
+        ]
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R061",
+      "split": "development",
+      "family": "alias_exact",
+      "category": "耳机",
+      "query": "比较Aural Audio Quiet 01 演示耳机和Aural Audio Quiet 02 演示耳机",
+      "constraints": {
+        "category": "耳机"
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R062",
+      "split": "development",
+      "family": "alias_exact",
+      "category": "耳机",
+      "query": "声域牌的耳机，预算451元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 451.0,
+        "brand_candidates": [
+          "声域"
+        ]
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R063",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "耳机",
+      "query": "比较Aural Audio Quiet 03 演示耳机和Aural Audio Quiet 04 演示耳机",
+      "constraints": {
+        "category": "耳机"
+      },
+      "qrels": {
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R064",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "耳机",
+      "query": "声域牌的耳机，预算477元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 477.0,
+        "brand_candidates": [
+          "声域"
+        ]
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 3,
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R065",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "耳机",
+      "query": "比较Aural Audio Quiet 05 演示耳机和Aural Audio Quiet 06 演示耳机",
+      "constraints": {
+        "category": "耳机"
+      },
+      "qrels": {
+        "c6917456-8f62-5976-879e-c10ecafae261": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R066",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "耳机",
+      "query": "声域牌的耳机，预算503元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 503.0,
+        "brand_candidates": [
+          "声域"
+        ]
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 3,
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5": 3,
+        "d7c3e607-8407-5993-b5e1-f5ca693489a3": 3,
+        "e2fed10d-5533-5f99-ab5a-56bfd419b619": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R067",
+      "split": "development",
+      "family": "implicit_use",
+      "category": "耳机",
+      "query": "地铁太吵想专心听东西，预算不超过438元",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 438.0
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R068",
+      "split": "development",
+      "family": "implicit_use",
+      "category": "耳机",
+      "query": "自习室里想隔绝干扰，预算不超过451元",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 451.0
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R069",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "耳机",
+      "query": "学习时不想被说话声打断，预算不超过464元",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 464.0
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R070",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "耳机",
+      "query": "坐车时想安静听课，预算不超过477元",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 477.0
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 3,
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R071",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "耳机",
+      "query": "专心复习不受周围噪声影响，预算不超过490元",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 490.0
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 3,
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5": 3,
+        "d7c3e607-8407-5993-b5e1-f5ca693489a3": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R072",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "耳机",
+      "query": "通勤与学习都想安静，预算不超过503元",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 503.0
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 3,
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5": 3,
+        "d7c3e607-8407-5993-b5e1-f5ca693489a3": 3,
+        "e2fed10d-5533-5f99-ab5a-56bfd419b619": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R073",
+      "split": "development",
+      "family": "hard_constraints",
+      "category": "耳机",
+      "query": "耳机需要续航32小时，预算438元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 438.0,
+        "续航": "32小时"
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R074",
+      "split": "development",
+      "family": "hard_constraints",
+      "category": "耳机",
+      "query": "耳机需要续航32小时，预算451元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 451.0,
+        "续航": "32小时"
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R075",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "耳机",
+      "query": "耳机需要续航32小时，预算464元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 464.0,
+        "续航": "32小时"
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R076",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "耳机",
+      "query": "耳机需要续航32小时，预算477元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 477.0,
+        "续航": "32小时"
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 3,
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R077",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "耳机",
+      "query": "耳机需要续航32小时，预算490元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 490.0,
+        "续航": "32小时"
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 3,
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5": 3,
+        "d7c3e607-8407-5993-b5e1-f5ca693489a3": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R078",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "耳机",
+      "query": "耳机需要续航32小时，预算503元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 503.0,
+        "续航": "32小时"
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "c9a83ba6-4cd0-51e2-88b8-8d1cbae6d2c4": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 3,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "c6917456-8f62-5976-879e-c10ecafae261": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 3,
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5": 3,
+        "d7c3e607-8407-5993-b5e1-f5ca693489a3": 3,
+        "e2fed10d-5533-5f99-ab5a-56bfd419b619": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R079",
+      "split": "development",
+      "family": "tradeoff",
+      "category": "耳机",
+      "query": "耳机轻量档和旗舰档怎么取舍，预算438元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 438.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 2,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R080",
+      "split": "development",
+      "family": "tradeoff",
+      "category": "耳机",
+      "query": "耳机轻量档和旗舰档怎么取舍，预算451元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 451.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 2,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R081",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "耳机",
+      "query": "耳机轻量档和旗舰档怎么取舍，预算464元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 464.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 2,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 2
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R082",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "耳机",
+      "query": "耳机轻量档和旗舰档怎么取舍，预算477元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 477.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 2,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 2,
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R083",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "耳机",
+      "query": "耳机轻量档和旗舰档怎么取舍，预算490元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 490.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 2,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 2,
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R084",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "耳机",
+      "query": "耳机轻量档和旗舰档怎么取舍，预算503元以内",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 503.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "7677c181-73f4-5369-885f-86f78dd8bd79": 3,
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6": 2,
+        "cc02b484-ee1e-5f08-a571-ead86046236d": 3,
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21": 2,
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5": 3,
+        "e2fed10d-5533-5f99-ab5a-56bfd419b619": 2
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R085",
+      "split": "development",
+      "family": "no_match",
+      "category": "耳机",
+      "query": "1元以内的耳机",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 1
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R086",
+      "split": "development",
+      "family": "no_match",
+      "category": "耳机",
+      "query": "耳机需要续航未提供的超高规格",
+      "constraints": {
+        "category": "耳机",
+        "续航": "未提供的超高规格"
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R087",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "耳机",
+      "query": "不接受演示目录品牌的耳机",
+      "constraints": {
+        "category": "耳机",
+        "exclude_brands": [
+          "Aural Audio"
+        ]
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R088",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "耳机",
+      "query": "1元以内的耳机",
+      "constraints": {
+        "category": "耳机",
+        "price_max": 1
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R089",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "耳机",
+      "query": "耳机需要续航未提供的超高规格",
+      "constraints": {
+        "category": "耳机",
+        "续航": "未提供的超高规格"
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R090",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "耳机",
+      "query": "不接受演示目录品牌的耳机",
+      "constraints": {
+        "category": "耳机",
+        "exclude_brands": [
+          "Aural Audio"
+        ]
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R091",
+      "split": "development",
+      "family": "alias_exact",
+      "category": "相机",
+      "query": "比较Luma Optics Frame 01 演示相机和Luma Optics Frame 02 演示相机",
+      "constraints": {
+        "category": "相机"
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R092",
+      "split": "development",
+      "family": "alias_exact",
+      "category": "相机",
+      "query": "光影牌的相机，预算5351元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5351.0,
+        "brand_candidates": [
+          "光影"
+        ]
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R093",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "相机",
+      "query": "比较Luma Optics Frame 03 演示相机和Luma Optics Frame 04 演示相机",
+      "constraints": {
+        "category": "相机"
+      },
+      "qrels": {
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R094",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "相机",
+      "query": "光影牌的相机，预算5377元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5377.0,
+        "brand_candidates": [
+          "光影"
+        ]
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 3,
+        "c7f0cb37-38fb-5374-8511-975277f7ec4d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R095",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "相机",
+      "query": "比较Luma Optics Frame 05 演示相机和Luma Optics Frame 06 演示相机",
+      "constraints": {
+        "category": "相机"
+      },
+      "qrels": {
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 3
+      },
+      "rationale": "用户点名两款，其他款不是此项任务的相关商品。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R096",
+      "split": "acceptance",
+      "family": "alias_exact",
+      "category": "相机",
+      "query": "光影牌的相机，预算5403元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5403.0,
+        "brand_candidates": [
+          "光影"
+        ]
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 3,
+        "c7f0cb37-38fb-5374-8511-975277f7ec4d": 3,
+        "d7b974ad-6d14-544c-9ae5-530a87c43b9b": 3,
+        "92304c4d-3be7-55e7-9dd7-2e2ee29fb3da": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R097",
+      "split": "development",
+      "family": "implicit_use",
+      "category": "相机",
+      "query": "旅行想记录画面又拍视频，预算不超过5338元",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5338.0
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R098",
+      "split": "development",
+      "family": "implicit_use",
+      "category": "相机",
+      "query": "出门创作视频不想抖动，预算不超过5351元",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5351.0
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R099",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "相机",
+      "query": "记录旅途并做短视频，预算不超过5364元",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5364.0
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R100",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "相机",
+      "query": "拍风景也记录清晰视频，预算不超过5377元",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5377.0
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 3,
+        "c7f0cb37-38fb-5374-8511-975277f7ec4d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R101",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "相机",
+      "query": "旅行时拍照兼顾视频创作，预算不超过5390元",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5390.0
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 3,
+        "c7f0cb37-38fb-5374-8511-975277f7ec4d": 3,
+        "d7b974ad-6d14-544c-9ae5-530a87c43b9b": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R102",
+      "split": "acceptance",
+      "family": "implicit_use",
+      "category": "相机",
+      "query": "走路拍视频想稳定一些，预算不超过5403元",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5403.0
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 3,
+        "c7f0cb37-38fb-5374-8511-975277f7ec4d": 3,
+        "d7b974ad-6d14-544c-9ae5-530a87c43b9b": 3,
+        "92304c4d-3be7-55e7-9dd7-2e2ee29fb3da": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R103",
+      "split": "development",
+      "family": "hard_constraints",
+      "category": "相机",
+      "query": "相机需要传感器2400万像素，预算5338元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5338.0,
+        "传感器": "2400万像素"
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R104",
+      "split": "development",
+      "family": "hard_constraints",
+      "category": "相机",
+      "query": "相机需要传感器2400万像素，预算5351元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5351.0,
+        "传感器": "2400万像素"
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R105",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "相机",
+      "query": "相机需要传感器2400万像素，预算5364元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5364.0,
+        "传感器": "2400万像素"
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R106",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "相机",
+      "query": "相机需要传感器2400万像素，预算5377元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5377.0,
+        "传感器": "2400万像素"
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 3,
+        "c7f0cb37-38fb-5374-8511-975277f7ec4d": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R107",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "相机",
+      "query": "相机需要传感器2400万像素，预算5390元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5390.0,
+        "传感器": "2400万像素"
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 3,
+        "c7f0cb37-38fb-5374-8511-975277f7ec4d": 3,
+        "d7b974ad-6d14-544c-9ae5-530a87c43b9b": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R108",
+      "split": "acceptance",
+      "family": "hard_constraints",
+      "category": "相机",
+      "query": "相机需要传感器2400万像素，预算5403元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5403.0,
+        "传感器": "2400万像素"
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "2fbeee34-af5f-5dc5-8bca-36b5c3bc37ca": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 3,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "a2fcb64e-9358-54cb-887d-42fa4a93085d": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 3,
+        "c7f0cb37-38fb-5374-8511-975277f7ec4d": 3,
+        "d7b974ad-6d14-544c-9ae5-530a87c43b9b": 3,
+        "92304c4d-3be7-55e7-9dd7-2e2ee29fb3da": 3
+      },
+      "rationale": "满足任务已明确的品类及预算；演示目录同品类规格相同，不按SKU名称构造用途正例。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R109",
+      "split": "development",
+      "family": "tradeoff",
+      "category": "相机",
+      "query": "相机轻量档和旗舰档怎么取舍，预算5338元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5338.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 2,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R110",
+      "split": "development",
+      "family": "tradeoff",
+      "category": "相机",
+      "query": "相机轻量档和旗舰档怎么取舍，预算5351元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5351.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 2,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R111",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "相机",
+      "query": "相机轻量档和旗舰档怎么取舍，预算5364元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5364.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 2,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 2
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R112",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "相机",
+      "query": "相机轻量档和旗舰档怎么取舍，预算5377元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5377.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 2,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 2,
+        "c7f0cb37-38fb-5374-8511-975277f7ec4d": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R113",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "相机",
+      "query": "相机轻量档和旗舰档怎么取舍，预算5390元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5390.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 2,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 2,
+        "c7f0cb37-38fb-5374-8511-975277f7ec4d": 3
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R114",
+      "split": "acceptance",
+      "family": "tradeoff",
+      "category": "相机",
+      "query": "相机轻量档和旗舰档怎么取舍，预算5403元以内",
+      "constraints": {
+        "category": "相机",
+        "price_max": 5403.0,
+        "exclude_terms": [
+          "均衡"
+        ]
+      },
+      "qrels": {
+        "633d005b-263c-57a5-bb16-5f16aa1553d1": 3,
+        "131a604b-2310-57a7-8dd6-6380834625ec": 2,
+        "1e38b71f-8628-59c1-b063-790792a82772": 3,
+        "08e4cc73-626e-5d1e-905a-53c20359a4aa": 2,
+        "c7f0cb37-38fb-5374-8511-975277f7ec4d": 3,
+        "92304c4d-3be7-55e7-9dd7-2e2ee29fb3da": 2
+      },
+      "rationale": "比较轻量与旗舰两档：优先轻量，旗舰仍相关；均衡不属于这次比较。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R115",
+      "split": "development",
+      "family": "no_match",
+      "category": "相机",
+      "query": "1元以内的相机",
+      "constraints": {
+        "category": "相机",
+        "price_max": 1
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R116",
+      "split": "development",
+      "family": "no_match",
+      "category": "相机",
+      "query": "相机需要传感器未提供的超高规格",
+      "constraints": {
+        "category": "相机",
+        "传感器": "未提供的超高规格"
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R117",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "相机",
+      "query": "不接受演示目录品牌的相机",
+      "constraints": {
+        "category": "相机",
+        "exclude_brands": [
+          "Luma Optics"
+        ]
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R118",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "相机",
+      "query": "1元以内的相机",
+      "constraints": {
+        "category": "相机",
+        "price_max": 1
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R119",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "相机",
+      "query": "相机需要传感器未提供的超高规格",
+      "constraints": {
+        "category": "相机",
+        "传感器": "未提供的超高规格"
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    },
+    {
+      "id": "R120",
+      "split": "acceptance",
+      "family": "no_match",
+      "category": "相机",
+      "query": "不接受演示目录品牌的相机",
+      "constraints": {
+        "category": "相机",
+        "exclude_brands": [
+          "Luma Optics"
+        ]
+      },
+      "qrels": {},
+      "rationale": "结构化硬条件无法被任何目录商品满足，独立统计，不纳入Recall/NDCG。",
+      "filter_source": "project-authored task constraints; NLU is not scored by this component test"
+    }
+  ],
+  "grading": {
+    "3": "preferred task match",
+    "2": "valid tradeoff alternative",
+    "0": "not relevant to this task"
+  },
+  "recall_positive_threshold": 2,
+  "development_cases": 40,
+  "acceptance_cases": 80,
+  "limitations": [
+    "Project-authored automatic labels, not human/user validation.",
+    "60 SKU have only four distinct specification profiles; equivalent SKUs receive equal grades.",
+    "Structured filters are supplied task conditions; category inference and constraint extraction are evaluated in Agent tests, not here.",
+    "Public once frozen; acceptance is a development hold-out, not an independently collected blind benchmark."
+  ]
+}

@@ -1,0 +1,550 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "status": "PARTIAL_FUNCTIONAL_PASS_PERFORMANCE_FAIL",
+  "functional_passed": true,
+  "capacity_passed": false,
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO",
+  "mimo_calls": 0,
+  "mimo_tokens": 0,
+  "baseline": {
+    "branch": "main",
+    "head": "d670e291d263a6e4f0f041f9c74c6e0246cb854c",
+    "dirty_items_before": 502,
+    "unrelated_work_preserved": true,
+    "real_provider_credentials_read": false
+  },
+  "docker": {
+    "available": true,
+    "engine": "29.8.0",
+    "desktop": "4.91.0",
+    "project": "ragcommerce_closeout_infra_20261024",
+    "binding": "127.0.0.1 only",
+    "services": [
+      {
+        "service": "postgres",
+        "image": "pgvector/pgvector:0.8.1-pg16",
+        "port": 25433,
+        "health": "healthy"
+      },
+      {
+        "service": "qdrant",
+        "image": "qdrant/qdrant:v1.18.2",
+        "ports": [
+          16333,
+          16334
+        ],
+        "health": "healthy"
+      },
+      {
+        "service": "redis",
+        "image": "redis:8.2.2-alpine",
+        "port": 16379,
+        "health": "healthy",
+        "ping": "PONG",
+        "scope": "Connectivity only; not a shared production rate-limiter claim"
+      },
+      {
+        "service": "minio",
+        "image": "local/ragcommerce-minio:20250422-source",
+        "ports": [
+          19003,
+          19004
+        ],
+        "health": "healthy"
+      }
+    ],
+    "existing_bank_containers_not_managed": true,
+    "env_file_not_loaded": true,
+    "socket_or_container_data_deleted": false
+  },
+  "migration": {
+    "upgrade": "PASS from empty database",
+    "head": "20261021_0016",
+    "check": "No new upgrade operations detected",
+    "drift": false
+  },
+  "python": {
+    "failures": 0,
+    "seconds": 17.186,
+    "errors": 0,
+    "tests": 231,
+    "skipped": 0,
+    "passed": 231,
+    "integration": 37,
+    "unit": 194,
+    "initial_partial": {
+      "passed": 34,
+      "skipped": 2,
+      "reason": "AGENT_DATABASE_URL was not initially set; original partial receipt retained"
+    },
+    "before_fix_full": {
+      "passed": 228,
+      "skipped": 0
+    },
+    "race_red": {
+      "failed": 1,
+      "reason": "real MinIO concurrent make_bucket returned BucketAlreadyOwnedByYou"
+    },
+    "focused_green": {
+      "passed": 3,
+      "failed": 0
+    },
+    "evidence_level": "194 non-integration plus37 real-service integration"
+  },
+  "fixes": [
+    {
+      "id": "INFRA-01",
+      "severity": "P1",
+      "status": "FIXED_LOCAL",
+      "cause": "TOCTOU between bucket_exists and make_bucket during API/two eight-lane Worker cold start",
+      "change": "Only BucketAlreadyOwnedByYou is accepted as successful same-account concurrent creation; AccessDenied/BucketAlreadyExists still propagate. No retry.",
+      "source": "apps/api/src/ragcommerce_api/media.py",
+      "test": "Actual concurrent MinIO requests synchronized at the SDK read boundary; both stores usable after creation; two simulated error-boundary cases",
+      "first_runtime_failure": {
+        "pending_turns": 30,
+        "agent_runs_started": 0,
+        "first_database": "rag_durable_20261024",
+        "preserved": true,
+        "measurement": "Interrupted before a complete first batch; not300 failed Missions"
+      },
+      "cold_start_retest": "Same owned QA MinIO service, verified-empty bucket removed and recreated by API/two Workers; no media or user assets removed"
+    },
+    {
+      "id": "INFRA-02",
+      "severity": "P2",
+      "status": "FIXED_LOCAL",
+      "cause": "Shared Ops PageHeading labeled a hardcoded2026-08-26 date as evidence freshness",
+      "change": "Replace false timestamp with API-source wording, retain visual styling, no fabricated realtime clock",
+      "source": "apps/ops-web/src/components.tsx",
+      "tests": "One UI red, final five real database workflows green"
+    }
+  ],
+  "retrieval": {
+    "revision": "46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59",
+    "documents": 60,
+    "passed": true,
+    "development": {
+      "bm25": {
+        "cases": 40,
+        "positive_cases": 32,
+        "no_match_cases": 8,
+        "recall_at_10": 1,
+        "ndcg_at_10": 1,
+        "no_match_accuracy": 1,
+        "hard_constraint_violations": 0
+      },
+      "bge_vector": {
+        "cases": 40,
+        "positive_cases": 32,
+        "no_match_cases": 8,
+        "recall_at_10": 1,
+        "ndcg_at_10": 0.9873546533090507,
+        "no_match_accuracy": 1,
+        "hard_constraint_violations": 0
+      },
+      "rrf_hybrid": {
+        "cases": 40,
+        "positive_cases": 32,
+        "no_match_cases": 8,
+        "recall_at_10": 1,
+        "ndcg_at_10": 0.9974658446620425,
+        "no_match_accuracy": 1,
+        "hard_constraint_violations": 0
+      }
+    },
+    "acceptance": {
+      "bm25": {
+        "cases": 80,
+        "positive_cases": 64,
+        "no_match_cases": 16,
+        "recall_at_10": 1,
+        "ndcg_at_10": 1,
+        "no_match_accuracy": 1,
+        "hard_constraint_violations": 0
+      },
+      "bge_vector": {
+        "cases": 80,
+        "positive_cases": 64,
+        "no_match_cases": 16,
+        "recall_at_10": 1,
+        "ndcg_at_10": 0.9810184531200775,
+        "no_match_accuracy": 1,
+        "hard_constraint_violations": 0
+      },
+      "rrf_hybrid": {
+        "cases": 80,
+        "positive_cases": 64,
+        "no_match_cases": 16,
+        "recall_at_10": 1,
+        "ndcg_at_10": 0.9934768615761483,
+        "no_match_accuracy": 1,
+        "hard_constraint_violations": 0
+      }
+    },
+    "model": "Qdrant/bge-small-zh-v1.5",
+    "report": "docs/evidence/v3/final-infrastructure-20261024/retrieval.json",
+    "fusion_improvement_claimed": false,
+    "limitation": "60 owned demonstration SKUs and frozen synthetic queries; not broad catalogue or human user research"
+  },
+  "shared_retrieval": {
+    "passed": true,
+    "points": 60,
+    "unchanged": true,
+    "read_processes": 2,
+    "report": "docs/evidence/v3/final-infrastructure-20261024/shared-retrieval.json",
+    "limitation": "Two independent production retrieval composition readers, not two extra durable Worker capacity lanes"
+  },
+  "worker_recovery": {
+    "created_at": "2026-10-24T11:09:34.928295+08:00",
+    "evidence_level": "REAL_POSTGRES_CHILD_PROCESS_FAILURE_EXPLICIT_FAKE",
+    "database": "rag_recovery_20261024",
+    "run_id": "66dd070c-0a9d-51b4-bf34-4d074cb1973f",
+    "elapsed_seconds": 301.891,
+    "lease_seconds": 300,
+    "lease_clock_modified": false,
+    "first_child_terminated_after_committed_receipt": true,
+    "cursor_before_interruption": 5,
+    "checks": {
+      "committed_write_not_repeated": true,
+      "one_tool_receipt": true,
+      "one_terminal_event": true,
+      "recovered_event_recorded": true,
+      "durable_status_completed": true,
+      "cursor_replay_exact": true
+    },
+    "passed": true,
+    "limitations": [
+      "Cursor replay verified against persistent event log; this exercise is not an HTTP SSE reconnect test.",
+      "Cart command is approved through the production service by an explicit fixture; native approval UI is accepted separately."
+    ],
+    "report": "docs/evidence/v3/final-infrastructure-20261024/worker-recovery.json",
+    "source_scope": "Recovery process began before media-constructor fix; this test uses InMemoryMediaStore and unchanged durable/checkpoint/cart code. Not a current MinIO-constructor or Android test."
+  },
+  "http_process_recovery": {
+    "date": "2026-10-24",
+    "evidence_level": "real_HTTP_and_PostgreSQL_across_API_and_two_worker_process_restarts",
+    "passed": true,
+    "run_id": "54bbed3c-d209-5d2a-abb0-54bfb7461ef2",
+    "thread_id": "e579347b-8094-4e49-9a77-14033599f056",
+    "status_before": "COMPLETED",
+    "status_after": "COMPLETED",
+    "full_snapshot_unchanged": true,
+    "all_event_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "cursor_before": 15,
+    "resumed_before": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "cursor_after": 15,
+    "resumed_after": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "wrong_owner_status": 404,
+    "ahead_cursor_status": 409,
+    "source": "One existing completed capacity Mission, no new Turn or paid call",
+    "limitation": "Completed-task HTTP cursor recovery, not an Android offline or in-flight SSE disconnect test",
+    "mimo_calls": 0,
+    "report": "docs/evidence/v3/final-infrastructure-20261024/http-process-recovery.json"
+  },
+  "capacity": {
+    "accept_p95_ms": 229.73089999868535,
+    "passed": false,
+    "first_state_p95_ms": 218.20970000408124,
+    "worker_started_p95_ms": 947.1678999980213,
+    "completed": 300,
+    "batches": [
+      {
+        "batch": 1,
+        "passed": false,
+        "accepted_p95_ms": 223.26700000849087,
+        "first_state_p95_ms": 218.97139999782667,
+        "terminal_unique": true,
+        "database_matches": true
+      },
+      {
+        "batch": 2,
+        "passed": true,
+        "accepted_p95_ms": 151.29130000423174,
+        "first_state_p95_ms": 119.28909999551252,
+        "terminal_unique": true,
+        "database_matches": true
+      },
+      {
+        "batch": 3,
+        "passed": false,
+        "accepted_p95_ms": 265.05819999147207,
+        "first_state_p95_ms": 251.6878999886103,
+        "terminal_unique": true,
+        "database_matches": true
+      },
+      {
+        "batch": 4,
+        "passed": true,
+        "accepted_p95_ms": 151.0050999931991,
+        "first_state_p95_ms": 126.10090000089258,
+        "terminal_unique": true,
+        "database_matches": true
+      },
+      {
+        "batch": 5,
+        "passed": false,
+        "accepted_p95_ms": 230.83119999500923,
+        "first_state_p95_ms": 212.85739999439102,
+        "terminal_unique": true,
+        "database_matches": true
+      },
+      {
+        "batch": 6,
+        "passed": true,
+        "accepted_p95_ms": 132.9524000029778,
+        "first_state_p95_ms": 107.36609999730717,
+        "terminal_unique": true,
+        "database_matches": true
+      },
+      {
+        "batch": 7,
+        "passed": true,
+        "accepted_p95_ms": 119.6228000044357,
+        "first_state_p95_ms": 168.3130000019446,
+        "terminal_unique": true,
+        "database_matches": true
+      },
+      {
+        "batch": 8,
+        "passed": true,
+        "accepted_p95_ms": 97.92879999440629,
+        "first_state_p95_ms": 76.01400000567082,
+        "terminal_unique": true,
+        "database_matches": true
+      },
+      {
+        "batch": 9,
+        "passed": true,
+        "accepted_p95_ms": 106.90820000309031,
+        "first_state_p95_ms": 66.74570000905078,
+        "terminal_unique": true,
+        "database_matches": true
+      },
+      {
+        "batch": 10,
+        "passed": true,
+        "accepted_p95_ms": 153.73730000283103,
+        "first_state_p95_ms": 124.2490999866277,
+        "terminal_unique": true,
+        "database_matches": true
+      }
+    ],
+    "missions": 300,
+    "report": "docs/evidence/v3/final-infrastructure-20261024/durable-10-batches-r1.json",
+    "failed_batches": [
+      1,
+      3,
+      5
+    ],
+    "thresholds": {
+      "accept_p95_ms_below": 200,
+      "first_state_p95_ms_below": 1000
+    },
+    "mode": "fake provider, fixture retrieval, real persistent API, two independent eight-lane Workers",
+    "access_log_enabled": false,
+    "qualification": "Failed control, not final standard-launch signoff; diagnostic success below never replaces this denominator",
+    "write_scope": "Recommendation-only load; write idempotency separately checked in integration and committed-cart failure injection"
+  },
+  "performance_diagnosis": {
+    "scope": "Diagnostic only; does not replace failed acceptance",
+    "passed": true,
+    "first_state_p95_ms": 192.96779998694547,
+    "event_loop": "ProactorEventLoop",
+    "accepted_p95_ms": 133.03799999994226,
+    "max_log_emit_ms": 1.7062999977497384,
+    "largest_gc_pause_ms": 88.53509998880327,
+    "report": "docs/evidence/v3/final-infrastructure-20261024/performance-diagnosis.json",
+    "root_cause": "NOT_ESTABLISHED",
+    "production_tuning_performed": false,
+    "replace_failed_acceptance": false
+  },
+  "ops": {
+    "workflow_passed": 5,
+    "workflow_total": 5,
+    "unit_passed": 2,
+    "check": "PASS",
+    "build": "PASS",
+    "backend": "Real HTTP/PostgreSQL with fake Agent provider; persistent conflict/evaluation/audit/Trace readback",
+    "browser_plugin": "Browser plugin not available; existing repository Playwright workflow used; no install",
+    "browser": "Chromium",
+    "console_errors": 0,
+    "first_workflow_suite": {
+      "passed": 5,
+      "before_timestamp_fix": true
+    },
+    "timestamp_red": {
+      "failed": 1
+    },
+    "reused_fixture_attempt": {
+      "passed": 2,
+      "failed": 1,
+      "not_run": 2,
+      "cause": "conflict-001 was already KEPT_SEPARATE from a real prior write"
+    },
+    "final_fixture": "New conflict-20261024-final via existing seed_demo_ops.py --review-conflict-id; old decisions and audit retained",
+    "hardcoded_evidence_date_removed": true,
+    "database_readback": {
+      "audit_events": 28,
+      "audit_actions": ["entity_conflict.resolve", "evaluation.start"],
+      "queued_evaluation_rows": 26,
+      "evaluation_execution_claimed": false,
+      "old_and_new_conflicts": "Both KEPT_SEPARATE; no decision reset",
+      "active_turns_in_successful_test_database": 0,
+      "first_failed_database_pending_turns_preserved": 30
+    },
+    "warnings": [
+      "NO_COLOR ignored because FORCE_COLOR set; runner environment warning, not app console failure"
+    ]
+  },
+  "governance": {
+    "contract_codegen": "PASS,3 files",
+    "agent_artifacts": "PASS,2 files,11 tools",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "task_package_validation": "PASS,49 packages,0 errors,0 warnings",
+    "scoped_diff_check": "PASS, Windows line-ending warnings separate from whitespace errors"
+  },
+  "navigation_qa": {
+    "url": "http://127.0.0.1:24180/",
+    "browser_plugin": "Not available; existing Playwright CLI used, no dependency install",
+    "viewports": ["1440x1000", "390x844"],
+    "identity_and_nonblank_render": true,
+    "framework_overlay": false,
+    "horizontal_overflow": false,
+    "app_console_errors": 0,
+    "app_console_warnings": 0,
+    "interaction": "Two-week plan shows functionalPASS/capacityFAIL; evidence link opens JSON tab,HTTP200 with231 and failed batches1/3/5",
+    "tests_passed": 7,
+    "build": "PASS",
+    "screenshots_visually_inspected": true,
+    "personal_records_changed": false,
+    "scope": "External project-management site only, not a product feature or model acceptance"
+  },
+  "command_journal": [
+    {"command": "docker version; compose config --quiet; compose up -d --wait --no-build --pull never", "date": "2026-10-24", "exit_code": 0, "count": "4 healthy fixed-version services"},
+    {"command": "alembic -c apps/api/alembic.ini upgrade head/current/check", "date": "2026-10-24", "exit_code": 0, "result": "0016,no new upgrade operations"},
+    {"command": "pytest -q -m integration", "started_at": "2026-10-24T11:04:02.376773+08:00", "exit_code": 0, "passed": 34, "skipped": 2, "failure_summary": "AGENT_DATABASE_URL missing; incomplete coverage, not accepted as full integration"},
+    {"command": "pytest -q", "started_at": "2026-10-24T11:05:03.281271+08:00", "exit_code": 0, "passed": 228, "skipped": 0, "scope": "Before new startup race regression"},
+    {"command": "run_v3_durable_load.py --batches10 (first startup)", "date": "2026-10-24", "exit_code": -1, "completed_batch_receipt": false, "failure_summary": "Both Workers exited from MinIO BucketAlreadyOwnedByYou;30 pending Turns,0 AgentRuns, interrupted and preserved"},
+    {"command": "pytest test_concurrent_minio_startup_keeps_both_media_stores_usable", "started_at": "2026-10-24T11:08:22.400501+08:00", "exit_code": 1, "failed": 1, "failure_summary": "Real MinIO same-bucket concurrent creation reproduced BucketAlreadyOwnedByYou"},
+    {"command": "pytest concurrent MinIO integration + test_minio_startup.py", "started_at": "2026-10-24T11:08:47.223954+08:00", "exit_code": 0, "passed": 3, "skipped": 0},
+    {"command": "pytest -q (post-fix)", "started_at": "2026-10-24T11:09:32.422871+08:00", "exit_code": 0, "passed": 231, "skipped": 0},
+    {"command": "run_frozen_retrieval_acceptance.py; verify_shared_retrieval.py", "date": "2026-10-24", "exit_code": 0, "count": "120 frozen queries;2 independent readers"},
+    {"command": "verify_worker_process_recovery.py", "date": "2026-10-24", "exit_code": 0, "seconds": 301.891, "checks_passed": 6},
+    {"command": "run_v3_durable_load.py --batches10 (after root fix)", "date": "2026-10-24", "exit_code": 1, "completed": 300, "failure_summary": "Acceptance p95=229.731ms; batches1/3/5 over200ms; unique terminals retained"},
+    {"command": "profile_standard_uvicorn.py", "date": "2026-10-24", "exit_code": 0, "count": "300 diagnostic Missions", "acceptance_claimed": false},
+    {"command": "HTTP snapshot and Last-Event-ID readback before/after API+twoWorker restart", "date": "2026-10-24", "exit_code": 0, "events": 29, "resumed_events": 14, "wrong_owner": 404, "ahead_cursor": 409},
+    {"command": "npm run test:ops:e2e (before timestamp regression)", "date": "2026-10-24", "exit_code": 0, "passed": 5},
+    {"command": "playwright test --grep renders (timestamp red)", "date": "2026-10-24", "exit_code": 1, "failed": 1, "failure_summary": "Honest API-source wording missing; hardcoded old timestamp visible"},
+    {"command": "npm run test:ops:e2e (reused fixture)", "date": "2026-10-24", "exit_code": 1, "passed": 2, "failed": 1, "not_run": 2, "failure_summary": "Old conflict already KEPT_SEPARATE, not PENDING; old state not reset"},
+    {"command": "seed_demo_ops.py --review-conflict-id conflict-20261024-final; npm run test:ops:e2e", "date": "2026-10-24", "exit_code": 0, "passed": 5},
+    {"command": "npm run check/test/build (Ops)", "date": "2026-10-24", "exit_code": 0, "unit_passed": 2},
+    {"command": "generate_contracts.py --check; generate_agent_artifacts.py --check; ruff; compileall", "date": "2026-10-24", "exit_code": 0, "tools": 11},
+    {"command": "validate_task_packages.py", "date": "2026-10-24", "exit_code": 0, "packages": 49, "errors": 0, "warnings": 0},
+    {"command": "navigation npm test/build and existing Playwright CLI", "date": "2026-10-24", "exit_code": 0, "unit_passed": 7, "viewports": 2}
+  ],
+  "remaining": [
+    {
+      "id": "F60",
+      "status": "OPEN",
+      "gate": "10x30 Turn acceptance p95<200ms; root not established, do not select diagnostic pass"
+    },
+    {
+      "id": "A02/M03",
+      "status": "DEFERRED_BY_USER",
+      "gate": "Actual human microphone, no recording/upload performed this follow-up"
+    },
+    {
+      "id": "A09",
+      "status": "PENDING_USER_CHROME_SETUP",
+      "gate": "Chrome first-run choices/terms must be user-operated; no terms accepted by agent"
+    },
+    {
+      "id": "FINAL_SEAL",
+      "status": "PENDING",
+      "gate": "Final same-source Android cold-start/media/independent reproduction and career delivery sealing"
+    }
+  ],
+  "publication": {
+    "staged": false,
+    "committed": false,
+    "pushed": false,
+    "published": false
+  },
+  "cleanup": {
+    "owned_API_and_two_workers_stopped": true,
+    "owned_Ops_QA_server_stopped": true,
+    "owned_four_compose_services_stopped": true,
+    "QA_ports_released": [20882, 20883, 25433, 16333, 16334, 16379, 19003, 19004, 24174],
+    "containers_and_volumes_preserved": true,
+    "first_failed_database_and30_pending_turns_preserved": true,
+    "navigation_24180_kept_running": true,
+    "other_projects_not_managed": true,
+    "Docker_engine_not_stopped_or_reset": true,
+    "microphone_or_Chrome_first_run_not_operated": true
+  }
+}

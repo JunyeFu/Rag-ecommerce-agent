@@ -1,0 +1,94 @@
+{
+  "created_at": "2026-09-21T04:16:21.573577+00:00",
+  "evidence_level": "REAL_PROVIDER_SPECIALIZED_ACCEPTANCE",
+  "passed": false,
+  "provider": {
+    "cost": "NOT_AVAILABLE_FROM_PROVIDER",
+    "endpoint_host": "api.xiaomimimo.com",
+    "model": "mimo-v2.5"
+  },
+  "scenarios": [
+    {
+      "actual_tool": "catalog.search",
+      "approval_blocked_before_decision": null,
+      "call_count": 1,
+      "expected_tool": null,
+      "id": "clarification",
+      "idempotent_replay": null,
+      "latency_ms": 14824.238,
+      "passed": false,
+      "schema_valid": true,
+      "state_changed_after_approval": null,
+      "usage": {
+        "completion_tokens": 342,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 1812,
+        "provider": "openai_compatible",
+        "total_tokens": 2154
+      }
+    },
+    {
+      "actual_tool": "offer.requote",
+      "approval_blocked_before_decision": null,
+      "call_count": 1,
+      "expected_tool": "offer.requote",
+      "id": "requote",
+      "idempotent_replay": null,
+      "latency_ms": 5753.003,
+      "passed": true,
+      "schema_valid": true,
+      "state_changed_after_approval": null,
+      "usage": {
+        "completion_tokens": 158,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 2658,
+        "provider": "openai_compatible",
+        "total_tokens": 2816
+      }
+    },
+    {
+      "actual_tool": "list.update",
+      "approval_blocked_before_decision": true,
+      "call_count": 1,
+      "expected_tool": "list.update",
+      "id": "list_write",
+      "idempotent_replay": true,
+      "latency_ms": 16055.358,
+      "passed": true,
+      "schema_valid": true,
+      "state_changed_after_approval": true,
+      "usage": {
+        "completion_tokens": 486,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 2680,
+        "provider": "openai_compatible",
+        "total_tokens": 3166
+      }
+    },
+    {
+      "actual_tool": "cart.update",
+      "approval_blocked_before_decision": true,
+      "call_count": 1,
+      "expected_tool": "cart.update",
+      "id": "cart_write",
+      "idempotent_replay": true,
+      "latency_ms": 13209.802,
+      "passed": true,
+      "schema_valid": true,
+      "state_changed_after_approval": true,
+      "usage": {
+        "completion_tokens": 356,
+        "model": "mimo-v2.5",
+        "prompt_tokens": 2654,
+        "provider": "openai_compatible",
+        "total_tokens": 3010
+      }
+    }
+  ],
+  "schema_version": 1,
+  "single_attempt_per_scenario": true,
+  "summary": {
+    "passed": 3,
+    "total": 4
+  }
+}

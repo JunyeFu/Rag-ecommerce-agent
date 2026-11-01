@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-UX-EXPLORATION-01",
+  "owner": "current-task",
+  "objective": "用途场景探索与暂不购买结论",
+  "inputs": [
+    "docs/plans/ANDROID-DECISION-UX-UPGRADE.md",
+    "data/demo/catalog.v3.jsonl"
+  ],
+  "outputs": [
+    "docs/task-packages/packages/V3-UX-EXPLORATION-01/evidence/verification.json"
+  ],
+  "acceptance": [
+    "周末想拍照：可先尝试现有手机，不强推相机。",
+    "目录不支持时说明范围，不编造功能或新品。",
+    "兴趣不是购买授权；转购买后再确认预算和硬约束。"
+  ],
+  "test_profiles": [
+    "targeted Python",
+    "Android unit/lint/build",
+    "contract drift",
+    "native QA when available"
+  ],
+  "business_refs": [
+    "shared.business_model"
+  ],
+  "development_refs": [
+    "profiles.task_packages"
+  ],
+  "risk_refs": [
+    "shared.pitfalls"
+  ]
+}
+

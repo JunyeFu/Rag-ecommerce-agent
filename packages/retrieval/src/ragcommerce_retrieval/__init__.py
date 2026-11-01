@@ -20,7 +20,9 @@ from .semantic import (
     EmbeddingProvider,
     EmbeddingProviderError,
     HybridSemanticIndex,
+    LocalOnnxEmbeddingProvider,
     OpenAICompatibleEmbeddingProvider,
+    QdrantHybridSemanticIndex,
 )
 
 __all__ = [
@@ -34,10 +36,12 @@ __all__ = [
     "HybridIndex",
     "HybridSemanticIndex",
     "InMemoryProjection",
+    "LocalOnnxEmbeddingProvider",
     "OpenAICompatibleEmbeddingProvider",
     "OutboxEvent",
     "OutboxProjector",
     "ProjectionOperation",
+    "QdrantHybridSemanticIndex",
     "QdrantProjection",
     "RetrievalMetrics",
     "RetrievedEvidence",

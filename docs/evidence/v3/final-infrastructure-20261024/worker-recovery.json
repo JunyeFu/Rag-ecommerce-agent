@@ -1,0 +1,24 @@
+{
+  "created_at": "2026-10-24T03:09:34.928295+00:00",
+  "evidence_level": "REAL_POSTGRES_CHILD_PROCESS_FAILURE_EXPLICIT_FAKE",
+  "database": "rag_recovery_20261024",
+  "run_id": "66dd070c-0a9d-51b4-bf34-4d074cb1973f",
+  "elapsed_seconds": 301.891,
+  "lease_seconds": 300,
+  "lease_clock_modified": false,
+  "first_child_terminated_after_committed_receipt": true,
+  "cursor_before_interruption": 5,
+  "checks": {
+    "committed_write_not_repeated": true,
+    "one_tool_receipt": true,
+    "one_terminal_event": true,
+    "recovered_event_recorded": true,
+    "durable_status_completed": true,
+    "cursor_replay_exact": true
+  },
+  "passed": true,
+  "limitations": [
+    "Cursor replay verified against persistent event log; this exercise is not an HTTP SSE reconnect test.",
+    "Cart command is approved through the production service by an explicit fixture; native approval UI is accepted separately."
+  ]
+}

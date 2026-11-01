@@ -1,0 +1,14 @@
+{
+  "finished_at": "2026-10-09T14:15:44.885+00:00",
+  "evidence_level": "CURRENT_ANDROID_INCREMENT_NOT_FINAL_PORTFOLIO_SIGNOFF",
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "unit": {"tests": 38, "failed": 0},
+  "fixture": {"runner_pid": 4296, "tests": 31, "failed": 0, "ignored": 0, "elapsed_seconds": 42.087, "injected_ui_state": true, "not_real_agent_acceptance": true},
+  "targeted_fixture": {"runner_pid": 3914, "tests": 2, "failed": 0, "elapsed_seconds": 9.561},
+  "readonly_diagnosis": "docs/evidence/v3/final-A07-readonly-diagnostic-20261009.json",
+  "native_business": {"A07_R1": "docs/evidence/v3/final-real-A07-R1-20261009.json", "passed": true, "actual_process_stop": true, "new_turns": 0, "new_model_calls": 0, "tokens": 0},
+  "test_apk_build": {"exit_code": 0, "elapsed_seconds": 5, "tasks": 54, "executed": 6, "up_to_date": 48},
+  "prior_diagnostics_preserved": ["30-test fixture failed on inaccurate expected text; corrected", "next full fixture stalled on System UI ANR; no completion receipt", "desktop SDK window exited; official no-window restart retained data", "PowerShell split unquoted Gradle property; corrected quoted invocation succeeded"],
+  "voice": "Human will cooperate later; no intelligible recording accepted",
+  "shared_budget": {"used": 176582, "calls": 56, "held": 0, "limit": 2000000}
+}

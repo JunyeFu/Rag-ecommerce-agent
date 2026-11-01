@@ -1,0 +1,181 @@
+{
+  "created_at": "2026-10-12T06:45:26.159159+00:00",
+  "evidence_level": "NATIVE_ANDROID_REAL_API_PROVIDER",
+  "source_state": "dirty local candidate; not a public release",
+  "scenario": {
+    "id": "A03",
+    "slot": "A03-R1",
+    "phase": "retest",
+    "passed": true,
+    "owner_id": "0f71a5c2-3a93-44b0-af6f-5498044ec431",
+    "device": "127.0.0.1:5559",
+    "adb_server_port": 20884,
+    "native_activity": true,
+    "installed_apk_sha256": "9984b55e137c8af4a888a19d2977b7c3c819b71059f80fd30a49ebb0f40b12f1",
+    "injected_ui_state": false,
+    "runtime_source_hashes": {
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/token_budget.py": "5a8c161b4be3cf58e3f0feb93e091aa2e71db42752a82f95f6d90592c3491311",
+      "packages/contracts/openapi.json": "8308bbe9d902a4bda256d8a2e43030d7fbfd876e28344434be19500c2c8ed205",
+      "data/demo/catalog.v3.jsonl": "4c46d177c12bbe0216da84305430c77792ee9feece694a0a1590bf268d05e3a5",
+      "apps/api/src/ragcommerce_api/postgres_index.py": "d0b94801e800282da21ce649298fbc972c381bd3eaa8242793798c2d365e87c1",
+      "apps/worker/src/ragcommerce_worker/persistent_demo.py": "233e86b5fd569b6dab7d4a180ab8dd68c9bb5ffd82e4913c57840fb42de47260",
+      "packages/retrieval/src/ragcommerce_retrieval/semantic.py": "234fe09003bd5bcd2e0bf0d988034163e3d71e119f5f718fe99d8354688d2dae",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/runtime.py": "b25067b20daa81dffe8751a096a7730629c18e608d76e09c7fc4e187682587c4",
+      "apps/api/src/ragcommerce_api/media_tools.py": "9b92a40e783a78e4b2eb5ee4da7216858dd5d6ac9d8fb2917d49b44dc835936d",
+      "apps/api/src/ragcommerce_api/service.py": "12db0a1580a8c6b1b11384a8ab2adc6e3aa59c19e8af6c49e836a75ba0ede47b",
+      "apps/api/src/ragcommerce_api/provider_config.py": "1a80525a19f79a535e3564994467cadb2ae93a584130afc49b7d9986741d9341",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/model_provider.py": "7337ce5321c0a54988ea4254674876e4af51cc04e1e9a0722e49b645542e00ec",
+      "apps/api/src/ragcommerce_api/postgres_demo.py": "8786c6d94c22923a32624990d4c43c2f3208b39b4b31a53e40925055efcf0c8b"
+    },
+    "root_cause": "docs/defects/V3-FINAL-CLOSEOUT.md",
+    "observation_seconds": 600,
+    "model_calls_authorized": true,
+    "initial_comparison_selection": [],
+    "native_receipts": [
+      {
+        "method": "a03NativeGalleryInterpretationConfirmationAndRecommendation",
+        "runner_pid": 4981,
+        "tests": 1,
+        "failed": 0,
+        "ignored": 0
+      }
+    ],
+    "runner": {
+      "tests": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    "runner_passed": true,
+    "accepted_runs_finished_within_window": true,
+    "backend_runs": [
+      {
+        "run_id": "cbee1c98-ca05-500d-af3b-a032ff991d0d",
+        "thread_id": "3e9bf806-861e-40e3-8c08-46dec9283839",
+        "execution_path": "model_and_tools",
+        "input_text": "请根据图片帮我选手机",
+        "mission_version": 1,
+        "media": [
+          {
+            "id": "ee7d363d-4657-40d5-ac30-fec40d7f29be",
+            "kind": "image"
+          }
+        ],
+        "media_confirmation": false,
+        "media_interpretations": [
+          {
+            "kind": "image",
+            "category": "手机",
+            "media_id": "ee7d363d-4657-40d5-ac30-fec40d7f29be",
+            "supported": true,
+            "uncertainties": [
+              "为图标风格插画，非实拍照片，无法辨认具体品牌和型号"
+            ],
+            "recognized_text": "",
+            "visible_attributes": [
+              "直板触屏造型",
+              "屏幕顶部有听筒开孔和前置摄像头小圆点",
+              "屏幕底部有Home指示条",
+              "深色边框",
+              "屏幕显示浅蓝色对角渐变反光"
+            ]
+          }
+        ],
+        "tools_started": [
+          "vision.identify"
+        ],
+        "approvals": [],
+        "completion_reasons": [],
+        "tools_completed": [
+          "vision.identify"
+        ],
+        "exploration_updates": [],
+        "status": "WAITING_CLARIFICATION",
+        "model": "mimo-v2.5",
+        "products": [],
+        "offers": [],
+        "evidence_coverage": false,
+        "terminal_events": 0,
+        "unauthorized_write": false,
+        "write_tools_completed": []
+      },
+      {
+        "run_id": "d9b6e334-a804-5708-ba7e-55cde2aad0b6",
+        "thread_id": "3e9bf806-861e-40e3-8c08-46dec9283839",
+        "execution_path": "model_and_tools",
+        "input_text": "手机, 预算2000元, 用于日常通勤",
+        "mission_version": 2,
+        "media": [],
+        "media_confirmation": true,
+        "media_interpretations": [],
+        "tools_started": [
+          "catalog.search",
+          "catalog.get_product_facts",
+          "offer.find",
+          "comparison.build"
+        ],
+        "approvals": [],
+        "completion_reasons": [
+          "COMPLETED"
+        ],
+        "tools_completed": [
+          "catalog.search",
+          "catalog.get_product_facts",
+          "offer.find",
+          "comparison.build"
+        ],
+        "exploration_updates": [],
+        "status": "COMPLETED",
+        "model": "mimo-v2.5",
+        "products": [
+          "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d",
+          "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+          "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+          "1e5a2212-aec9-537a-b892-264cb8573ae9",
+          "062967ea-f561-5c86-8c43-622cb42ac67a"
+        ],
+        "offers": [
+          {
+            "product_id": "0001b7b0-07f5-53e1-a5f0-73ed15a59a8d",
+            "price_minor": 169000,
+            "verification": "DEMO_FIXTURE"
+          },
+          {
+            "product_id": "3c0668b8-1315-54ea-8d88-90c652c9aaf8",
+            "price_minor": 159900,
+            "verification": "DEMO_FIXTURE"
+          },
+          {
+            "product_id": "089f04cb-b770-5de2-a756-c4c7aa5b6905",
+            "price_minor": 161200,
+            "verification": "DEMO_FIXTURE"
+          }
+        ],
+        "evidence_coverage": true,
+        "terminal_events": 1,
+        "unauthorized_write": false,
+        "write_tools_completed": []
+      }
+    ],
+    "paid_call_count": 4,
+    "token_usage": 9963,
+    "provider_cost": "NOT_AVAILABLE_FROM_PROVIDER",
+    "native_media": [
+      {
+        "id": "ee7d363d-4657-40d5-ac30-fec40d7f29be",
+        "kind": "image",
+        "sha256": "8d3d1f5304db67c231adeacb69441aa1aa830804c54bc046af18a21e4a363613",
+        "size_bytes": 5438
+      }
+    ],
+    "cart_unchanged": true,
+    "elapsed_seconds": 95.219,
+    "shared_budget": {
+      "session_id": "internship-final-20261009",
+      "limit": 2000000,
+      "blocked": false,
+      "used": 223736,
+      "held": 0,
+      "calls": 71
+    }
+  }
+}

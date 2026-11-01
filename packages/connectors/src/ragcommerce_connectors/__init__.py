@@ -2,6 +2,7 @@
 
 from .discovery import DiscoveryConnector
 from .fixture import FixtureConnector, load_fixture_connectors
+from .gowu_demo import GowuDemoPriceClient, ThirdPartyDemoPrice
 from .security import SafeLinkPolicy
 from .spi import (
     AuthorizationRequired,
@@ -20,9 +21,11 @@ __all__ = [
     "ConnectorErrorKind",
     "DiscoveryConnector",
     "FixtureConnector",
+    "GowuDemoPriceClient",
     "OfferConnector",
     "RequoteOutcome",
     "RequoteResult",
     "SafeLinkPolicy",
+    "ThirdPartyDemoPrice",
     "load_fixture_connectors",
 ]

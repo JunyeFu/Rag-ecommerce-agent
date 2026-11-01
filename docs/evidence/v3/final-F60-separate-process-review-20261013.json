@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-13",
+  "defect": "F60",
+  "status": "OPEN",
+  "diagnostic_10_batches": {
+    "requests": 300,
+    "completed": 300,
+    "passed": true,
+    "accept_p95_ms": 167.36900000250898,
+    "first_state_p95_ms": 262.903599999845,
+    "report": "docs/evidence/v3/final-F60-separate-http-info-10-batches-20261013.json",
+    "client_separate_process": true,
+    "server_log_level": "info",
+    "capacity_signoff": false
+  },
+  "normal_launch_control": {
+    "requests": 300,
+    "completed": 300,
+    "passed": false,
+    "accept_p95_ms": 249.73660000250675,
+    "first_state_p95_ms": 312.42040000506677,
+    "report": "docs/evidence/v3/final-F60-normal-launch-control-10-batches-20261013.json"
+  },
+  "verified_equal": {
+    "uvicorn": "0.52.4",
+    "psycopg": "3.3.4",
+    "psycopg_pool": "3.3.3",
+    "fastapi": "0.141.1",
+    "starlette": "1.6.0",
+    "h11": "0.16.0",
+    "anyio": "4.14.2",
+    "http_protocol": "h11",
+    "postgres_connection_sha256": "b88523d72854b362671da1c46a5dc0640e3e5bc5e486d4aa3672384d2a02f2a5"
+  },
+  "conclusion": "Standard-launch capacity still fails; instrumented diagnostic pass does not close F60. Environment/source hot path or launch behavior requires controlled attribution.",
+  "log_control": {
+    "status": "NOT_RUN",
+    "reason": "Start-Process command rejected by local policy; no attempt to bypass policy",
+    "hypothesis": "Synchronous redirected access-log output is a candidate, not established root cause"
+  },
+  "production_changes": 0,
+  "new_paid_calls": 0,
+  "LOCAL_PORTFOLIO_READY": "HOLD"
+}

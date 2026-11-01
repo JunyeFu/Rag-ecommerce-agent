@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-FINAL-05",
+  "status": "blocked",
+  "verification_scope": "Partial checks passed; final same-source signoff awaits required native speech and A09 user setup",
+  "commands": [
+    "scripts/export_portfolio_candidate.py",
+    "preflight-06/scripts/bootstrap.ps1 -Quick",
+    "preflight-06/scripts/start_v3_demo.ps1 -ProviderMode fake -RetrievalMode local (isolated ports/database)",
+    "scripts/verify_clean_candidate.py --api-url http://127.0.0.1:20882",
+    "preflight-06/scripts/stop_v3_demo.ps1"
+  ],
+  "checks": [
+    {
+      "id": "preliminary_clean_start",
+      "passed": true,
+      "report": "docs/evidence/v3/final-clean-start-preflight-06-20261009.json",
+      "source_files": 744,
+      "bootstrap_commands_passed": 17,
+      "new_venv": true,
+      "isolated_database_storage": true,
+      "caches_reused": true,
+      "final_candidate_signoff": false
+    },
+    {
+      "id": "owned_cleanup",
+      "passed": true,
+      "project": "ragcommerce_final_clean_20261009",
+      "volumes_preserved": true,
+      "other_runtime_untouched": true
+    },
+    {
+      "id": "navigation_live_browser",
+      "passed": true,
+      "checks": [
+        "actual evidence reports",
+        "Q01 reference answer",
+        "four reference scripts",
+        "no page errors"
+      ],
+      "personal_records_modified": false
+    },
+    {
+      "id": "current_preliminary_independent_start",
+      "passed": true,
+      "report": "docs/evidence/v3/final-N08-independent-start-20261013.json",
+      "source_files": 810,
+      "final_candidate_signoff": false
+    },
+    {
+      "id": "current_reference_export",
+      "passed": true,
+      "report": "docs/evidence/v3/final-N10-materials-20261013.json",
+      "questions": 24,
+      "scripts": 4,
+      "materials": 8,
+      "reference_paths": 42,
+      "missing": 0,
+      "personal_records_modified": false
+    },
+    {
+      "id": "current_apk_build",
+      "passed": true,
+      "report": "docs/evidence/v3/final-N10-materials-20261013.json",
+      "final_same_source_signoff": false
+    },
+    {
+      "id": "github_source_sync_20261101",
+      "verified_at": "2026-11-01T23:02:31.195026+08:00",
+      "passed": true,
+      "scope": "Source/documentation synchronization only; full product signoff remains blocked",
+      "commands": [
+        {
+          "command": ".venv/Scripts/python.exe -m pytest -q -m \"not integration\"",
+          "exit_code": 0,
+          "passed": 198,
+          "deselected": 39
+        },
+        {
+          "command": "npm run check; npm test; npm run build",
+          "exit_code": 0,
+          "tests": 2
+        },
+        {
+          "command": "gradlew.bat --offline :app:compileDebugKotlin :app:testDebugUnitTest :app:lintDebug -PapiUrl=http://10.0.2.2:20881",
+          "exit_code": 0,
+          "tests": 55,
+          "failures": 0,
+          "lint_warnings": 19,
+          "notes": "ANDROID_HOME and Java21 set process-locally after missing SDK / wrong JVM attempts. Lint emitted Kotlin analysis API warnings; 41 tasks, 21 executed."
+        },
+        {
+          "command": "ruff check; ruff format --check; contracts/evaluation/SBOM/governance checks",
+          "exit_code": 0,
+          "notes": "196 Python files formatted; 49 task packages valid. Fixed existing import/format issues; retained Chinese text with targeted noqa."
+        },
+        {
+          "command": "security_gate.py --check; publication credential-pattern scan; README staged references",
+          "exit_code": 0,
+          "secret_findings": 0,
+          "sast_findings": 0,
+          "readme_references": 37,
+          "notes": "Corrected SAST identifier boundary false positives; direct eval/exec still detected. External security gates remain closed."
+        }
+      ],
+      "failure_summary": "Initial Ruff errors and SAST false positives corrected. SDK/JVM configuration attempts failed before corrected local build. No new integration, native device, paid model or production acceptance."
+    }
+  ],
+  "external_gates": [
+    "公开发布另行授权"
+  ],
+  "remaining": [
+    "A02/M03 actual native human speech; user deferred",
+    "A09 Chrome first setup and complete zero-model retest; user deferred",
+    "Final affected regression and same-source candidate export/start",
+    "Final APK/video/screenshots and independent final review"
+  ],
+  "updated_on": "2026-10-13"
+}

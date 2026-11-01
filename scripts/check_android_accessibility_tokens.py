@@ -16,6 +16,8 @@ PAIRS = (
     ("TextSecondary", "Background"),
     ("TextSecondary", "Surface"),
     ("Brand", "Surface"),
+    ("Warning", "Background"),
+    ("Warning", "Surface"),
     ("Warning", "WarningContainer"),
     ("Danger", "Surface"),
 )

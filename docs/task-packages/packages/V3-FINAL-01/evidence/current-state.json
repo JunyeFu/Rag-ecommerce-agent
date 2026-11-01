@@ -1,0 +1,1772 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-09T08:33:36.398218+00:00",
+  "phase": "before_product_implementation",
+  "branch": "main",
+  "head": "d670e291d263a6e4f0f041f9c74c6e0246cb854c",
+  "dirty_count": 195,
+  "status_counts": {
+    " M": 114,
+    " D": 5,
+    "??": 76
+  },
+  "ignored_files_collected": false,
+  "environment_collected": false,
+  "files": [
+    {
+      "path": ".env.example",
+      "status": " M",
+      "previous_path": null,
+      "size": 1080,
+      "sha256": "9bc1a891128b581d8b1776b152f95de76de2d6f97d4cfd432b5550e0f40d9f52",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "status": " M",
+      "previous_path": null,
+      "size": 4446,
+      "sha256": "9cc1ccce1c1520d79a913b566345aa76459d5fa0e07fb7e9d65e9fef4aeee636",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 6250,
+      "sha256": "9525e8283556a2b5cb7e3e0b688713567de2d59e87a470524fc69e37d57bf48a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 2483,
+      "sha256": "147f9166b8859a8afe6865d2ac8fd55d8f3922da0e10535fdf8428286c69618e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/build.gradle.kts",
+      "status": " M",
+      "previous_path": null,
+      "size": 3363,
+      "sha256": "ac5d7581cd70c763c46013d7638f75f4582ec289086c86ec951d523e1721a6c9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/androidTest/java/com/ragcommerce/agent/GoldenScenarioApiFlowTest.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 9894,
+      "sha256": "7c428cae7d55fbd2eb8c0497b206bfcf33466708365c6b6990635fc3d1fe1c57",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/androidTest/java/com/ragcommerce/agent/ShoppingFlowTest.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 23704,
+      "sha256": "b074eb5c6a21a7b02c42559c985953b8364ed89ad3bb0fddb4b5703cbb65d9db",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/EditorialShoppingApp.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 71186,
+      "sha256": "739fecb218a2415e658ff234c4a65565e66bc7d987535a108302d0e8ae8f4499",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/MainActivity.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 4280,
+      "sha256": "6c2580cb84aa770c417a50c8878bf345407b2293b2119f82725c5adad76f235b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/data/ShoppingRepository.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 31777,
+      "sha256": "0761972d4bf5dbfbd8ab37e44c67ae4e70eff483c909b497fc068e6cdf67e620",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/data/remote/CommerceApi.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 5847,
+      "sha256": "2e605f07a65e726a1f123ffd17cfba85f7941b52ac8425345face094448c6876",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/generated/ApiContracts.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 6038,
+      "sha256": "5c05b9f0174272a975d52a04f6441afecc2d73857da184b2d1bd9c6c46feb6f6",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/ui/ShoppingModels.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 17845,
+      "sha256": "1dc204eca6b4e868d6aa21a896893d9ba6737971181d1a91b4fa649bee078aef",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/main/java/com/ragcommerce/agent/ui/ShoppingViewModel.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 30143,
+      "sha256": "74e0f15519345c43ac13799b17cc7f8308f2c913fe84c0e5a5718c02b4772950",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/test/java/com/ragcommerce/agent/ShoppingProtocolTest.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 13653,
+      "sha256": "c38db9539559147ac27651263e5e1002246ea81b32297203f72d07808e670886",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/test/java/com/ragcommerce/agent/ShoppingReducerTest.kt",
+      "status": " M",
+      "previous_path": null,
+      "size": 13199,
+      "sha256": "6138a58ace663acce0b8e24c4dc13b456fafbff890bc27063661f4b127311ddd",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/benchmark/build.gradle.kts",
+      "status": " M",
+      "previous_path": null,
+      "size": 1149,
+      "sha256": "9a5d93773af182243a9131856e17407cb71206a2f82ab30c78168289ecfb6008",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/app.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 22141,
+      "sha256": "7bd005bbd678a24a01cf0882f2a703996326695148e44e04aed7f59cf2b3b2a6",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/commerce.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1540,
+      "sha256": "690e29ef642e93bde5cc28ff56a15292f2734671bc063e9ad88afadae5e4a9d6",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/demo.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 26299,
+      "sha256": "af685b361eb6b5143b20d64b85417ac42a68b064113c17b1add77ee443530675",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/erasure.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 3111,
+      "sha256": "781dee6e3e18e88545e0cba547b05030b052b2e8b459b58349ac9a5e6d5bf098",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/ops.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 20168,
+      "sha256": "3965083e955cddb52d28e2d7233f7dcb268b6db255023922b55ad249e562cef0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/persistent_demo.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 2268,
+      "sha256": "55f81a3119ffb8445bc98b327b383b3a59888a9d313107943813223c46471822",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/postgres_demo.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 9736,
+      "sha256": "3e4db439f8c9fa18abd45b0887cf6b30689098ab1e9146b667b98a3d214c50a0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/postgres_index.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 14510,
+      "sha256": "aca6c40f8ed8f28c97129256d87901501b65da22506c3e2cce9f2194dad95aaa",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/postgres_ops.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 5943,
+      "sha256": "d8bcabc41c161dfc8616fa0114377068406d878491b3630af8061e07e447f04a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/provider_config.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1019,
+      "sha256": "16dde7752eb2998b79f26fbb940f03d01ebb723688c55a73b75be65acf19283f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/schema_v1.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 2383,
+      "sha256": "72c36e428375bbf85a542e7ef1442071592faf35ace6e8c0d68a7e0cd1f1997f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/service.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 23113,
+      "sha256": "46ec00f9a7af8a7fe7f4c0b89eaa2882ea6fd2266428f2c9dc8c91508f6406c5",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/v3_schema.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 2045,
+      "sha256": "f952cf90b9fccb78b064cd0ad446945bde620d6f74ed8769157163003aa9eb50",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_demo_flow.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 11281,
+      "sha256": "43005cd0842bb85e3110991ff157d9ad9050a49e52b800f22ec4792ce45277ce",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_postgres_api_integration.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 25827,
+      "sha256": "26bcaa0eb6e24270eca215ab97d584f93bd3b60c75a1f9c14da71a6dad49b99b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_turn_api.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 26687,
+      "sha256": "060b0e34f82503d967c2444404974c3de4386f022a390bcfb1467b4a782683a0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1006,
+      "sha256": "4959252bb024e10047d45f5f38e3f6e9785d61ac2cea5629ba3e93638d0c345c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/src/generated/api-contracts.ts",
+      "status": " M",
+      "previous_path": null,
+      "size": 8047,
+      "sha256": "a6fb00994b60631b2b280dd8acf82d7ac549dc7c28a6b9b0111ce859825ef6cb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/src/generated/ops-client.ts",
+      "status": " M",
+      "previous_path": null,
+      "size": 1633,
+      "sha256": "7703759aa9f0befd9e177ccc1313af6bf274d633a7ec61bcc062750e3f9313ec",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/src/views.tsx",
+      "status": " M",
+      "previous_path": null,
+      "size": 17422,
+      "sha256": "fa61c29592a543983ef048ceadd5a8b7166b337569e7eec158a875614724fb4d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/vite.config.ts",
+      "status": " M",
+      "previous_path": null,
+      "size": 342,
+      "sha256": "38e5a76524300fdc47240ba577b9b6d27f8050dd5cc966565ba9425c5a564a6c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/worker/src/ragcommerce_worker/persistent_demo.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1692,
+      "sha256": "c7e345e30a779663e0dcf19264a339b20a1ecad2f6eaaa30499097aab8a26199",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/baseline/V3-AGENT-FIRST-BASELINE.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1867,
+      "sha256": "96e864406f2b465b1edde842424e1bffd3ef82e6e9d24915adbf5f713d458959",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/demo/V3-FIVE-MINUTE-DEMO.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 2968,
+      "sha256": "f3967373403e818a6b42abcb9446252f981db21b0226e128cafdcf85c75c0f17",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/demo/V3-SYSTEM-DESIGN-INTERVIEW.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1748,
+      "sha256": "8495f41611874f8ded48c33e07343f2337d7f9ac0644b91520c8ac412ea73f65",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evaluation/V3-DEMO-RETRIEVAL-REPORT.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1395,
+      "sha256": "559cf99fa0e817b0d5a1e07dbffb3052e0a7ae16e5d27197e898d3f4c05f0184",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evaluation/competition-report.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1246,
+      "sha256": "e7433427e0580a5fe164082f7ca0bea2ee58be4b4c16ed8e4eeae17313668406",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evaluation/human-review-rubric.md",
+      "status": " D",
+      "previous_path": null,
+      "size": null,
+      "sha256": null,
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evaluation/methodology.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 2972,
+      "sha256": "6c074416e5cf69de2d49e51f1297d70790f43e1d95ee08d425152a47bda85e70",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/live/readiness.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 950,
+      "sha256": "f766a17c194e3fc8b065ba7ef71b219574ba864dc495f6961f604f7b83a67b69",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/release/release-gate-matrix.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 759,
+      "sha256": "211de90e4d2105673b70e2ecea5dce7655a9a2ab0f158b3f0427b1e609f65bc9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/security/evidence/license-report.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 5914,
+      "sha256": "760b1f22192e586a7904bf09e5e87e4e28d6015ebe1d2a5a95f42e5257c482cd",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/security/evidence/sbom.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 69639,
+      "sha256": "3a7e84f0b96b51d92e8652235d189673e231e3369484539fa40180847c61d3dc",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/security/evidence/security-gate.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1488,
+      "sha256": "46f7e5d3cba85a4b7030aca59e046530285282c83be85de7d6b6d8fe9301206e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/manifest.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 18595,
+      "sha256": "8bc7fa7423fe4e93c8e1a7dfca15903c45ecad0348e3421b7f6d04a617e51e73",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V2-EVAL-01/TASK.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 2078,
+      "sha256": "01c2f57ff9826344c0fcc5394b127cfc01e6ff86e7a408a3373968a805d706c9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V2-EVAL-01/data.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 822,
+      "sha256": "bfb37eb004d11f0c1c73d596c0032539d88dbb8220a1b519b68e3c2bcc45b2f2",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V2-EVAL-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1472,
+      "sha256": "e174e855d0c4306270432131a37e0da9d83213ad1b05038ca51eb52a9eaa236b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V2-EVAL-01/pitfalls.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 439,
+      "sha256": "d7e7b423102c75ece3105bdf08c4350b86f7cc2735c0d54c7766cff0c91c0d20",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V2-LIVE-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1280,
+      "sha256": "b95be36a482168ed591e812bf4cad9a5210ae29cfbfe4486c4ed49ba83674afe",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-DEMO-STORY-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 2270,
+      "sha256": "3ba81654b6745ae762fd8f387640abbb5ec2ecea340c67cb1e3d19c8eaccec9a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-PRODUCT-CONTROL-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 511,
+      "sha256": "5a7378a6fd5d15ab6ea06f1ab773479301c80483a81671606ab0dc04c8dfd5d9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-QUALITY-01/TASK.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1265,
+      "sha256": "55c168527ead30cbe12e582d405e761dcce76ce41ed5bec35c24a3a0dbf08643",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-QUALITY-01/data.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 551,
+      "sha256": "2610fdf4ff101bbf16bd22491a0d5fa14d1e53f3475978995777498e6eb874e1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-QUALITY-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 745,
+      "sha256": "b7a6425b4fcdf7ca0c5674d323748b45e50db574523152ccdbf2c030a5f91e8f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-QUALITY-CONTROL-01/data.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 494,
+      "sha256": "d9734ccaec59362b182cd5cbc62038588ebe59726db244dec19a6661bc58be5e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-QUALITY-CONTROL-01/evidence/verification.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 508,
+      "sha256": "d6fb70371ce54e60db240a83ff1417ad1703d93b43c7ba2a04e36a37a2765a33",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/shared/business-data.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1686,
+      "sha256": "abfe3dbb8229eae71e1694e62d73112ed660367d26b9c41b3dcf9e607bfe755c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/agent/fake-trace.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 3042,
+      "sha256": "64b7a38b6d3d12f60c6328c49b0e6c31452d4fab0a3f584d978d6a63df621eb0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 906,
+      "sha256": "486630a8700bbebb01f695b8b12f24012e0c062ef02b77bf0e8ebc94d3db53a3",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/case.schema.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 2822,
+      "sha256": "f649732e1966e9c91e6eec9feebe6894dd67a3b1034c94b815bf73c434e55d87",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/heldout/human-review-status.json",
+      "status": " D",
+      "previous_path": null,
+      "size": null,
+      "sha256": null,
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/heldout/review-queue.v1.jsonl",
+      "status": " D",
+      "previous_path": null,
+      "size": null,
+      "sha256": null,
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/manifest.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1279,
+      "sha256": "25b59731585a86ea051c8b6416916824edc48fcc5d752fe5960b5e41af12d0b5",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/public-cases.v1.jsonl",
+      "status": " D",
+      "previous_path": null,
+      "size": null,
+      "sha256": null,
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/results/deterministic-reference-cases.jsonl",
+      "status": " M",
+      "previous_path": null,
+      "size": 530250,
+      "sha256": "dd8d1955137ae7c33034965ff168d2f9f168977cc966d5e8bfaeb34130ea55c4",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/results/deterministic-reference-manifest.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 981,
+      "sha256": "73705928279616036c8e6324a2f0d38df2f5bccb54e9dc1be5962fd2f2b748b7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/results/deterministic-reference-summary.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 13639,
+      "sha256": "aaca7908e0ba6a8775681a9b44b9227a6573b36c1da201774d71ff1ae5acda33",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/seed-audit.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 165,
+      "sha256": "b45bb6bb5ba591d19355b4ef803d807e22d7971f92ac31e016d9845017bc6d8b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v3/ablation-report.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 975,
+      "sha256": "de086edea8fb9fd11636dedec44360b86595dd01e25edaf54be73c1267353803",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v3/golden-scenarios.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1800,
+      "sha256": "a7a96403751a51e0e6918efbba189171c3316030741dfc718eb05bec5ff62baf",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "package-lock.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 59481,
+      "sha256": "0cc4ef7a9a2986395ec4b721127482533307b8e6b2c25759fa8023f62cc262b7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "package.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 914,
+      "sha256": "aa418a7af60cc19932e6b653f7ffb7b0a5db954ef625677c1d509da9ab8c6e30",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/__init__.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1528,
+      "sha256": "32a2bf1f87d376157ed2c730ef7c64963d2536219217ba3aff9fb1a6962b7217",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/contracts.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 4289,
+      "sha256": "52e70b3d06dfe965c01c0b89267d466f80854b30569d3362f41a3fe5c4283173",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/model_provider.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 18048,
+      "sha256": "9f6019ce7441fc61fcb1f4255d7dc31e342d593c02f03ff57c284215a333f631",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/runtime.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 17028,
+      "sha256": "e9a2bbf1bfb4b26f6868afa9abac94d2cfef8d41ecf8bbe2f552b59f616f40f4",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/tools.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 3964,
+      "sha256": "0574f81cf9aab1217e4a9837c0c9bac79c451df0e5c05ed345748a5fe22ade1c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/tests/test_model_provider.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 13757,
+      "sha256": "9bdaa03a508d59cea8da47229c357f1b6289546216848246614bf25b365a67dc",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/tests/test_runtime.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 15509,
+      "sha256": "cae37add9ac317abac7fc6f526ee9e486480b98153d56dacd9b1660d4b4e1997",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/connectors/CAPABILITIES.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 1134,
+      "sha256": "3b08aaf862d3f9024ff3dff1bef6b60acfce8b45041ca1701fb9b4b4f813e577",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/connectors/README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 785,
+      "sha256": "b1cb6c31108eee0407e5cdc917bcc037bf165fb1eb21036b7d1c385eb5b003a5",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/connectors/src/ragcommerce_connectors/__init__.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 833,
+      "sha256": "234cfcd71a8937833f507545667dbf2d9291076e2623bb318ae7110a86a64a13",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/connectors/tests/test_connector_contract.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 6737,
+      "sha256": "c19e85d20799ffac6dcc6a47796cab5495760f33f2b55b1a050cbe8d6bba66af",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/contracts/agent/tool-registry.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 5826,
+      "sha256": "e4551c2129b96b6b92183975a71cbc56df3b4a9c4ddd5048610e380c85ec631a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/contracts/generated/python/ragcommerce_contracts/__init__.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 8325,
+      "sha256": "b5a028eb7845efbe2dff75f696e1e2fc2c65cb79054d7da0eddbc847eac51fc8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/contracts/openapi.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 101244,
+      "sha256": "a0e67a36c6f8b961f9f1bfb336e9d316860a7e67b850f9d9ce4d2e478402e58f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/README.md",
+      "status": " M",
+      "previous_path": null,
+      "size": 443,
+      "sha256": "dc5dea7b3061a7e7f6289d04439539bbd8fc54b646dff490ee1939039f15c97d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/src/ragcommerce_evaluation/__init__.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 436,
+      "sha256": "0077336f1eda4f57569a1fa611c83b2633920fadf6dede3ac330344a6e852dd9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/src/ragcommerce_evaluation/graders.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 6596,
+      "sha256": "2ceb8a1b455f34df93369c7e35a112bdd940619b8ffb060749e67401663cfab6",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/src/ragcommerce_evaluation/model.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 3807,
+      "sha256": "0f024316d4dba7e6dbb695cbbfcaec8c793d5912888da8756836b0eccefcd816",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/src/ragcommerce_evaluation/runner.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1327,
+      "sha256": "51bbbef0d7d7a7064c06e0e2a73af5f51263c9a94c265ec6afc5c027a9f5d6d8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/evaluation/tests/test_evaluation.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 4215,
+      "sha256": "eb34e9c1215361f64b7a0c488d3f66216225664b66e80ecc890e2109e8606997",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/retrieval/src/ragcommerce_retrieval/__init__.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1618,
+      "sha256": "58f838ab50d4152e128a6d9c7d488c4bba5b51cf8b98b58ffbd8d6e0c3313e99",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/retrieval/src/ragcommerce_retrieval/semantic.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 15672,
+      "sha256": "0978bc09d0ccbe49c92f312a9ec6b6e1a27b99a988fe10269b804517590979eb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/retrieval/tests/test_hybrid_semantic.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 5180,
+      "sha256": "b435c89b94c28aa9513be35844f7a06207faf5ba6bc81bbe3332043d7a3e8c15",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "pyproject.toml",
+      "status": " M",
+      "previous_path": null,
+      "size": 1570,
+      "sha256": "4e32455ea642c311a4ad6621bc0db4a12de2dc885f56186a8313bd4b8a4e3ba7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/bootstrap.ps1",
+      "status": " M",
+      "previous_path": null,
+      "size": 1066,
+      "sha256": "f14a9577c2d0b01a8a27890d3d10d1b36773505af20f3bbd0bd17d47ff27972a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/check_ci_policy.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 1774,
+      "sha256": "44384b4bbb2a16e08e081d0cf03c44a0074a0b798e15c0595e62545141533f16",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/generate_competition_eval.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 13786,
+      "sha256": "af83c1e9694c7b12faefb2bb14913641730c4163104cc2db3491bf368f072d7a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/generate_contracts.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 27573,
+      "sha256": "da74d0499841545ce00ae4594e355e4c2b267b42cc52bad5f194b27f260d6d19",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_evaluation_ablations.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 4430,
+      "sha256": "7eb30fbb563e6097913d1499b0b8f44c9beb6c4a4abce2e8dc744e72b149b534",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_evaluation_baseline.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 6191,
+      "sha256": "8c39f018afe73415e4933e3782e5e3c1321a3ebeb5db4037eb63ca6178082688",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_real_model_evaluation.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 9960,
+      "sha256": "fd540549cdd992c78c13ea79ea857ba13f7d3537fcc06b1cfb97a77d2ede7c16",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/security_gate.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 7149,
+      "sha256": "9789da232a82d21d489a0a7b53c6353a54320687a4a29ee4a6059dbff43ce8e4",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/start_v3_demo.ps1",
+      "status": " M",
+      "previous_path": null,
+      "size": 3899,
+      "sha256": "c570aec8921c3990c3c52609bc69bd9ec21a3907ef2e1b56ed3bcc769332c8c0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/summarize_human_review.py",
+      "status": " D",
+      "previous_path": null,
+      "size": null,
+      "sha256": null,
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/validate_evaluation_suite.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 4306,
+      "sha256": "ec4f096a9a1f9c2efba4ac39b4cddc1232ca3cb36b6f97305cf07ee8fc328e72",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/validate_task_packages.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 16527,
+      "sha256": "b31c908a2aa1c1eba62f1a2b7888a13f8776635d4a7ad747d2663a2b4812c87f",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/verify_local.py",
+      "status": " M",
+      "previous_path": null,
+      "size": 4093,
+      "sha256": "d836db46c51d5889e80f03e2509e954b2ff31ea4465359ce7407626986d2751b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "toolchain.versions.json",
+      "status": " M",
+      "previous_path": null,
+      "size": 1088,
+      "sha256": "a18c7690362bdc434d0372e475e12fafcc17d263410ee4d22b62d60167db12a8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "uv.lock",
+      "status": " M",
+      "previous_path": null,
+      "size": 186475,
+      "sha256": "ba6dd2259fbdf6a289d82424734b12242d830e68587e539f6c427787fa3a08e8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/androidTest/java/com/ragcommerce/agent/EmulatorRecoveryApiTest.kt",
+      "status": "??",
+      "previous_path": null,
+      "size": 2297,
+      "sha256": "a1b4c412a1d9313418e7caa3aa6768e309f2b7d295731db83c845ce06687284c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/androidTest/java/com/ragcommerce/agent/ExplorationApiTest.kt",
+      "status": "??",
+      "previous_path": null,
+      "size": 3805,
+      "sha256": "9096f498ef9903fc36f2334919296067d888527afe9be8cf13cd3b6defcd1e0a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/android/app/src/test/java/com/ragcommerce/agent/ExplorationTest.kt",
+      "status": "??",
+      "previous_path": null,
+      "size": 2070,
+      "sha256": "3dbe6ffff809c8f22dc0a296015f20b5ecdc7b343a0b5c0e4ca3f60f2eebc7d7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/versions/20260923_0008_mission_version.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 710,
+      "sha256": "991ea6c824ed9d6e0048482c2c707b98b285467bf8c970965bd230bdecfc5144",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/versions/20260923_0009_watchers.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 887,
+      "sha256": "7261e8cd0e26f61f1466d5bfc318e5b00683b90f14a911e4c1f2789beeda42a1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/versions/20261008_0010_tool_receipts.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 574,
+      "sha256": "0e1ac3531685c8805c2957bc0b8e5d00df0dc7882331200d219ffcf72df147a8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/migrations/versions/20261009_0011_exploration.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 529,
+      "sha256": "aedee6131a9257d65033195204374e6696024a124d5f4954e81a8c4f81ee68c1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/exploration.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 5370,
+      "sha256": "50ff22f0329c4282a332347a40b2aed19e42fc7af186eee7d1ac2e655eb623a1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/src/ragcommerce_api/retrieval_config.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 1846,
+      "sha256": "04c253d24f4bfc71c21ae3def19eb2b14d137b2a486da97d88ba5de9404dfbdc",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_exploration.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 7226,
+      "sha256": "53231121aedab9dd88756c03f079ddd69dfd1ab4f0bcf39ea6b9c3206fcdb8ca",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_provider_config.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 530,
+      "sha256": "619527ccfae08726317a0b59fb23ec5d6718cdf081053203a5c955ac452661e5",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/api/tests/test_state_consistency.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 7333,
+      "sha256": "3d1e50c09e709631e2c4779c831dc63fcbb3a08842934ca245e3d48166314178",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "apps/ops-web/e2e/ops-runtime.spec.ts",
+      "status": "??",
+      "previous_path": null,
+      "size": 6637,
+      "sha256": "024cec37abdb819521dd22dce4d98cabb4dd20989b1815508fe32d085d61da52",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/defects/V3-ANDROID-AGENT-UX-BUSINESS-AUDIT-20260922.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 14475,
+      "sha256": "0d777da384eeeda7cfce3876323df79fc782df14f5d973749e3107ba97fc54a3",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/defects/V3-CAREER-CLOSE-20261008.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 3770,
+      "sha256": "d4619b2bfe707e2acdca04628bde5c4a6f81a6b416ea5cd04748bcf32d533d39",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/defects/V3-MIMO-REAL-RUN-011-ROOT-CAUSES.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 10003,
+      "sha256": "3f2d7cb00808a98abdc8b5d770dc8f8e58d397274f5c9018f4f72f72658dccf3",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/defects/V3-REAL-ACCEPTANCE-20261002.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 3897,
+      "sha256": "f6e91f0fa4f18aac7993564f372a1dcc38bad46e253e3249067d52b1f00ba7bc",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/defects/V3-STATE-CONSISTENCY-AUDIT-20261002.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 6516,
+      "sha256": "004710e3ee8087c148089a68e253c617aae8a1a67f11858f3e54aae2d20eab93",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/android-real-use-reasoning-20260922.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 16069,
+      "sha256": "06b80ebfc0307a3fa26423c9366c992245f9b5aa3bd6a930816734e2a32a4a2d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/c7-real-use-acceptance-20260923.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 2584,
+      "sha256": "47fe5234207ea393a9464986c2835d9f6216f401357c3530d523ac3e47a2c481",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/career-close-docker-followup-20261008.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1800,
+      "sha256": "e7ee626998f42ce64a5a5b332bfb997792cfb76bcb82158db3d3b539919e3563",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/career-close-golden-20261008.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 11966,
+      "sha256": "d61dce3e5918640994a5985c2741362e0249457281b78ff6184d024dc00f6b16",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/career-close-specialized-20261008.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3192,
+      "sha256": "7d2870c0a140ad777ba40e7030886faa1ec5926006631ec9efbda3ab735ba8ef",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/local-bge-durable-e2e.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1382,
+      "sha256": "94311ebd1a9b0fa36c7df38090cf3a4129cb5fd9177e2de2a2f1edfe381b381d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/local-bge-small-zh-evaluation.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2385,
+      "sha256": "5f547752f07be488b446e4c6ee005d6c039f458a2e86041e756cf8167c608902",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-g08-retest-001.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 899,
+      "sha256": "2464138b3e44f7c7130fc50198909c99f23122e5d825b9cd8bc604995157cd4a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-g09-retest-001.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 884,
+      "sha256": "29dd582d3cdd9bd6894d0d0689b60d67d4422b7e72df34efe2ec43834fee79db",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-010.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 10367,
+      "sha256": "7dc426b2c33327ec4727a5e2028fdf91ec6fc5fa84b1f2d2d7920c3c8b6f87d3",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-011.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 10123,
+      "sha256": "122128db5a75ebcccd48c99620c10fac8403353e2736e955a797fc1393932749",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-012.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 12214,
+      "sha256": "789906fc01c91d2399468aecb447b96498780b192023e39729c696d75b56bd0d",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-013.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 12150,
+      "sha256": "a4ee2ffd6583aec540d0309080d9f62120c8e0bdd5178254560444f80a1a2cd8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-specialized-acceptance-run-001.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2621,
+      "sha256": "790eb1f701f82c12d0757355f26b6b34ceaeb3ebb5925ef9f9a7f799ff295d92",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-specialized-acceptance-run-002.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2606,
+      "sha256": "37577cd531ee68eac3c277b4098bfc1fba93ad7a40374f7d7b905d1dac7aadcb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-specialized-acceptance-run-003.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2600,
+      "sha256": "8a111a8479787ec486f37fd7222a0d72f39fa05e1874c426686964a6d9eb2d20",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-specialized-acceptance-run-004.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2682,
+      "sha256": "3cb5d7cce6776ff73ab97107bf5533ff91e82854ae9598c39bdc6929787970ac",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/mimo-v2.5-specialized-acceptance-run-005.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3193,
+      "sha256": "7e39639e8f64a8485cc3afee39f559d71bc46aebcde9b50e01d211ead492b604",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-android-batch02.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2570,
+      "sha256": "3e4b84d86a20a63d669ac738e797b86ccb9df15e123eed696d2437cc308839cd",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-emulator-batch06.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2188,
+      "sha256": "20692dc7847efdfd84ba727eeebedc282373d3b7d2c52418c11204a7cbe03155",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-exploration-batch07.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 6015,
+      "sha256": "83c7366fad79b3f5cef76d174820125d9c28a150f81f53ef6657294f42dc3bd5",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-mission-batch04.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2113,
+      "sha256": "a46e93ad24a70d51340a3dc5ee15c2255f9d68108280ba449b1b6192ca52bcdf",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-postgres-batch03.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2009,
+      "sha256": "0cbd39d4f8bbf7098de10d944bd028bfec9b1978ef0a5c25c29bbf2a3b0a0eb7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-receipt-batch05.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2004,
+      "sha256": "ef3c44a09ac767c5b70fee018915f699785988f3ac1a14ee3c2ba4e7148f3cb9",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/evidence/v3/stage08-state-batch01.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 3099,
+      "sha256": "3ef4d2d7a3ce230cec743bcb52af6dd0575a224e0e136a831d2e7cbe94bb6d1a",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/plans/EXPLORATION-CLOSE.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 1550,
+      "sha256": "7c411b28e38c01909f93217e5e2fd4c37eb5dfb2c9f95dc9ff628d6803c7f11e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/plans/v3-complex-commerce-repair-plan.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 9433,
+      "sha256": "e0288148a1fa5b9609551bea463d27bf912b4c8c9aea2711e99c32196d5e9172",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/project/V3-agent-gap-fix-plan.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 6134,
+      "sha256": "c97610596a8bdadaf6b13924437212208260b94e93c39ae2437b87a47979e184",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/project/V3-agent-gap-fix.xml",
+      "status": "??",
+      "previous_path": null,
+      "size": 23358,
+      "sha256": "de9ea39cb2fc63b39ffdd44631c6e5605bc53cd3834e0ae07d920b5ef1701c69",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/project/V3-agent-priority-fix-steps.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 8629,
+      "sha256": "f942c18c612a3caf89aae144f5a17f4c553ca045f7abf56f8cdccd745d117588",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-ANDROID-UX-CLOSE-01/TASK.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 9000,
+      "sha256": "a9ee1b9704c8e7a400806699c6f3624322fa692fb74b3559c98f74086d94de73",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-ANDROID-UX-CLOSE-01/data.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2017,
+      "sha256": "62d04cb5c660c1957c13d41859934a4e23b32ae86070ceb14865abffe76f4e84",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-ANDROID-UX-CLOSE-01/evidence/verification.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1453,
+      "sha256": "a1d2f9065ee9a7db29e46eb057a2ab9fee4e579e1c4bb850303244c9bc9a5a63",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-ANDROID-UX-CLOSE-01/pitfalls.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 869,
+      "sha256": "7f1468942bb229d159e735c9befc4a44accbb83125b9ac1ef7f048733ec5d2e7",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-CAREER-CLOSE-01/TASK.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 4837,
+      "sha256": "84857f3a0ce4a146f9556a4140c45d39909f076ebcc519975713e6e54029c857",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-CAREER-CLOSE-01/data.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 879,
+      "sha256": "584b4d6537de4e0176b978af35a32dfc72c0a6d6eeee83cccb8eaa33bac75a20",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-CAREER-CLOSE-01/evidence/verification.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 5091,
+      "sha256": "f0b00ebbdaf0f3c30cc3488fb7e2c2bfdaaccfe65dfc7c617d72f03bc7a55e7e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-CAREER-CLOSE-01/pitfalls.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 344,
+      "sha256": "05f4376c76fc35805a176bf64d6966607242445f553ce79f471abaf7d5c25523",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-DEMO-PRICE-01/TASK.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 2841,
+      "sha256": "3a7a0e708052aa476a75527e403af941f8db179624863197e27ae0d361ad490b",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-DEMO-PRICE-01/data.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 1010,
+      "sha256": "cb752379feb6057c927cd62b586bfec50eceb9a98a99bdff1da80a63c6a6aadb",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-DEMO-PRICE-01/evidence/verification.json",
+      "status": "??",
+      "previous_path": null,
+      "size": 2240,
+      "sha256": "3316ca26b0dd0e5db0f3dae8debaa4c69dad870e00e3e634146daef9c246e6b6",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "docs/task-packages/packages/V3-DEMO-PRICE-01/pitfalls.md",
+      "status": "??",
+      "previous_path": null,
+      "size": 599,
+      "sha256": "20ce1d1af4ae3b879b5e0565243cef8e27a1197120e1d7ddf5e73a1a31a9e0de",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "e2e/agent/agent-business.spec.ts",
+      "status": "??",
+      "previous_path": null,
+      "size": 10496,
+      "sha256": "06f4d9aa7dfc6a93e7239704cdb338a28bb0f1d37b033ffd58ce1f2c6c07fbd8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "evals/v2/cases.v2.jsonl",
+      "status": "??",
+      "previous_path": null,
+      "size": 885975,
+      "sha256": "7edb2c1e3c1ca28f2187267f52c3fcb84c1bf0d6fa2109da5ccbda11c2392444",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/src/ragcommerce_agent_runtime/mission.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 2962,
+      "sha256": "fcf380ab236d32613e700f44b370e69fe42ff84ab314e07811aa496f7796594e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/agent-runtime/tests/test_mission.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 2460,
+      "sha256": "df5bcb29b63de76a2122da0a14e09bd71618203e8b6629f4aaa94844495c1fea",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "packages/connectors/src/ragcommerce_connectors/gowu_demo.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 4962,
+      "sha256": "a13f1ec44fc6e61c0d687dae5a217564781fdd64c23f82c992be116a19b9f05e",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "playwright.agent.config.ts",
+      "status": "??",
+      "previous_path": null,
+      "size": 946,
+      "sha256": "6ca353e1270bb9ccd49afcf5c60f26e4350787ba6f17d0ec399f90f9a55b4ee0",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "playwright.config.ts",
+      "status": "??",
+      "previous_path": null,
+      "size": 1472,
+      "sha256": "f24d7355c6c77df46e03ae3acd6f9511e7ce74ab1290a0629b290a4ba00b59f8",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/android_recovery.init.gradle",
+      "status": "??",
+      "previous_path": null,
+      "size": 309,
+      "sha256": "2d087fc861ff056200c706ba9c98aab0fec8e3b190062ed024a7be8da82803e1",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/build_v3_agent_fix_project.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 9870,
+      "sha256": "d8c0695b22d51283c9753aa7b51513baeb28b124722c1830dcf6a68657b8d118",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/capture_portfolio_baseline.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 2759,
+      "sha256": "433aa5db0eaa3d7def6d47546d651aa84320cf8ef3882d3cfd079a15cd492e76",
+      "content_excluded": false,
+      "ownership": "FINAL_self"
+    },
+    {
+      "path": "scripts/check_gowu_demo_prices.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 2205,
+      "sha256": "e607bc941f6c65451d3f64a819ffa1a3be1374edea1e84740984a06a3737bece",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/emulator_recovery_backend.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 1489,
+      "sha256": "885e3c39f4a54c46d921a979571d5127a532245a8b656babdbfee259b25bd928",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/prepare_local_embedding.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 428,
+      "sha256": "55f7e14b7b5d2d71c43171aff9c8058f05b4459070894a9955fadfea93092e16",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_local_embedding_acceptance.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 4997,
+      "sha256": "e8d0c4b4d1c9cdda23687f8d6212b75a56867b8ac8619ab4a5e496422751cc39",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_mimo_specialized_acceptance.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 10070,
+      "sha256": "e28ff7703f8ab4dc4beb6a36fb72a6013249303e444ad49ea8883a18040b5a1c",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    },
+    {
+      "path": "scripts/run_v3_durable_load.py",
+      "status": "??",
+      "previous_path": null,
+      "size": 4928,
+      "sha256": "5bf90200004d5f5cefbde61764071142150ed458810ec51ba76c4f9f03f874fd",
+      "content_excluded": false,
+      "ownership": "pre_existing"
+    }
+  ]
+}

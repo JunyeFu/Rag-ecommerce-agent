@@ -1,0 +1,1633 @@
+{
+  "date": "2026-10-21",
+  "scope": "Six declared Android decision-capability paths at default and 200% font; native UI + real HTTP/PostgreSQL with explicit fake Provider",
+  "native_paths_status": "PASS_SCOPED",
+  "mimo_calls": 0,
+  "new_real_model_tokens": 0,
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "PUBLIC_RELEASE": "NOT_PERFORMED",
+  "COMMERCIAL_RELEASE": "NO_GO",
+  "environment": {
+    "avd": "Pixel_9a",
+    "serial": "emulator-5554",
+    "android_api": 35,
+    "adb_server_port": 5037,
+    "font_profiles": [
+      1,
+      2
+    ],
+    "original_font_scale": 1,
+    "application_id": "com.ragcommerce.agent.uxreview",
+    "api_url": "http://10.0.2.2:20882/",
+    "api_host_binding": "127.0.0.1:20882",
+    "database_port": 25433,
+    "database_migration": "20261021_0016",
+    "provider": "scripts.emulator_recovery_backend.ApprovalFixture / DemoProvider",
+    "runtime": "real API / PostgreSQL checkpoint and commerce stores; in-process background execution, not independent Worker capacity acceptance",
+    "qa_requests_per_minute": 600,
+    "production_requests_per_minute": 60,
+    "production_rate_policy_tested": false,
+    "ui_state_injection": false
+  },
+  "artifacts": {
+    "main_apk": {
+      "path": "output/android-ux-native-20261021/artifacts/uxreview-debug.apk",
+      "sha256": "253BBB75FF85FB0AE9B0290E1808FD9F9DF49C44D54371EC15CFD6FDFB2EF81D"
+    },
+    "test_apk": {
+      "path": "output/android-ux-native-20261021/artifacts/uxreview-test.apk",
+      "sha256": "466B7DB8F8C5A41CA588E085C42D822BF709947420DE7AF197ADACDE27859D95"
+    },
+    "note": "Isolated QA application/API20882, not the portfolio APK/API20881. All final selected cases use this same main APK."
+  },
+  "fixes": [
+    {
+      "id": "UXN-01",
+      "status": "fixed",
+      "cause": "A new offer.find reused an expired persisted demo quote; a visible product card hid a FAILED run with no offers event.",
+      "change": "New offer.find explicitly obtains a fresh demo quote. Cached read/restore expiry and manual requote boundaries remain unchanged.",
+      "paths": [
+        "apps/api/src/ragcommerce_api/demo.py",
+        "apps/api/tests/test_postgres_api_integration.py"
+      ],
+      "red": "PostgreSQL regression failed: offer is expired",
+      "green": "22 PostgreSQL integration tests passed; native tests now require visible terminal completion and COMPLETED database rows."
+    },
+    {
+      "id": "UXN-02",
+      "status": "fixed",
+      "cause": "Material3 surface-container colors inherited lavender outside the approved cream palette.",
+      "change": "Explicit Bone/Surface container tokens; no art-direction change.",
+      "paths": [
+        "apps/android/app/src/main/java/com/ragcommerce/agent/EditorialShoppingApp.kt"
+      ]
+    },
+    {
+      "id": "UXN-03",
+      "status": "fixed",
+      "cause": "At 200% font, selected-comparison header and nested summary clipped the secondary candidate Ask CTA.",
+      "change": "Compact one-line selection hint/title summary, Ask CTA outside clipped summary, compact selection label. Font scaling and vertical paging retained.",
+      "red": "c2-2.0-attempt1: Ask CTA not displayed",
+      "green": "Native checks assert displayed/enabled/clickable/unclipped bounds and exercise primary/secondary/tertiary paging and returning selection.",
+      "paths": [
+        "apps/android/app/src/main/java/com/ragcommerce/agent/EditorialShoppingApp.kt"
+      ]
+    },
+    {
+      "id": "UXN-04",
+      "status": "fixed",
+      "cause": "Local Room/DataStore pending-run snapshots could overwrite currentRunId/currentCursor and start a recovered observer while an explicitly accepted SSE stream already owned the run.",
+      "change": "Local snapshot recovery/approval takeover is skipped during explicit submission or an active stream; local list/consent data still updates. Actual cold-start recovery remains available when no stream owns the run.",
+      "paths": [
+        "apps/android/app/src/main/java/com/ragcommerce/agent/ui/ShoppingViewModel.kt",
+        "apps/android/app/src/test/java/com/ragcommerce/agent/ShoppingApprovalStateTest.kt"
+      ],
+      "red": "staleLocalRunCannotTakeOverAnExplicitlyOwnedStream: expected [current], actual [current, older]",
+      "intermediate_rejected_fix": "Moving run assignment only into stream-resume branch broke both existing approval tests; that intermediate fix was corrected before installation.",
+      "green": "46 Android unit tests passed, including stale-run ownership and both original approval boundary tests. Final native exploration requires visible completion before end-state screenshots."
+    }
+  ],
+  "harness_corrections": [
+    "Earlier native-only passes are not business acceptance; final cases require completed UI state and every current database Run COMPLETED.",
+    "Collector HTTP reads caused observed 429 contamination; final readback is direct read-only PostgreSQL, with a separately declared 600/minute QA limiter. Production remains 60/minute and is not rate-policy tested here.",
+    "Lazy-list offscreen nodes must be reached by actual parent/child scrolling, not waiting for an uncomposed button. Saved detail and archived history waits corrected.",
+    "Shared ADB returned 255 once before JUnit completed; the same invocation now leaves an on-device JUnit receipt. No test is silently restarted.",
+    "Compose PixelCopy produced blank/wrong-window images and one capture failure; final authoritative images use native UiAutomation full-screen captures after idle.",
+    "Exploration conclusions can precede the final SSE event; final C6 checks scroll to the visible completion receipt before capturing the conclusion."
+  ],
+  "known_gaps": [
+    {
+      "id": "UXN-05",
+      "priority": "P1",
+      "status": "open",
+      "title": "Cross-Mission waiting-cart presentation still depends on the active Mission quote collection",
+      "cause": "EditorialDecisionScreen derives waitingGroups from state.cartGroups. ContinueSaved starts a new ShoppingUiState; waiting data/quotes are no longer presented even though PostgreSQL cart rows remain.",
+      "paths": [
+        "apps/android/app/src/main/java/com/ragcommerce/agent/EditorialShoppingApp.kt",
+        "apps/android/app/src/main/java/com/ragcommerce/agent/ui/ShoppingViewModel.kt"
+      ],
+      "acceptance": "Add to waiting cart, continue a new Mission with no recommendations, and restart: the global waiting view must still present the persisted items or explicitly show unresolved quote references, never a false empty cart. No silent requote or expiry extension.",
+      "scope_note": "Final C4 accepts save/open/facts/explicit add/continue/remove and C4b accepts same-Mission restart. Those passes do not close this cross-Mission gap."
+    },
+    {
+      "id": "UXN-06",
+      "priority": "P2",
+      "status": "not_implemented",
+      "title": "Direct batch comparison of multiple saved candidates",
+      "scope_note": "ContinueSaved opens an independent task draft; this is not direct saved-item batch comparison."
+    },
+    {
+      "id": "UXN-07",
+      "priority": "P2",
+      "status": "partial",
+      "title": "Full Figma state parity, TalkBack, physical device and paid-provider scenarios",
+      "scope_note": "This run covers declared capability paths and 100%/200% font on one emulator, not all 14 design states, full accessibility traversal or real-model quality."
+    }
+  ],
+  "regression_checks": [
+    {
+      "id": "python_non_integration",
+      "command": ".venv/Scripts/python.exe -m pytest -m \"not integration\" -q",
+      "exit_code": 0,
+      "passed": 191,
+      "deselected": 35
+    },
+    {
+      "id": "postgres_integration",
+      "command": ".venv/Scripts/python.exe -m pytest apps/api/tests/test_postgres_api_integration.py -q",
+      "exit_code": 0,
+      "passed": 22,
+      "storage": "isolated PostgreSQL on 25433"
+    },
+    {
+      "id": "android",
+      "command": "gradlew.bat -I scripts/android_ux_review.init.gradle :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug -PapiUrl=http://10.0.2.2:20882/",
+      "exit_code": 0,
+      "unit_tests": 46,
+      "failures": 0,
+      "skipped": 0,
+      "lint_errors": 0,
+      "lint_warnings": 18,
+      "duration_seconds": 74,
+      "tasks": {
+        "executed": 24,
+        "up_to_date": 66
+      }
+    },
+    {
+      "id": "instrumentation_compile",
+      "command": "gradlew.bat :app:assembleDebugAndroidTest (same QA init/API profile)",
+      "exit_code": 0,
+      "duration_seconds": 7,
+      "tasks": {
+        "executed": 6,
+        "up_to_date": 48
+      }
+    },
+    {
+      "id": "contracts",
+      "command": "export_openapi.py --check; generate_contracts.py --check",
+      "exit_code": 0,
+      "paths": 31,
+      "generated_files": 3,
+      "api_version": "0.2.0"
+    },
+    {
+      "id": "syntax",
+      "command": "ruff check --select F scripts/verify_android_decision_ux.py scripts/emulator_recovery_backend.py; python -m compileall -q (same files)",
+      "exit_code": 0
+    },
+    {
+      "id": "task_packages",
+      "command": ".venv/Scripts/python.exe scripts/validate_task_packages.py",
+      "exit_code": 0,
+      "packages": 49,
+      "errors": 0,
+      "warnings": 0,
+      "initial_reported_errors": 6,
+      "initial_cause": "Verification status enum and manifest external_gates drift; corrected metadata, not product behavior. Final check passed."
+    },
+    {
+      "id": "whitespace",
+      "command": "git -c core.safecrlf=false diff --check",
+      "exit_code": 0,
+      "note": "LF/CRLF conversion warnings are separate from whitespace errors."
+    }
+  ],
+  "evidence_policy": {
+    "historical_report": "docs/evidence/v3/android-decision-ux-20261021.json",
+    "early_failure_report": "docs/evidence/v3/android-ux-native-first-batch-20261021.json",
+    "all_attempts_preserved": true,
+    "fixture_is_real_provider_evidence": false,
+    "native_pass_rate_is_agent_eval_metric": false,
+    "authoritative_screenshots": "Only the final selected case/label paths below are authoritative; raw attempt folders can contain copies of older screenshots.",
+    "scope": "App/API/domain/DB integration with fake planning. No physical-device, MinIO/Qdrant capacity, paid-provider, release or whole-product acceptance.",
+    "auxiliary_capture_limit": "Auxiliary restart screenshots can show the compositor's previous transition frame. They are not curated or used to sign off a completed recovery view. Restart acceptance uses native semantic assertions plus independent PostgreSQL readback; only the seven reviewed core-state images above support visual claims."
+  },
+  "git": {
+    "branch": "main",
+    "head": "d670e291d263a6e4f0f041f9c74c6e0246cb854c",
+    "dirty_items_at_native_matrix_collection": 459,
+    "policy": "Existing modified/deleted/untracked user assets preserved. No staging, commit, push, merge or release."
+  },
+  "matrix": {
+    "main_cases": 12,
+    "main_passed": 12,
+    "auxiliary_records": 6,
+    "auxiliary_passed": 6,
+    "actual_dedicated_restart_checks": 4,
+    "auxiliary_preparation_records": 2,
+    "current_database_runs": 32,
+    "completed_database_runs": 32,
+    "note": "Six capability paths x two font profiles. C4a prepares saved data; C4b and C5b are the actual restart checks. This is not an Agent evaluation success-rate denominator."
+  },
+  "native_cases": [
+    {
+      "id": "c1-1.0-attempt6",
+      "case": "c1",
+      "scale": "1.0",
+      "raw_record": "output/android-ux-native-20261021/c1-1.0-attempt6/result.json",
+      "started_at": "2026-10-21T16:49:43.632167+08:00",
+      "finished_at": "2026-10-21T16:50:22.117883+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "ecbc7d92-a308-511e-8071-a37ac418fdc6",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "47133241-4eb1-5c88-81c4-148ba68492dc",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "aa68da02-0230-5fe9-b19f-ead12dfb70fa",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "1401ac90-4dd9-5d1c-908f-434f2d7be2b2",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "0d962a2b-3ef4-4a63-b441-6f7a564ed156",
+          "goal": "预算500元通勤耳机，续航重要",
+          "mission_version": 3,
+          "mode": "PURCHASE",
+          "feedback": {},
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c2-1.0-attempt6",
+      "case": "c2",
+      "scale": "1.0",
+      "raw_record": "output/android-ux-native-20261021/c2-1.0-attempt6/result.json",
+      "started_at": "2026-10-21T16:50:22.697859+08:00",
+      "finished_at": "2026-10-21T16:50:47.868945+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "ed1697a3-fed4-56db-a92a-429c95f21787",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "957259ed-5997-4b99-91ef-f1de030810af",
+          "goal": "预算5000元办公电脑，必须至少16GB内存",
+          "mission_version": 1,
+          "mode": "PURCHASE",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [
+            "063283d2-1809-51d7-9d6d-6933ec162d2d",
+            "2fefb78c-d64e-546d-82cf-dd3b0f0365f7"
+          ],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c3-1.0-attempt6",
+      "case": "c3",
+      "scale": "1.0",
+      "raw_record": "output/android-ux-native-20261021/c3-1.0-attempt6/result.json",
+      "started_at": "2026-10-21T16:50:48.482059+08:00",
+      "finished_at": "2026-10-21T16:51:13.927249+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "a02f8b74-9916-536c-980d-8d899722adc8",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "66f3a744-0a2d-5e49-93d9-b6af7c6b4987",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "c651791c-b4d7-4d19-b051-fe79201cb9e8",
+          "goal": "预算500元耳机，续航重要",
+          "mission_version": 2,
+          "mode": "PURCHASE",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c4-1.0-attempt7",
+      "case": "c4",
+      "scale": "1.0",
+      "raw_record": "output/android-ux-native-20261021/c4-1.0-attempt7/result.json",
+      "started_at": "2026-10-21T16:51:14.616858+08:00",
+      "finished_at": "2026-10-21T16:51:49.455772+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "3a8ed79a-4a4a-5458-8e42-1138a89212ef",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "0780a2c2-641b-45e2-8ba0-159a3824d7a5",
+          "goal": "预算1000元演示耳机",
+          "mission_version": 1,
+          "mode": "PURCHASE",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c4a-1.0-attempt4",
+      "case": "c4a",
+      "scale": "1.0",
+      "raw_record": "output/android-ux-native-20261021/c4a-1.0-attempt4/result.json",
+      "started_at": "2026-10-21T16:51:50.041461+08:00",
+      "finished_at": "2026-10-21T16:52:11.169163+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "5b29f9ef-ce10-5a39-8897-3833507deb09",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "3c4bde0c-3051-4ab3-a2c6-ed30cc272587",
+          "goal": "预算1000元耳机，原生保存恢复",
+          "mission_version": 1,
+          "mode": "PURCHASE",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "list_id": "b08d1d68-83c2-4b27-b36b-b2dd315f0922",
+          "variant_id": "87990147-944e-51a3-ba6f-340cad0515c1"
+        }
+      ],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": false,
+        "cart": true
+      }
+    },
+    {
+      "id": "c4b-1.0-attempt4",
+      "case": "c4b",
+      "scale": "1.0",
+      "raw_record": "output/android-ux-native-20261021/c4b-1.0-attempt4/result.json",
+      "started_at": "2026-10-21T16:52:11.728109+08:00",
+      "finished_at": "2026-10-21T16:52:31.689458+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [],
+      "affected_threads": [],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": false,
+        "cart": true
+      }
+    },
+    {
+      "id": "c5-1.0-attempt12",
+      "case": "c5",
+      "scale": "1.0",
+      "raw_record": "output/android-ux-native-20261021/c5-1.0-attempt12/result.json",
+      "started_at": "2026-10-21T16:52:32.377917+08:00",
+      "finished_at": "2026-10-21T16:53:04.527086+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "5a36ee38-4963-54f3-93cd-dbcaf1b0716b",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "bc35c517-e1b5-47cb-940c-aa86fa701554",
+          "goal": "预算500元耳机，UX历史任务756997",
+          "mission_version": 1,
+          "mode": "PURCHASE",
+          "feedback": null,
+          "archived": true,
+          "title": "通勤耳机 UX 756997",
+          "selected_product_ids": [],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c5b-1.0-attempt4",
+      "case": "c5b",
+      "scale": "1.0",
+      "raw_record": "output/android-ux-native-20261021/c5b-1.0-attempt4/result.json",
+      "started_at": "2026-10-21T16:53:05.207006+08:00",
+      "finished_at": "2026-10-21T16:53:28.805225+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [],
+      "affected_threads": [],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c6-1.0-attempt5",
+      "case": "c6",
+      "scale": "1.0",
+      "raw_record": "output/android-ux-native-20261021/c6-1.0-attempt5/result.json",
+      "started_at": "2026-10-21T16:49:15.441753+08:00",
+      "finished_at": "2026-10-21T16:49:43.02907+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "25ebaf97-61ed-585e-b898-c0b348cd6a88",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "420c8388-506a-591e-ba6e-9fe92ac297fa",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "5be81540-7ce8-58ed-a697-bf47293805fc",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "2d7c4186-d1cd-505f-ae42-049b04a0d643",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "615f4dd9-139c-5611-ba3a-54125fbeab26",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "9c67d85a-b2eb-5f29-97ac-85ebb7f7f774",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "0ae12d07-029c-4852-ac00-dd828d974dc4",
+          "goal": "随便看看: 发现适合自己的使用方向",
+          "mission_version": 5,
+          "mode": "DISCOVERY",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": true,
+          "exploration_outcome": "USE_EXISTING"
+        },
+        {
+          "thread_id": "1455f73e-c0cb-40ed-acd7-b1df65962f50",
+          "goal": "随便看看: 发现适合自己的使用方向",
+          "mission_version": 3,
+          "mode": "DISCOVERY",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": true,
+          "exploration_outcome": "NOT_BUYING"
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c1-2.0-attempt6",
+      "case": "c1",
+      "scale": "2.0",
+      "raw_record": "output/android-ux-native-20261021/c1-2.0-attempt6/result.json",
+      "started_at": "2026-10-21T16:53:29.444726+08:00",
+      "finished_at": "2026-10-21T16:54:10.424428+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "46c81217-73da-5396-99f8-f1afea693611",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "033d4c8d-fc21-54e7-9c22-1e322b8a5c88",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "53e88433-6d5c-5d83-b0a3-7578a5a1c054",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "18084dd1-f2fe-5e10-ad30-381afb73403a",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "6396fdf3-b14d-457f-afaa-74467cc33f9d",
+          "goal": "预算500元通勤耳机，续航重要",
+          "mission_version": 3,
+          "mode": "PURCHASE",
+          "feedback": {},
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c2-2.0-attempt4",
+      "case": "c2",
+      "scale": "2.0",
+      "raw_record": "output/android-ux-native-20261021/c2-2.0-attempt4/result.json",
+      "started_at": "2026-10-21T16:54:11.018389+08:00",
+      "finished_at": "2026-10-21T16:54:34.610294+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "7296c346-4da9-5eb7-b7f6-10b0a48a57d4",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "15590843-ac6d-45f2-b004-5accb05b3953",
+          "goal": "预算5000元办公电脑，必须至少16GB内存",
+          "mission_version": 1,
+          "mode": "PURCHASE",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [
+            "063283d2-1809-51d7-9d6d-6933ec162d2d",
+            "2fefb78c-d64e-546d-82cf-dd3b0f0365f7"
+          ],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c3-2.0-attempt3",
+      "case": "c3",
+      "scale": "2.0",
+      "raw_record": "output/android-ux-native-20261021/c3-2.0-attempt3/result.json",
+      "started_at": "2026-10-21T16:54:35.235137+08:00",
+      "finished_at": "2026-10-21T16:55:03.231916+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "04cdb8dd-5463-579a-bcec-0779de6e4cde",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "29127df7-d6c1-53e3-8f10-ebe7461455e2",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "d12a3fe3-a053-4682-a042-a02104f4119d",
+          "goal": "预算500元耳机，续航重要",
+          "mission_version": 2,
+          "mode": "PURCHASE",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c4-2.0-attempt6",
+      "case": "c4",
+      "scale": "2.0",
+      "raw_record": "output/android-ux-native-20261021/c4-2.0-attempt6/result.json",
+      "started_at": "2026-10-21T16:55:03.926908+08:00",
+      "finished_at": "2026-10-21T16:55:39.116769+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "ac51f3f3-b8de-51bd-8617-2aa0e1102e68",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "92881a10-b550-48a7-8f37-0988747beef5",
+          "goal": "预算1000元演示耳机",
+          "mission_version": 1,
+          "mode": "PURCHASE",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c4a-2.0-attempt3",
+      "case": "c4a",
+      "scale": "2.0",
+      "raw_record": "output/android-ux-native-20261021/c4a-2.0-attempt3/result.json",
+      "started_at": "2026-10-21T16:55:39.735275+08:00",
+      "finished_at": "2026-10-21T16:56:01.299624+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "94d6c8e9-c646-5675-8d22-256758d043bc",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "e18d5026-6aab-4291-943a-c0293e350a67",
+          "goal": "预算1000元耳机，原生保存恢复",
+          "mission_version": 1,
+          "mode": "PURCHASE",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "list_id": "b08d1d68-83c2-4b27-b36b-b2dd315f0922",
+          "variant_id": "87990147-944e-51a3-ba6f-340cad0515c1"
+        }
+      ],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": false,
+        "cart": true
+      }
+    },
+    {
+      "id": "c4b-2.0-attempt2",
+      "case": "c4b",
+      "scale": "2.0",
+      "raw_record": "output/android-ux-native-20261021/c4b-2.0-attempt2/result.json",
+      "started_at": "2026-10-21T16:56:01.896245+08:00",
+      "finished_at": "2026-10-21T16:56:22.626305+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [],
+      "affected_threads": [],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": false,
+        "cart": true
+      }
+    },
+    {
+      "id": "c5-2.0-attempt3",
+      "case": "c5",
+      "scale": "2.0",
+      "raw_record": "output/android-ux-native-20261021/c5-2.0-attempt3/result.json",
+      "started_at": "2026-10-21T16:56:23.32911+08:00",
+      "finished_at": "2026-10-21T16:56:56.761042+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "0b45644c-6a4b-52b4-9847-8eff0d461028",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "d7e1fcb4-5510-4959-936f-1fc7c5b9dd32",
+          "goal": "预算500元耳机，UX历史任务987661",
+          "mission_version": 1,
+          "mode": "PURCHASE",
+          "feedback": null,
+          "archived": true,
+          "title": "通勤耳机 UX 987661",
+          "selected_product_ids": [],
+          "exploration_ended": null,
+          "exploration_outcome": null
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c5b-2.0-attempt2",
+      "case": "c5b",
+      "scale": "2.0",
+      "raw_record": "output/android-ux-native-20261021/c5b-2.0-attempt2/result.json",
+      "started_at": "2026-10-21T16:56:57.638263+08:00",
+      "finished_at": "2026-10-21T16:57:24.322579+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [],
+      "affected_threads": [],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    },
+    {
+      "id": "c6-2.0-attempt3",
+      "case": "c6",
+      "scale": "2.0",
+      "raw_record": "output/android-ux-native-20261021/c6-2.0-attempt3/result.json",
+      "started_at": "2026-10-21T16:48:40.567432+08:00",
+      "finished_at": "2026-10-21T16:49:14.708132+08:00",
+      "native_passed": true,
+      "overall_passed": true,
+      "native_exit_code": 0,
+      "transport_exit_code": 0,
+      "device_receipt_complete": true,
+      "current_turns": [
+        {
+          "run_id": "8bcb0a3c-d718-558a-8ef8-ca11c5037535",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "e4b10373-07ed-5edc-bb70-57c234476ebd",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "1d2784c0-af03-5abc-aacb-9799fdb0229d",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "910c06f2-9a0b-535c-8bb2-df4bf26c4aae",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "09b8dc3a-680c-5c2d-be71-d24b4ede69bd",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "e69fa36b-89ce-5ec7-b2bc-63ba8b52a554",
+          "status": "COMPLETED"
+        }
+      ],
+      "affected_threads": [
+        {
+          "thread_id": "bdd865ff-12ca-4900-b2e9-0b039ce9b67a",
+          "goal": "随便看看: 发现适合自己的使用方向",
+          "mission_version": 5,
+          "mode": "DISCOVERY",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": true,
+          "exploration_outcome": "USE_EXISTING"
+        },
+        {
+          "thread_id": "ad44f2f3-a7f7-49ad-b4ab-551e1a695909",
+          "goal": "随便看看: 发现适合自己的使用方向",
+          "mission_version": 3,
+          "mode": "DISCOVERY",
+          "feedback": null,
+          "archived": null,
+          "title": null,
+          "selected_product_ids": [],
+          "exploration_ended": true,
+          "exploration_outcome": "NOT_BUYING"
+        }
+      ],
+      "saved": [],
+      "cart": [
+        {
+          "owner_id": "b9988082-014f-49c0-8cd6-229a431e0538",
+          "offer_id": "b9ea46aa-f322-53e5-9949-2518f10a2ac4",
+          "quantity": 1
+        }
+      ],
+      "commerce_unchanged": {
+        "saved": true,
+        "cart": true
+      }
+    }
+  ],
+  "attempt_index": [
+    {
+      "id": "c1-1.0-attempt1",
+      "classification": "native_only_not_accepted",
+      "failures": []
+    },
+    {
+      "id": "c1-1.0-attempt2",
+      "classification": "native_only_not_accepted",
+      "failures": []
+    },
+    {
+      "id": "c1-1.0-attempt3",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c1-1.0-attempt4",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c1-1.0-attempt5",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c1-1.0-attempt6",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c1-2.0-attempt1",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms",
+        "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms"
+      ]
+    },
+    {
+      "id": "c1-2.0-attempt2",
+      "classification": "native_only_not_accepted",
+      "failures": []
+    },
+    {
+      "id": "c1-2.0-attempt3",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c1-2.0-attempt4",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c1-2.0-attempt5",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c1-2.0-attempt6",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c2-1.0-attempt1",
+      "classification": "native_only_not_accepted",
+      "failures": []
+    },
+    {
+      "id": "c2-1.0-attempt2",
+      "classification": "native_only_not_accepted",
+      "failures": []
+    },
+    {
+      "id": "c2-1.0-attempt3",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c2-1.0-attempt4",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c2-1.0-attempt5",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c2-1.0-attempt6",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c2-2.0-attempt1",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Assert failed: The component is not displayed!",
+        "java.lang.AssertionError: Assert failed: The component is not displayed!"
+      ]
+    },
+    {
+      "id": "c2-2.0-attempt2",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c2-2.0-attempt3",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c2-2.0-attempt4",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c3-1.0-attempt1",
+      "classification": "incomplete",
+      "failures": [
+        "No final result.json; no pass claimed"
+      ]
+    },
+    {
+      "id": "c3-1.0-attempt2",
+      "classification": "native_only_not_accepted",
+      "failures": []
+    },
+    {
+      "id": "c3-1.0-attempt3",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c3-1.0-attempt4",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c3-1.0-attempt5",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c3-1.0-attempt6",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c3-2.0-attempt1",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c3-2.0-attempt2",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c3-2.0-attempt3",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c4-1.0-attempt1",
+      "classification": "incomplete",
+      "failures": [
+        "No final result.json; no pass claimed"
+      ]
+    },
+    {
+      "id": "c4-1.0-attempt2",
+      "classification": "native_only_not_accepted",
+      "failures": []
+    },
+    {
+      "id": "c4-1.0-attempt3",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms",
+        "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms"
+      ]
+    },
+    {
+      "id": "c4-1.0-attempt4",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4-1.0-attempt5",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4-1.0-attempt6",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4-1.0-attempt7",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c4-2.0-attempt1",
+      "classification": "failed",
+      "failures": []
+    },
+    {
+      "id": "c4-2.0-attempt2",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms",
+        "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms"
+      ]
+    },
+    {
+      "id": "c4-2.0-attempt3",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms",
+        "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms"
+      ]
+    },
+    {
+      "id": "c4-2.0-attempt4",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Assert failed: The component is not displayed!",
+        "java.lang.AssertionError: Assert failed: The component is not displayed!"
+      ]
+    },
+    {
+      "id": "c4-2.0-attempt5",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4-2.0-attempt6",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c4a-1.0-attempt1",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4a-1.0-attempt2",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4a-1.0-attempt3",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4a-1.0-attempt4",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c4a-2.0-attempt1",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Failed waiting for PixelCopy!",
+        "java.lang.AssertionError: Failed waiting for PixelCopy!"
+      ]
+    },
+    {
+      "id": "c4a-2.0-attempt2",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4a-2.0-attempt3",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c4b-1.0-attempt1",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4b-1.0-attempt2",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4b-1.0-attempt3",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4b-1.0-attempt4",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c4b-2.0-attempt1",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c4b-2.0-attempt2",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c5-1.0-attempt1",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms",
+        "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms"
+      ]
+    },
+    {
+      "id": "c5-1.0-attempt10",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c5-1.0-attempt11",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c5-1.0-attempt12",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c5-1.0-attempt2",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms",
+        "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms"
+      ]
+    },
+    {
+      "id": "c5-1.0-attempt3",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms",
+        "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms"
+      ]
+    },
+    {
+      "id": "c5-1.0-attempt4",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms",
+        "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms"
+      ]
+    },
+    {
+      "id": "c5-1.0-attempt5",
+      "classification": "native_only_not_accepted",
+      "failures": []
+    },
+    {
+      "id": "c5-1.0-attempt7",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Action performScrollTo() failed.",
+        "java.lang.AssertionError: Action performScrollTo() failed."
+      ]
+    },
+    {
+      "id": "c5-1.0-attempt8",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Action performScrollTo() failed.",
+        "java.lang.AssertionError: Action performScrollTo() failed."
+      ]
+    },
+    {
+      "id": "c5-1.0-attempt9",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c5-2.0-attempt1",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms",
+        "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms"
+      ]
+    },
+    {
+      "id": "c5-2.0-attempt2",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c5-2.0-attempt3",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c5b-1.0-attempt1",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c5b-1.0-attempt2",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c5b-1.0-attempt3",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c5b-1.0-attempt4",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c5b-2.0-attempt1",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c5b-2.0-attempt2",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c6-1.0-attempt1",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms",
+        "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms"
+      ]
+    },
+    {
+      "id": "c6-1.0-attempt2",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c6-1.0-attempt3",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c6-1.0-attempt4",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c6-1.0-attempt5",
+      "classification": "accepted_final",
+      "failures": []
+    },
+    {
+      "id": "c6-2.0-attempt1",
+      "classification": "superseded_pass",
+      "failures": []
+    },
+    {
+      "id": "c6-2.0-attempt2",
+      "classification": "failed",
+      "failures": [
+        "INSTRUMENTATION_STATUS: stack=androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms",
+        "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms"
+      ]
+    },
+    {
+      "id": "c6-2.0-attempt3",
+      "classification": "accepted_final",
+      "failures": []
+    }
+  ],
+  "attempt_summary": {
+    "native_only_not_accepted": 8,
+    "superseded_pass": 40,
+    "accepted_final": 18,
+    "failed": 17,
+    "incomplete": 2
+  },
+  "media": [
+    {
+      "path": "docs/media/android-ux-native-20261021/default-comparison.png",
+      "case": "c2-1.0-attempt6",
+      "label": "default facts and quote comparison"
+    },
+    {
+      "path": "docs/media/android-ux-native-20261021/large-feedback.png",
+      "case": "c1-2.0-attempt6",
+      "label": "200% explicit single-product feedback and category scope"
+    },
+    {
+      "path": "docs/media/android-ux-native-20261021/large-recommendation.png",
+      "case": "c2-2.0-attempt4",
+      "label": "200% secondary selection with unclipped Ask/Compare/Save/Add CTAs"
+    },
+    {
+      "path": "docs/media/android-ux-native-20261021/large-constraint-edit.png",
+      "case": "c3-2.0-attempt3",
+      "label": "200% original hard constraint retained for explicit editing"
+    },
+    {
+      "path": "docs/media/android-ux-native-20261021/large-saved-facts.png",
+      "case": "c4-2.0-attempt6",
+      "label": "200% saved facts/quotes and scrolled actions"
+    },
+    {
+      "path": "docs/media/android-ux-native-20261021/large-history.png",
+      "case": "c5-2.0-attempt3",
+      "label": "200% archived history controls"
+    },
+    {
+      "path": "docs/media/android-ux-native-20261021/large-not-buying.png",
+      "case": "c6-2.0-attempt3",
+      "label": "200% visible completed receipt and no-purchase conclusion"
+    }
+  ],
+  "navigation_qa": {
+    "url": "http://127.0.0.1:24180/",
+    "status": "passed_with_nonblocking_artifact_viewer_issue",
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "page_identity": true,
+    "no_blank_page": true,
+    "no_framework_overlay": true,
+    "no_horizontal_overflow": true,
+    "site_tests": 7,
+    "site_build": true,
+    "new_model_calls": 0,
+    "nonblocking": "Direct JSON viewer favicon404; CLI popup wait timed out, same opened tab read back as200 without re-click.",
+    "external_navigation_report": "records/rag-commerce/closeout/evidence/android-ux-site-20261021.json"
+  },
+  "cleanup": {
+    "font_scale_restored": 1,
+    "test_api": "owned PID14220 stopped; port20882 released",
+    "test_database": "owned ephemeral container5e20f995f985 stopped and --rm removed; port25433 released; fixture database regenerable",
+    "user_emulator": "preserved",
+    "shared_adb": "preserved",
+    "navigation_site": "running at http://127.0.0.1:24180/"
+  }
+}
+

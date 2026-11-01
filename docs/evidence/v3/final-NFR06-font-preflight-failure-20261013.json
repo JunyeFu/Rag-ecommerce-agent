@@ -1,0 +1,7 @@
+{
+  "scope": "Native capture harness; no business submission",
+  "failure": "After resuming the actual recommendation, primary tabs are intentionally hidden; harness tried to find Task tab before returning to conversation",
+  "font_restored": "1.0",
+  "new_model_calls": 0,
+  "correction": "Use the actual return-to-conversation control before navigating the three primary screens; preserve recommendation-only layout"
+}

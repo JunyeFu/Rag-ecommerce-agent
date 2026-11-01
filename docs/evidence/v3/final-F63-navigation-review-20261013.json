@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-13",
+  "defect": "F63",
+  "status": "FIXED_LOCAL_WITH_REAL_READONLY_NAVIGATION",
+  "root_cause": "ReturnToMissionConversation sets showConversation=true; there was no local UI action to reopen persisted products, and the previous reducer test only reopened via a new TurnProducts event.",
+  "changes": [
+    "Existing Mission conversation conditionally renders 查看当前推荐 for existing products",
+    "ShowCurrentRecommendations changes the current result view without a Turn or model call",
+    "Existing product, comparison and draft state are preserved"
+  ],
+  "red": {
+    "report": "docs/evidence/v3/final-F63-visual-red-20261013.json",
+    "failure": "Missing reopen_recommendations action caused performScrollTo assertion failure"
+  },
+  "green": {
+    "targeted_visual_tests": 1,
+    "report": "docs/evidence/v3/final-F63-visual-green-20261013.json",
+    "visual_suite_tests": 35,
+    "visual_suite_skipped": 0,
+    "visual_suite_report": "docs/evidence/v3/final-F63-visual-suite-20261013.json",
+    "unit_tests": 41,
+    "unit_failures": 0,
+    "lint_errors": 0,
+    "lint_warnings": 18,
+    "build": "passed; UP-TO-DATE and FROM-CACHE retained"
+  },
+  "real_navigation": {
+    "avd": "RagFinalSafety20261012",
+    "package": "com.ragcommerce.agent.safetytest",
+    "apk_sha256": "026223013a91a81268d85af6a5ec23f72f48c782e55a722d20421ee01008d614",
+    "source": "Existing real ThreadSnapshot; no ShoppingUiState injected",
+    "goal": "预算2000元的通勤手机",
+    "status": "COMPLETED",
+    "api_candidates": 5,
+    "api_recommendation_routes": 3,
+    "steps": [
+      "Actual process restart and recovery receipt",
+      "Continue existing Mission",
+      "Return to Mission conversation",
+      "Click 查看当前推荐",
+      "Existing 01 / 03 recommendation visible"
+    ],
+    "screenshots": [
+      "output/f63-qa-20261013/real-conversation-entry.png",
+      "output/f63-qa-20261013/real-reopened-recommendation.png"
+    ],
+    "full_A06_retest": false
+  },
+  "NFR06": {
+    "status": "NOT_SIGNED",
+    "new_defect": "F64: actual 200% font long recommendation text pushes evidence, price and comparison actions outside fixed card viewport",
+    "font_restored": 1,
+    "talkback_traversal": "NOT_PASSED",
+    "notification_permission_restore": "granted=false; flags=USER_SENSITIVE_WHEN_GRANTED; temporary USER_SET/USER_FIXED removed",
+    "accessibility_restore": "services=null, enabled=0",
+    "tool_limitation": "Computer Use skill requires node_repl; tool discovery returned no node_repl. No custom Windows input fallback used.",
+    "observed_probe": "Injected swipe opened the unsaved mission editor; Back dismissed keyboard/editor, no edits saved. Held Alt+Right did not prove focus traversal.",
+    "primary_reference": "https://support.google.com/accessibility/android/answer/6110948?hl=en"
+  },
+  "preflight": {
+    "missing_ANDROID_HOME": "Initial build stopped before compilation; explicit SDK environment then succeeded",
+    "temporary_init_application_id": "First init callback was overridden by project DSL; metadata mismatch detected before installation, finalizeDsl fixed owned temporary QA build",
+    "first_start_tree": "UI dump not idle during launch; observed same process until actual recovery receipt, no business restart"
+  },
+  "budget": {
+    "used": 265339,
+    "calls": 94,
+    "limit": 2000000,
+    "held": 0,
+    "new_calls": 0,
+    "new_tokens": 0
+  },
+  "delivery": {
+    "product_snapshot": "output/f63-qa-20261013/product-app.apk",
+    "product_snapshot_sha256": "1784fc4b71d8404993928bc868b2074e8a9b4ee121e6b96ccae4e59a5427f10d",
+    "historical_08ff_QA_startup_report_not_current_binary": true,
+    "final_same_source_seal": false
+  },
+  "LOCAL_PORTFOLIO_READY": "HOLD"
+}

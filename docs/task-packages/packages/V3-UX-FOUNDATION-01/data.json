@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-UX-FOUNDATION-01",
+  "owner": "current-task",
+  "objective": "现有信任与交互问题修正",
+  "inputs": [
+    "docs/plans/ANDROID-DECISION-UX-UPGRADE.md",
+    "data/demo/catalog.v3.jsonl"
+  ],
+  "outputs": [
+    "docs/task-packages/packages/V3-UX-FOUNDATION-01/evidence/verification.json"
+  ],
+  "acceptance": [
+    "未知规格不写成全部满足；主/次/再次顺序不变。",
+    "写操作审批展示实际对象，拒绝不写；外跳展示核验后的HTTPS域名。",
+    "默认字号和大字号下CTA可达，概念插画不被描述成SKU实物。"
+  ],
+  "test_profiles": [
+    "targeted Python",
+    "Android unit/lint/build",
+    "contract drift",
+    "native QA when available"
+  ],
+  "business_refs": [
+    "shared.business_model"
+  ],
+  "development_refs": [
+    "profiles.task_packages"
+  ],
+  "risk_refs": [
+    "shared.pitfalls"
+  ]
+}
+

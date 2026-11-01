@@ -17,4 +17,4 @@
 
 ## 证据边界
 
-以上均为 `project_authored_demo_fixture` / `fixture_load_only` 本地工程回归，不等于公开测试集真实 embedding 得分，也不替代真实 provider 消融、100 条 held-out 双人盲评、LIVE 报价或竞赛最终质量。
+以上均为 `project_authored_demo_fixture` / `fixture_load_only` 本地工程回归，不等于 competition-v2 challenge 的真实 Provider 得分，也不替代真实 Provider 消融、LIVE 报价或竞赛最终质量。

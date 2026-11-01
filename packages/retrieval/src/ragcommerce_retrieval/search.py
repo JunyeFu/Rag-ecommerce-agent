@@ -9,6 +9,8 @@ from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from enum import StrEnum
 
+from .normalization import normalize_brand
+
 TOKEN = re.compile(r"[a-z0-9]+|[\u4e00-\u9fff]")
 
 
@@ -161,15 +163,16 @@ class HybridIndex:
                 key == "brand_candidates"
                 and raw
                 and not any(
-                    str(value).lower() in (document.brand or "").lower()
-                    or str(value).lower() in document.title.lower()
+                    normalize_brand(str(value)).lower()
+                    in normalize_brand(document.brand or "").lower()
+                    or normalize_brand(str(value)).lower() in document.title.lower()
                     for value in raw
                 )
             ):
                 return False
             if key == "exclude_brands" and any(
-                str(value).lower() in (document.brand or "").lower()
-                or str(value).lower() in document.title.lower()
+                normalize_brand(str(value)).lower() in normalize_brand(document.brand or "").lower()
+                or normalize_brand(str(value)).lower() in document.title.lower()
                 for value in raw
             ):
                 return False

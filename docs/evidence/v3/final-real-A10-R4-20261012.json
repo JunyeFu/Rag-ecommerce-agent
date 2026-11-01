@@ -1,0 +1,109 @@
+{
+  "created_at": "2026-10-12T08:37:36.831743+00:00",
+  "evidence_level": "NATIVE_ANDROID_REAL_API_PROVIDER",
+  "scenario": {
+    "id": "A10",
+    "slot": "A10-R4",
+    "phase": "retest",
+    "passed": true,
+    "owner_id": "ee34fda3-f4ef-4ff1-a95a-29845a14af2d",
+    "resumed_from_slot": "A10-R3",
+    "erasure_only": true,
+    "device": "127.0.0.1:5573",
+    "application_id": "com.ragcommerce.agent.safetytest",
+    "injected_ui_state": false,
+    "runtime_source_hashes": {
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/token_budget.py": "5a8c161b4be3cf58e3f0feb93e091aa2e71db42752a82f95f6d90592c3491311",
+      "packages/contracts/openapi.json": "8308bbe9d902a4bda256d8a2e43030d7fbfd876e28344434be19500c2c8ed205",
+      "data/demo/catalog.v3.jsonl": "4c46d177c12bbe0216da84305430c77792ee9feece694a0a1590bf268d05e3a5",
+      "apps/api/src/ragcommerce_api/postgres_index.py": "d0b94801e800282da21ce649298fbc972c381bd3eaa8242793798c2d365e87c1",
+      "apps/worker/src/ragcommerce_worker/persistent_demo.py": "233e86b5fd569b6dab7d4a180ab8dd68c9bb5ffd82e4913c57840fb42de47260",
+      "packages/retrieval/src/ragcommerce_retrieval/semantic.py": "234fe09003bd5bcd2e0bf0d988034163e3d71e119f5f718fe99d8354688d2dae",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/runtime.py": "b25067b20daa81dffe8751a096a7730629c18e608d76e09c7fc4e187682587c4",
+      "apps/api/src/ragcommerce_api/media_tools.py": "9b92a40e783a78e4b2eb5ee4da7216858dd5d6ac9d8fb2917d49b44dc835936d",
+      "apps/api/src/ragcommerce_api/service.py": "12db0a1580a8c6b1b11384a8ab2adc6e3aa59c19e8af6c49e836a75ba0ede47b",
+      "apps/api/src/ragcommerce_api/provider_config.py": "1a80525a19f79a535e3564994467cadb2ae93a584130afc49b7d9986741d9341",
+      "packages/agent-runtime/src/ragcommerce_agent_runtime/model_provider.py": "7337ce5321c0a54988ea4254674876e4af51cc04e1e9a0722e49b645542e00ec",
+      "apps/api/src/ragcommerce_api/postgres_demo.py": "8786c6d94c22923a32624990d4c43c2f3208b39b4b31a53e40925055efcf0c8b"
+    },
+    "native_receipts": [
+      {
+        "method": "inspectCompletedApprovalRecoveryReadOnly",
+        "runner_pid": 9929,
+        "tests": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "method": "a10DeleteOnlyIsolatedIdentityThroughUi",
+        "runner_pid": 10034,
+        "tests": 1,
+        "failed": 0,
+        "ignored": 0
+      }
+    ],
+    "observation_seconds": 600,
+    "installed_apk_sha256": "37b87658be28a312d57819b7a278d52807eaa040e0b64449a84570885bdb338e",
+    "original_emulator_network_state": {
+      "chain3_enabled": "false",
+      "package_networking_enabled": "true"
+    },
+    "resumed_snapshot": {
+      "thread_id": "7fbebf7e-41de-4144-823d-4ac4481b2150",
+      "run_id": "04d157ff-178e-58c7-9210-e4a82fe18fb9",
+      "last_event_id": 8,
+      "candidate_count": 5,
+      "pending_action": null
+    },
+    "before_deletion": {
+      "status": "COMPLETED",
+      "candidate_count": 5,
+      "last_event_id": 8,
+      "terminal_events": 1,
+      "cart_tool_receipts": 1,
+      "runs": [
+        {
+          "run_id": "7c52933a-ef8e-5a4d-868b-37073caacb76",
+          "status": "COMPLETED"
+        },
+        {
+          "run_id": "04d157ff-178e-58c7-9210-e4a82fe18fb9",
+          "status": "COMPLETED"
+        }
+      ],
+      "cart": {
+        "items": [
+          {
+            "offer_id": "74ecafbb-5e24-5531-ba5a-0e0958be57e2",
+            "quantity": 2
+          }
+        ]
+      }
+    },
+    "foreign_owner_http_status": 404,
+    "new_installation_identity": "61050e22-1977-4b8c-8933-c94602c36bc5",
+    "remaining_owner_rows": {
+      "api_threads": 0,
+      "api_turns": 0,
+      "api_media_objects": 0,
+      "v3_cart_items": 0,
+      "v3_lists": 0,
+      "v3_watchers": 0,
+      "v3_tool_receipts": 0
+    },
+    "other_cart_rows_unchanged": true,
+    "network_settings_restored": true,
+    "accepted_runs_finished_within_window": true,
+    "paid_call_count": 0,
+    "token_usage": 0,
+    "provider_cost": "NOT_AVAILABLE_FROM_PROVIDER",
+    "shared_budget": {
+      "session_id": "internship-final-20261009",
+      "limit": 2000000,
+      "blocked": false,
+      "used": 253785,
+      "held": 0,
+      "calls": 86
+    }
+  }
+}

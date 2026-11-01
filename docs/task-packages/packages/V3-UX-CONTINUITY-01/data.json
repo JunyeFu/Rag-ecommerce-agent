@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-UX-CONTINUITY-01",
+  "owner": "current-task",
+  "objective": "保存候选与任务历史闭环",
+  "inputs": [
+    "docs/plans/ANDROID-DECISION-UX-UPGRADE.md",
+    "data/demo/catalog.v3.jsonl"
+  ],
+  "outputs": [
+    "docs/task-packages/packages/V3-UX-CONTINUITY-01/evidence/verification.json",
+    "docs/evidence/v3/android-cart-continuity-20261021.json",
+    "docs/evidence/v3/android-saved-comparison-20261022.json"
+  ],
+  "acceptance": [
+    "昨天保存的耳机今天能打开、移除并继续决定。",
+    "电脑和家人手机任务分别恢复，归档不删除服务端任务。",
+    "历史保留用户输入/澄清/确认，不展示思维链或敏感工具参数。",
+    "全局待购在新建、切换任务和无活动任务重启后保留商品、报价与数量，普通读取不续期；两字号原生确认操作与持久化一致。",
+    "保存2–4款同品类可直接比较事实/原报价，混品类明确拒绝；选择本机重启恢复，不改当前任务或待购；移出保存使旧结果失效，清空比较不移除其他保存商品。"
+  ],
+  "test_profiles": [
+    "targeted Python",
+    "Android unit/lint/build",
+    "contract drift",
+    "native QA when available"
+  ],
+  "business_refs": [
+    "shared.business_model"
+  ],
+  "development_refs": [
+    "profiles.task_packages"
+  ],
+  "risk_refs": [
+    "shared.pitfalls"
+  ]
+}
+

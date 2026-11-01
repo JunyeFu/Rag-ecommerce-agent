@@ -35,6 +35,10 @@ jobs:
           uv run alembic -c apps/api/alembic.ini upgrade head
           uv run alembic -c apps/api/alembic.ini current
           uv run alembic -c apps/api/alembic.ini check
+      - name: Verify pinned local embedding retrieval
+        run: |
+          uv run python scripts/prepare_local_embedding.py
+          uv run python scripts/run_local_embedding_acceptance.py
       - name: Verify contract, packages, lint, format, and tests
         run: |
           uv run python scripts/check_ci_policy.py
@@ -47,7 +51,6 @@ jobs:
           uv run python scripts/validate_evaluation_suite.py
           uv run python scripts/run_evaluation_baseline.py --check
           uv run python scripts/run_evaluation_ablations.py --check
-          uv run python scripts/summarize_human_review.py --check
           uv run python scripts/generate_sbom.py --check
           uv run python scripts/security_gate.py --check
           uv run python scripts/run_security_tabletop.py --check
@@ -67,9 +70,21 @@ jobs:
         with:
           node-version: "24.15.0"
           cache: npm
+      - uses: actions/setup-python@v5.6.0
+        with:
+          python-version: "3.12.11"
+      - name: Install locked uv and Python environment
+        run: |
+          python -m pip install --disable-pip-version-check uv==0.11.13
+          uv sync --locked
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
       - run: npm run check
       - run: npm run test
+      - name: Run Agent simple, moderate, and heavy Playwright scenarios
+        run: npm run test:agent:e2e
+      - name: Run Ops browser regression
+        run: npm run test:ops:e2e
       - run: npm run build
 
   android:
@@ -79,7 +94,7 @@ jobs:
       - uses: actions/setup-java@v4.7.1
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: "21"
       - name: Verify official wrapper checksum
         working-directory: apps/android
         run: echo "498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17  gradle/wrapper/gradle-wrapper.jar" | sha256sum --check

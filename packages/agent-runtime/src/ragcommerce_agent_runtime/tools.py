@@ -2,15 +2,18 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Mapping
+import inspect
+from collections.abc import Awaitable, Callable, Mapping
 from dataclasses import dataclass
 from enum import StrEnum
+from typing import Literal
+from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
 
 from .contracts import ToolCall, ToolExecutionContext, ToolResult, TurnCommand
 
-ToolHandler = Callable[[ToolExecutionContext, BaseModel], ToolResult]
+ToolHandler = Callable[[ToolExecutionContext, BaseModel], ToolResult | Awaitable[ToolResult]]
 
 
 class StrictArgs(BaseModel):
@@ -30,9 +33,15 @@ class OfferArgs(StrictArgs):
     quote_id: str | None = None
 
 
-class UpdateArgs(StrictArgs):
-    operation: str
-    item_id: str
+class ListUpdateArgs(StrictArgs):
+    operation: Literal["add", "remove"]
+    list_id: UUID
+    variant_id: UUID
+
+
+class CartUpdateArgs(StrictArgs):
+    operation: Literal["add", "set", "remove"]
+    offer_id: UUID
     quantity: int = Field(default=1, ge=1, le=99)
 
 
@@ -65,10 +74,11 @@ FROZEN_TOOL_TYPES: Mapping[str, tuple[type[BaseModel], Risk]] = {
     "offer.find": (IdsArgs, Risk.READ),
     "offer.requote": (OfferArgs, Risk.READ),
     "comparison.build": (IdsArgs, Risk.READ),
-    "list.update": (UpdateArgs, Risk.REVERSIBLE),
-    "cart.update": (UpdateArgs, Risk.REVERSIBLE),
+    "list.update": (ListUpdateArgs, Risk.REVERSIBLE),
+    "cart.update": (CartUpdateArgs, Risk.REVERSIBLE),
     "link.resolve": (OfferArgs, Risk.EXTERNAL_NAVIGATION),
     "vision.identify": (MediaArgs, Risk.CONSENT),
+    "audio.transcribe": (MediaArgs, Risk.CONSENT),
     "merchant.get_policy": (IdsArgs, Risk.READ),
 }
 
@@ -76,7 +86,7 @@ FROZEN_TOOL_TYPES: Mapping[str, tuple[type[BaseModel], Risk]] = {
 class ToolRegistry:
     def __init__(self, handlers: Mapping[str, ToolHandler]) -> None:
         if set(handlers) != set(FROZEN_TOOL_TYPES):
-            raise ValueError("handlers must implement exactly the ten frozen tools")
+            raise ValueError("handlers must implement exactly the registered tools")
         self.specs = {
             name: ToolSpec(name, values[0], values[1], handlers[name])
             for name, values in FROZEN_TOOL_TYPES.items()
@@ -85,9 +95,26 @@ class ToolRegistry:
     def execute(
         self, command: TurnCommand, call: ToolCall, context: ToolExecutionContext
     ) -> ToolResult:
+        spec, arguments = self._validated(command, call, context)
+        result = spec.handler(context, arguments)
+        if inspect.isawaitable(result):
+            raise RuntimeError("async tool handler requires execute_async")
+        return result
+
+    async def execute_async(
+        self, command: TurnCommand, call: ToolCall, context: ToolExecutionContext
+    ) -> ToolResult:
+        spec, arguments = self._validated(command, call, context)
+        result = spec.handler(context, arguments)
+        return await result if inspect.isawaitable(result) else result
+
+    def _validated(
+        self, command: TurnCommand, call: ToolCall, context: ToolExecutionContext
+    ) -> tuple[ToolSpec, BaseModel]:
         spec = self.specs.get(call.name)
         if spec is None:
             raise ValueError("tool is not registered")
+        arguments = spec.args_type.model_validate(dict(call.arguments))
         if spec.risk is Risk.REVERSIBLE and (
             not command.allow_reversible_writes or call.name not in command.approved_tools
         ):
@@ -97,5 +124,17 @@ class ToolRegistry:
             and call.name not in command.approved_tools
         ):
             raise ToolDenied("explicit approval is required")
-        arguments = spec.args_type.model_validate(dict(call.arguments))
-        return spec.handler(context, arguments)
+        if (
+            spec.risk in {Risk.REVERSIBLE, Risk.EXTERNAL_NAVIGATION}
+            and command.approved_invocations is not None
+            and str(context.invocation_id) not in command.approved_invocations
+        ):
+            raise ToolDenied("approval does not cover this invocation")
+        if spec.risk is Risk.CONSENT:
+            expected_kind = "image" if call.name == "vision.identify" else "audio"
+            if not any(
+                str(ref.id) == arguments.media_ref and ref.kind == expected_kind
+                for ref in command.media
+            ):
+                raise ToolDenied("media was not authorized for this Turn")
+        return spec, arguments

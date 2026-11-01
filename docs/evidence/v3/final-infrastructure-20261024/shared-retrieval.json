@@ -1,0 +1,70 @@
+{
+  "evidence_level": "two_independent_local_BGE_read_processes_real_Qdrant",
+  "before": {
+    "aliases": [
+      [
+        "final-retrieval-20261009",
+        "final-retrieval-20261009--8c42260a0cca43c7bcd005b8b8050c92"
+      ],
+      [
+        "rag-infra-20261024-shared-current",
+        "rag-infra-20261024-shared-current--d6c2d508a75b44b4bfca623580b08174"
+      ]
+    ],
+    "collections": [
+      "final-retrieval-20261009--8c42260a0cca43c7bcd005b8b8050c92",
+      "rag-infra-20261024-shared-current--d6c2d508a75b44b4bfca623580b08174"
+    ],
+    "points": 60
+  },
+  "after": {
+    "aliases": [
+      [
+        "final-retrieval-20261009",
+        "final-retrieval-20261009--8c42260a0cca43c7bcd005b8b8050c92"
+      ],
+      [
+        "rag-infra-20261024-shared-current",
+        "rag-infra-20261024-shared-current--d6c2d508a75b44b4bfca623580b08174"
+      ]
+    ],
+    "collections": [
+      "final-retrieval-20261009--8c42260a0cca43c7bcd005b8b8050c92",
+      "rag-infra-20261024-shared-current--d6c2d508a75b44b4bfca623580b08174"
+    ],
+    "points": 60
+  },
+  "readers": [
+    {
+      "hits": [
+        "32c53384-59fc-5ed5-aff9-b050683cb2f1",
+        "7677c181-73f4-5369-885f-86f78dd8bd79",
+        "5415bc73-2de3-50bf-a7a8-906ee98c2d4e",
+        "71edbb32-6ca2-56a9-a8ae-91db9e673f0b",
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5",
+        "2a5e42e6-4c47-5ad8-a615-62ff5188319c",
+        "ab92fa22-efca-5e75-a8b4-4c6eaa4f5101",
+        "f89015f7-1933-5845-93a5-b3b02033f692",
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21",
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6"
+      ]
+    },
+    {
+      "hits": [
+        "32c53384-59fc-5ed5-aff9-b050683cb2f1",
+        "7677c181-73f4-5369-885f-86f78dd8bd79",
+        "5415bc73-2de3-50bf-a7a8-906ee98c2d4e",
+        "71edbb32-6ca2-56a9-a8ae-91db9e673f0b",
+        "513fc19e-7c1d-5bff-89e8-2f7245ceb9f5",
+        "2a5e42e6-4c47-5ad8-a615-62ff5188319c",
+        "ab92fa22-efca-5e75-a8b4-4c6eaa4f5101",
+        "f89015f7-1933-5845-93a5-b3b02033f692",
+        "4fdee551-3952-50ca-a8bb-5af7a5dfdc21",
+        "8298eccb-d89b-5f4c-b276-3b94cb4e75a6"
+      ]
+    }
+  ],
+  "passed": true,
+  "paid_calls": 0,
+  "limitation": "Shared production retrieval composition, not a second capacity or Worker restart test"
+}

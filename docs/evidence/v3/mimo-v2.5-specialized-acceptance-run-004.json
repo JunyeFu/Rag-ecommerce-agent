@@ -1,0 +1,94 @@
+{
+  "created_at": "2026-09-21T07:57:41.010949+00:00",
+  "evidence_level": "REAL_PROVIDER_SPECIALIZED_ACCEPTANCE",
+  "passed": false,
+  "provider": {
+    "cost": "NOT_AVAILABLE_FROM_PROVIDER",
+    "endpoint_host": "api.xiaomimimo.com",
+    "model": "mimo-v2.5"
+  },
+  "scenarios": [
+    {
+      "actual_tool": null,
+      "approval_blocked_before_decision": null,
+      "call_count": 0,
+      "expected_tool": null,
+      "id": "clarification",
+      "idempotent_replay": null,
+      "latency_ms": 12118.942,
+      "passed": true,
+      "schema_valid": true,
+      "state_changed_after_approval": null,
+      "usage": {
+        "completion_tokens": 407,
+        "forced_write": false,
+        "model": "mimo-v2.5",
+        "planning_path": "empty_model_decision",
+        "prompt_tokens": 1841,
+        "provider": "openai_compatible",
+        "tool_call_count": 0,
+        "tool_calls_present": false,
+        "total_tokens": 2248
+      }
+    },
+    {
+      "actual_tool": "offer.requote",
+      "approval_blocked_before_decision": null,
+      "call_count": 1,
+      "expected_tool": "offer.requote",
+      "id": "requote",
+      "idempotent_replay": null,
+      "latency_ms": 13052.207,
+      "passed": true,
+      "schema_valid": true,
+      "state_changed_after_approval": null,
+      "usage": {
+        "completion_tokens": 369,
+        "forced_write": false,
+        "model": "mimo-v2.5",
+        "planning_path": "model_tool_call",
+        "prompt_tokens": 2687,
+        "provider": "openai_compatible",
+        "tool_call_count": 1,
+        "tool_calls_present": true,
+        "total_tokens": 3056
+      }
+    },
+    {
+      "expected_tool": "list.update",
+      "failure_type": "ProviderInvalidResponse",
+      "id": "list_write",
+      "passed": false,
+      "schema_valid": false
+    },
+    {
+      "actual_tool": "cart.update",
+      "approval_blocked_before_decision": true,
+      "call_count": 1,
+      "expected_tool": "cart.update",
+      "id": "cart_write",
+      "idempotent_replay": true,
+      "latency_ms": 12458.772,
+      "passed": true,
+      "schema_valid": true,
+      "state_changed_after_approval": true,
+      "usage": {
+        "completion_tokens": 283,
+        "forced_write": true,
+        "model": "mimo-v2.5",
+        "planning_path": "model_tool_call",
+        "prompt_tokens": 2683,
+        "provider": "openai_compatible",
+        "tool_call_count": 1,
+        "tool_calls_present": true,
+        "total_tokens": 2966
+      }
+    }
+  ],
+  "schema_version": 1,
+  "single_attempt_per_scenario": true,
+  "summary": {
+    "passed": 3,
+    "total": 4
+  }
+}

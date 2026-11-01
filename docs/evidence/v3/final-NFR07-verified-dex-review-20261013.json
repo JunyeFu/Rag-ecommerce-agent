@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-13",
+  "defect": "F61",
+  "status": "MITIGATED_FOR_INSTALLED_QA_BINARY_FINAL_APK_PENDING",
+  "device": {
+    "avd": "RagFinalSafety20261012",
+    "serial": "127.0.0.1:5571",
+    "android_api": 35,
+    "package": "com.ragcommerce.agent.safetytest",
+    "apk_sha256": "08ff34cb9dbe9b995ba5bf924bf10762e7990675973d6dc3e2628d4e2b618c86",
+    "build": "debug QA"
+  },
+  "before": {
+    "dexopt_status": "run-from-apk",
+    "dexopt_location": "error",
+    "cold_runs": 30,
+    "p95_ms": 3179,
+    "report": "docs/evidence/v3/final-NFR07-installed-cold-start-20261013.json",
+    "trace": {
+      "private_artifact": "output/final-nfr07-20261013/startup.pftrace",
+      "sha256": "55d50e626adc33a0ce1ed249938dd4272ac40088d07dd8c80a1b4046f99d5352",
+      "first_traversal_ms": 1952.918,
+      "direct_verify_class_count": 845,
+      "direct_verify_class_ms": 557.8369,
+      "measure_ms": 581.3135,
+      "main_draw_ms": 30.0311
+    }
+  },
+  "change": {
+    "command": "adb shell cmd package compile -m speed -f com.ragcommerce.agent.safetytest",
+    "requested_mode": "speed",
+    "actual_dexopt_mode": "verify",
+    "apk_replaced": false,
+    "application_data_cleared": false,
+    "global_settings_changed": false,
+    "art_design_changed": false,
+    "production_source_changed": false
+  },
+  "after": {
+    "cold_runs": 30,
+    "p95_ms": 1785,
+    "max_ms": 2630,
+    "runs_above_2000_ms": 1,
+    "report": "docs/evidence/v3/final-NFR07-installed-verified-dex-cold-start-20261013.json",
+    "fatal_count": 0,
+    "strictmode_violation_count": 0,
+    "app_uid_log_lines": 907,
+    "trace": {
+      "private_artifact": "output/final-nfr07-20261013/verified-startup.pftrace",
+      "sha256": "73d3aafc8a3799892f79e617de73b6cbe837df42d673fc89fb8c6d8237e41fdf",
+      "first_traversal_ms": 951.9239,
+      "direct_verify_class_count": 0,
+      "direct_verify_class_ms": 0,
+      "measure_ms": 305.9046
+    }
+  },
+  "root_cause": "Installed QA APK lacked generated verified-dex artifacts, repeating class verification during first traversal. Explicit package compilation created verify artifacts; same-binary class-verification slices disappeared and measured startup improved.",
+  "scope": "Installed debug binary with explicit verification preparation only; no production release performance claim. Initial display, not fully restored Agent readiness. Final same-source APK still needs this preparation and acceptance.",
+  "extra_diagnostic_launches": {
+    "receipt_parser_failure": 1,
+    "before_trace": 1,
+    "after_compile_probe": 1,
+    "after_trace": 1,
+    "not_counted_in_30_sample_statistics": true
+  },
+  "budget_readback": {
+    "session": "internship-final-20261009",
+    "used": 265339,
+    "calls": 94,
+    "held": 0,
+    "limit": 2000000,
+    "new_paid_calls": 0
+  },
+  "reproduction": "docs/demo/V3-ANDROID-PREPARE.md",
+  "sources": [
+    "https://developer.android.com/topic/performance/measuring-performance",
+    "https://developer.android.com/topic/performance/baselineprofiles/manually-create-measure"
+  ],
+  "LOCAL_PORTFOLIO_READY": "HOLD"
+}

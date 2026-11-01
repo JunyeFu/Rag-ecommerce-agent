@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-FINAL-02",
+  "status": "blocked",
+  "validation_scope": "Seven current source defects repaired and nonpaid verified; full media/real Agent gate unsigned",
+  "commands": [
+    "pytest -q",
+    "ADB native AudioRecord / cancellation / background",
+    "run_final_acceptance.py --case G03",
+    "pytest independent source-fix regression",
+    "actual isolated subprocess approval review",
+    "Android unit/lint/debug/visual fixture"
+  ],
+  "checks": [
+    {
+      "name": "native_recording",
+      "passed": true,
+      "device": "Pixel_9 emulator-5558",
+      "duration_seconds": 3.328,
+      "format": "16kHz mono PCM16 WAV",
+      "cancel_and_background_cleanup": true,
+      "uploaded_without_send": false
+    },
+    {
+      "name": "backend_media_and_safety_regression",
+      "passed": true,
+      "report": "docs/evidence/v3/final-qa-checkpoint-20261009.json"
+    },
+    {
+      "name": "G03_current_first_real_attempt",
+      "passed": true,
+      "report": "docs/evidence/v3/final-real-G03-first-20261009.json",
+      "historical_failure_original_text_available": false
+    },
+    {
+      "name": "source_analysis_repair",
+      "passed": true,
+      "defects": [
+        "F47",
+        "F48",
+        "F49",
+        "F50",
+        "F51",
+        "F52",
+        "F53"
+      ],
+      "report": "docs/evidence/v3/final-source-analysis-repair-20261012.json",
+      "new_paid_calls": 0,
+      "source_runtime_reloaded": true
+    }
+  ],
+  "external_gates": [],
+  "remaining": [
+    "有效原生语音A02/M03待人声；图库A03先前真实复测通过，当前增量不能继承同版签收",
+    "当前审批参数冻结/Worker接续源码已非付费验证；新的MiMo/完整原生复测需额外授权",
+    "报价外跳与过期分支真实验收、最终封版仍未签收"
+  ],
+  "updated_at": "2026-10-12T09:38:34Z"
+}

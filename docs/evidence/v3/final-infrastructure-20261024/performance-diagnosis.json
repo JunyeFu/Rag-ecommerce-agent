@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-24",
+  "defect": "F60",
+  "status": "OPEN_CAUSE_NOT_ESTABLISHED",
+  "scope": "Diagnostic only; does not replace failed acceptance",
+  "passed": true,
+  "first_state_p95_ms": 192.96779998694547,
+  "event_loop": "ProactorEventLoop",
+  "accepted_p95_ms": 133.03799999994226,
+  "max_log_emit_ms": 1.7062999977497384,
+  "largest_gc_pause_ms": 88.53509998880327,
+  "normal_failed_control": {
+    "missions": 300,
+    "completed": 300,
+    "accept_p95_ms": 229.73089999868535,
+    "first_state_p95_ms": 218.20970000408124,
+    "failed_batches": [
+      1,
+      3,
+      5
+    ],
+    "report": "durable-10-batches-r1.json"
+  },
+  "interpretation": "Observation path passed with88.5ms GC pauses, but does not identify the normal-launch bottleneck. No GC disabling, pool tuning, threshold change or production performance refactor.",
+  "mimo_calls": 0
+}

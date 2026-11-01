@@ -96,6 +96,10 @@ class InMemoryMediaStore:
         del self.records[media_id]
         return True
 
+    def read_owned(self, owner_id: UUID, media_id: UUID) -> tuple[StoredMedia, bytes]:
+        record = self.require_owned(owner_id, (media_id,))[0]
+        return record, self.records[media_id][1]
+
     def delete_user(self, user_id: UUID) -> int:
         owned = [key for key, (record, _) in self.records.items() if record.owner_id == user_id]
         for key in owned:
@@ -134,10 +138,16 @@ class MinioMediaStore:
             # some Windows development hosts, so cache only the non-business OS label.
             platform._uname_cache = platform.uname_result("Windows", "", "", "", "")
         from minio import Minio
+        from minio.error import S3Error
 
         self.client = Minio(endpoint, access_key=access_key, secret_key=secret_key, secure=secure)
         if not self.client.bucket_exists(bucket):
-            self.client.make_bucket(bucket)
+            try:
+                self.client.make_bucket(bucket)
+            except S3Error as error:
+                # Another API/Worker lane can create this same owned bucket first.
+                if error.code != "BucketAlreadyOwnedByYou":
+                    raise
 
     def create(self, owner_id: UUID, content_type: str, content: bytes) -> StoredMedia:
         normalized = content_type.split(";", 1)[0].strip().lower()
@@ -203,6 +213,17 @@ class MinioMediaStore:
             return tuple(values[media_id] for media_id in media_ids)
         except KeyError as exc:
             raise KeyError("media not found") from exc
+
+    def read_owned(self, owner_id: UUID, media_id: UUID) -> tuple[StoredMedia, bytes]:
+        record = self.require_owned(owner_id, (media_id,))[0]
+        response = self.client.get_object(self.bucket, f"{owner_id}/{media_id}")
+        try:
+            content = response.read()
+        finally:
+            response.close()
+            response.release_conn()
+        self.require_owned(owner_id, (media_id,))
+        return record, content
 
     def delete(self, owner_id: UUID, media_id: UUID) -> bool:
         with psycopg.connect(self.dsn) as connection:

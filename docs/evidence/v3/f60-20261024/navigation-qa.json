@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-24",
+  "scope": "external navigation presentation only; not an additional product capacity run",
+  "passed": true,
+  "browser_plugin": "Absent",
+  "tool": "existing playwright-cli 0.1.22; no dependency installation",
+  "url": "http://127.0.0.1:24180/",
+  "title": "项目导航 · AI应用 / 全栈准备",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "checks": {
+    "identity": true,
+    "meaningful_not_blank": true,
+    "no_framework_overlay": true,
+    "no_horizontal_overflow": true,
+    "console_errors": 0,
+    "console_warnings": 0,
+    "expand_collapse_details": true,
+    "visible_batch_rows": 10,
+    "json_links_http_200": 11,
+    "historical_failed_results_unchanged": 6,
+    "markdown_http_200": true,
+    "source_reference_and_personal_drafts_separate": true
+  },
+  "node_tests": {
+    "passed": 7,
+    "total": 7
+  },
+  "build": {
+    "passed": true,
+    "warning": "Vite final main JS 506.24kB >500kB advisory; not hidden or threshold raised"
+  },
+  "screenshots": [
+    "f60-nav-desktop.png",
+    "f60-nav-mobile.png"
+  ],
+  "screenshots_location": "Codex visualization artifacts outside both repositories",
+  "remaining": [
+    "真实人声录音继续暂缓",
+    "Chrome首次设置与最终同版封版"
+  ],
+  "LOCAL_PORTFOLIO_READY": "HOLD",
+  "mimo_calls": 0
+}

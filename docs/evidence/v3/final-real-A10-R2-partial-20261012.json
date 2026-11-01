@@ -1,0 +1,55 @@
+{
+  "created_at": "2026-10-12T07:38:26.491296+00:00",
+  "evidence_level": "PARTIAL_NATIVE_HOST_FAILURE_LEDGER_READBACK",
+  "scenario": {
+    "id": "A10",
+    "slot": "A10-R2",
+    "phase": "retest",
+    "passed": false,
+    "owner_id": "ee34fda3-f4ef-4ff1-a95a-29845a14af2d",
+    "device": "127.0.0.1:5573",
+    "application_id": "com.ragcommerce.agent.safetytest",
+    "started_at": "2026-10-12T07:26:08.330461+00:00",
+    "finished_at": "2026-10-12T07:27:49.796393+00:00",
+    "token_usage": 9424,
+    "paid_call_count": 4,
+    "shared_budget": {
+      "session_id": "internship-final-20261009",
+      "limit": 2000000,
+      "blocked": false,
+      "used": 253288,
+      "held": 0,
+      "calls": 84
+    },
+    "backend_runs": [
+      {
+        "thread_id": "7fbebf7e-41de-4144-823d-4ac4481b2150",
+        "run_id": "7c52933a-ef8e-5a4d-868b-37073caacb76",
+        "status": "COMPLETED"
+      },
+      {
+        "thread_id": "7fbebf7e-41de-4144-823d-4ac4481b2150",
+        "run_id": "04d157ff-178e-58c7-9210-e4a82fe18fb9",
+        "status": "WAITING_APPROVAL"
+      }
+    ],
+    "actual_snapshot": {
+      "status": "WAITING_APPROVAL",
+      "pending_action": "cart.update",
+      "candidates": 5,
+      "active_run_id": "04d157ff-178e-58c7-9210-e4a82fe18fb9",
+      "last_event_id": 4
+    },
+    "failure_type": "CalledProcessError",
+    "failure_message": "pidof failed after instrumentation teardown; stopped before offline/restore/delete",
+    "original_cli_report_written": false,
+    "partial_evidence_reconstructed_from_ledger_and_host_failure": true,
+    "full_native_receipts_retained": false,
+    "native_count_claimed": false,
+    "network_fault_executed": false,
+    "approval_executed": false,
+    "data_deleted": false,
+    "injected_ui_state": false,
+    "provider_cost": "NOT_AVAILABLE_FROM_PROVIDER"
+  }
+}
