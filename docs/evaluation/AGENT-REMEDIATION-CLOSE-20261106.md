@@ -6,9 +6,11 @@
 
 十题修复及第二批实现已完成本地验收，详见[逐题状态](AGENT-INTERVIEW-REPAIR-STATUS-20261105.md)和[第二批结果](AGENT-INTERVIEW-BATCH2-20261105.md)。历史测试数字保留原时间和范围。
 
-已在 `codex/complete-agent-remediation` 提交、推送并创建[草稿 PR #28](https://github.com/JunyeFu/Rag-ecommerce-agent/pull/28)。源码 `28605a6` 的[首轮远端 CI](https://github.com/JunyeFu/Rag-ecommerce-agent/actions/runs/42061741968)五个 job 全部通过：Python 299 通过/7 跳过，隔离 TLS 另跑 6 通过/0 跳过，Web、Android 和 Compose 通过。开发身份和 TLS 的分组口径保留，未把跳过项写成全量通过。
+已在 `codex/complete-agent-remediation` 提交、推送并创建[草稿 PR #28](https://github.com/JunyeFu/Rag-ecommerce-agent/pull/28)。包含身份客户端修复的源码 `8bceca4` 的[远端 CI](https://github.com/JunyeFu/Rag-ecommerce-agent/actions/runs/42063797508)五个 job 全部通过：Python **300 通过/7 跳过**，隔离 TLS 另跑 **6 通过/0 跳过**，Web **4 单元/10 E2E**、Android 编译/单元/lint/benchmark 和 Compose 通过。[首轮源码 CI](https://github.com/JunyeFu/Rag-ecommerce-agent/actions/runs/42061741968)的 299/7 结果保留，不与增量相加。
 
-独立冷启动补验发现容量脚本仍使用旧 UUID：严格入口实际返回 401。现改为先申请服务端安装凭据；真实 ASGI 身份回归与原计时口径两项通过，凭据不进入报告。源码导出也补齐新 `.gitattributes`。这些增量将由下一轮 PR CI 验证，最终结果见本包[验证记录](../task-packages/packages/V3-REMEDIATION-CLOSE-01/evidence/verification.json)。
+独立冷启动补验发现容量脚本仍使用旧 UUID：严格入口实际返回 401。现改为先申请服务端安装凭据；真实 ASGI 身份回归与原计时口径两项通过，凭据不进入报告。源码导出也补齐新 `.gitattributes`。这些增量的远端 CI 已通过，命令与时间见本包[验证记录](../task-packages/packages/V3-REMEDIATION-CLOSE-01/evidence/verification.json)。
+
+常规 Python 跳过项为六项隔离网络 TLS 和一项要求专用 Qdrant collection 的八路共享读取；TLS 已由同一轮独立 job 实跑补齐。共享读取沿用第二批本地补验证据，未声称在本轮远端执行。
 
 2026-11-06 用户明确要求**外部验收暂停**。联盟、LIVE、真机与人工签收均暂停；没有新增付费模型调用，既有实测槽位和预算不重置。
 
@@ -19,12 +21,13 @@
 - 旧 G03 原文缺失的根因仍不可还原，但 [2026-10-09 的后续真实 G03](../evidence/v3/final-real-G03-first-20261009.json)已经通过；不能继续把该旧失败当作唯一现状，也不能据此声称当前修复后模型已重测。
 - F60 已在 [2026-10-24 完整十批×30](../evidence/v3/final-F60-review-20261024.json)通过本地容量门禁。旧包 `remaining` 的未通过文字已被后续证据覆盖；该结果不继承为本轮新增身份锁之后的容量测量。
 - A08-R3 仍是真实非法提案失败；原始响应未保存，不能补造非法字段。已有 F47 等非付费修复保留，不擅自增加真实复测。
+- 修复后的十批×30容量补测未执行：自动审批检查拒绝了重启专用容器并运行补测的命令，返回 `blocked by policy`，未给出更具体原因。没有改写历史容量指标；任务专用服务均已停止，数据保留。
 
 ## 剩余任务及完成条件
 
 | 任务包 | 当前剩余工作 | 完成所需证据或输入 |
 | --- | --- | --- |
-| V3-REMEDIATION-CLOSE-01 | 分支/草稿 PR/首轮 CI 已完成；身份脚本增量 CI 待完成 | 全部 job 通过，包括六项隔离真实 TLS；完成后记录提交与 Actions |
+| V3-REMEDIATION-CLOSE-01 | **complete：分支、草稿 PR、两轮 CI、严格身份冷启动** | 五个 job 全通过；仅覆盖代码审阅和本地/远端工程验证 |
 | V3-CAREER-CLOSE-01 | 当前原生业务、实际 Agent 质量及干净环境验收 | 原任务场景和实际模型输出，不能用夹具回归替代；原重测额度已用完 |
 | V3-FINAL-02 | 原生真实音频、图片、审批与外链完整链路 | 用户真实人声输入及剩余实际模型场景的重测授权；保留已有失败 |
 | V3-FINAL-03 | 同一候选的完整质量与材料签收 | 复用未受影响的检索、持久化和容量证据；对当前受影响链路实测 |
@@ -42,4 +45,4 @@
 
 **HOLD / 商业发布 NO_GO。** 分支与草稿 PR 的发布属于代码审阅，不代表部署、真实联盟接入或正式产品发布。没有新增付费模型调用。
 
-下一步完成身份脚本增量的远端 CI 并收口本地服务；需要真实模型、人声、物理设备、联盟或人工签收的后续阶段按用户指令暂停，恢复后从已有失败和剩余额度继续。
+代码交付任务已完成，专用服务已停止。后续真实模型、人声、物理设备、联盟或人工签收按用户指令暂停；恢复时须先明确对应场景、可用输入及额度授权，从保留的失败继续，不自动复跑到成功。额外容量补测的策略阻断保持未解决，不将旧值视为当前复测值。

@@ -117,7 +117,7 @@ MinIO：图片 / 音频对象                    Ops Web：Trace / 检索 / 门�
 
 **本地修复（2026-11-05）：** 两批修复已补齐服务端用户/运营身份和受控 HTTPS 地址绑定，并完成 Windows、Linux 与浏览器验证，详见[分组结果与验收边界](docs/evaluation/AGENT-INTERVIEW-BATCH2-20261105.md)。
 
-**修复分支交付（2026-11-06）：** [草稿 PR #28](https://github.com/JunyeFu/Rag-ecommerce-agent/pull/28) 首轮远端 CI 五项全部通过，包含另跑的六项隔离真实 TLS 测试；冷启动客户端身份增量继续由 PR 检查验证。最新结果及剩余任务见[交付记录](docs/evaluation/AGENT-REMEDIATION-CLOSE-20261106.md)。外部验收按用户指令暂停，当前候选仍为 HOLD / NO_GO。
+**修复分支交付（2026-11-06）：** [草稿 PR #28](https://github.com/JunyeFu/Rag-ecommerce-agent/pull/28) 包含冷启动客户端身份修复的[远端 CI 五项全部通过](https://github.com/JunyeFu/Rag-ecommerce-agent/actions/runs/42063797508)：Python 300 通过/7 跳过，隔离真实 TLS 另跑 6 通过；Web、Android 与 Compose 通过。最新结果及剩余任务见[交付记录](docs/evaluation/AGENT-REMEDIATION-CLOSE-20261106.md)。外部验收按用户指令暂停，当前候选仍为 HOLD / NO_GO。
 
 [详细性能报告](docs/evaluation/AGENT-PERFORMANCE.md)包含 **14 组历史黄金集报告、10 条持久化首轮场景、复测、图片、原生场景、检索、容量和启动数据**。[机器可读统计](docs/evaluation/agent-metrics-20261105.json)可由以下命令离线复算：
 
