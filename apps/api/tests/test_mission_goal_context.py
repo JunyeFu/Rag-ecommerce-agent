@@ -25,7 +25,7 @@ def test_followup_action_does_not_replace_the_shopping_goal_or_budget():
         InMemoryCheckpointStore(),
         RuntimeIdentity("test", "fake", "test", "test", "0.2.0"),
     )
-    client = TestClient(create_app(TurnService(agent, media), media))
+    client = TestClient(create_app(TurnService(agent, media), media, development_identity=True))
     headers = {"X-User-ID": "00000000-0000-5000-8000-000000000762"}
     goal = "预算2000元的通勤手机"
     thread = client.post("/v1/threads", headers=headers, json={"goal": goal}).json()

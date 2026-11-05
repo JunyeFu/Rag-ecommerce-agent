@@ -1,8 +1,8 @@
-// Generated file; do not edit. generator=4 source_sha256=54898f9e23ab4e93df3ebeb00b7d52ec82e9d6a55d37250ce999ed000cf39d6f
+// Generated file; do not edit. generator=4 source_sha256=174853fd5afac40fa49aeb1516c200f0ea2f4f7602603befea83a1988a031c91
 package com.ragcommerce.agent.generated
 
 const val CONTRACT_VERSION: String = "0.2.0"
-const val CONTRACT_SOURCE_SHA256: String = "54898f9e23ab4e93df3ebeb00b7d52ec82e9d6a55d37250ce999ed000cf39d6f"
+const val CONTRACT_SOURCE_SHA256: String = "174853fd5afac40fa49aeb1516c200f0ea2f4f7602603befea83a1988a031c91"
 
 data class HealthResponse(val status: String, val contract_version: String)
 data class CreateThreadRequest(val goal: String)

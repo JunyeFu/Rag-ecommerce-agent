@@ -216,6 +216,7 @@ def test_approved_agent_writes_are_visible_through_public_state_apis() -> None:
             media,
             commerce=commerce,
             ops_store=InMemoryOpsStore(),
+            development_identity=True,
         )
     )
     list_id = client.post("/v1/lists", json={"name": "Agent 方案"}, headers=headers()).json()[

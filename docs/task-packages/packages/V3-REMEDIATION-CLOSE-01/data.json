@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-REMEDIATION-CLOSE-01",
+  "owner": "implementation",
+  "objective": "Publish authorized remediation branch and draft PR, verify remote CI and record remaining project work",
+  "inputs": ["V3-INTERVIEW-REPAIR-02", "explicit user authorization for branch commit, push and draft PR"],
+  "outputs": ["docs/evaluation/AGENT-REMEDIATION-CLOSE-20261106.md", "evidence/verification.json", "draft pull request"],
+  "acceptance": ["reviewable authorized branch and draft PR", "same-source remote CI passes including six isolated real TLS tests", "remaining external gates disclosed"],
+  "test_profiles": ["governance", "remote_ci", "isolated_tls"],
+  "business_refs": ["HOLD and NO_GO remain until external gates close"],
+  "development_refs": ["V3-INTERVIEW-REPAIR-01", "V3-INTERVIEW-REPAIR-02"],
+  "risk_refs": ["draft PR is not deployment or LIVE acceptance", "no additional paid model calls authorized"]
+}

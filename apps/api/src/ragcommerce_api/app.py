@@ -9,7 +9,7 @@ from typing import Annotated
 from uuid import UUID
 
 from fastapi import BackgroundTasks, Body, FastAPI, Header, HTTPException, Request, status
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from ragcommerce_agent_runtime import parse_shopping_mission
 from ragcommerce_contracts import (
     CONTRACT_VERSION,
@@ -71,6 +71,9 @@ def create_app(
     ops_store: InMemoryOpsStore | None = None,
     data_eraser: UserDataEraser | None = None,
     execute_background: bool = True,
+    development_identity: bool = False,
+    installation_store=None,
+    ops_credentials=None,
 ) -> FastAPI:
     application = FastAPI(
         title="RAG Commerce Shopping Agent API",
@@ -85,6 +88,19 @@ def create_app(
     application.state.ops_store = ops_store
     application.state.data_eraser = data_eraser
     application.state.execute_background = execute_background
+    application.state.installations = installation_store
+    application.state.development_identity = development_identity
+
+    @application.post("/v1/installations", status_code=201, operation_id="issueInstallation")
+    async def issue_installation():
+        if installation_store is None:
+            raise HTTPException(503, "installation persistence is not configured")
+        owner, token = installation_store.issue()
+        return JSONResponse(
+            {"owner_id": str(owner), "token": token},
+            status_code=201,
+            headers={"Cache-Control": "no-store"},
+        )
 
     def identity(x_user_id: Annotated[str | None, Header(alias="X-User-ID")] = None) -> UUID:
         try:
@@ -284,6 +300,8 @@ def create_app(
             code = (
                 status.HTTP_413_CONTENT_TOO_LARGE
                 if "size limit" in str(exc)
+                else 422
+                if "invalid media" in str(exc)
                 else status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
             )
             raise HTTPException(code, str(exc)) from exc
@@ -316,7 +334,20 @@ def create_app(
                 status.HTTP_400_BAD_REQUEST,
                 "X-Deletion-Confirmation must equal delete-my-data",
             )
-        configured_data_eraser().erase(user_id)
+        eraser = configured_data_eraser()
+        service = application.state.turn_service
+        if service is None:
+            eraser.erase(user_id)
+        else:
+            try:
+                with service.index.owner_guard(user_id, blocking=False):
+                    if service.index.has_active(user_id):
+                        raise DecisionConflict("active tasks must finish before erasure")
+                    eraser.erase(user_id)
+                    if installation_store is not None:
+                        installation_store.delete_user(user_id)
+            except DecisionConflict as exc:
+                raise HTTPException(409, str(exc)) from exc
         return DeletionResult(deleted=True)
 
     async def create_turn(
@@ -716,8 +747,56 @@ def create_app(
         operation_id="createWatcher",
     )(create_watcher)
 
-    application.add_middleware(DevelopmentAuthHeader)
+    application.add_middleware(
+        DevelopmentAuthHeader, mode="development-header" if development_identity else "bearer"
+    )
+    if not development_identity or installation_store is not None:
+        from .installation_auth import InstallationAuth
 
+        application.add_middleware(
+            InstallationAuth,
+            credentials=installation_store,
+            index=service.index if service else None,
+            development_identity=development_identity,
+            ops_credentials=ops_credentials,
+        )
+
+    if not development_identity:
+        original_openapi = application.openapi
+
+        def bearer_openapi():
+            document = original_openapi()
+            document.setdefault("components", {}).setdefault("securitySchemes", {})[
+                "InstallationBearer"
+            ] = {"type": "http", "scheme": "bearer"}
+            document["components"]["securitySchemes"]["OpsBearer"] = {
+                "type": "http",
+                "scheme": "bearer",
+            }
+            for path, methods in document["paths"].items():
+                for operation in methods.values():
+                    if not isinstance(operation, dict):
+                        continue
+                    operation["security"] = (
+                        []
+                        if path in {"/health", "/v1/installations"}
+                        else [
+                            {
+                                "OpsBearer"
+                                if path.startswith("/v1/ops")
+                                else "InstallationBearer": []
+                            }
+                        ]
+                    )
+                    operation["parameters"] = [
+                        item
+                        for item in operation.get("parameters", [])
+                        if item.get("name", "").lower()
+                        not in {"x-user-id", "x-ops-role", "x-ops-actor-id"}
+                    ]
+            return document
+
+        application.openapi = bearer_openapi
     return application
 
 

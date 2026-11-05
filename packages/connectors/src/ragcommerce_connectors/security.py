@@ -24,6 +24,24 @@ class SafeLinkPolicy:
         urls: tuple[str, ...],
         resolved_addresses: Mapping[str, tuple[str, ...]] | None = None,
     ) -> str:
+        if resolved_addresses is None:
+            raise self._denied("DNS resolution evidence is required")
+        result = self.validate_fixture_chain(urls)
+        for url in urls:
+            host = self._ascii_host(urlparse(url).hostname or "")
+            addresses = resolved_addresses.get(host)
+            if not addresses:
+                raise self._denied("DNS resolution evidence is required")
+            for address in addresses:
+                try:
+                    ipaddress.ip_address(address)
+                except ValueError as exc:
+                    raise self._denied("DNS evidence must contain IP addresses") from exc
+                self._require_global_address(address)
+        return result
+
+    def validate_fixture_chain(self, urls: tuple[str, ...]) -> str:
+        """URL-only validation for offline fixtures; never an outbound transport gate."""
         if not urls or len(urls) - 1 > self.max_redirects:
             raise self._denied("redirect chain length denied")
         for url in urls:
@@ -34,12 +52,6 @@ class SafeLinkPolicy:
             if parsed.username or parsed.password or host not in self.allowed_hosts:
                 raise self._denied("host or embedded authority denied")
             self._require_global_address(host)
-            if resolved_addresses is not None:
-                addresses = resolved_addresses.get(host)
-                if not addresses:
-                    raise self._denied("DNS resolution evidence is required")
-                for address in addresses:
-                    self._require_global_address(address)
         return urls[-1]
 
     @staticmethod

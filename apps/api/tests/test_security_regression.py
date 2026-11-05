@@ -33,14 +33,14 @@ def headers(user_id, *, confirm: bool = False) -> dict[str, str]:
 def test_user_data_erasure_endpoint_is_confirmed_identity_scoped_and_fail_closed() -> None:
     user_id = uuid4()
     eraser = RecordingEraser()
-    client = TestClient(create_app(data_eraser=eraser))
+    client = TestClient(create_app(data_eraser=eraser, development_identity=True))
     assert client.delete("/v1/users/me/data", headers=headers(user_id)).status_code == 400
     response = client.delete("/v1/users/me/data", headers=headers(user_id, confirm=True))
     assert response.status_code == 200
     assert response.json() == {"deleted": True}
     assert eraser.users == [user_id]
 
-    unconfigured = TestClient(create_app()).delete(
+    unconfigured = TestClient(create_app(development_identity=True)).delete(
         "/v1/users/me/data", headers=headers(user_id, confirm=True)
     )
     assert unconfigured.status_code == 503
@@ -49,8 +49,16 @@ def test_user_data_erasure_endpoint_is_confirmed_identity_scoped_and_fail_closed
 def test_in_memory_erasure_removes_media_sessions_traces_and_preferences_for_one_user() -> None:
     user_id, other_id = uuid4(), uuid4()
     media = InMemoryMediaStore()
-    own_media = media.create(user_id, "image/png", b"\x89PNG\r\n\x1a\nowned")
-    other_media = media.create(other_id, "image/png", b"\x89PNG\r\n\x1a\nother")
+    own_media = media.create(
+        user_id,
+        "image/png",
+        b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\x9cc```\x00\x00\x00\x04\x00\x01\xf6\x178U\x00\x00\x00\x00IEND\xaeB`\x82",
+    )
+    other_media = media.create(
+        other_id,
+        "image/png",
+        b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\x9cc```\x00\x00\x00\x04\x00\x01\xf6\x178U\x00\x00\x00\x00IEND\xaeB`\x82",
+    )
 
     index = InMemoryTurnIndex()
     thread_id, mission_id, run_id = uuid4(), uuid4(), uuid4()

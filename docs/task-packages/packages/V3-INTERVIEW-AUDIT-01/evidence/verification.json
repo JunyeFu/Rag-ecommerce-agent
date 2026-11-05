@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-INTERVIEW-AUDIT-01",
+  "status": "passed",
+  "recorded_at": "2026-11-05T16:59:54.865466+08:00",
+  "scope": "Completed sourced interview-question research and local vulnerability audit; passing task status does not mean vulnerability probes passed or findings were fixed",
+  "source_commit": "06039aba1cf4798704f26549b7a3633c42fceb96",
+  "external_gates": [],
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe -X utf8 -m pytest -q scripts/tests/test_agent_interview_audit.py --tb=line --junitxml=output/interview-audit-20261105/audit-current.xml",
+      "started_at": "2026-11-05T16:45:31.307858+08:00",
+      "exit_code": 1,
+      "counts": {
+        "total": 26,
+        "passed": 15,
+        "failed": 11,
+        "errors": 0,
+        "skipped": 0
+      },
+      "junit": "output/interview-audit-20261105/audit-current.xml",
+      "duration_seconds": 1.868
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest -q packages/agent-runtime/tests/test_runtime.py packages/agent-runtime/tests/test_model_provider.py packages/retrieval/tests/test_retrieval.py packages/retrieval/tests/test_hybrid_semantic.py apps/api/tests/test_state_consistency.py apps/api/tests/test_security_regression.py apps/api/tests/test_queued_progress.py apps/api/tests/test_durable_load_measurement.py --tb=short --junitxml=output/interview-audit-20261105/existing-regression.xml",
+      "started_at": "2026-11-05T16:42:41.895135+08:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 70,
+        "passed": 70,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "junit": "output/interview-audit-20261105/existing-regression.xml",
+      "duration_seconds": 3.022
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest -q packages/agent-runtime/tests/test_token_budget.py::test_paid_boundary_reserves_before_call_and_limits_completion packages/agent-runtime/tests/test_token_budget.py::test_missing_usage_is_not_charged_as_zero packages/agent-runtime/tests/test_token_budget.py::test_network_transport_cannot_execute_without_shared_ledger --tb=short --junitxml=output/interview-audit-20261105/paid-boundary.xml",
+      "started_at": "2026-11-05T16:44:33.315444+08:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "junit": "output/interview-audit-20261105/paid-boundary.xml",
+      "duration_seconds": 0.749
+    },
+    {
+      "command": "Inline Python report links, anchors and business-source immutability check",
+      "verified_at": "2026-11-05T16:59:54.865466+08:00",
+      "exit_code": 0,
+      "counts": {
+        "local_links": 8,
+        "anchors": 1
+      },
+      "result": "passed"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check scripts/tests/test_agent_interview_audit.py",
+      "verified_at": "2026-11-05T17:00:44.780613+08:00",
+      "exit_code": 0,
+      "result": "passed"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff format --check scripts/tests/test_agent_interview_audit.py",
+      "verified_at": "2026-11-05T17:00:44.780613+08:00",
+      "exit_code": 0,
+      "counts": {
+        "files": 1
+      },
+      "result": "passed"
+    },
+    {
+      "command": "python scripts/validate_task_packages.py",
+      "verified_at": "2026-11-05T17:00:44.780613+08:00",
+      "exit_code": 0,
+      "counts": {
+        "packages": 51,
+        "errors": 0,
+        "warnings": 0
+      },
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "verified_at": "2026-11-05T17:00:44.780613+08:00",
+      "exit_code": 0,
+      "result": "passed"
+    }
+  ],
+  "questions": {
+    "1": {
+      "passed": 4
+    },
+    "2": {
+      "passed": 4,
+      "failed": 1
+    },
+    "3": {
+      "passed": 2,
+      "failed": 8
+    },
+    "4": {
+      "passed": 3,
+      "failed": 1
+    },
+    "5": {
+      "passed": 2,
+      "failed": 1
+    }
+  },
+  "failures": [
+    {
+      "test": "test_q2_missing_attribute_does_not_satisfy_explicit_filter",
+      "message": "AssertionError: missing 防水 evidence was silently treated as satisfying IP68\nassert not (SearchHit(document=SearchDocument(seed_id='0001b7b0-07f5-53e1-a5f0-73ed15a59a8d', title='Nova Mobile Pulse 08 演示手机', ...iption='', highlights=(), development_rank_prior=(0, 0)), score=8.17317471807953, matched_terms=('手', '手机', '机')), ...)"
+    },
+    {
+      "test": "test_q3_user_budget_is_not_source_for_a_product_price",
+      "message": "Failed: DID NOT RAISE ProviderInvalidResponse"
+    },
+    {
+      "test": "test_q3_unsupported_price_forms_are_blocked[\\u552e\\u4ef7$999.00\\u3002]",
+      "message": "Failed: DID NOT RAISE ProviderInvalidResponse"
+    },
+    {
+      "test": "test_q3_unsupported_price_forms_are_blocked[\\u5b9e\\u9645\\u552e\\u4ef73999\\u5757\\u3002]",
+      "message": "Failed: DID NOT RAISE ProviderInvalidResponse"
+    },
+    {
+      "test": "test_q3_unsupported_price_forms_are_blocked[\\u4ef7\\u683c\\u4e3a\\u4e09\\u5343\\u4e5d\\u767e\\u4e5d\\u5341\\u4e5d\\u5143\\u3002]",
+      "message": "Failed: DID NOT RAISE ProviderInvalidResponse"
+    },
+    {
+      "test": "test_q3_unsupported_non_price_commercial_claim_is_blocked[\\u8fd9\\u5bb6\\u5546\\u5e97\\u662f\\u54c1\\u724c\\u5b98\\u65b9\\u65d7\\u8230\\u5e97,\\u63d0\\u4f9b\\u5168\\u56fd\\u8054\\u4fdd\\u3002]",
+      "message": "Failed: DID NOT RAISE ProviderInvalidResponse"
+    },
+    {
+      "test": "test_q3_unsupported_non_price_commercial_claim_is_blocked[\\u8be5\\u5546\\u54c1\\u5e93\\u5b589999\\u4ef6,\\u660e\\u65e5\\u9001\\u8fbe,\\u5df2\\u7ecf\\u552e\\u51fa\\u5341\\u4e07\\u4ef6\\u3002]",
+      "message": "Failed: DID NOT RAISE ProviderInvalidResponse"
+    },
+    {
+      "test": "test_q3_unsupported_claim_does_not_reach_public_sse[\\u8fd9\\u6b3e\\u5546\\u54c1\\u7684\\u5b9e\\u9645\\u552e\\u4ef7\\u4e3a1000\\u5143\\u3002]",
+      "message": "AssertionError: unsupported model claim reached public MESSAGE/SSE\nassert '这款商品的实际售价为1000元。' not in 'id: 1\\neven...PLETED\"}\\n\\n'\n  \n  '这款商品的实际售价为1000元。' is contained here:\n     {\"text\":\"这款商品的实际售价为1000元。\"}\n    \n    id: 29\n    event: completed\n    data: {\"reason\":\"COMPLETED\"}"
+    },
+    {
+      "test": "test_q3_unsupported_claim_does_not_reach_public_sse[\\u8be5\\u5546\\u5bb6\\u662f\\u54c1\\u724c\\u5b98\\u65b9\\u65d7\\u8230\\u5e97\\u3002]",
+      "message": "AssertionError: unsupported model claim reached public MESSAGE/SSE\nassert '该商家是品牌官方旗舰店。' not in 'id: 1\\neven...PLETED\"}\\n\\n'\n  \n  '该商家是品牌官方旗舰店。' is contained here:\n     {\"text\":\"该商家是品牌官方旗舰店。\"}\n    \n    id: 29\n    event: completed\n    data: {\"reason\":\"COMPLETED\"}"
+    },
+    {
+      "test": "test_q4_client_cannot_impersonate_owner_with_only_a_header",
+      "message": "AssertionError: a self-asserted owner UUID is accepted as identity\nassert 200 in {401, 403}\n +  where 200 = <Response [200 OK]>.status_code"
+    },
+    {
+      "test": "test_q5_security_snapshot_matches_git_checkout_bytes",
+      "message": "AssertionError: frozen security report matches CRLF worktree rather than Git LF checkout\nassert 'd973f8855dc4...5822310181514' == '8ca00278850d...7168c39b7ca3e'\n  \n  - 8ca00278850d16953683baab1b1c92dd39b14ead76c0bc10ca37168c39b7ca3e\n  + d973f8855dc44ed93a01b89b5c9ad925fcee2eee8e01ce4280f5822310181514"
+    }
+  ],
+  "finding_groups": [
+    {
+      "id": "F01",
+      "priority": "P1",
+      "scope": "Budget value accepted as offer price; API SSE reproduced"
+    },
+    {
+      "id": "F02",
+      "priority": "P1",
+      "scope": "Unsupported monetary expression variants accepted by response guard"
+    },
+    {
+      "id": "F03",
+      "priority": "P1",
+      "scope": "Unsupported non-price commercial claims accepted; merchant claim reaches API SSE"
+    },
+    {
+      "id": "F04",
+      "priority": "P1 before public deployment",
+      "scope": "Known development identity boundary, no production authentication; spoofed owner header accepted"
+    },
+    {
+      "id": "F05",
+      "priority": "P2",
+      "scope": "Raw retrieval missing-attribute filter accepted; API strict IP68 route control passed"
+    },
+    {
+      "id": "F06",
+      "priority": "P2",
+      "scope": "Known frozen security digest does not match Git LF checkout"
+    }
+  ],
+  "harness_corrections": [
+    {
+      "initial_evidence": "output/interview-audit-20261105/audit.xml",
+      "initial_counts": {
+        "total": 24,
+        "passed": 14,
+        "failed": 10
+      },
+      "correction": "Removed the missing-usage assertion from a fake provider without a budget. Three existing paid-boundary probes passed; no paid-path vulnerability concluded."
+    },
+    {
+      "intermediate_evidence": "output/interview-audit-20261105/audit-final.xml",
+      "intermediate_counts": {
+        "total": 26,
+        "passed": 14,
+        "failed": 12
+      },
+      "correction": "Corrected test-only strategy field to the contract route_type; API strict-matching probe then passed."
+    }
+  ],
+  "failure_summary": "Current audit has 11 failed assertions in 6 groups; no fixture errors or skips. Existing selected regression 70/70 and paid-boundary probes 3/3 passed. Business code unchanged; findings remain open.",
+  "real_provider_calls": 0,
+  "business_code_modified": false,
+  "published": false,
+  "product_acceptance": {
+    "status": "HOLD",
+    "commercial_release": "NO_GO",
+    "vulnerabilities_remediated": false
+  },
+  "sources": [
+    "https://www.nowcoder.com/feed/main/detail/66e688eed16e4708af18c3a5efdb62b3",
+    "https://www.nowcoder.com/feed/main/detail/632b151ada3a404894f1dc1c30dcbd19",
+    "https://www.nowcoder.com/feed/main/detail/fa50ef5521f84cb788f911cd31e5a98a",
+    "https://www.nowcoder.com/feed/main/detail/77a81a03b55143c89d1caf76833676d9",
+    "https://www.nowcoder.com/discuss/871128857296785408",
+    "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+    "https://api-security.owasp.org/editions/2023/en/0xa2-broken-authentication/"
+  ],
+  "verified_at": "2026-11-05T17:00:44.780613+08:00"
+}

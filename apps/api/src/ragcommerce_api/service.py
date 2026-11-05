@@ -7,6 +7,7 @@ import hashlib
 import json
 from collections.abc import AsyncIterator, Callable, Iterator
 from contextlib import AbstractContextManager, contextmanager
+from contextvars import ContextVar
 from dataclasses import dataclass, field, replace
 from threading import Lock
 from typing import Protocol
@@ -86,6 +87,12 @@ class TurnIndex(Protocol):
         self, owner_id: UUID, thread_id: UUID, change: Callable
     ) -> ThreadRecord: ...
 
+    def owner_guard(self, owner_id: UUID, blocking: bool = True) -> AbstractContextManager: ...
+
+    def has_active(self, owner_id: UUID) -> bool: ...
+
+    def execution_guard(self, run_id: UUID) -> AbstractContextManager: ...
+
     def mission_guard(self, thread_id: UUID) -> AbstractContextManager[None]: ...
 
     def create_thread(self, record: ThreadRecord) -> None: ...
@@ -128,6 +135,40 @@ class InMemoryTurnIndex:
         self.turns: dict[tuple[UUID, UUID, str], TurnRecord] = {}
         self.runs: dict[UUID, TurnRecord] = {}
         self.mission_locks: dict[UUID, Lock] = {}
+        self.owner_locks: dict[UUID, Lock] = {}
+        self.execution_locks: dict[UUID, Lock] = {}
+        self.held_owners = ContextVar("held_owners", default=frozenset())
+
+    @contextmanager
+    def owner_guard(self, owner_id, blocking=True):
+        if owner_id in self.held_owners.get():
+            yield
+            return
+        lock = self.owner_locks.setdefault(owner_id, Lock())
+        if not lock.acquire(blocking=blocking):
+            raise DecisionConflict("user data operation in progress")
+        token = self.held_owners.set(self.held_owners.get() | {owner_id})
+        try:
+            yield
+        finally:
+            self.held_owners.reset(token)
+            lock.release()
+
+    @contextmanager
+    def execution_guard(self, run_id):
+        lock = self.execution_locks.setdefault(run_id, Lock())
+        if not lock.acquire(blocking=False):
+            raise DecisionConflict("run is already executing")
+        try:
+            yield
+        finally:
+            lock.release()
+
+    def has_active(self, owner_id):
+        return any(
+            r.owner_id == owner_id and r.execution_status in {"PENDING", "RETRY", "RUNNING"}
+            for r in self.runs.values()
+        )
 
     @contextmanager
     def mission_guard(self, thread_id: UUID) -> Iterator[None]:
@@ -140,7 +181,8 @@ class InMemoryTurnIndex:
             lock.release()
 
     def create_thread(self, record: ThreadRecord) -> None:
-        self.threads[record.id] = record
+        with self.owner_guard(record.owner_id):
+            self.threads[record.id] = record
 
     def list_threads(self, owner_id: UUID) -> list[ThreadRecord]:
         return [
@@ -157,7 +199,7 @@ class InMemoryTurnIndex:
         ]
 
     def update_experience(self, owner_id: UUID, thread_id: UUID, change: Callable) -> ThreadRecord:
-        with self.mission_guard(thread_id):
+        with self.owner_guard(owner_id), self.mission_guard(thread_id):
             record = self.threads.get(thread_id)
             if record is None or record.owner_id != owner_id:
                 raise OwnershipError("thread not found")
@@ -172,10 +214,11 @@ class InMemoryTurnIndex:
     def reserve(
         self, record: TurnRecord, transition: Callable | None = None
     ) -> tuple[TurnRecord, bool]:
-        if transition is not None:
-            with self.mission_guard(record.thread_id):
-                return self._reserve(record, transition)
-        return self._reserve(record)
+        with self.owner_guard(record.owner_id):
+            if transition is not None:
+                with self.mission_guard(record.thread_id):
+                    return self._reserve(record, transition)
+            return self._reserve(record)
 
     def _reserve(
         self, record: TurnRecord, transition: Callable | None = None
@@ -185,7 +228,9 @@ class InMemoryTurnIndex:
         if existing is not None:
             return existing, False
         self._require_no_approved_job(record.owner_id, record.thread_id)
-        thread = self.threads[record.thread_id]
+        thread = self.threads.get(record.thread_id)
+        if thread is None or thread.owner_id != record.owner_id:
+            raise OwnershipError("thread not found")
         if transition is not None:
             from .exploration import result_for
 
@@ -259,11 +304,12 @@ class InMemoryTurnIndex:
         self.runs[run_id].execution_status = value
 
     def enqueue_approval(self, command: TurnCommand) -> None:
-        record = self.runs[command.run_id]
-        if record.execution_status != "WAITING_APPROVAL":
-            raise DecisionConflict("approval is no longer pending")
-        record.command = command
-        record.execution_status = "PENDING"
+        with self.owner_guard(command.user_id):
+            record = self.runs[command.run_id]
+            if record.execution_status != "WAITING_APPROVAL":
+                raise DecisionConflict("approval is no longer pending")
+            record.command = command
+            record.execution_status = "PENDING"
 
     def _require_no_approved_job(self, owner_id: UUID, thread_id: UUID) -> None:
         if any(
@@ -276,7 +322,7 @@ class InMemoryTurnIndex:
             raise DecisionConflict("an approved operation is still executing")
 
     def update_goal(self, owner_id: UUID, thread_id: UUID, goal: str) -> ThreadRecord:
-        with self.mission_guard(thread_id):
+        with self.owner_guard(owner_id), self.mission_guard(thread_id):
             return self._update_goal(owner_id, thread_id, goal)
 
     def _update_goal(self, owner_id: UUID, thread_id: UUID, goal: str) -> ThreadRecord:
@@ -300,12 +346,13 @@ class InMemoryTurnIndex:
         thread_id: UUID,
         product_ids: tuple[UUID, ...],
     ) -> ThreadRecord:
-        record = self.threads.get(thread_id)
-        if record is None or record.owner_id != owner_id:
-            raise OwnershipError("thread not found")
-        updated = replace(record, selected_product_ids=product_ids)
-        self.threads[thread_id] = updated
-        return updated
+        with self.owner_guard(owner_id):
+            record = self.threads.get(thread_id)
+            if record is None or record.owner_id != owner_id:
+                raise OwnershipError("thread not found")
+            updated = replace(record, selected_product_ids=product_ids)
+            self.threads[thread_id] = updated
+            return updated
 
     def claim(self, run_id: UUID) -> TurnRecord | None:
         record = self.runs.get(run_id)
@@ -779,15 +826,13 @@ class TurnService:
                 raise OwnershipError("Agent run not found")
             existing.events = list(self.agent.replay(existing.run_id))
             return existing
-        record.events = [event async for event in self.agent.handle(record.command)]
-        record.execution_status = terminal_status(record.events)
-        self.index.update_status(record.run_id, record.execution_status)
-        return record
+        return await self.execute_claimed(record)
 
     async def execute_claimed(self, record: TurnRecord) -> TurnRecord:
-        record.events = [event async for event in self.agent.handle(record.command)]
-        record.execution_status = terminal_status(record.events)
-        self.index.update_status(record.run_id, record.execution_status)
+        with self.index.execution_guard(record.run_id):
+            record.events = [event async for event in self.agent.handle(record.command)]
+            record.execution_status = terminal_status(record.events)
+            self.index.update_status(record.run_id, record.execution_status)
         return record
 
     def require_run(self, owner_id: UUID, run_id: UUID) -> TurnRecord:
@@ -801,7 +846,7 @@ class TurnService:
         self, owner_id: UUID, run_id: UUID, tool_name: str, approved: bool
     ) -> TurnRecord:
         record = self.require_run(owner_id, run_id)
-        with self.index.mission_guard(record.thread_id):
+        with self.index.owner_guard(owner_id), self.index.mission_guard(record.thread_id):
             return await self._decide(owner_id, run_id, tool_name, approved)
 
     async def _decide(

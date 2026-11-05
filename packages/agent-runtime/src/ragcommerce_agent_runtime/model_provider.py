@@ -21,6 +21,7 @@ from uuid import UUID
 from pydantic import ValidationError
 
 from .contracts import ToolCall, ToolExecutionContext, ToolResult, TurnCommand
+from .messages import public_stage_message
 from .token_budget import BudgetRefused, PostgresTokenBudget
 from .tools import FROZEN_TOOL_TYPES
 
@@ -390,68 +391,13 @@ class OpenAICompatibleProvider:
 
     async def respond(self, command: TurnCommand, results: tuple[ToolResult, ...]) -> str:
         self._begin_run(command)
-        # Successful phase text needs observed stages, not the original purchase
-        # request: that previously elicited fabricated prices despite the guard.
-        context = {
-            "task": "只总结实际工具阶段, 不给商品报价或新购买建议",
-            "completed_stages": sorted({key for item in results for key in item.public_data}),
-            "candidate_count": sum(len(item.public_data.get("products", [])) for item in results),
-        }
-        if not results:
-            context = {"task": "只提出一个继续检索所必需的澄清问题", "goal": command.text}
-        response = await self._request(
-            {
-                "model": self.model,
-                "thinking": {"type": "disabled"},
-                "max_completion_tokens": 512,
-                "messages": [
-                    {
-                        "role": "system",
-                        "content": (
-                            "只输出一句不含货币金额的简洁中文阶段总结。"
-                            "只总结completed_stages中实际完成的步骤, 不得声称未完成的步骤。具体结论由结构化卡片展示。"
-                            "不得补全工具结果中不存在的商业事实。"
-                            "本阶段总结不复述报价或预算数字, 数字与商业结论只在带证据的结构化卡片展示。"
-                            "工具结果为空时只提出一个继续检索所必需的澄清问题。"
-                        ),
-                    },
-                    {
-                        "role": "user",
-                        "content": json.dumps(context, ensure_ascii=False),
-                    },
-                ],
-            }
-        )
-        try:
-            content = response["choices"][0]["message"]["content"]  # type: ignore[index]
-            if not isinstance(content, str) or not content.strip():
-                raise KeyError("content")
-            value = content.strip()
-            mentioned_amounts = self._money_values(value)
-            supported_amounts = self._money_values(command.text)
-            for result in results:
-                for offer in result.public_data.get("offers", []):
-                    price = offer.get("price_minor")
-                    shipping = offer.get("shipping_minor")
-                    if isinstance(price, int):
-                        supported_amounts.add(price)
-                    if isinstance(shipping, int):
-                        supported_amounts.add(shipping)
-                    if isinstance(price, int) and isinstance(shipping, int):
-                        supported_amounts.add(price + shipping)
-            if mentioned_amounts - supported_amounts:
-                raise ProviderUnsupportedAmount(
-                    tuple(sorted(mentioned_amounts - supported_amounts))
-                )
-            return value
-        except (KeyError, IndexError, TypeError) as exc:
-            raise ProviderInvalidResponse("provider did not return a message") from exc
+        return public_stage_message(results)
 
     async def interpret_media(
         self, context: ToolExecutionContext, kind: str, content_type: str, content: bytes
     ) -> dict[str, object]:
         self._begin_run(context)
-        media_upper = 16_384  # twice the official maximum image-token estimate (8,388,608 / 32²).
+        media_upper = 32_768  # Conservative allowance for the 16 MP upload policy at 32px patches.
         if kind == "audio":
             if content_type != "audio/wav":
                 raise ProviderInvalidResponse("native voice understanding requires PCM WAV")

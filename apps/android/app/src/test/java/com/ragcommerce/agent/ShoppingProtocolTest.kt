@@ -260,7 +260,7 @@ class ShoppingProtocolTest {
     }
 
     @Test
-    fun eventStreamSendsOwnerAndLastEventCursorHeaders() = runTest {
+    fun eventStreamSendsCredentialAndLastEventCursorHeaders() = runTest {
         val server = MockWebServer()
         server.enqueue(
             MockResponse()
@@ -278,7 +278,7 @@ class ShoppingProtocolTest {
             assertEquals("7", request.getHeader("Last-Event-ID"))
             assertEquals(
                 "00000000-0000-5000-8000-000000000101",
-                request.getHeader("X-User-ID"),
+                request.getHeader("Authorization"),
             )
             assertTrue(payload.contains("event: completed"))
         } finally {

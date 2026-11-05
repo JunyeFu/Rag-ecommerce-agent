@@ -11,7 +11,7 @@ from uuid import UUID
 
 from psycopg.types.json import Jsonb
 from ragcommerce_agent_runtime import MediaRef, TurnCommand
-from ragcommerce_agent_runtime.postgres_connection import connect
+from ragcommerce_agent_runtime.postgres_connection import bind_connection, connect
 
 from .service import DecisionConflict, ThreadRecord, TurnRecord
 
@@ -71,6 +71,42 @@ class PostgresTurnIndex:
         self.dsn = dsn
 
     @contextmanager
+    def owner_guard(self, owner_id, blocking=True):
+        with connect(self.dsn) as connection:
+            if blocking:
+                connection.execute(
+                    "SELECT pg_advisory_xact_lock(hashtextextended(%s, 0))", (f"owner:{owner_id}",)
+                )
+            elif not connection.execute(
+                "SELECT pg_try_advisory_xact_lock(hashtextextended(%s, 0))", (f"owner:{owner_id}",)
+            ).fetchone()[0]:
+                raise DecisionConflict("user data operation in progress")
+            with bind_connection(self.dsn, connection):
+                yield connection
+
+    @contextmanager
+    def execution_guard(self, run_id):
+        # Separate lock connection: checkpoint commits remain visible during execution.
+        with connect(self.dsn) as connection:
+            acquired = connection.execute(
+                "SELECT pg_try_advisory_xact_lock(hashtextextended(%s, 0))",
+                (f"execution:{run_id}",),
+            ).fetchone()[0]
+            if not acquired:
+                raise DecisionConflict("run is already executing")
+            yield
+
+    def has_active(self, owner_id):
+        with connect(self.dsn) as connection:
+            return (
+                connection.execute(
+                    "SELECT 1 FROM api_turns WHERE owner_id=%s AND status IN ('PENDING','RETRY','RUNNING') LIMIT 1",
+                    (owner_id,),
+                ).fetchone()
+                is not None
+            )
+
+    @contextmanager
     def mission_guard(self, thread_id: UUID) -> Iterator[None]:
         with connect(self.dsn) as connection:
             acquired = connection.execute(
@@ -82,42 +118,43 @@ class PostgresTurnIndex:
             yield
 
     def create_thread(self, record: ThreadRecord) -> None:
-        now = datetime.now(UTC)
-        with connect(self.dsn) as connection:
-            connection.execute(
-                """INSERT INTO shopping_missions(
-                id,user_ref,goal,budget_minor,currency,hard_constraints,exclusions,
-                consented_preferences,created_at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
-                (
-                    record.mission_id,
-                    f"api-user:{record.owner_id}",
-                    record.goal,
-                    None,
-                    None,
-                    Jsonb([]),
-                    Jsonb([]),
-                    Jsonb([]),
-                    now,
-                ),
-            )
-            connection.execute(
-                "INSERT INTO conversations(id,mission_id,created_at) VALUES (%s,%s,%s)",
-                (record.id, record.mission_id, now),
-            )
-            connection.execute(
-                """INSERT INTO api_threads(
-                thread_id,mission_id,owner_id,goal,mission_version,selected_product_ids,created_at)
-                VALUES (%s,%s,%s,%s,%s,%s,%s)""",
-                (
-                    record.id,
-                    record.mission_id,
-                    record.owner_id,
-                    record.goal,
-                    record.mission_version,
-                    Jsonb([str(value) for value in record.selected_product_ids]),
-                    now,
-                ),
-            )
+        with self.owner_guard(record.owner_id):
+            now = datetime.now(UTC)
+            with connect(self.dsn) as connection:
+                connection.execute(
+                    """INSERT INTO shopping_missions(
+                    id,user_ref,goal,budget_minor,currency,hard_constraints,exclusions,
+                    consented_preferences,created_at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                    (
+                        record.mission_id,
+                        f"api-user:{record.owner_id}",
+                        record.goal,
+                        None,
+                        None,
+                        Jsonb([]),
+                        Jsonb([]),
+                        Jsonb([]),
+                        now,
+                    ),
+                )
+                connection.execute(
+                    "INSERT INTO conversations(id,mission_id,created_at) VALUES (%s,%s,%s)",
+                    (record.id, record.mission_id, now),
+                )
+                connection.execute(
+                    """INSERT INTO api_threads(
+                    thread_id,mission_id,owner_id,goal,mission_version,selected_product_ids,created_at)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s)""",
+                    (
+                        record.id,
+                        record.mission_id,
+                        record.owner_id,
+                        record.goal,
+                        record.mission_version,
+                        Jsonb([str(value) for value in record.selected_product_ids]),
+                        now,
+                    ),
+                )
 
     def get_thread(self, thread_id: UUID) -> ThreadRecord | None:
         with connect(self.dsn) as connection:
@@ -146,134 +183,136 @@ class PostgresTurnIndex:
     def reserve(
         self, record: TurnRecord, transition: Callable | None = None
     ) -> tuple[TurnRecord, bool]:
-        with ExitStack() as guards, connect(self.dsn) as connection:
-            if transition is not None:
-                guards.enter_context(self.mission_guard(record.thread_id))
-            thread = connection.execute(
-                """SELECT mission_id,goal,mission_version,mode,exploration,selected_product_ids,experience FROM api_threads
-                WHERE owner_id=%s AND thread_id=%s FOR UPDATE""",
-                (record.owner_id, record.thread_id),
-            ).fetchone()
-            if thread is None:
-                raise LookupError("thread not found")
-            existing = connection.execute(
-                """SELECT owner_id,thread_id,run_id,idempotency_key,request_sha256,command,status
-                FROM api_turns WHERE owner_id=%s AND thread_id=%s AND idempotency_key=%s""",
-                (record.owner_id, record.thread_id, record.idempotency_key),
-            ).fetchone()
-            if existing is not None:
-                return self._record(existing), False
-            self._require_no_approved_job(connection, record.owner_id, record.thread_id)
-            if transition is None and thread[3] == "DISCOVERY":
-                raise ValueError(
-                    "Select a direction or start a new shopping task before sending text"
-                )
-            previous = connection.execute(
-                """SELECT status,command FROM api_turns WHERE owner_id=%s AND thread_id=%s
-                ORDER BY created_at DESC LIMIT 1""",
-                (record.owner_id, record.thread_id),
-            ).fetchone()
-            version = thread[2]
-            goal = thread[1]
-            if transition is not None:
-                from .exploration import result_for
-
-                updated = transition(
-                    ThreadRecord(
-                        record.thread_id,
-                        thread[0],
-                        record.owner_id,
-                        thread[1],
-                        thread[2],
-                        tuple(UUID(str(value)) for value in thread[5]),
-                        thread[3],
-                        thread[4],
-                        thread[6],
+        with self.owner_guard(record.owner_id):
+            with ExitStack() as guards, connect(self.dsn) as connection:
+                if transition is not None:
+                    guards.enter_context(self.mission_guard(record.thread_id))
+                thread = connection.execute(
+                    """SELECT mission_id,goal,mission_version,mode,exploration,selected_product_ids,experience FROM api_threads
+                    WHERE owner_id=%s AND thread_id=%s FOR UPDATE""",
+                    (record.owner_id, record.thread_id),
+                ).fetchone()
+                if thread is None:
+                    raise LookupError("thread not found")
+                existing = connection.execute(
+                    """SELECT owner_id,thread_id,run_id,idempotency_key,request_sha256,command,status
+                    FROM api_turns WHERE owner_id=%s AND thread_id=%s AND idempotency_key=%s""",
+                    (record.owner_id, record.thread_id, record.idempotency_key),
+                ).fetchone()
+                if existing is not None:
+                    return self._record(existing), False
+                self._require_no_approved_job(connection, record.owner_id, record.thread_id)
+                if transition is None and thread[3] == "DISCOVERY":
+                    raise ValueError(
+                        "Select a direction or start a new shopping task before sending text"
                     )
-                )
-                version = updated.mission_version
-                goal = updated.goal
-                connection.execute(
-                    """UPDATE api_threads SET goal=%s,mission_version=%s,mode=%s,exploration=%s,
-                    selected_product_ids='[]'::jsonb WHERE thread_id=%s""",
-                    (
-                        updated.goal,
-                        version,
-                        updated.mode,
-                        Jsonb(updated.exploration),
-                        record.thread_id,
-                    ),
-                )
-                connection.execute(
-                    "UPDATE shopping_missions SET goal=%s WHERE id=%s", (updated.goal, thread[0])
-                )
+                previous = connection.execute(
+                    """SELECT status,command FROM api_turns WHERE owner_id=%s AND thread_id=%s
+                    ORDER BY created_at DESC LIMIT 1""",
+                    (record.owner_id, record.thread_id),
+                ).fetchone()
+                version = thread[2]
+                goal = thread[1]
+                if transition is not None:
+                    from .exploration import result_for
+
+                    updated = transition(
+                        ThreadRecord(
+                            record.thread_id,
+                            thread[0],
+                            record.owner_id,
+                            thread[1],
+                            thread[2],
+                            tuple(UUID(str(value)) for value in thread[5]),
+                            thread[3],
+                            thread[4],
+                            thread[6],
+                        )
+                    )
+                    version = updated.mission_version
+                    goal = updated.goal
+                    connection.execute(
+                        """UPDATE api_threads SET goal=%s,mission_version=%s,mode=%s,exploration=%s,
+                        selected_product_ids='[]'::jsonb WHERE thread_id=%s""",
+                        (
+                            updated.goal,
+                            version,
+                            updated.mode,
+                            Jsonb(updated.exploration),
+                            record.thread_id,
+                        ),
+                    )
+                    connection.execute(
+                        "UPDATE shopping_missions SET goal=%s WHERE id=%s",
+                        (updated.goal, thread[0]),
+                    )
+                    record.command = replace(
+                        record.command,
+                        text=updated.goal,
+                        exploration_result=None
+                        if record.command.media_confirmation
+                        else result_for(updated),
+                    )
+                if (
+                    transition is None
+                    and previous is not None
+                    and previous[0] == "WAITING_CLARIFICATION"
+                    and previous[1]["mission_version"] == version
+                ):
+                    guards.enter_context(self.mission_guard(record.thread_id))
+                    goal = f"{thread[1]}; {record.command.text.strip()}"[:500]
+                    version += 1
+                    connection.execute(
+                        """UPDATE api_threads SET goal=%s,mission_version=%s,selected_product_ids='[]'::jsonb
+                        WHERE thread_id=%s""",
+                        (goal, version, record.thread_id),
+                    )
+                    connection.execute(
+                        "UPDATE shopping_missions SET goal=%s WHERE id=%s", (goal, thread[0])
+                    )
+                    record.command = replace(record.command, text=goal)
                 record.command = replace(
                     record.command,
-                    text=updated.goal,
-                    exploration_result=None
-                    if record.command.media_confirmation
-                    else result_for(updated),
+                    mission_version=version,
+                    mission_goal=goal,
+                    recommendation_feedback=dict(thread[6].get("feedback", {})),
+                    excluded_product_ids=tuple(
+                        key.removeprefix("PRODUCT:")
+                        for key in thread[6].get("feedback", {})
+                        if key.startswith("PRODUCT:")
+                    ),
+                    excluded_categories=tuple(
+                        key.removeprefix("CATEGORY:")
+                        for key in thread[6].get("feedback", {})
+                        if key.startswith("CATEGORY:")
+                    ),
                 )
-            if (
-                transition is None
-                and previous is not None
-                and previous[0] == "WAITING_CLARIFICATION"
-                and previous[1]["mission_version"] == version
-            ):
-                guards.enter_context(self.mission_guard(record.thread_id))
-                goal = f"{thread[1]}; {record.command.text.strip()}"[:500]
-                version += 1
-                connection.execute(
-                    """UPDATE api_threads SET goal=%s,mission_version=%s,selected_product_ids='[]'::jsonb
-                    WHERE thread_id=%s""",
-                    (goal, version, record.thread_id),
-                )
-                connection.execute(
-                    "UPDATE shopping_missions SET goal=%s WHERE id=%s", (goal, thread[0])
-                )
-                record.command = replace(record.command, text=goal)
-            record.command = replace(
-                record.command,
-                mission_version=version,
-                mission_goal=goal,
-                recommendation_feedback=dict(thread[6].get("feedback", {})),
-                excluded_product_ids=tuple(
-                    key.removeprefix("PRODUCT:")
-                    for key in thread[6].get("feedback", {})
-                    if key.startswith("PRODUCT:")
-                ),
-                excluded_categories=tuple(
-                    key.removeprefix("CATEGORY:")
-                    for key in thread[6].get("feedback", {})
-                    if key.startswith("CATEGORY:")
-                ),
-            )
-            inserted = connection.execute(
-                """INSERT INTO api_turns(
-                run_id,owner_id,thread_id,idempotency_key,request_sha256,command,status,created_at)
-                VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
-                ON CONFLICT(owner_id,thread_id,idempotency_key) DO NOTHING RETURNING run_id""",
-                (
-                    record.run_id,
-                    record.owner_id,
-                    record.thread_id,
-                    record.idempotency_key,
-                    record.fingerprint,
-                    Jsonb(command_json(record.command)),
-                    record.execution_status,
-                    datetime.now(UTC),
-                ),
-            ).fetchone()
-            if inserted is not None:
-                return record, True
-            row = connection.execute(
-                """SELECT owner_id,thread_id,run_id,idempotency_key,request_sha256,command,status
-                FROM api_turns WHERE owner_id=%s AND thread_id=%s AND idempotency_key=%s""",
-                (record.owner_id, record.thread_id, record.idempotency_key),
-            ).fetchone()
-        if row is None:
-            raise RuntimeError("idempotency reservation disappeared")
-        return self._record(row), False
+                inserted = connection.execute(
+                    """INSERT INTO api_turns(
+                    run_id,owner_id,thread_id,idempotency_key,request_sha256,command,status,created_at)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+                    ON CONFLICT(owner_id,thread_id,idempotency_key) DO NOTHING RETURNING run_id""",
+                    (
+                        record.run_id,
+                        record.owner_id,
+                        record.thread_id,
+                        record.idempotency_key,
+                        record.fingerprint,
+                        Jsonb(command_json(record.command)),
+                        record.execution_status,
+                        datetime.now(UTC),
+                    ),
+                ).fetchone()
+                if inserted is not None:
+                    return record, True
+                row = connection.execute(
+                    """SELECT owner_id,thread_id,run_id,idempotency_key,request_sha256,command,status
+                    FROM api_turns WHERE owner_id=%s AND thread_id=%s AND idempotency_key=%s""",
+                    (record.owner_id, record.thread_id, record.idempotency_key),
+                ).fetchone()
+            if row is None:
+                raise RuntimeError("idempotency reservation disappeared")
+            return self._record(row), False
 
     def list_threads(self, owner_id: UUID) -> list[ThreadRecord]:
         with connect(self.dsn) as connection:
@@ -297,39 +336,40 @@ class PostgresTurnIndex:
         return [self._record(row) for row in rows]
 
     def update_experience(self, owner_id: UUID, thread_id: UUID, change: Callable) -> ThreadRecord:
-        from .service import OwnershipError
+        with self.owner_guard(owner_id):
+            from .service import OwnershipError
 
-        with self.mission_guard(thread_id), connect(self.dsn) as connection:
-            row = connection.execute(
-                "SELECT thread_id,mission_id,owner_id,goal,mission_version,selected_product_ids,mode,exploration,experience FROM api_threads WHERE owner_id=%s AND thread_id=%s FOR UPDATE",
-                (owner_id, thread_id),
-            ).fetchone()
-            if row is None:
-                raise OwnershipError("thread not found")
-            self._require_no_approved_job(connection, owner_id, thread_id)
-            record = ThreadRecord(
-                row[0],
-                row[1],
-                row[2],
-                row[3],
-                row[4],
-                tuple(UUID(str(v)) for v in row[5]),
-                row[6],
-                row[7],
-                row[8],
-            )
-            updated = change(record)
-            connection.execute(
-                "UPDATE api_threads SET experience=%s,mission_version=%s,selected_product_ids=%s WHERE owner_id=%s AND thread_id=%s",
-                (
-                    Jsonb(updated.experience),
-                    updated.mission_version,
-                    Jsonb([str(v) for v in updated.selected_product_ids]),
-                    owner_id,
-                    thread_id,
-                ),
-            )
-            return updated
+            with self.mission_guard(thread_id), connect(self.dsn) as connection:
+                row = connection.execute(
+                    "SELECT thread_id,mission_id,owner_id,goal,mission_version,selected_product_ids,mode,exploration,experience FROM api_threads WHERE owner_id=%s AND thread_id=%s FOR UPDATE",
+                    (owner_id, thread_id),
+                ).fetchone()
+                if row is None:
+                    raise OwnershipError("thread not found")
+                self._require_no_approved_job(connection, owner_id, thread_id)
+                record = ThreadRecord(
+                    row[0],
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    tuple(UUID(str(v)) for v in row[5]),
+                    row[6],
+                    row[7],
+                    row[8],
+                )
+                updated = change(record)
+                connection.execute(
+                    "UPDATE api_threads SET experience=%s,mission_version=%s,selected_product_ids=%s WHERE owner_id=%s AND thread_id=%s",
+                    (
+                        Jsonb(updated.experience),
+                        updated.mission_version,
+                        Jsonb([str(v) for v in updated.selected_product_ids]),
+                        owner_id,
+                        thread_id,
+                    ),
+                )
+                return updated
 
     def get_run(self, run_id: UUID) -> TurnRecord | None:
         with connect(self.dsn) as connection:
@@ -348,7 +388,7 @@ class PostgresTurnIndex:
             )
 
     def enqueue_approval(self, command: TurnCommand) -> None:
-        with connect(self.dsn) as connection:
+        with self.owner_guard(command.user_id), connect(self.dsn) as connection:
             connection.execute(
                 "SELECT thread_id FROM api_threads WHERE owner_id=%s AND thread_id=%s FOR UPDATE",
                 (command.user_id, command.thread_id),
@@ -373,29 +413,30 @@ class PostgresTurnIndex:
             raise DecisionConflict("an approved operation is still executing")
 
     def update_goal(self, owner_id: UUID, thread_id: UUID, goal: str) -> ThreadRecord:
-        with self.mission_guard(thread_id), connect(self.dsn) as connection:
-            self._require_no_approved_job(connection, owner_id, thread_id)
-            row = connection.execute(
-                """UPDATE api_threads SET goal=%s, mission_version=mission_version+1,
-                selected_product_ids='[]'::jsonb,mode='PURCHASE'
-                WHERE owner_id=%s AND thread_id=%s
-                RETURNING mission_id,mission_version,selected_product_ids""",
-                (goal, owner_id, thread_id),
-            ).fetchone()
-            if row is None:
-                raise LookupError("thread not found")
-            connection.execute(
-                "UPDATE shopping_missions SET goal=%s WHERE id=%s",
-                (goal, row[0]),
+        with self.owner_guard(owner_id):
+            with self.mission_guard(thread_id), connect(self.dsn) as connection:
+                self._require_no_approved_job(connection, owner_id, thread_id)
+                row = connection.execute(
+                    """UPDATE api_threads SET goal=%s, mission_version=mission_version+1,
+                    selected_product_ids='[]'::jsonb,mode='PURCHASE'
+                    WHERE owner_id=%s AND thread_id=%s
+                    RETURNING mission_id,mission_version,selected_product_ids""",
+                    (goal, owner_id, thread_id),
+                ).fetchone()
+                if row is None:
+                    raise LookupError("thread not found")
+                connection.execute(
+                    "UPDATE shopping_missions SET goal=%s WHERE id=%s",
+                    (goal, row[0]),
+                )
+            return ThreadRecord(
+                thread_id,
+                row[0],
+                owner_id,
+                goal,
+                row[1],
+                tuple(UUID(str(value)) for value in row[2]),
             )
-        return ThreadRecord(
-            thread_id,
-            row[0],
-            owner_id,
-            goal,
-            row[1],
-            tuple(UUID(str(value)) for value in row[2]),
-        )
 
     def update_comparison(
         self,
@@ -403,16 +444,17 @@ class PostgresTurnIndex:
         thread_id: UUID,
         product_ids: tuple[UUID, ...],
     ) -> ThreadRecord:
-        with connect(self.dsn) as connection:
-            row = connection.execute(
-                """UPDATE api_threads SET selected_product_ids=%s
-                WHERE owner_id=%s AND thread_id=%s
-                RETURNING mission_id,goal,mission_version""",
-                (Jsonb([str(value) for value in product_ids]), owner_id, thread_id),
-            ).fetchone()
-        if row is None:
-            raise LookupError("thread not found")
-        return ThreadRecord(thread_id, row[0], owner_id, row[1], row[2], product_ids)
+        with self.owner_guard(owner_id):
+            with connect(self.dsn) as connection:
+                row = connection.execute(
+                    """UPDATE api_threads SET selected_product_ids=%s
+                    WHERE owner_id=%s AND thread_id=%s
+                    RETURNING mission_id,goal,mission_version""",
+                    (Jsonb([str(value) for value in product_ids]), owner_id, thread_id),
+                ).fetchone()
+            if row is None:
+                raise LookupError("thread not found")
+            return ThreadRecord(thread_id, row[0], owner_id, row[1], row[2], product_ids)
 
     def claim(self, run_id: UUID) -> TurnRecord | None:
         with connect(self.dsn) as connection:
@@ -429,8 +471,9 @@ class PostgresTurnIndex:
             row = connection.execute(
                 """WITH candidate AS (
                     SELECT run_id FROM api_turns
-                    WHERE status IN ('PENDING','RETRY')
-                    OR (status='RUNNING' AND claimed_at < NOW() - INTERVAL '5 minutes')
+                    WHERE (status IN ('PENDING','RETRY')
+                    OR (status='RUNNING' AND claimed_at < NOW() - INTERVAL '5 minutes'))
+                    AND pg_try_advisory_xact_lock(hashtextextended('execution:' || run_id::text, 0))
                     ORDER BY created_at FOR UPDATE SKIP LOCKED LIMIT 1
                 )
                 UPDATE api_turns SET status='RUNNING', claimed_at=NOW() FROM candidate

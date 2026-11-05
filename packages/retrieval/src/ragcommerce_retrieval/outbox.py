@@ -53,8 +53,9 @@ class OutboxProjector:
         return True
 
     def rebuild(self, events: tuple[OutboxEvent, ...]) -> None:
-        self.projection.clear()
-        self.applied_event_ids.clear()
-        self.last_sequence = -1
+        candidate = OutboxProjector(InMemoryProjection())
         for event in sorted(events, key=lambda item: item.sequence):
-            self.apply(event)
+            candidate.apply(event)
+        self.projection.documents = candidate.projection.documents
+        self.applied_event_ids = candidate.applied_event_ids
+        self.last_sequence = candidate.last_sequence

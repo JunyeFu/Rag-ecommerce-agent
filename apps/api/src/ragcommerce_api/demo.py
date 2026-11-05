@@ -723,7 +723,7 @@ class DemoCommerce:
         )
 
 
-def create_demo_app(catalog_path: Path):
+def create_demo_app(catalog_path: Path, *, ops_credentials=None):
     from .media_tools import media_tool_handlers
 
     commerce = DemoCommerce(catalog_path)
@@ -741,6 +741,14 @@ def create_demo_app(catalog_path: Path):
             "0.2.0",
         ),
     )
+    from .installation_auth import InMemoryInstallations
+
     return create_app(
-        TurnService(agent, media), media, commerce=commerce, ops_store=InMemoryOpsStore()
+        TurnService(agent, media),
+        media,
+        commerce=commerce,
+        ops_store=InMemoryOpsStore(),
+        development_identity=True,
+        installation_store=InMemoryInstallations(),
+        ops_credentials=ops_credentials,
     )

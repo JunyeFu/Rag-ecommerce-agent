@@ -19,6 +19,7 @@ const pythonPath = [
 
 export default defineConfig({
   testDir: ".",
+  testIgnore: ["**/output/**"],
   testMatch: ["apps/ops-web/e2e/**/*.spec.ts", "e2e/agent/**/*.spec.ts"],
   fullyParallel: false,
   workers: 1,
@@ -50,7 +51,7 @@ export default defineConfig({
       url: "http://127.0.0.1:24174",
       timeout: 120_000,
       reuseExistingServer: false,
-      env: { RAG_API_URL: apiUrl },
+      env: { RAG_API_URL: apiUrl, VITE_OPS_DEVELOPMENT_IDENTITY: process.env.OPS_TEST_FIXTURE_IDENTITY ?? "1" },
     },
   ],
 });

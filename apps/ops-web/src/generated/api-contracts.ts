@@ -1,6 +1,6 @@
-// Generated file; do not edit. generator=4 source_sha256=54898f9e23ab4e93df3ebeb00b7d52ec82e9d6a55d37250ce999ed000cf39d6f
+// Generated file; do not edit. generator=4 source_sha256=174853fd5afac40fa49aeb1516c200f0ea2f4f7602603befea83a1988a031c91
 export const CONTRACT_VERSION = "0.2.0" as const;
-export const CONTRACT_SOURCE_SHA256 = "54898f9e23ab4e93df3ebeb00b7d52ec82e9d6a55d37250ce999ed000cf39d6f" as const;
+export const CONTRACT_SOURCE_SHA256 = "174853fd5afac40fa49aeb1516c200f0ea2f4f7602603befea83a1988a031c91" as const;
 
 export type HealthResponse = { status: "ok"; contract_version: string };
 export type CreateThreadRequest = { goal: string };
@@ -240,7 +240,7 @@ export type AuditEvent = {
   occurred_at: string;
 };
 export type OpsPolicy = {
-  auth_mode: "development_headers";
+  auth_mode: "development_headers" | "server_bearer";
   visible_fields: string[];
   prohibited_fields: string[];
   export_enabled: boolean;

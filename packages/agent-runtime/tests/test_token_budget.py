@@ -45,7 +45,9 @@ def test_paid_boundary_reserves_before_call_and_limits_completion():
         token_budget=budget,
     )
     asyncio.run(
-        provider.respond(TurnCommand(uuid4(), uuid4(), uuid4(), "budget-test", "买耳机"), ())
+        request_response(
+            provider, TurnCommand(uuid4(), uuid4(), uuid4(), "budget-test", "买耳机"), ()
+        )
     )
     assert budget.settled
 
@@ -64,7 +66,9 @@ def test_missing_usage_is_not_charged_as_zero():
     )
     with pytest.raises(ProviderBudgetExceeded, match="unknown usage"):
         asyncio.run(
-            provider.respond(TurnCommand(uuid4(), uuid4(), uuid4(), "budget-test", "买耳机"), ())
+            request_response(
+                provider, TurnCommand(uuid4(), uuid4(), uuid4(), "budget-test", "买耳机"), ()
+            )
         )
 
 
@@ -72,7 +76,9 @@ def test_network_transport_cannot_execute_without_shared_ledger():
     provider = OpenAICompatibleProvider("https://model.example/v1", "test-only", "test-model")
     with pytest.raises(ProviderBudgetExceeded, match="shared PostgreSQL"):
         asyncio.run(
-            provider.respond(TurnCommand(uuid4(), uuid4(), uuid4(), "budget-test", "买耳机"), ())
+            request_response(
+                provider, TurnCommand(uuid4(), uuid4(), uuid4(), "budget-test", "买耳机"), ()
+            )
         )
 
 
@@ -192,3 +198,10 @@ def test_scenario_slots_refuse_duplicate_and_unapproved_paid_calls():
             connection.execute("DELETE FROM model_budget_calls WHERE session_id=%s", (session,))
             connection.execute("DELETE FROM model_budget_scenarios WHERE session_id=%s", (session,))
             connection.execute("DELETE FROM model_budget_sessions WHERE session_id=%s", (session,))
+
+
+async def request_response(provider, command, results=()):
+    provider._begin_run(command)
+    return await provider._request(
+        {"max_completion_tokens": 512, "messages": [{"role": "user", "content": command.text}]}
+    )

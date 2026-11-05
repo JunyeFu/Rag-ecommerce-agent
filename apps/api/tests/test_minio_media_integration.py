@@ -35,7 +35,7 @@ def test_minio_media_create_delete_and_ttl_cleanup() -> None:
     owner_id = uuid4()
     other_owner_id = uuid4()
     verifier = Minio(endpoint, access_key=access_key, secret_key=secret_key, secure=False)
-    content = b"\x89PNG\r\n\x1a\nplatform-integration"
+    content = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\x9cc```\x00\x00\x00\x04\x00\x01\xf6\x178U\x00\x00\x00\x00IEND\xaeB`\x82"
 
     try:
         store = MinioMediaStore(dsn, endpoint, access_key, secret_key, bucket=bucket)
@@ -105,7 +105,7 @@ def test_concurrent_minio_startup_keeps_both_media_stores_usable(monkeypatch):
                     range(2),
                 )
             )
-        content = b"\x89PNG\r\n\x1a\nconcurrent-startup"
+        content = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\x9cc```\x00\x00\x00\x04\x00\x01\xf6\x178U\x00\x00\x00\x00IEND\xaeB`\x82"
         media = stores[0].create(owner, "image/png", content)
         assert stores[1].read_owned(owner, media.id) == (media, content)
     finally:

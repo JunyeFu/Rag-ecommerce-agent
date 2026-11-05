@@ -1,0 +1,298 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-INTERVIEW-REPAIR-02",
+  "status": "passed",
+  "recorded_at": "2026-11-05T23:54:08.117179+08:00",
+  "source_commit": "06039aba1cf4798704f26549b7a3633c42fceb96",
+  "version_scope": "uncommitted current workspace; Linux source snapshot with no credentials/Git metadata; final docs and UI styles verified locally",
+  "checks": [
+    {
+      "command": "pytest (see windows-services.xml)",
+      "started_at": "2026-11-05T23:33:24.188041+08:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 306,
+        "passed": 299,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 7
+      },
+      "duration_seconds": 50.968,
+      "junit": "output/interview-batch2-20261105/windows-services.xml",
+      "skipped_cases": [
+        {
+          "test": "test_eight_lanes_share_local_model_but_read_index_independently",
+          "reason": "QDRANT_TEST_URL and LOCAL_EMBEDDING_TEST_COLLECTION are required"
+        },
+        {
+          "test": "test_real_tls_peer_sni_redirect_and_no_second_hostname_dns",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        },
+        {
+          "test": "test_real_tls_then_rebinding_to_private_denied",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        },
+        {
+          "test": "test_real_tls_rejects_hostname_mismatch_and_unknown_ca[wrong.qa.test-True]",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        },
+        {
+          "test": "test_real_tls_rejects_hostname_mismatch_and_unknown_ca[shop.qa.test-False]",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        },
+        {
+          "test": "test_real_tls_redirect_authority_denied_before_dns",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        },
+        {
+          "test": "test_real_tls_loop_has_bounded_connections",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        }
+      ]
+    },
+    {
+      "command": "pytest (see linux-services.xml)",
+      "started_at": "2026-11-05T15:35:59.596920+00:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 306,
+        "passed": 298,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 8
+      },
+      "duration_seconds": 146.151,
+      "junit": "output/interview-batch2-20261105/linux-services.xml",
+      "skipped_cases": [
+        {
+          "test": "test_eight_lanes_share_local_model_but_read_index_independently",
+          "reason": "QDRANT_TEST_URL and LOCAL_EMBEDDING_TEST_COLLECTION are required"
+        },
+        {
+          "test": "test_real_tls_peer_sni_redirect_and_no_second_hostname_dns",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        },
+        {
+          "test": "test_real_tls_then_rebinding_to_private_denied",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        },
+        {
+          "test": "test_real_tls_rejects_hostname_mismatch_and_unknown_ca[wrong.qa.test-True]",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        },
+        {
+          "test": "test_real_tls_rejects_hostname_mismatch_and_unknown_ca[shop.qa.test-False]",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        },
+        {
+          "test": "test_real_tls_redirect_authority_denied_before_dns",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        },
+        {
+          "test": "test_real_tls_loop_has_bounded_connections",
+          "reason": "isolated Linux namespace with NET_ADMIN required"
+        },
+        {
+          "test": "test_local_onnx_embedding_is_normalized_and_uses_query_instruction",
+          "reason": "run scripts/prepare_local_embedding.py first"
+        }
+      ]
+    },
+    {
+      "command": "pytest (see tls-isolated-linux.xml)",
+      "started_at": "2026-11-05T15:29:00.219293+00:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 6,
+        "passed": 6,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "duration_seconds": 2.065,
+      "junit": "output/interview-batch2-20261105/tls-isolated-linux.xml",
+      "skipped_cases": []
+    },
+    {
+      "command": "pytest (see linux-bge-composition.xml)",
+      "started_at": "2026-11-05T15:44:50.739950+00:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "duration_seconds": 12.01,
+      "junit": "output/interview-batch2-20261105/linux-bge-composition.xml",
+      "skipped_cases": []
+    },
+    {
+      "command": "pytest (see windows-bge-composition.xml)",
+      "started_at": "2026-11-05T23:46:36.809992+08:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "duration_seconds": 15.573,
+      "junit": "output/interview-batch2-20261105/windows-bge-composition.xml",
+      "skipped_cases": []
+    },
+    {
+      "command": "npm run check; npm run test; npm run build",
+      "verified_at": "2026-11-05T23:54:08.117179+08:00",
+      "exit_code": 0,
+      "counts": {
+        "web_unit_passed": 4
+      },
+      "result": "typecheck, tests and build passed"
+    },
+    {
+      "command": "npx playwright test",
+      "verified_at": "2026-11-05T23:54:08.117179+08:00",
+      "exit_code": 0,
+      "counts": {
+        "passed": 10,
+        "failed": 0
+      },
+      "duration_seconds": 27.5,
+      "scope": "full Agent/Ops fixture E2E"
+    },
+    {
+      "command": "OPS_TEST_FIXTURE_IDENTITY=0 npx playwright test apps/ops-web/e2e/ops-auth.spec.ts",
+      "verified_at": "2026-11-05T23:54:08.117179+08:00",
+      "exit_code": 0,
+      "counts": {
+        "passed": 2,
+        "failed": 0
+      },
+      "duration_seconds": 11.0,
+      "scope": "no development identity; actual local Ops credential API; final desktop/mobile screenshots and cancellation race"
+    },
+    {
+      "command": "gradlew.bat --no-daemon :app:compileDebugKotlin :app:testDebugUnitTest",
+      "verified_at": "2026-11-05T23:54:08.117179+08:00",
+      "exit_code": 0,
+      "counts": {
+        "android_unit_passed": 55
+      },
+      "result": "build successful; no new native device claim"
+    },
+    {
+      "command": "Linux cold alembic upgrade head; alembic check",
+      "verified_at": "2026-11-05T23:54:08.117179+08:00",
+      "exit_code": 0,
+      "result": "revision 20261105_0018; metadata parity verified"
+    },
+    {
+      "command": "Linux CI policy/minimality/contracts/Agent artifacts/OpenAPI/SBOM/security/task checks",
+      "verified_at": "2026-11-05T23:54:08.117179+08:00",
+      "exit_code": 0,
+      "result": "individual checks passed before Ruff cache failure in the first chained governance invocation"
+    },
+    {
+      "command": "Linux RUFF_CACHE_DIR=/tmp/ruff-cache ruff check apps packages scripts; ruff format --check apps packages scripts",
+      "verified_at": "2026-11-05T23:54:08.117179+08:00",
+      "exit_code": 0,
+      "counts": {
+        "python_files_formatted": 212
+      },
+      "result": "passed after relocating cache outside read-only snapshot"
+    },
+    {
+      "command": "Linux python scripts/manage_ops_identity.py --help; ruff check scripts/manage_ops_identity.py; ruff format --check scripts/manage_ops_identity.py",
+      "verified_at": "2026-11-05T23:54:08.117179+08:00",
+      "exit_code": 0,
+      "result": "root administrator entrypoint verified without provisioning real credentials"
+    },
+    {
+      "command": "Windows Ruff, contract/OpenAPI generation checks, security_gate.py --check, git diff --check and local links",
+      "verified_at": "2026-11-05T23:54:08.117179+08:00",
+      "exit_code": 0,
+      "result": "passed"
+    },
+    {
+      "command": "python scripts/validate_task_packages.py",
+      "verified_at": "2026-11-05T23:54:08.117179+08:00",
+      "exit_code": 0,
+      "counts": {
+        "packages": 55,
+        "errors": 0,
+        "warnings": 0
+      },
+      "result": "passed before completion; final transition validated separately"
+    }
+  ],
+  "ops_status": "server_bound_credentials_roles_revocation_and_browser_session_verified",
+  "https_status": "pinned_real_tls_and_redirect_boundary_verified_in_network_isolated_namespace",
+  "live_affiliate_enabled": false,
+  "paid_model_calls": 0,
+  "model_downloaded": false,
+  "model_weights_copied": false,
+  "model_input": "existing pinned public ONNX repository plus shared blob mounted read-only; 60-document QA alias only",
+  "remote_ci": {
+    "sha": "06039aba1cf4798704f26549b7a3633c42fceb96",
+    "run_id": 41984925244,
+    "conclusion": "failure",
+    "url": "https://github.com/JunyeFu/Rag-ecommerce-agent/actions/runs/41984925244",
+    "represents_current_local_changes": false
+  },
+  "browser_qa": {
+    "browser_plugin": "absent; existing Playwright used",
+    "viewports": [
+      "default desktop",
+      "390x844"
+    ],
+    "page_identity": "RAG Commerce Ops",
+    "framework_overlay": false,
+    "page_runtime_errors": 0,
+    "expected_negative_http": [
+      401,
+      403
+    ],
+    "screenshots": [
+      "D:/C-drive-temp-20261028/new-temp/ragcommerce-batch2-ops-auth-desktop.png",
+      "D:/C-drive-temp-20261028/new-temp/ragcommerce-batch2-ops-auth.png"
+    ],
+    "credentials_in_browser_storage": false
+  },
+  "superseded_failures": [
+    "Ops audit assertion initially expected raw actor; corrected to the existing actor digest contract",
+    "Pending-login cancellation race reproduced by a failing E2E, then fixed and rerun",
+    "Playwright snapshot duplicate collection excluded via output testIgnore",
+    "Linux read-only Ruff cache moved to container tmp; no source permission weakening",
+    "Model repository mount alone lacked its shared blob; read-only blob mount completed inputs without copying/downloading",
+    "Docker default address pools exhausted; project-only internal network uses an explicit unused test subnet",
+    "Direct module command lacked source PYTHONPATH; root administrator entrypoint added and checked on Windows/Linux"
+  ],
+  "failure_summary": "Final checks passed. Main suite skips are explicitly covered by isolated TLS and cached-model target runs; counts are not misrepresented as one monolithic run. No LIVE/publication acceptance claimed.",
+  "local_storage": {
+    "qa_image_bytes": 813860924,
+    "source_snapshot_bytes": 49702056,
+    "credentials_excluded_from_snapshot": true,
+    "source_snapshot_read_only": true,
+    "model_mount_read_only": true,
+    "permanent_deletion": false
+  },
+  "published": false,
+  "product_status": "HOLD",
+  "commercial_release": "NO_GO",
+  "external_gates": [
+    "新代码尚未提交推送，GitHub Ubuntu CI未运行",
+    "真实联盟授权、连接器调用者集成及LIVE验收保留",
+    "真实Ops凭据发放与正式部署由部署管理员执行",
+    "完整产品、物理设备、法律、人审与发布门禁仍保留"
+  ],
+  "test_services_closed": {
+    "recorded_at": "2026-11-05T23:54:52.583939+08:00",
+    "command": "docker stop --timeout 10 task-owned PostgreSQL/MinIO/Qdrant",
+    "exit_code": 0,
+    "containers_or_data_deleted": false,
+    "shared_networks_or_caches_deleted": false
+  }
+}

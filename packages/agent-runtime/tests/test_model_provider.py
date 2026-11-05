@@ -8,7 +8,6 @@ from ragcommerce_agent_runtime import (
     ProviderBudgetExceeded,
     ProviderInvalidResponse,
     ProviderRateLimited,
-    ProviderUnsupportedAmount,
     ToolCall,
     ToolResult,
     TurnCommand,
@@ -76,21 +75,12 @@ def test_media_prompt_has_a_literal_structure_and_user_instruction():
 
 
 def test_completed_phase_response_uses_observed_stages_not_purchase_goal():
-    transport = BoundaryTransport(
-        200,
-        {
-            "choices": [{"message": {"content": "已完成检索, 请查看证据卡片。"}}],
-            "usage": {"total_tokens": 50},
-        },
-    )
+    transport = BoundaryTransport(200, {})
     provider = OpenAICompatibleProvider(
         "https://fixture.example/v1", "test-only", "fixture", transport=transport
     )
-    asyncio.run(provider.respond(command(), (ToolResult({"products": []}),)))
-    payload = transport.requests[0]
-    context = json.loads(payload["messages"][1]["content"])
-    assert "goal" not in context and context["completed_stages"] == ["products"]
-    assert payload["thinking"] == {"type": "disabled"} and payload["max_completion_tokens"] == 512
+    text = asyncio.run(provider.respond(command(), (ToolResult({"products": []}),)))
+    assert "卡片" in text and not transport.requests
 
 
 def test_completed_explicit_cart_is_not_forced_to_plan_the_same_write_again():
@@ -120,12 +110,12 @@ def test_reused_provider_has_a_separate_budget_for_each_run():
 
     async def run():
         for _ in range(2):
-            await provider.respond(command(), ())
+            await request_response(provider, command(), ())
             assert provider.usage()["total_tokens"] == 7
         same_run = command()
-        await provider.respond(same_run, ())
+        await request_response(provider, same_run, ())
         with pytest.raises(ProviderBudgetExceeded):
-            await provider.respond(same_run, ())
+            await request_response(provider, same_run, ())
 
     asyncio.run(run())
 
@@ -152,7 +142,7 @@ def test_shared_provider_isolates_concurrent_run_usage():
 
     async def run():
         async def one():
-            await provider.respond(command(), ())
+            await request_response(provider, command(), ())
             return provider.usage()["total_tokens"]
 
         assert await asyncio.gather(one(), one()) == [7, 7]
@@ -161,21 +151,14 @@ def test_shared_provider_isolates_concurrent_run_usage():
 
 
 def test_blocked_amount_diagnostic_does_not_include_model_text():
-    provider = OpenAICompatibleProvider(
-        "https://model.example/v1",
-        "test-only",
-        "test-model",
-        transport=BoundaryTransport(
-            200,
-            {
-                "choices": [{"message": {"content": "售价999元 私密原文不进入异常"}}],
-            },
-        ),
+    transport = BoundaryTransport(
+        200, {"choices": [{"message": {"content": "售价999元 私密原文"}}]}
     )
-    with pytest.raises(ProviderUnsupportedAmount) as caught:
-        asyncio.run(provider.respond(command(), ()))
-    assert caught.value.amounts_minor == (99900,)
-    assert "私密原文" not in str(caught.value)
+    provider = OpenAICompatibleProvider(
+        "https://fixture.example/v1", "test-only", "fixture", transport=transport
+    )
+    assert "999" not in asyncio.run(provider.respond(command(), ()))
+    assert not transport.requests
 
 
 def test_openai_compatible_provider_returns_typed_tool_calls() -> None:
@@ -513,34 +496,24 @@ def test_required_read_stage_table(results: tuple[ToolResult, ...], expected: st
     assert (call.name if call else None) == expected
 
 
-def test_provider_rejects_monetary_amounts_in_free_text() -> None:
+def test_provider_rejects_monetary_amounts_in_free_text():
+    transport = BoundaryTransport(200, {"choices": [{"message": {"content": "售价1999元"}}]})
     provider = OpenAICompatibleProvider(
-        "https://model.example/v1",
-        "secret",
-        "demo-model",
-        transport=BoundaryTransport(
-            200,
-            {"choices": [{"message": {"content": "推荐商品售价 1999 元"}}]},
-        ),
+        "https://fixture.example/v1", "test-only", "fixture", transport=transport
     )
+    assert "1999" not in asyncio.run(provider.respond(command(), (ToolResult({"offers": []}),)))
+    assert not transport.requests
 
-    with pytest.raises(ProviderUnsupportedAmount, match="unsupported amount"):
-        asyncio.run(provider.respond(command(), (ToolResult({"offers": []}),)))
 
-
-def test_provider_accepts_an_amount_supported_by_an_offer() -> None:
+def test_provider_keeps_supported_amounts_in_structured_cards():
+    transport = BoundaryTransport(200, {})
     provider = OpenAICompatibleProvider(
-        "https://model.example/v1",
-        "secret",
-        "demo-model",
-        transport=BoundaryTransport(
-            200,
-            {"choices": [{"message": {"content": "工具报价为 1999 元"}}]},
-        ),
+        "https://fixture.example/v1", "test-only", "fixture", transport=transport
     )
-    results = (ToolResult({"offers": [{"price_minor": 199900, "shipping_minor": 0}]}),)
-
-    assert asyncio.run(provider.respond(command(), results)) == "工具报价为 1999 元"
+    results = (ToolResult({"offers": [{"price_minor": 199900}]}),)
+    assert "1999" not in asyncio.run(provider.respond(command(), results))
+    assert results[0].public_data["offers"][0]["price_minor"] == 199900
+    assert not transport.requests
 
 
 def test_provider_errors_are_explicit_and_never_fall_back_to_fake() -> None:
@@ -608,3 +581,10 @@ def test_provider_errors_are_explicit_and_never_fall_back_to_fake() -> None:
     )
     with pytest.raises(ProviderBudgetExceeded):
         asyncio.run(over_budget.plan(command(), (), 0))
+
+
+async def request_response(provider, command, results=()):
+    provider._begin_run(command)
+    return await provider._request(
+        {"max_completion_tokens": 512, "messages": [{"role": "user", "content": command.text}]}
+    )

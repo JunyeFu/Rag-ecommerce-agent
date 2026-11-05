@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-INTERVIEW-AUDIT-02",
+  "owner": "interview-extra-audit",
+  "objective": "追加五类Agent工程面试问题审查",
+  "inputs": [
+    "current source 06039ab",
+    "previous audit local results",
+    "public interview posts"
+  ],
+  "outputs": [
+    "scripts/tests/test_agent_interview_audit_extra.py",
+    "docs/evaluation/AGENT-INTERVIEW-AUDIT-EXTRA-20261105.md",
+    "evidence/verification.json"
+  ],
+  "acceptance": [
+    "Q6-Q10 sourced and tested",
+    "failures retained with scope",
+    "prior evidence unchanged",
+    "task validator passed"
+  ],
+  "test_profiles": [
+    "in_memory_http",
+    "projection_fault_injection",
+    "fake_media",
+    "link_policy",
+    "erasure_lifecycle"
+  ],
+  "business_refs": [
+    "public progress",
+    "catalog version consistency",
+    "user consent",
+    "safe external navigation",
+    "owner-scoped erasure"
+  ],
+  "development_refs": [
+    "V3-INTERVIEW-AUDIT-01"
+  ],
+  "risk_refs": [
+    "component findings not production acceptance",
+    "no actual network/DNS requests",
+    "audit is not remediation"
+  ]
+}

@@ -7,6 +7,8 @@ from uuid import uuid4
 import pytest
 from ragcommerce_agent_runtime.schema_v1 import metadata as agent_metadata
 from ragcommerce_api.budget_schema import metadata as budget_metadata
+from ragcommerce_api.installation_schema import metadata as installation_metadata
+from ragcommerce_api.ops_identity_schema import metadata as ops_identity_metadata
 from ragcommerce_api.ops_schema_v1 import metadata as ops_metadata
 from ragcommerce_api.ops_state_schema import metadata as ops_state_metadata
 from ragcommerce_api.quote_schema import metadata as quote_metadata
@@ -36,7 +38,9 @@ def test_migrated_tables_match_frozen_metadata() -> None:
             "alembic_version"
         } | set(v3_metadata.tables) | set(budget_metadata.tables) | set(
             ops_state_metadata.tables
-        ) | set(quote_metadata.tables)
+        ) | set(quote_metadata.tables) | set(installation_metadata.tables) | set(
+            ops_identity_metadata.tables
+        )
     finally:
         engine.dispose()
 

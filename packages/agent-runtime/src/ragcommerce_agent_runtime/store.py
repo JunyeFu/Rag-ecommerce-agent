@@ -49,6 +49,8 @@ class InMemoryCheckpointStore:
         return self.runs.get(run_id)
 
     def save(self, checkpoint: RunCheckpoint) -> None:
+        if checkpoint.run_id not in self.run_metadata:
+            raise ValueError("run no longer exists")
         self.runs[checkpoint.run_id] = checkpoint
 
     def save_preferences(self, user_id: UUID, values: dict[str, str], consent: bool) -> None:

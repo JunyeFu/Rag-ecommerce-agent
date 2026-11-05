@@ -180,9 +180,15 @@ class HybridIndex:
                 str(value).lower() in document.searchable_text.lower() for value in raw
             ):
                 return False
-            if (
-                key in document.attributes
-                and str(raw).lower() not in document.attributes[key].lower()
+            if key not in {
+                "category",
+                "price_max",
+                "brand_candidates",
+                "exclude_brands",
+                "exclude_terms",
+            } and (
+                key not in document.attributes
+                or str(raw).lower() not in document.attributes[key].lower()
             ):
                 return False
         return True

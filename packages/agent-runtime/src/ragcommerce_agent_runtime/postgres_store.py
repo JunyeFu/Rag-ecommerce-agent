@@ -161,6 +161,13 @@ class PostgresCheckpointStore:
         }
         now = datetime.now(UTC)
         with connect(self.dsn) as connection:
+            if (
+                connection.execute(
+                    "SELECT id FROM agent_runs WHERE id=%s FOR KEY SHARE", (checkpoint.run_id,)
+                ).fetchone()
+                is None
+            ):
+                raise ValueError("run no longer exists")
             cursor = connection.execute(
                 """INSERT INTO agent_checkpoints(run_id,idempotency_key,checkpoint,updated_at)
                 VALUES (%s,%s,%s,%s) ON CONFLICT(run_id) DO UPDATE SET

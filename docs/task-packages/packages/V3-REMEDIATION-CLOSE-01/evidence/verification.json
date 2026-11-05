@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-REMEDIATION-CLOSE-01",
+  "status": "not_run",
+  "checks": [],
+  "failure_summary": "Remote verification pending",
+  "deployment_authorized": false,
+  "live_authorized": false,
+  "external_gates": [
+    "部署、LIVE、真机、法律、人审和正式发布另行验收"
+  ]
+}

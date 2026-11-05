@@ -7,19 +7,25 @@ import type {
 } from "./api-contracts";
 
 const baseUrl = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
-const headers = {
-  "Content-Type": "application/json",
-  "X-Ops-Actor-ID": "local-ops-reviewer",
-  "X-Ops-Role": "reviewer",
-};
+export const fixtureOpsIdentity = import.meta.env.VITE_OPS_DEVELOPMENT_IDENTITY === "1";
+let credential = "";
+export function setOpsCredential(value: string) { credential = value; }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${baseUrl}${path}`, { ...init, headers: { ...headers, ...init?.headers } });
+  const headers = new Headers(init?.headers);
+  headers.set("Content-Type", "application/json");
+  if (credential) headers.set("Authorization", `Bearer ${credential}`);
+  else if (fixtureOpsIdentity) {
+    headers.set("X-Ops-Actor-ID", "local-ops-reviewer");
+    headers.set("X-Ops-Role", "reviewer");
+  }
+  const response = await fetch(`${baseUrl}${path}`, { ...init, headers });
   if (!response.ok) throw new Error(`Ops API ${response.status}`);
   return response.json() as Promise<T>;
 }
 
 export const opsClient = {
+  policy: () => request<{auth_mode: string}>("/v1/ops/policy"),
   connectors: () => request<ConnectorStatus[]>("/v1/ops/connectors"),
   conflicts: () => request<EntityConflict[]>("/v1/ops/entity-conflicts"),
   traces: () => request<AgentTraceSummary[]>("/v1/ops/traces"),

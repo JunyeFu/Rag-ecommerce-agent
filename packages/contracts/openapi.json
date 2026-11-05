@@ -1287,7 +1287,10 @@
             "type": "boolean"
           },
           "auth_mode": {
-            "const": "development_headers",
+            "enum": [
+              "development_headers",
+              "server_bearer"
+            ],
             "title": "Auth Mode",
             "type": "string"
           },
@@ -2353,6 +2356,16 @@
         "title": "WatcherView",
         "type": "object"
       }
+    },
+    "securitySchemes": {
+      "InstallationBearer": {
+        "scheme": "bearer",
+        "type": "http"
+      },
+      "OpsBearer": {
+        "scheme": "bearer",
+        "type": "http"
+      }
     }
   },
   "info": {
@@ -2365,6 +2378,7 @@
     "/health": {
       "get": {
         "operationId": "getHealth",
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -2377,6 +2391,7 @@
             "description": "Successful Response"
           }
         },
+        "security": [],
         "summary": "Health",
         "tags": [
           "system"
@@ -2395,22 +2410,6 @@
               "format": "uuid",
               "title": "Run Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -2446,6 +2445,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Decide",
         "tags": [
           "agent"
@@ -2481,22 +2485,6 @@
               ],
               "title": "Last-Event-Id"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
           }
         ],
         "responses": {
@@ -2514,6 +2502,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Events",
         "tags": [
           "agent"
@@ -2523,24 +2516,7 @@
     "/v1/cart": {
       "get": {
         "operationId": "getCart",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -2563,6 +2539,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Get Cart",
         "tags": [
           "commerce"
@@ -2570,24 +2551,7 @@
       },
       "patch": {
         "operationId": "patchCart",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2620,6 +2584,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Mutate Cart",
         "tags": [
           "commerce"
@@ -2627,24 +2596,7 @@
       },
       "post": {
         "operationId": "createCartMutation",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2677,33 +2629,39 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Mutate Cart",
         "tags": [
           "commerce"
         ]
       }
     },
+    "/v1/installations": {
+      "post": {
+        "operationId": "issueInstallation",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [],
+        "summary": "Issue Installation"
+      }
+    },
     "/v1/lists": {
       "get": {
         "operationId": "getLists",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -2726,6 +2684,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Get Lists",
         "tags": [
           "commerce"
@@ -2733,24 +2696,7 @@
       },
       "post": {
         "operationId": "createList",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2783,6 +2729,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Create List",
         "tags": [
           "commerce"
@@ -2801,22 +2752,6 @@
               "format": "uuid",
               "title": "List Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -2852,6 +2787,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Patch List",
         "tags": [
           "commerce"
@@ -2861,24 +2801,7 @@
     "/v1/media": {
       "post": {
         "operationId": "createMedia",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/octet-stream": {
@@ -2913,6 +2836,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Upload Media",
         "tags": [
           "media"
@@ -2931,22 +2859,6 @@
               "format": "uuid",
               "title": "Media Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -2972,6 +2884,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Delete Media",
         "tags": [
           "media"
@@ -2981,6 +2898,7 @@
     "/v1/missions/parse": {
       "post": {
         "operationId": "parseMission",
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3013,6 +2931,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Parse Mission",
         "tags": [
           "agent"
@@ -3031,22 +2954,6 @@
               "format": "uuid",
               "title": "Offer Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -3082,6 +2989,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Resolve Offer",
         "tags": [
           "commerce"
@@ -3091,40 +3003,7 @@
     "/v1/ops/audit": {
       "get": {
         "operationId": "getOpsAudit",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Ops-Role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-Ops-Actor-ID",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Actor-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -3151,6 +3030,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "OpsBearer": []
+          }
+        ],
         "summary": "Audit",
         "tags": [
           "operations"
@@ -3160,40 +3044,7 @@
     "/v1/ops/connectors": {
       "get": {
         "operationId": "getOpsConnectors",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Ops-Role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-Ops-Actor-ID",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Actor-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -3220,6 +3071,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "OpsBearer": []
+          }
+        ],
         "summary": "Connectors",
         "tags": [
           "operations"
@@ -3229,40 +3085,7 @@
     "/v1/ops/entity-conflicts": {
       "get": {
         "operationId": "getOpsEntityConflicts",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Ops-Role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-Ops-Actor-ID",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Actor-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -3289,6 +3112,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "OpsBearer": []
+          }
+        ],
         "summary": "Conflicts",
         "tags": [
           "operations"
@@ -3322,38 +3150,6 @@
                 }
               ],
               "title": "Idempotency-Key"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-Ops-Role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-Ops-Actor-ID",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Actor-Id"
             }
           }
         ],
@@ -3389,6 +3185,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "OpsBearer": []
+          }
+        ],
         "summary": "Resolve",
         "tags": [
           "operations"
@@ -3398,40 +3199,7 @@
     "/v1/ops/evaluation-runs": {
       "get": {
         "operationId": "getOpsEvaluationRuns",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Ops-Role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-Ops-Actor-ID",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Actor-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -3458,6 +3226,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "OpsBearer": []
+          }
+        ],
         "summary": "Evaluations",
         "tags": [
           "operations"
@@ -3480,38 +3253,6 @@
                 }
               ],
               "title": "Idempotency-Key"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-Ops-Role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-Ops-Actor-ID",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Actor-Id"
             }
           }
         ],
@@ -3547,6 +3288,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "OpsBearer": []
+          }
+        ],
         "summary": "Start Evaluation",
         "tags": [
           "operations"
@@ -3556,40 +3302,7 @@
     "/v1/ops/policy": {
       "get": {
         "operationId": "getOpsPolicy",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Ops-Role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-Ops-Actor-ID",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Actor-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -3612,6 +3325,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "OpsBearer": []
+          }
+        ],
         "summary": "Policy",
         "tags": [
           "operations"
@@ -3621,40 +3339,7 @@
     "/v1/ops/release-gates": {
       "get": {
         "operationId": "getOpsReleaseGates",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Ops-Role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-Ops-Actor-ID",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Actor-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -3681,6 +3366,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "OpsBearer": []
+          }
+        ],
         "summary": "Release Gates",
         "tags": [
           "operations"
@@ -3690,40 +3380,7 @@
     "/v1/ops/traces": {
       "get": {
         "operationId": "getOpsTraces",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-Ops-Role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "X-Ops-Actor-ID",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Ops-Actor-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -3750,6 +3407,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "OpsBearer": []
+          }
+        ],
         "summary": "Traces",
         "tags": [
           "operations"
@@ -3768,22 +3430,6 @@
               "format": "uuid",
               "title": "Product Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -3809,6 +3455,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Get Product",
         "tags": [
           "commerce"
@@ -3838,22 +3489,6 @@
               "title": "Fresh",
               "type": "boolean"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
           }
         ],
         "responses": {
@@ -3878,6 +3513,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Get Offers",
         "tags": [
           "commerce"
@@ -3887,24 +3527,7 @@
     "/v1/threads": {
       "get": {
         "operationId": "getThreads",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -3931,6 +3554,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Get Threads",
         "tags": [
           "threads"
@@ -3938,24 +3566,7 @@
       },
       "post": {
         "operationId": "createThread",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3988,6 +3599,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Create Thread",
         "tags": [
           "threads"
@@ -4006,22 +3622,6 @@
               "format": "uuid",
               "title": "Thread Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -4047,6 +3647,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Get Thread",
         "tags": [
           "threads"
@@ -4063,22 +3668,6 @@
               "format": "uuid",
               "title": "Thread Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -4114,6 +3703,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Patch Thread",
         "tags": [
           "threads"
@@ -4132,22 +3726,6 @@
               "format": "uuid",
               "title": "Thread Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -4173,6 +3751,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Get Comparison Selection",
         "tags": [
           "threads"
@@ -4189,22 +3772,6 @@
               "format": "uuid",
               "title": "Thread Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -4240,6 +3807,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Update Comparison Selection",
         "tags": [
           "threads"
@@ -4258,22 +3830,6 @@
               "format": "uuid",
               "title": "Thread Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -4309,6 +3865,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Update Thread Constraints",
         "tags": [
           "threads"
@@ -4327,22 +3888,6 @@
               "format": "uuid",
               "title": "Thread Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -4378,6 +3923,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Update Feedback",
         "tags": [
           "threads"
@@ -4415,22 +3965,6 @@
               "title": "Version",
               "type": "integer"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
           }
         ],
         "responses": {
@@ -4455,6 +3989,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Undo Feedback",
         "tags": [
           "threads"
@@ -4494,22 +4033,6 @@
               "title": "Limit",
               "type": "integer"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
           }
         ],
         "responses": {
@@ -4538,6 +4061,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Get Thread Messages",
         "tags": [
           "threads"
@@ -4573,22 +4101,6 @@
               ],
               "title": "Idempotency-Key"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
           }
         ],
         "requestBody": {
@@ -4623,6 +4135,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Create Turn",
         "tags": [
           "agent"
@@ -4641,22 +4158,6 @@
               "format": "uuid",
               "title": "Thread Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -4682,6 +4183,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Get Watchers",
         "tags": [
           "commerce"
@@ -4698,22 +4204,6 @@
               "format": "uuid",
               "title": "Thread Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -4749,6 +4239,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Create Watcher",
         "tags": [
           "commerce"
@@ -4774,22 +4269,6 @@
               ],
               "title": "X-Deletion-Confirmation"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
-            }
           }
         ],
         "responses": {
@@ -4814,6 +4293,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Delete My Data",
         "tags": [
           "privacy"
@@ -4832,22 +4316,6 @@
               "format": "uuid",
               "title": "Variant Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-user-id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-User-Id"
             }
           }
         ],
@@ -4873,6 +4341,11 @@
             "description": "Validation Error"
           }
         },
+        "security": [
+          {
+            "InstallationBearer": []
+          }
+        ],
         "summary": "Get Variant",
         "tags": [
           "products"

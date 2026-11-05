@@ -117,7 +117,7 @@ class AuditEvent(OpsModel):
 
 
 class OpsPolicy(OpsModel):
-    auth_mode: Literal["development_headers"]
+    auth_mode: Literal["development_headers", "server_bearer"]
     visible_fields: list[str]
     prohibited_fields: list[str]
     export_enabled: bool
@@ -484,7 +484,9 @@ def register_ops_routes(application: FastAPI) -> None:
         actor("viewer", x_ops_role, x_ops_actor_id)
         response.headers["Cache-Control"] = "no-store"
         return OpsPolicy(
-            auth_mode="development_headers",
+            auth_mode="development_headers"
+            if application.state.development_identity
+            else "server_bearer",
             visible_fields=[
                 "source health and freshness",
                 "hashed tool arguments",

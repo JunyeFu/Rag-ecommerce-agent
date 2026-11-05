@@ -16,9 +16,11 @@ from ragcommerce_agent_runtime import (
 
 from .app import create_app
 from .erasure import InMemoryUserDataEraser, PostgresUserDataEraser
+from .installation_auth import PostgresInstallations
 from .media import MinioMediaStore
 from .media_tools import media_tool_handlers
 from .observability import configure_observability
+from .ops_identity import PostgresOpsCredentials
 from .postgres_demo import PostgresDemoCommerce
 from .postgres_index import PostgresTurnIndex
 from .postgres_ops import PostgresOpsStore
@@ -71,6 +73,8 @@ def build_app():
         ops_store=PostgresOpsStore(dsn),
         data_eraser=InMemoryUserDataEraser(media, PostgresUserDataEraser(dsn)),
         execute_background=False,
+        installation_store=PostgresInstallations(dsn),
+        ops_credentials=PostgresOpsCredentials(dsn),
     )
     configure_observability(app)
     default_lifespan = app.router.lifespan_context

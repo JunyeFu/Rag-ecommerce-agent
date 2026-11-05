@@ -2,9 +2,9 @@
   "checks": {
     "locked_inputs": {
       "gradle_wrapper_sha256": "498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17",
-      "npm_lock_sha256": "8ca00278850d16953683baab1b1c92dd39b14ead76c0bc10ca37168c39b7ca3e",
+      "npm_lock_sha256": "d973f8855dc44ed93a01b89b5c9ad925fcee2eee8e01ce4280f5822310181514",
       "status": "passed",
-      "uv_lock_sha256": "cd3f5ca683e701068d43d72d03c63a77563a1eef632e32eaf12310d132820b18"
+      "uv_lock_sha256": "0ebddad4103736f8f013f65070bac10fdaaec7696e41fa44bf84a4674a4573f7"
     },
     "required_security_docs": {
       "missing": [],
