@@ -2,11 +2,75 @@
   "schema_version": 1,
   "package_id": "V3-REMEDIATION-CLOSE-01",
   "status": "not_run",
-  "checks": [],
-  "failure_summary": "Remote verification pending",
+  "checks": [
+    {
+      "command": "GitHub Actions ci",
+      "run_id": 42061741968,
+      "url": "https://github.com/JunyeFu/Rag-ecommerce-agent/actions/runs/42061741968",
+      "source_sha": "28605a63caa415caea5d407b715bd8a89c393e50",
+      "checked_at": "2026-11-05T16:20:45.863278+00:00",
+      "exit_code": 0,
+      "counts": {
+        "jobs_passed": 5,
+        "python_passed": 299,
+        "python_skipped": 7,
+        "isolated_tls_passed": 6,
+        "isolated_tls_skipped": 0
+      },
+      "failure_summary": "none; Python skips reported separately"
+    },
+    {
+      "command": "pytest apps/api/tests/test_durable_load_measurement.py::test_measurement_mission_uses_production_installation_identity",
+      "exit_code": 1,
+      "counts": {
+        "failed": 1
+      },
+      "junit": "output/remediation-close-20261106/measurement-auth-before.xml",
+      "failure_summary": "Old UUID-only measurement client receives HTTP401 at strict installation boundary"
+    },
+    {
+      "command": "pytest apps/api/tests/test_durable_load_measurement.py",
+      "exit_code": 0,
+      "counts": {
+        "passed": 2
+      },
+      "junit": "output/remediation-close-20261106/measurement-auth-after.xml",
+      "failure_summary": "none; production identity path and unchanged latency oracle verified"
+    },
+    {
+      "command": "export_portfolio_candidate.py --destination D:/Agent/_scratch/rag-commerce-remediation-20261106; isolated QA alembic upgrade head; alembic check; local BGE build_index",
+      "exit_code": 0,
+      "counts": {
+        "source_files": 1032,
+        "catalog_documents": 60
+      },
+      "runtime": "existing locked QA image; read-only existing model cache; new database and Qdrant alias",
+      "source_scope": "published base plus documented uncommitted measurement/export increment; preliminary snapshot, not release candidate",
+      "failure_summary": "none"
+    },
+    {
+      "command": "docker exec ragcommerce-remediation-cold-api-20261106 /opt/qa-venv/bin/python scripts/verify_clean_candidate.py --api-url http://127.0.0.1:8000 --candidate /candidate --output /tmp/cold-start.json",
+      "exit_code": 0,
+      "evidence": "docs/task-packages/packages/V3-REMEDIATION-CLOSE-01/evidence/cold-start.json",
+      "counts": {
+        "missions_completed": 1,
+        "recommended_products": 5,
+        "terminal_events": 1
+      },
+      "failure_summary": "none; host connection was initially refused by internal-only network, verification moved inside namespace without adding external connectivity"
+    }
+  ],
+  "failure_summary": "First remote CI passed; pending CI for the strict-identity measurement client increment; external acceptance paused by user",
   "deployment_authorized": false,
   "live_authorized": false,
   "external_gates": [
     "部署、LIVE、真机、法律、人审和正式发布另行验收"
-  ]
+  ],
+  "recorded_at": "2026-11-05T16:20:45.863268+00:00",
+  "source_base": "28605a63caa415caea5d407b715bd8a89c393e50",
+  "draft_pr": "https://github.com/JunyeFu/Rag-ecommerce-agent/pull/28",
+  "paid_model_calls": 0,
+  "product_status": "HOLD",
+  "commercial_release": "NO_GO",
+  "external_acceptance": "paused_by_user_2026-11-06"
 }

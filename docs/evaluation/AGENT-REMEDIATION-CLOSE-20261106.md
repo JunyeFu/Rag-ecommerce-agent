@@ -6,13 +6,25 @@
 
 十题修复及第二批实现已完成本地验收，详见[逐题状态](AGENT-INTERVIEW-REPAIR-STATUS-20261105.md)和[第二批结果](AGENT-INTERVIEW-BATCH2-20261105.md)。历史测试数字保留原时间和范围。
 
-用户已授权在 `codex/complete-agent-remediation` 提交、推送并创建草稿 PR，部署与 LIVE 另行确认。当前正在完成远端 CI；新增独立隔离 TLS job，避免六项真实传输测试在常规 runner 中跳过。远端结果以本包[验证记录](../task-packages/packages/V3-REMEDIATION-CLOSE-01/evidence/verification.json)及 Actions 为准。
+已在 `codex/complete-agent-remediation` 提交、推送并创建[草稿 PR #28](https://github.com/JunyeFu/Rag-ecommerce-agent/pull/28)。源码 `28605a6` 的[首轮远端 CI](https://github.com/JunyeFu/Rag-ecommerce-agent/actions/runs/42061741968)五个 job 全部通过：Python 299 通过/7 跳过，隔离 TLS 另跑 6 通过/0 跳过，Web、Android 和 Compose 通过。开发身份和 TLS 的分组口径保留，未把跳过项写成全量通过。
+
+独立冷启动补验发现容量脚本仍使用旧 UUID：严格入口实际返回 401。现改为先申请服务端安装凭据；真实 ASGI 身份回归与原计时口径两项通过，凭据不进入报告。源码导出也补齐新 `.gitattributes`。这些增量将由下一轮 PR CI 验证，最终结果见本包[验证记录](../task-packages/packages/V3-REMEDIATION-CLOSE-01/evidence/verification.json)。
+
+2026-11-06 用户明确要求**外部验收暂停**。联盟、LIVE、真机与人工签收均暂停；没有新增付费模型调用，既有实测槽位和预算不重置。
+
+## 独立本地补验与旧待办核对
+
+- 导出 1,032 个显式源码文件到独立目录，复用冻结 QA 镜像和只读固定 BGE 缓存，新建数据库和 60 条商品的 Qdrant 命名空间。空库迁移至 `20261105_0018`、metadata 检查通过。
+- API 与独立 Worker 在无外网的 Docker 网络运行；严格安装认证 → 建任务 → SSE → 5 个带证据候选 → 唯一持久化完成事件均通过。依赖运行时是复用的，不声明独立安装了新 venv。这是一条冷启动功能样本，不是新的容量或模型质量指标，详见[原生结果](../task-packages/packages/V3-REMEDIATION-CLOSE-01/evidence/cold-start.json)。
+- 旧 G03 原文缺失的根因仍不可还原，但 [2026-10-09 的后续真实 G03](../evidence/v3/final-real-G03-first-20261009.json)已经通过；不能继续把该旧失败当作唯一现状，也不能据此声称当前修复后模型已重测。
+- F60 已在 [2026-10-24 完整十批×30](../evidence/v3/final-F60-review-20261024.json)通过本地容量门禁。旧包 `remaining` 的未通过文字已被后续证据覆盖；该结果不继承为本轮新增身份锁之后的容量测量。
+- A08-R3 仍是真实非法提案失败；原始响应未保存，不能补造非法字段。已有 F47 等非付费修复保留，不擅自增加真实复测。
 
 ## 剩余任务及完成条件
 
 | 任务包 | 当前剩余工作 | 完成所需证据或输入 |
 | --- | --- | --- |
-| V3-REMEDIATION-CLOSE-01 | 分支、草稿 PR、同版远端 CI | 全部 job 通过，包括六项隔离真实 TLS；完成后记录提交与 Actions |
+| V3-REMEDIATION-CLOSE-01 | 分支/草稿 PR/首轮 CI 已完成；身份脚本增量 CI 待完成 | 全部 job 通过，包括六项隔离真实 TLS；完成后记录提交与 Actions |
 | V3-CAREER-CLOSE-01 | 当前原生业务、实际 Agent 质量及干净环境验收 | 原任务场景和实际模型输出，不能用夹具回归替代；原重测额度已用完 |
 | V3-FINAL-02 | 原生真实音频、图片、审批与外链完整链路 | 用户真实人声输入及剩余实际模型场景的重测授权；保留已有失败 |
 | V3-FINAL-03 | 同一候选的完整质量与材料签收 | 复用未受影响的检索、持久化和容量证据；对当前受影响链路实测 |
@@ -30,4 +42,4 @@
 
 **HOLD / 商业发布 NO_GO。** 分支与草稿 PR 的发布属于代码审阅，不代表部署、真实联盟接入或正式产品发布。没有新增付费模型调用。
 
-下一步先关闭当前源码的远端 CI 门禁，再按实际失败和已有授权补验；需要真实模型、人声、物理设备或联盟授权的场景继续保留明确入口条件。
+下一步完成身份脚本增量的远端 CI 并收口本地服务；需要真实模型、人声、物理设备、联盟或人工签收的后续阶段按用户指令暂停，恢复后从已有失败和剩余额度继续。

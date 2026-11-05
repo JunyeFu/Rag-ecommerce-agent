@@ -18,6 +18,10 @@ V3-INTERVIEW-REPAIR-02 已 complete。用户明确授权 codex/complete-agent-re
 ## 路径所有权
 本包、docs/task-packages/manifest.json、.github/workflows/ci.yml、README.md、docs/evaluation/AGENT-REMEDIATION-CLOSE-20261106.md、docs/evaluation/AGENT-INTERVIEW-REPAIR-STATUS-20261105.md（追加当前状态链接）、output/remediation-close-20261106/。上一批源码只在本包记录具体远端失败与必要路径扩展后修改；既有报告与失败证据保留。
 
+2026-11-06 路径扩展：scripts/run_v3_durable_load.py、apps/api/tests/test_durable_load_measurement.py。独立冷启动验收复用的 mission 客户端仍发送旧 X-User-ID，严格入口返回 401；改为服务端安装凭据并保留原计时口径。同步 scripts/verify_clean_candidate.py 的证据说明以准确记录复用环境。
+
+冷启动补验沿用 scripts/export_portfolio_candidate.py（补齐新 .gitattributes 的显式导出），独立源码目录 D:/Agent/_scratch/rag-commerce-remediation-20261106；复用现有冻结 QA 镜像及只读模型缓存，使用新的专属数据库和 Qdrant 别名，不覆盖历史验收对象。
+
 ## 现状证据
 本地分平台回归已通过，最新已提交版本的远端 CI 失败；修复尚未提交。六项真实 TLS 测试需要无外网的 Linux 网络命名空间，普通测试会跳过，需要独立 CI job 实际执行。
 

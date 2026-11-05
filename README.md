@@ -113,11 +113,11 @@ MinIO：图片 / 音频对象                    Ops Web：Trace / 检索 / 门�
 
 **保留负结果：** G07 首轮失败，R4 才通过；10 月 13 日容量接单 p95 **265.891 ms** 未达门槛；历史模型批次存在预算超限、格式失败和无来源金额问题。所有结果按批次与证据层级列示，不回填首轮、不只挑最佳数值。小目录自动标注与 10 条黄金场景的成绩不能外推生产准确率。
 
-**本次 CI 复核（2026-11-05）：** Android / Compose 检查通过；Web 的重场景旧断言与当前待购返回结构不符，Python 门禁因冻结安全报告的 lock 文件换行摘要差异失败。全量 CI 未通过，详见[本次运行与原因](docs/evaluation/AGENT-PERFORMANCE.md#本次-github-ci-复核)。
+**历史 CI 复核（2026-11-05）：** Android / Compose 检查通过；Web 的重场景旧断言与当前待购返回结构不符，Python 门禁因冻结安全报告的 lock 文件换行摘要差异失败。详见[该次运行与原因](docs/evaluation/AGENT-PERFORMANCE.md#本次-github-ci-复核)。
 
-**本地修复更新（尚未推送）：** 两批修复已补齐服务端用户/运营身份和受控 HTTPS 地址绑定，并完成 Windows、Linux 与浏览器验证，详见[最新修复状态与验收边界](docs/evaluation/AGENT-INTERVIEW-BATCH2-20261105.md)。本地通过不覆盖旧远端 CI 失败，也不代表 LIVE 或商业发布。
+**本地修复（2026-11-05）：** 两批修复已补齐服务端用户/运营身份和受控 HTTPS 地址绑定，并完成 Windows、Linux 与浏览器验证，详见[分组结果与验收边界](docs/evaluation/AGENT-INTERVIEW-BATCH2-20261105.md)。
 
-**2026-11-06 交付进展：** 修复分支提交、推送及草稿 PR 已获授权，正在执行当前源码的远端验证；最新结果及剩余任务见[交付记录](docs/evaluation/AGENT-REMEDIATION-CLOSE-20261106.md)。
+**修复分支交付（2026-11-06）：** [草稿 PR #28](https://github.com/JunyeFu/Rag-ecommerce-agent/pull/28) 首轮远端 CI 五项全部通过，包含另跑的六项隔离真实 TLS 测试；冷启动客户端身份增量继续由 PR 检查验证。最新结果及剩余任务见[交付记录](docs/evaluation/AGENT-REMEDIATION-CLOSE-20261106.md)。外部验收按用户指令暂停，当前候选仍为 HOLD / NO_GO。
 
 [详细性能报告](docs/evaluation/AGENT-PERFORMANCE.md)包含 **14 组历史黄金集报告、10 条持久化首轮场景、复测、图片、原生场景、检索、容量和启动数据**。[机器可读统计](docs/evaluation/agent-metrics-20261105.json)可由以下命令离线复算：
 

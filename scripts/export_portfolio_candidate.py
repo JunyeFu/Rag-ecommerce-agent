@@ -12,6 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ROOT_FILES = {
+    ".gitattributes",
     ".editorconfig",
     ".env.example",
     ".gitignore",

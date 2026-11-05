@@ -75,7 +75,7 @@ async def verify(api_url: str, candidate: Path) -> dict:
         "passed": passed,
         "limitations": [
             "Preliminary clean-start snapshot, not final portfolio sign-off",
-            "Independent venv, database and storage; system dependency/download caches were reused",
+            "Independent source, database and storage namespace; dependency runtime and model cache reuse must be reported by the launcher",
             "Not native Android or real-provider acceptance",
         ],
     }
