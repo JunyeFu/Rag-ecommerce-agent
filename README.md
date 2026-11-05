@@ -113,6 +113,8 @@ MinIO：图片 / 音频对象                    Ops Web：Trace / 检索 / 门�
 
 **保留负结果：** G07 首轮失败，R4 才通过；10 月 13 日容量接单 p95 **265.891 ms** 未达门槛；历史模型批次存在预算超限、格式失败和无来源金额问题。所有结果按批次与证据层级列示，不回填首轮、不只挑最佳数值。小目录自动标注与 10 条黄金场景的成绩不能外推生产准确率。
 
+**本次 CI 复核（2026-11-05）：** Android / Compose 检查通过；Web 的重场景旧断言与当前待购返回结构不符，Python 门禁因冻结安全报告的 lock 文件换行摘要差异失败。全量 CI 未通过，详见[本次运行与原因](docs/evaluation/AGENT-PERFORMANCE.md#本次-github-ci-复核)。
+
 [详细性能报告](docs/evaluation/AGENT-PERFORMANCE.md)包含 **14 组历史黄金集报告、10 条持久化首轮场景、复测、图片、原生场景、检索、容量和启动数据**。[机器可读统计](docs/evaluation/agent-metrics-20261105.json)可由以下命令离线复算：
 
 ```powershell

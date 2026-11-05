@@ -198,6 +198,21 @@ BGE 同进程共享后，每 Worker 的模型份数从 **8 → 1**；两 Worker 
 
 完整语音、浏览器首次设置后的 A09、最终同版 APK / 媒体 / 独立复审和生产门禁仍未完成；当前 **HOLD / 商业 NO_GO**。数据范围与失败留存比一个漂亮的“总分”更能支撑技术评估。
 
+## 本次 GitHub CI 复核
+
+2026-11-05 对提交 `784e3f1e5ffd9f8ff00242293e041450f8637733` 的 [CI 运行](https://github.com/JunyeFu/Rag-ecommerce-agent/actions/runs/41983929044)读取到以下最终结果。这是本次远端检查，区别于上文历史验收。
+
+| Job | 结果 | 实际执行与失败原因 |
+|---|---|---|
+| android | 通过 | 当前 CI 的 Kotlin 编译、单测、lint 与 benchmark 包构建步骤通过；不是设备性能验收 |
+| compose-contract | 通过 | Compose 配置检查通过 |
+| web | **失败** | TypeScript 与 2 条 Ops 单测通过；Agent API E2E 为 **2 通过 / 1 失败**。重场景第 251 行仍以精确对象断言待购项只有 `offer_id / quantity`；当前 `CartItemView` 还要求 `product / quote`，响应因此不相等。Ops 浏览器回归与后续 Web build 未执行 |
+| python-and-governance | **失败** | 基础设施 / 迁移、本地 Embedding、契约与前序生成检查通过；在 `security_gate.py --check` 报 `DRIFT docs/security/evidence/security-gate.json`，其后的 pytest 未执行，不能声称本次 Python 全量通过 |
+
+源码核对确认：当前 [CartItemView](../../packages/contracts/openapi.json)要求四个字段，[E2E 断言](../../e2e/agent/agent-business.spec.ts)尚未同步；冻结安全报告中的 `npm_lock_sha256` 匹配本机 CRLF 的 `package-lock.json`，不匹配 Git 中 LF 字节，二者换行归一化后相同。本次文档发布没有修改应用、契约、E2E、CI 或依赖文件；这两处保留为已观测的测试 / 门禁问题，没有为展示改写业务行为或测试结果。
+
+本次离线统计、143 个初版文档引用检查、脚本 lint/format、任务包检查与 GitHub 内容读取均通过；**文档校验通过和全量 CI 通过分别报告**。安全报告漂移本身不是发现漏洞或密钥泄漏的结论。
+
 ## 复算
 
 在仓库根目录运行，仅使用 Python 标准库和现有 JSON，不启动服务或读取凭据：

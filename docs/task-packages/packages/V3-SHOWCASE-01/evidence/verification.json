@@ -64,13 +64,24 @@
         "identical": 4
       },
       "result": "Published content readback passed; first publication commit d53c92047097b6656131f1f97781d07a7f0abd56"
+    },
+    {
+      "command": "Inline Python local documentation targets and heading anchors after CI disclosure update",
+      "verified_at": "2026-11-05T15:04:35.825487+08:00",
+      "exit_code": 0,
+      "counts": {
+        "local_references": 146,
+        "anchors": 8,
+        "errors": 0
+      },
+      "result": "All current local references exist"
     }
   ],
   "external_gates": [],
-  "verified_at": "2026-11-05T14:57:11.732359+08:00",
+  "verified_at": "2026-11-05T15:04:35.825487+08:00",
   "verification_scope": "Offline documentation and metric checks passed; published README, technology decisions, performance report and machine metrics read back identically from GitHub main",
   "source_commit": "0ed3910c79d21c5418d1111e4c92fd85b06533d1",
-  "failure_summary": "The initial independent verifier compared a floating-point median using exact equality and failed; changing that assertion to isclose passed. Reported metric values and product code were unchanged.",
+  "failure_summary": "The initial independent verifier compared a floating-point median using exact equality and failed; changing that assertion to isclose passed. Reported metric values and product code were unchanged. Remote CI finished with android/compose-contract success and web/python-and-governance failure; full details disclosed in ci_snapshot and performance report.",
   "evidence_levels": {
     "current_change": "offline_documentation",
     "historical_model": "mimo-v2.5 only",
@@ -87,5 +98,19 @@
     "url": "https://github.com/JunyeFu/Rag-ecommerce-agent/commit/d53c92047097b6656131f1f97781d07a7f0abd56",
     "readback_at": "2026-11-05T14:57:11.732359+08:00",
     "new_release": false
+  },
+  "ci_snapshot": {
+    "head_sha": "784e3f1e5ffd9f8ff00242293e041450f8637733",
+    "url": "https://github.com/JunyeFu/Rag-ecommerce-agent/actions/runs/41983929044",
+    "status": "completed",
+    "conclusion": "failure",
+    "jobs": {
+      "android": "success",
+      "compose-contract": "success",
+      "web": "failure: Agent API E2E 2 passed / 1 failed; exact cart assertion predates required product/quote fields",
+      "python-and-governance": "failure: security-gate report drift; stored npm lock digest matches CRLF worktree, not LF Git bytes"
+    },
+    "product_test_files_modified": false,
+    "scope": "Remote CI is not a documentation-task completion gate; failures disclosed on homepage and performance report"
   }
 }
