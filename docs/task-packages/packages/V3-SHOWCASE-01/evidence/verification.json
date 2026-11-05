@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-SHOWCASE-01",
+  "status": "not_run",
+  "checks": [
+    {
+      "command": "python scripts/summarize_agent_metrics.py --check",
+      "verified_at": "2026-11-05T14:52:24+08:00",
+      "exit_code": 0,
+      "counts": {
+        "historical_real_suites": 14,
+        "durable_first_cases": 10,
+        "capacity_samples": 600,
+        "startup_samples": 60
+      },
+      "result": "Generated metrics match all selected source reports; no model calls or services"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check scripts/summarize_agent_metrics.py; .venv/Scripts/python.exe -m ruff format --check scripts/summarize_agent_metrics.py; git diff --check",
+      "verified_at": "2026-11-05T14:52:24+08:00",
+      "exit_code": 0,
+      "result": "Lint, format and diff passed"
+    },
+    {
+      "command": "Inline Python local Markdown/HTML link and anchor check",
+      "verified_at": "2026-11-05T14:52:24+08:00",
+      "exit_code": 0,
+      "counts": {
+        "local_references": 143,
+        "anchors": 7,
+        "errors": 0
+      },
+      "result": "All local documentation targets exist"
+    },
+    {
+      "command": "Inline Python independent source assertions for golden tokens/calls/latency, capacity report percentiles, retrieval splits and cold-start samples",
+      "verified_at": "2026-11-05T14:53:59.529759+08:00",
+      "exit_code": 0,
+      "counts": {
+        "golden_scenarios": 10,
+        "capacity_groups": 2,
+        "retrieval_splits": 2,
+        "startup_groups": 2
+      },
+      "result": "Reaggregated values match raw source records"
+    },
+    {
+      "command": "python scripts/validate_task_packages.py",
+      "verified_at": "2026-11-05T14:53:59.529761+08:00",
+      "exit_code": 0,
+      "counts": {
+        "packages": 50,
+        "errors": 0,
+        "warnings": 0
+      },
+      "result": "Task dependencies, ownership documentation and package state valid"
+    }
+  ],
+  "external_gates": [],
+  "verified_at": "2026-11-05T14:53:59.529747+08:00",
+  "verification_scope": "Offline documentation and historical-metric reaggregation; GitHub publication readback pending",
+  "source_commit": "0ed3910c79d21c5418d1111e4c92fd85b06533d1",
+  "failure_summary": "The initial independent verifier compared a floating-point median using exact equality and failed; changing that assertion to isclose passed. Reported metric values and product code were unchanged.",
+  "evidence_levels": {
+    "current_change": "offline_documentation",
+    "historical_model": "mimo-v2.5 only",
+    "load": "fake provider, real local BGE/PostgreSQL",
+    "commercial_release": "NO_GO",
+    "product_candidate": "HOLD"
+  },
+  "publication": {
+    "status": "pending",
+    "repository": "https://github.com/JunyeFu/Rag-ecommerce-agent",
+    "branch": "main",
+    "scope": "README, technical decisions, offline metrics and task evidence; no new Release"
+  }
+}

@@ -9,6 +9,8 @@ main 是持续开发候选，历史 v0.3.0 Release 与当前源码验收分开�
 | 系统架构与 Agent 链路 | [C4](architecture/V3-C4.md)、[时序](architecture/V3-AGENT-SEQUENCE.md) |
 | 演示准备 | [Android 准备](demo/V3-ANDROID-PREPARE.md)、[五分钟讲解](demo/V3-FIVE-MINUTE-DEMO.md) |
 | 检索与评测口径 | [方法](evaluation/methodology.md) |
+| 技术栈、备选方案与选型理由 | [技术选型复盘](architecture/TECH-STACK-DECISIONS.md) |
+| Agent 实测、分母与历史负结果 | [性能报告](evaluation/AGENT-PERFORMANCE.md)、[机器可读统计](evaluation/agent-metrics-20261105.json) |
 | 任务范围与证据 | [任务清单](task-packages/manifest.json)、[运行证据](evidence/v3) |
 
 ## 仓库目录

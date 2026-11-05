@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-SHOWCASE-01",
+  "owner": "github-showcase",
+  "objective": "以实际源码和历史实测更新技术选型及商业化展示",
+  "inputs": [
+    "pyproject.toml",
+    "package.json",
+    "toolchain.versions.json",
+    "docs/evidence/v3",
+    "evals/v3"
+  ],
+  "outputs": [
+    "README.md",
+    "docs/README.md",
+    "docs/architecture/TECH-STACK-DECISIONS.md",
+    "docs/evaluation/AGENT-PERFORMANCE.md",
+    "docs/evaluation/agent-metrics-20261105.json",
+    "scripts/summarize_agent_metrics.py"
+  ],
+  "acceptance": [
+    "offline statistics reproduce",
+    "source-linked technology tradeoffs",
+    "documentation checks pass",
+    "GitHub main updated"
+  ],
+  "test_profiles": [
+    "offline_statistics",
+    "task_packages",
+    "ruff",
+    "documentation_links",
+    "github_readback"
+  ],
+  "business_refs": [
+    "DEMO_FIXTURE",
+    "REAL_PROVIDER",
+    "commercial_release NO_GO"
+  ],
+  "development_refs": [
+    "V3-BASE-00",
+    "V3-PORTFOLIO-CLOSE-01"
+  ],
+  "risk_refs": [
+    "latency scope confusion",
+    "pooling retests",
+    "synthetic scores presented as model performance"
+  ]
+}

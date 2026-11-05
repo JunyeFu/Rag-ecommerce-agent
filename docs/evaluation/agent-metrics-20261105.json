@@ -1,0 +1,1433 @@
+{
+  "schema_version": 1,
+  "aggregation_date": "2026-11-05",
+  "inspected_source_commit": "0ed3910c79d21c5418d1111e4c92fd85b06533d1",
+  "scope": "Offline reaggregation of existing reports; no new model, device or load runs",
+  "percentiles": "p95 nearest rank ceil(n*0.95); median averages the two middle values for even n; failures retained",
+  "real_planning_models_measured": [
+    "mimo-v2.5"
+  ],
+  "provider_cost": "NOT_AVAILABLE_FROM_PROVIDER",
+  "historical_real_suites": [
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-001-failed.json",
+      "created_at": "2026-09-01T05:11:19.532684+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 5,
+        "fabricated_commercial_facts": 0,
+        "parseable": 0,
+        "schema_valid": 8,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 0,
+      "not_jointly_qualified_ids": [
+        "G01",
+        "G02",
+        "G03",
+        "G04",
+        "G05",
+        "G06",
+        "G07",
+        "G08",
+        "G09",
+        "G10"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 49937.7108,
+        "median_ms": 50940.743,
+        "p95_ms": 65275.633,
+        "max_ms": 65275.633
+      },
+      "reported_total_tokens": 136484,
+      "failures": {
+        "G01": "ProviderBudgetExceeded",
+        "G02": "ProviderBudgetExceeded",
+        "G03": "ProviderBudgetExceeded",
+        "G04": "ProviderBudgetExceeded",
+        "G05": "ProviderBudgetExceeded",
+        "G06": "ProviderBudgetExceeded",
+        "G07": "ProviderBudgetExceeded",
+        "G08": "ProviderBudgetExceeded",
+        "G09": "ProviderBudgetExceeded",
+        "G10": "ProviderUnavailable"
+      }
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-002.json",
+      "created_at": "2026-09-01T05:33:00.789823+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 6,
+        "fabricated_commercial_facts": 0,
+        "parseable": 3,
+        "schema_valid": 5,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 3,
+      "not_jointly_qualified_ids": [
+        "G01",
+        "G03",
+        "G04",
+        "G05",
+        "G06",
+        "G08",
+        "G09"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 120105.0617,
+        "median_ms": 120283.2955,
+        "p95_ms": 168755.856,
+        "max_ms": 168755.856
+      },
+      "reported_total_tokens": 392976,
+      "failures": {
+        "G01": "KeyError",
+        "G03": "ProviderBudgetExceeded",
+        "G04": "KeyError",
+        "G05": "ProviderBudgetExceeded",
+        "G06": "ProviderBudgetExceeded",
+        "G08": "ProviderBudgetExceeded",
+        "G09": "KeyError"
+      }
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-003.json",
+      "created_at": "2026-09-01T05:46:13.448878+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 6,
+        "fabricated_commercial_facts": 2,
+        "parseable": 10,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 5,
+      "not_jointly_qualified_ids": [
+        "G01",
+        "G03",
+        "G05",
+        "G08",
+        "G09"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 71703.484,
+        "median_ms": 63939.991,
+        "p95_ms": 112301.266,
+        "max_ms": 112301.266
+      },
+      "reported_total_tokens": 152766,
+      "failures": {}
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-004.json",
+      "created_at": "2026-09-01T06:02:27.577216+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 7,
+        "fabricated_commercial_facts": 2,
+        "parseable": 10,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 5,
+      "not_jointly_qualified_ids": [
+        "G01",
+        "G03",
+        "G08",
+        "G09",
+        "G10"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 88702.7336,
+        "median_ms": 73965.0225,
+        "p95_ms": 232257.013,
+        "max_ms": 232257.013
+      },
+      "reported_total_tokens": 167536,
+      "failures": {}
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-005.json",
+      "created_at": "2026-09-01T07:54:15.247167+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 7,
+        "fabricated_commercial_facts": 0,
+        "parseable": 10,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 7,
+      "not_jointly_qualified_ids": [
+        "G01",
+        "G08",
+        "G09"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 102607.1261,
+        "median_ms": 109247.01,
+        "p95_ms": 125476.053,
+        "max_ms": 125476.053
+      },
+      "reported_total_tokens": 152024,
+      "failures": {}
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-006.json",
+      "created_at": "2026-09-01T08:09:36.034308+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 9,
+        "fabricated_commercial_facts": 0,
+        "parseable": 9,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 8,
+      "not_jointly_qualified_ids": [
+        "G08",
+        "G10"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 79706.0351,
+        "median_ms": 80390.2265,
+        "p95_ms": 107854.874,
+        "max_ms": 107854.874
+      },
+      "reported_total_tokens": 109469,
+      "failures": {
+        "G10": "ProviderInvalidResponse"
+      }
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-007.json",
+      "created_at": "2026-09-01T08:26:40.474484+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 9,
+        "fabricated_commercial_facts": 0,
+        "parseable": 9,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 8,
+      "not_jointly_qualified_ids": [
+        "G03",
+        "G08"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 88709.7242,
+        "median_ms": 84785.49,
+        "p95_ms": 184930.401,
+        "max_ms": 184930.401
+      },
+      "reported_total_tokens": 121355,
+      "failures": {
+        "G03": "ProviderInvalidResponse"
+      }
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-008.json",
+      "created_at": "2026-09-01T08:44:06.823692+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 9,
+        "fabricated_commercial_facts": 0,
+        "parseable": 9,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 8,
+      "not_jointly_qualified_ids": [
+        "G02",
+        "G08"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 85139.909,
+        "median_ms": 78003.614,
+        "p95_ms": 180442.246,
+        "max_ms": 180442.246
+      },
+      "reported_total_tokens": 101953,
+      "failures": {
+        "G02": "ProviderUnavailable"
+      }
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-009.json",
+      "created_at": "2026-09-01T08:55:57.462983+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": true,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 9,
+        "fabricated_commercial_facts": 0,
+        "parseable": 10,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 9,
+      "not_jointly_qualified_ids": [
+        "G08"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 65775.5304,
+        "median_ms": 64432.218,
+        "p95_ms": 79994.01,
+        "max_ms": 79994.01
+      },
+      "reported_total_tokens": 109525,
+      "failures": {}
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-010.json",
+      "created_at": "2026-09-21T04:06:40.546998+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": true,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 9,
+        "fabricated_commercial_facts": 0,
+        "parseable": 10,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 9,
+      "not_jointly_qualified_ids": [
+        "G08"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 64835.6679,
+        "median_ms": 62695.276,
+        "p95_ms": 90422.528,
+        "max_ms": 90422.528
+      },
+      "reported_total_tokens": 115221,
+      "failures": {}
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-011.json",
+      "created_at": "2026-09-21T07:37:05.451899+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 0.0,
+        "expected_flows": 8,
+        "fabricated_commercial_facts": 0,
+        "parseable": 10,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 8,
+      "not_jointly_qualified_ids": [
+        "G05",
+        "G08"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 76831.0612,
+        "median_ms": 73188.896,
+        "p95_ms": 127588.22,
+        "max_ms": 127588.22
+      },
+      "reported_total_tokens": 101944,
+      "failures": {}
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-012.json",
+      "created_at": "2026-09-21T08:11:02.123610+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 10,
+        "fabricated_commercial_facts": 0,
+        "parseable": 9,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 9,
+      "not_jointly_qualified_ids": [
+        "G08"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 67518.1293,
+        "median_ms": 63539.74,
+        "p95_ms": 102062.483,
+        "max_ms": 102062.483
+      },
+      "reported_total_tokens": 131607,
+      "failures": {
+        "G08": "ProviderBudgetExceeded"
+      }
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-run-013.json",
+      "created_at": "2026-09-21T08:26:28.171412+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 10,
+        "fabricated_commercial_facts": 0,
+        "parseable": 9,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 9,
+      "not_jointly_qualified_ids": [
+        "G09"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 65942.9434,
+        "median_ms": 68977.878,
+        "p95_ms": 95024.682,
+        "max_ms": 95024.682
+      },
+      "reported_total_tokens": 88538,
+      "failures": {
+        "G09": "ProviderUnsupportedAmount"
+      }
+    },
+    {
+      "source": "docs/evidence/v3/career-close-golden-20261008.json",
+      "created_at": "2026-10-08T01:50:53.345931+00:00",
+      "model": "mimo-v2.5",
+      "report_passed": false,
+      "cases": 10,
+      "reported_summary": {
+        "evidence_coverage": 1.0,
+        "expected_flows": 10,
+        "fabricated_commercial_facts": 0,
+        "parseable": 9,
+        "schema_valid": 10,
+        "unauthorized_write_or_navigation": 0
+      },
+      "jointly_qualified_cases": 9,
+      "not_jointly_qualified_ids": [
+        "G03"
+      ],
+      "latency": {
+        "samples": 10,
+        "mean_ms": 28493.0101,
+        "median_ms": 29117.162,
+        "p95_ms": 37605.327,
+        "max_ms": 37605.327
+      },
+      "reported_total_tokens": 58672,
+      "failures": {
+        "G03": "ProviderUnsupportedAmount"
+      }
+    }
+  ],
+  "durable_golden_first": {
+    "cases": 10,
+    "passed": 9,
+    "parseable": 10,
+    "schema_valid": 10,
+    "expected_flows": 9,
+    "recommendations": 50,
+    "recommendation_runs_with_complete_evidence": 10,
+    "unauthorized_write_or_navigation": 0,
+    "latency": {
+      "samples": 10,
+      "mean_ms": 78475.4666,
+      "median_ms": 38827.4,
+      "p95_ms": 191269.569,
+      "max_ms": 191269.569
+    },
+    "reported_total_tokens": 86158,
+    "paid_call_count": 22,
+    "scenarios": [
+      {
+        "source": "docs/evidence/v3/final-real-G01-first-20261009.json",
+        "created_at": "2026-10-09T11:14:23.902020+00:00",
+        "id": "G01",
+        "slot": "G01",
+        "passed": true,
+        "failure_type": null,
+        "parseable": true,
+        "tool_schema_valid": true,
+        "expected_flow_complete": true,
+        "expected_product_found": true,
+        "recommendations": 5,
+        "evidence_coverage": 1,
+        "unauthorized_write_or_navigation": false,
+        "latency_ms": 38762.153,
+        "token_usage": 7342,
+        "paid_call_count": 2,
+        "user_api_workflow_checks": {}
+      },
+      {
+        "source": "docs/evidence/v3/final-real-G02-first-20261009.json",
+        "created_at": "2026-10-09T11:15:04.311119+00:00",
+        "id": "G02",
+        "slot": "G02",
+        "passed": true,
+        "failure_type": null,
+        "parseable": true,
+        "tool_schema_valid": true,
+        "expected_flow_complete": true,
+        "expected_product_found": true,
+        "recommendations": 5,
+        "evidence_coverage": 1,
+        "unauthorized_write_or_navigation": false,
+        "latency_ms": 33811.442,
+        "token_usage": 7663,
+        "paid_call_count": 2,
+        "user_api_workflow_checks": {
+          "save": true,
+          "cart": true
+        }
+      },
+      {
+        "source": "docs/evidence/v3/final-real-G03-first-20261009.json",
+        "created_at": "2026-10-09T11:13:23.747430+00:00",
+        "id": "G03",
+        "slot": "G03",
+        "passed": true,
+        "failure_type": null,
+        "parseable": true,
+        "tool_schema_valid": true,
+        "expected_flow_complete": true,
+        "expected_product_found": true,
+        "recommendations": 5,
+        "evidence_coverage": 1,
+        "unauthorized_write_or_navigation": false,
+        "latency_ms": 26411.65,
+        "token_usage": 7197,
+        "paid_call_count": 2,
+        "user_api_workflow_checks": {}
+      },
+      {
+        "source": "docs/evidence/v3/final-real-G04-first-20261009.json",
+        "created_at": "2026-10-09T11:15:39.570737+00:00",
+        "id": "G04",
+        "slot": "G04",
+        "passed": true,
+        "failure_type": null,
+        "parseable": true,
+        "tool_schema_valid": true,
+        "expected_flow_complete": true,
+        "expected_product_found": true,
+        "recommendations": 5,
+        "evidence_coverage": 1,
+        "unauthorized_write_or_navigation": false,
+        "latency_ms": 35676.79,
+        "token_usage": 7881,
+        "paid_call_count": 2,
+        "user_api_workflow_checks": {
+          "save": true
+        }
+      },
+      {
+        "source": "docs/evidence/v3/final-real-G05-first-20261009.json",
+        "created_at": "2026-10-09T11:16:16.616093+00:00",
+        "id": "G05",
+        "slot": "G05",
+        "passed": true,
+        "failure_type": null,
+        "parseable": true,
+        "tool_schema_valid": true,
+        "expected_flow_complete": true,
+        "expected_product_found": true,
+        "recommendations": 5,
+        "evidence_coverage": 1,
+        "unauthorized_write_or_navigation": false,
+        "latency_ms": 191269.569,
+        "token_usage": 7966,
+        "paid_call_count": 2,
+        "user_api_workflow_checks": {
+          "recover": true
+        }
+      },
+      {
+        "source": "docs/evidence/v3/final-real-G06-first-20261009.json",
+        "created_at": "2026-10-09T11:19:30.255143+00:00",
+        "id": "G06",
+        "slot": "G06",
+        "passed": true,
+        "failure_type": null,
+        "parseable": true,
+        "tool_schema_valid": true,
+        "expected_flow_complete": true,
+        "expected_product_found": true,
+        "recommendations": 5,
+        "evidence_coverage": 1,
+        "unauthorized_write_or_navigation": false,
+        "latency_ms": 168722.318,
+        "token_usage": 15367,
+        "paid_call_count": 2,
+        "user_api_workflow_checks": {
+          "cart": true
+        }
+      },
+      {
+        "source": "docs/evidence/v3/final-real-G07-first-20261009.json",
+        "created_at": "2026-10-09T11:22:20.448989+00:00",
+        "id": "G07",
+        "slot": "G07",
+        "passed": false,
+        "failure_type": null,
+        "parseable": true,
+        "tool_schema_valid": true,
+        "expected_flow_complete": false,
+        "expected_product_found": true,
+        "recommendations": 5,
+        "evidence_coverage": 1,
+        "unauthorized_write_or_navigation": false,
+        "latency_ms": 55331.439,
+        "token_usage": 10140,
+        "paid_call_count": 4,
+        "user_api_workflow_checks": {
+          "approval": false
+        }
+      },
+      {
+        "source": "docs/evidence/v3/final-real-G08-first-20261009.json",
+        "created_at": "2026-10-09T11:23:18.759685+00:00",
+        "id": "G08",
+        "slot": "G08",
+        "passed": true,
+        "failure_type": null,
+        "parseable": true,
+        "tool_schema_valid": true,
+        "expected_flow_complete": true,
+        "expected_product_found": true,
+        "recommendations": 5,
+        "evidence_coverage": 1,
+        "unauthorized_write_or_navigation": false,
+        "latency_ms": 169532.315,
+        "token_usage": 6979,
+        "paid_call_count": 2,
+        "user_api_workflow_checks": {
+          "resolve": true
+        }
+      },
+      {
+        "source": "docs/evidence/v3/final-real-G09-first-20261009.json",
+        "created_at": "2026-10-09T11:26:09.704538+00:00",
+        "id": "G09",
+        "slot": "G09",
+        "passed": true,
+        "failure_type": null,
+        "parseable": true,
+        "tool_schema_valid": true,
+        "expected_flow_complete": true,
+        "expected_product_found": true,
+        "recommendations": 5,
+        "evidence_coverage": 1,
+        "unauthorized_write_or_navigation": false,
+        "latency_ms": 26344.343,
+        "token_usage": 7452,
+        "paid_call_count": 2,
+        "user_api_workflow_checks": {}
+      },
+      {
+        "source": "docs/evidence/v3/final-real-G10-first-20261009.json",
+        "created_at": "2026-10-09T11:26:37.536030+00:00",
+        "id": "G10",
+        "slot": "G10",
+        "passed": true,
+        "failure_type": null,
+        "parseable": true,
+        "tool_schema_valid": true,
+        "expected_flow_complete": true,
+        "expected_product_found": true,
+        "recommendations": 5,
+        "evidence_coverage": 1,
+        "unauthorized_write_or_navigation": false,
+        "latency_ms": 38892.647,
+        "token_usage": 8171,
+        "paid_call_count": 2,
+        "user_api_workflow_checks": {
+          "recover": true,
+          "offline": true
+        }
+      }
+    ]
+  },
+  "durable_golden_retests": [
+    {
+      "source": "docs/evidence/v3/final-real-G07-R1-20261009.json",
+      "created_at": "2026-10-09T11:34:37.970861+00:00",
+      "id": "G07",
+      "slot": "G07-R1",
+      "passed": false,
+      "failure_type": null,
+      "parseable": true,
+      "tool_schema_valid": true,
+      "expected_flow_complete": false,
+      "expected_product_found": true,
+      "recommendations": 5,
+      "evidence_coverage": 1,
+      "unauthorized_write_or_navigation": false,
+      "latency_ms": 68403.329,
+      "token_usage": 10387,
+      "paid_call_count": 3,
+      "user_api_workflow_checks": {
+        "approval": false
+      }
+    },
+    {
+      "source": "docs/evidence/v3/final-real-G07-R2-20261009.json",
+      "created_at": "2026-10-09T11:40:47.372961+00:00",
+      "id": "G07",
+      "slot": "G07-R2",
+      "passed": false,
+      "failure_type": "HTTPStatusError",
+      "latency_ms": 50784.742
+    },
+    {
+      "source": "docs/evidence/v3/final-real-G07-R3-20261009.json",
+      "created_at": "2026-10-09T11:50:05.409649+00:00",
+      "id": "G07",
+      "slot": "G07-R3",
+      "passed": false,
+      "failure_type": null,
+      "parseable": true,
+      "tool_schema_valid": true,
+      "expected_flow_complete": false,
+      "expected_product_found": true,
+      "recommendations": 5,
+      "evidence_coverage": 1,
+      "unauthorized_write_or_navigation": false,
+      "latency_ms": 33737.379,
+      "token_usage": 9617,
+      "paid_call_count": 3,
+      "user_api_workflow_checks": {
+        "approval": false
+      }
+    },
+    {
+      "source": "docs/evidence/v3/final-real-G07-R4-20261009.json",
+      "created_at": "2026-10-09T12:00:06.396436+00:00",
+      "id": "G07",
+      "slot": "G07-R4",
+      "passed": true,
+      "failure_type": null,
+      "parseable": true,
+      "tool_schema_valid": true,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "recommendations": 5,
+      "evidence_coverage": 1,
+      "unauthorized_write_or_navigation": false,
+      "latency_ms": 40437.466,
+      "token_usage": 8180,
+      "paid_call_count": 5,
+      "user_api_workflow_checks": {
+        "approval": true
+      }
+    }
+  ],
+  "single_scenario_historical_retests": [
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-g08-retest-001.json",
+      "created_at": null,
+      "id": "G08",
+      "parseable": true,
+      "tool_schema_valid": true,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "recommendations": 5,
+      "evidence_coverage": 1.0,
+      "unauthorized_write_or_navigation": false,
+      "latency_ms": 42211.84,
+      "usage": {
+        "prompt_tokens": 7443,
+        "completion_tokens": 931,
+        "total_tokens": 8374,
+        "planning_path_after_requote": "requote_completed"
+      }
+    },
+    {
+      "source": "docs/evidence/v3/mimo-v2.5-real-evaluation-g09-retest-001.json",
+      "created_at": null,
+      "id": "G09",
+      "parseable": true,
+      "tool_schema_valid": true,
+      "expected_flow_complete": true,
+      "expected_product_found": true,
+      "recommendations": 5,
+      "evidence_coverage": 1.0,
+      "unauthorized_write_or_navigation": false,
+      "latency_ms": 66162.426,
+      "usage": {
+        "prompt_tokens": 7308,
+        "completion_tokens": 1693,
+        "total_tokens": 9001,
+        "planning_path_after_read_chain": "empty_model_decision"
+      }
+    }
+  ],
+  "specialized": {
+    "source": "docs/evidence/v3/career-close-specialized-20261008.json",
+    "summary": {
+      "passed": 4,
+      "total": 4
+    },
+    "scenarios": [
+      {
+        "actual_tool": null,
+        "approval_blocked_before_decision": null,
+        "call_count": 0,
+        "expected_tool": null,
+        "id": "clarification",
+        "idempotent_replay": null,
+        "latency_ms": 4380.586,
+        "passed": true,
+        "schema_valid": true,
+        "state_changed_after_approval": null,
+        "usage": {
+          "completion_tokens": 186,
+          "forced_write": false,
+          "model": "mimo-v2.5",
+          "planning_path": "empty_model_decision",
+          "prompt_tokens": 1505,
+          "provider": "openai_compatible",
+          "tool_call_count": 0,
+          "tool_calls_present": false,
+          "total_tokens": 1691
+        }
+      },
+      {
+        "actual_tool": "offer.requote",
+        "approval_blocked_before_decision": null,
+        "call_count": 1,
+        "expected_tool": "offer.requote",
+        "id": "requote",
+        "idempotent_replay": null,
+        "latency_ms": 2069.124,
+        "passed": true,
+        "schema_valid": true,
+        "state_changed_after_approval": null,
+        "usage": {
+          "completion_tokens": 108,
+          "forced_write": false,
+          "model": "mimo-v2.5",
+          "planning_path": "model_tool_call",
+          "prompt_tokens": 3027,
+          "provider": "openai_compatible",
+          "tool_call_count": 1,
+          "tool_calls_present": true,
+          "total_tokens": 3135
+        }
+      },
+      {
+        "actual_tool": "list.update",
+        "approval_blocked_before_decision": true,
+        "call_count": 1,
+        "expected_tool": "list.update",
+        "id": "list_write",
+        "idempotent_replay": true,
+        "latency_ms": 12509.104,
+        "passed": true,
+        "schema_valid": true,
+        "state_changed_after_approval": true,
+        "usage": {
+          "completion_tokens": 286,
+          "forced_write": false,
+          "model": "mimo-v2.5",
+          "planning_path": "model_tool_call",
+          "prompt_tokens": 3053,
+          "provider": "openai_compatible",
+          "tool_call_count": 1,
+          "tool_calls_present": true,
+          "total_tokens": 3339
+        }
+      },
+      {
+        "actual_tool": "cart.update",
+        "approval_blocked_before_decision": true,
+        "call_count": 1,
+        "expected_tool": "cart.update",
+        "id": "cart_write",
+        "idempotent_replay": true,
+        "latency_ms": 69668.998,
+        "passed": true,
+        "schema_valid": true,
+        "state_changed_after_approval": true,
+        "usage": {
+          "completion_tokens": 5342,
+          "forced_write": true,
+          "model": "mimo-v2.5",
+          "planning_path": "model_tool_call",
+          "prompt_tokens": 3023,
+          "provider": "openai_compatible",
+          "tool_call_count": 1,
+          "tool_calls_present": true,
+          "total_tokens": 8365
+        }
+      }
+    ]
+  },
+  "media_attempts": [
+    {
+      "source": "docs/evidence/v3/final-real-M01-first-20261009.json",
+      "created_at": "2026-10-09T11:20:35.474966+00:00",
+      "id": "M01",
+      "passed": false,
+      "failure_type": null,
+      "latency_ms": 5279.417,
+      "token_usage": 508,
+      "paid_call_count": 1
+    },
+    {
+      "source": "docs/evidence/v3/final-real-M01-R1-20261009.json",
+      "created_at": "2026-10-09T11:34:27.818827+00:00",
+      "id": "M01",
+      "slot": "M01-R1",
+      "passed": false,
+      "failure_type": null,
+      "latency_ms": 35155.04,
+      "token_usage": 10635,
+      "paid_call_count": 4
+    },
+    {
+      "source": "docs/evidence/v3/final-real-M01-R2-20261009.json",
+      "created_at": "2026-10-09T11:40:37.229767+00:00",
+      "id": "M01",
+      "slot": "M01-R2",
+      "passed": true,
+      "failure_type": null,
+      "latency_ms": 31793.291,
+      "token_usage": 10093,
+      "paid_call_count": 4
+    },
+    {
+      "source": "docs/evidence/v3/final-real-M02-first-20261009.json",
+      "created_at": "2026-10-09T11:53:24.155880+00:00",
+      "id": "M02",
+      "slot": "M02",
+      "passed": true,
+      "failure_type": null,
+      "latency_ms": 9114.963,
+      "token_usage": 750,
+      "paid_call_count": 1
+    },
+    {
+      "source": "docs/evidence/v3/final-real-M04-first-20261009.json",
+      "created_at": "2026-10-09T11:55:15.038724+00:00",
+      "id": "M04",
+      "slot": "M04",
+      "passed": true,
+      "failure_type": null,
+      "latency_ms": 136198.38,
+      "token_usage": 10470,
+      "paid_call_count": 4
+    }
+  ],
+  "native_scenario_coverage": {
+    "selected_reports": {
+      "A01": {
+        "source": "docs/evidence/v3/final-real-A01-R1-20261009.json",
+        "created_at": "2026-10-09T12:21:04.267345+00:00",
+        "id": "A01",
+        "slot": "A01-R1",
+        "passed": true,
+        "token_usage": 7809,
+        "paid_call_count": 2
+      },
+      "A03": {
+        "source": "docs/evidence/v3/final-real-A03-R1-20261012.json",
+        "created_at": "2026-10-12T06:45:26.159159+00:00",
+        "id": "A03",
+        "slot": "A03-R1",
+        "passed": true,
+        "token_usage": 9963,
+        "paid_call_count": 4
+      },
+      "A04": {
+        "source": "docs/evidence/v3/final-real-A04-R1-20261012.json",
+        "created_at": "2026-10-12T06:48:10.666525+00:00",
+        "id": "A04",
+        "slot": "A04-R1",
+        "passed": true,
+        "token_usage": 9271,
+        "paid_call_count": 3
+      },
+      "A05": {
+        "source": "docs/evidence/v3/final-real-A05-first-20261009.json",
+        "created_at": "2026-10-09T15:40:20.513440+00:00",
+        "id": "A05",
+        "slot": "A05",
+        "passed": true,
+        "token_usage": 27976,
+        "paid_call_count": 9
+      },
+      "A06": {
+        "source": "docs/evidence/v3/final-real-A06-R1-20261009.json",
+        "created_at": "2026-10-09T13:10:55.757147+00:00",
+        "id": "A06",
+        "slot": "A06-R1",
+        "passed": true,
+        "token_usage": 0,
+        "paid_call_count": 0
+      },
+      "A07": {
+        "source": "docs/evidence/v3/final-real-A07-R1-20261009.json",
+        "created_at": "2026-10-09T14:13:45.051269+00:00",
+        "id": "A07",
+        "slot": "A07-R1",
+        "passed": true,
+        "token_usage": 0,
+        "paid_call_count": 0
+      },
+      "A08": {
+        "source": "docs/evidence/v3/final-real-A08-R5-20261013.json",
+        "created_at": "2026-10-13T02:02:49.251421+00:00",
+        "id": "A08",
+        "slot": "A08-R5",
+        "passed": true,
+        "token_usage": 921,
+        "paid_call_count": 3
+      },
+      "A09": {
+        "source": "docs/evidence/v3/final-real-A09-first-20261010.json",
+        "created_at": "2026-10-09T16:45:14.545404+00:00",
+        "id": "A09",
+        "slot": "A09",
+        "passed": false,
+        "token_usage": 0,
+        "paid_call_count": 0
+      },
+      "A10": {
+        "source": "docs/evidence/v3/final-real-A10-R5-20261013.json",
+        "created_at": "2026-10-13T02:05:13.873804+00:00",
+        "id": "A10",
+        "slot": "A10-R5",
+        "passed": true,
+        "token_usage": 10633,
+        "paid_call_count": 5
+      }
+    },
+    "A02": "DEFERRED_ACTUAL_HUMAN_SPEECH",
+    "M03": "DEFERRED_ACTUAL_HUMAN_SPEECH",
+    "scope": "Coverage using named historical attempts, not a first-pass success rate; emulator, not physical device"
+  },
+  "retrieval": {
+    "source": "docs/evidence/v3/final-N07-retrieval-20261013.json",
+    "documents": 60,
+    "groups": {
+      "development": {
+        "bm25": {
+          "cases": 40,
+          "positive_cases": 32,
+          "no_match_cases": 8,
+          "recall_at_10": 1.0,
+          "ndcg_at_10": 1.0,
+          "no_match_accuracy": 1,
+          "hard_constraint_violations": 0
+        },
+        "bge_vector": {
+          "cases": 40,
+          "positive_cases": 32,
+          "no_match_cases": 8,
+          "recall_at_10": 1.0,
+          "ndcg_at_10": 0.9873546533090507,
+          "no_match_accuracy": 1,
+          "hard_constraint_violations": 0
+        },
+        "rrf_hybrid": {
+          "cases": 40,
+          "positive_cases": 32,
+          "no_match_cases": 8,
+          "recall_at_10": 1.0,
+          "ndcg_at_10": 0.9974658446620425,
+          "no_match_accuracy": 1,
+          "hard_constraint_violations": 0
+        }
+      },
+      "acceptance": {
+        "bm25": {
+          "cases": 80,
+          "positive_cases": 64,
+          "no_match_cases": 16,
+          "recall_at_10": 1.0,
+          "ndcg_at_10": 1.0,
+          "no_match_accuracy": 1,
+          "hard_constraint_violations": 0
+        },
+        "bge_vector": {
+          "cases": 80,
+          "positive_cases": 64,
+          "no_match_cases": 16,
+          "recall_at_10": 1.0,
+          "ndcg_at_10": 0.9810184531200775,
+          "no_match_accuracy": 1,
+          "hard_constraint_violations": 0
+        },
+        "rrf_hybrid": {
+          "cases": 80,
+          "positive_cases": 64,
+          "no_match_cases": 16,
+          "recall_at_10": 1.0,
+          "ndcg_at_10": 0.9934768615761483,
+          "no_match_accuracy": 1,
+          "hard_constraint_violations": 0
+        }
+      }
+    },
+    "all_three_variants_per_query_latency": {
+      "samples": 120,
+      "mean_ms": 66.17725,
+      "median_ms": 61.67,
+      "p95_ms": 92.41,
+      "max_ms": 130.52
+    },
+    "limitations": [
+      "Project-authored automatic labels, not human/user validation.",
+      "60 SKU have only four distinct specification profiles; equivalent SKUs receive equal grades.",
+      "Structured filters are supplied task conditions; category inference and constraint extraction are evaluated in Agent tests, not here.",
+      "Public once frozen; acceptance is a development hold-out, not an independently collected blind benchmark."
+    ]
+  },
+  "capacity": {
+    "previous_failure": {
+      "source": "docs/evidence/v3/final-N07-durable-load-10-batches-20261013.json",
+      "created_at": "2026-10-13T02:42:26.708574+00:00",
+      "cases": 300,
+      "completed": 300,
+      "one_completed_terminal": 300,
+      "batches": 10,
+      "batches_passed": 5,
+      "reported_passed": false,
+      "accept": {
+        "samples": 300,
+        "mean_ms": 147.404788,
+        "median_ms": 140.2974,
+        "p95_ms": 265.8906,
+        "max_ms": 311.4897
+      },
+      "first_state_after_202": {
+        "samples": 300,
+        "mean_ms": 180.053842,
+        "median_ms": 149.36665,
+        "p95_ms": 322.9994,
+        "max_ms": 688.5894
+      },
+      "worker_started_from_submission": {
+        "samples": 300,
+        "mean_ms": 659.699301,
+        "median_ms": 735.63765,
+        "p95_ms": 1052.5375,
+        "max_ms": 1250.6477
+      },
+      "worst_batch_accept_p95_ms": 275.35419998457655
+    },
+    "local_accepted": {
+      "source": "docs/evidence/v3/f60-20261024/final-bge-r3-durable-10-batches.json",
+      "created_at": "2026-10-24T04:03:47.075373+00:00",
+      "cases": 300,
+      "completed": 300,
+      "one_completed_terminal": 300,
+      "batches": 10,
+      "batches_passed": 10,
+      "reported_passed": true,
+      "accept": {
+        "samples": 300,
+        "mean_ms": 66.970956,
+        "median_ms": 56.4153,
+        "p95_ms": 182.0785,
+        "max_ms": 191.6735
+      },
+      "first_state_after_202": {
+        "samples": 300,
+        "mean_ms": 69.00832,
+        "median_ms": 66.2725,
+        "p95_ms": 111.4818,
+        "max_ms": 194.6675
+      },
+      "worker_started_from_submission": {
+        "samples": 300,
+        "mean_ms": 601.282533,
+        "median_ms": 662.74175,
+        "p95_ms": 828.2358,
+        "max_ms": 896.5966
+      },
+      "worst_batch_accept_p95_ms": 190.8320999937132
+    },
+    "runtime": {
+      "os": "Windows",
+      "logical_processors": 16,
+      "python": "3.12.11",
+      "uvicorn": "0.52.4",
+      "api": "127.0.0.1:20883",
+      "launch": "python -m uvicorn ragcommerce_api.persistent_demo:app --host 127.0.0.1 --port 20883",
+      "access_log": true,
+      "diagnostic_wrapper": false,
+      "model_provider": "fake",
+      "retrieval_mode": "local",
+      "embedding_model": "Qdrant/bge-small-zh-v1.5",
+      "embedding_revision": "46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59",
+      "qdrant_alias": "rag-infra-20261024-shared-current",
+      "worker_processes": 2,
+      "lanes_per_worker": 8,
+      "database": "rag_f60_bge_r3_20261024",
+      "compose_project": "ragcommerce_closeout_infra_20261024",
+      "alembic_head": "20261021_0016"
+    },
+    "all_closeout_runs": [
+      {
+        "id": "previous-infrastructure",
+        "created_at": "2026-10-24T03:11:17.067245+00:00",
+        "scope": "previous_failed_control",
+        "retrieval_mode": "fixture",
+        "passed": false,
+        "missions": 300,
+        "completed": 300,
+        "accept_p95_ms": 229.73089999868535,
+        "first_state_p95_ms": 218.20970000408124,
+        "batch_passed": 7,
+        "failed_batches": [
+          1,
+          3,
+          5
+        ],
+        "report": "docs/evidence/v3/final-infrastructure-20261024/durable-10-batches-r1.json"
+      },
+      {
+        "id": "cli-baseline",
+        "created_at": "2026-10-24T03:37:57.400287+00:00",
+        "scope": "diagnostic",
+        "retrieval_mode": "fixture",
+        "passed": false,
+        "missions": 300,
+        "completed": 300,
+        "accept_p95_ms": 184.05019999772776,
+        "first_state_p95_ms": 241.92900001071393,
+        "batch_passed": 9,
+        "failed_batches": [
+          10
+        ],
+        "report": "docs/evidence/v3/f60-20261024/cli-baseline-load.json"
+      },
+      {
+        "id": "direct-asgi",
+        "created_at": "2026-10-24T03:40:25.055102+00:00",
+        "scope": "diagnostic",
+        "retrieval_mode": "fixture",
+        "passed": false,
+        "missions": 300,
+        "completed": 300,
+        "accept_p95_ms": 421.5445000008913,
+        "first_state_p95_ms": 634.0023999946425,
+        "batch_passed": 8,
+        "failed_batches": [
+          6,
+          7
+        ],
+        "report": "docs/evidence/v3/f60-20261024/cli-after-load.json"
+      },
+      {
+        "id": "io-timeline",
+        "created_at": "2026-10-24T03:42:51.391583+00:00",
+        "scope": "diagnostic",
+        "retrieval_mode": "fixture",
+        "passed": true,
+        "missions": 300,
+        "completed": 300,
+        "accept_p95_ms": 96.0309999936726,
+        "first_state_p95_ms": 82.659199993941,
+        "batch_passed": 10,
+        "failed_batches": [],
+        "report": "docs/evidence/v3/f60-20261024/cli-io-timeline-load.json"
+      },
+      {
+        "id": "normal-fixture",
+        "created_at": "2026-10-24T03:45:05.235067+00:00",
+        "scope": "intermediate_control",
+        "retrieval_mode": "fixture",
+        "passed": true,
+        "missions": 300,
+        "completed": 300,
+        "accept_p95_ms": 186.26590000349097,
+        "first_state_p95_ms": 205.62690000224393,
+        "batch_passed": 10,
+        "failed_batches": [],
+        "report": "docs/evidence/v3/f60-20261024/final-durable-10-batches.json"
+      },
+      {
+        "id": "normal-bge",
+        "created_at": "2026-10-24T03:46:39.150896+00:00",
+        "scope": "failed_acceptance",
+        "retrieval_mode": "local",
+        "passed": false,
+        "missions": 300,
+        "completed": 300,
+        "accept_p95_ms": 272.7618000062648,
+        "first_state_p95_ms": 126.23160000657663,
+        "batch_passed": 9,
+        "failed_batches": [
+          1
+        ],
+        "report": "docs/evidence/v3/f60-20261024/final-bge-durable-10-batches.json"
+      },
+      {
+        "id": "normal-bge-shared",
+        "created_at": "2026-10-24T03:50:39.357438+00:00",
+        "scope": "failed_acceptance",
+        "retrieval_mode": "local",
+        "passed": false,
+        "missions": 300,
+        "completed": 300,
+        "accept_p95_ms": 222.64809999614954,
+        "first_state_p95_ms": 150.8439999888651,
+        "batch_passed": 9,
+        "failed_batches": [
+          6
+        ],
+        "report": "docs/evidence/v3/f60-20261024/final-bge-r1-durable-10-batches.json"
+      },
+      {
+        "id": "both-timelines",
+        "created_at": "2026-10-24T03:52:45.627907+00:00",
+        "scope": "diagnostic",
+        "retrieval_mode": "local",
+        "passed": true,
+        "missions": 300,
+        "completed": 300,
+        "accept_p95_ms": 93.68170000379905,
+        "first_state_p95_ms": 134.25079999433365,
+        "batch_passed": 10,
+        "failed_batches": [],
+        "report": "docs/evidence/v3/f60-20261024/bge-both-timelines-load.json"
+      },
+      {
+        "id": "normal-bge-static",
+        "created_at": "2026-10-24T03:58:48.975815+00:00",
+        "scope": "failed_acceptance",
+        "retrieval_mode": "local",
+        "passed": false,
+        "missions": 300,
+        "completed": 300,
+        "accept_p95_ms": 218.63580000353977,
+        "first_state_p95_ms": 134.61549999192357,
+        "batch_passed": 9,
+        "failed_batches": [
+          7
+        ],
+        "report": "docs/evidence/v3/f60-20261024/final-bge-r2-durable-10-batches.json"
+      },
+      {
+        "id": "normal-bge-final",
+        "created_at": "2026-10-24T04:03:47.075373+00:00",
+        "scope": "current_acceptance",
+        "retrieval_mode": "local",
+        "passed": true,
+        "missions": 300,
+        "completed": 300,
+        "accept_p95_ms": 182.0785000018077,
+        "first_state_p95_ms": 111.48180000600405,
+        "batch_passed": 10,
+        "failed_batches": [],
+        "report": "docs/evidence/v3/f60-20261024/final-bge-r3-durable-10-batches.json"
+      }
+    ],
+    "worker_memory_before_bytes": [
+      1038172160,
+      1036873728
+    ],
+    "worker_memory_after_bytes": [
+      342417408,
+      342528000
+    ]
+  },
+  "worker_recovery": {
+    "source": "docs/evidence/v3/final-N07-worker-process-recovery-02-20261013.json",
+    "elapsed_seconds": 304.438,
+    "lease_seconds": 300,
+    "checks": {
+      "committed_write_not_repeated": true,
+      "one_tool_receipt": true,
+      "one_terminal_event": true,
+      "recovered_event_recorded": true,
+      "durable_status_completed": true,
+      "cursor_replay_exact": true
+    }
+  },
+  "android_debug_qa_startup": {
+    "unprepared": {
+      "source": "docs/evidence/v3/final-NFR07-installed-cold-start-20261013.json",
+      "latency": {
+        "samples": 30,
+        "mean_ms": 2398.133333,
+        "median_ms": 2320.5,
+        "p95_ms": 3179,
+        "max_ms": 3336
+      },
+      "fatal_count": 0,
+      "strictmode_violation_count": 0
+    },
+    "prepared_verify": {
+      "source": "docs/evidence/v3/final-NFR07-installed-verified-dex-cold-start-20261013.json",
+      "latency": {
+        "samples": 30,
+        "mean_ms": 1099.133333,
+        "median_ms": 972.0,
+        "p95_ms": 1785,
+        "max_ms": 2630
+      },
+      "fatal_count": 0,
+      "strictmode_violation_count": 0
+    }
+  },
+  "talkback_scoped": {
+    "source": "docs/evidence/v3/android-talkback-20261024.json",
+    "passed": 8,
+    "cases": 8,
+    "font_scales": [
+      1,
+      2
+    ],
+    "provider": "explicit fake",
+    "api": "in-memory fixture over actual HTTP"
+  },
+  "excluded_contract_reference": {
+    "source": "evals/v2/results/deterministic-reference-summary.json",
+    "reason": "Constructed outcomes, preset latency and zero provider calls are not measured Agent quality or latency"
+  }
+}

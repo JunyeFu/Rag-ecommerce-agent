@@ -3,122 +3,138 @@
 </p>
 
 <h1 align="center">RAG Commerce · 购物决策 Agent</h1>
-<p align="center"><strong>说出需求，看懂取舍，由你决定。</strong><br>Android 原生体验，把需求澄清、证据推荐与购买前决策连成一条线。</p>
+<p align="center"><strong>说出需求，看懂取舍，由你决定。</strong><br>面向 3C 选购的 Android 原生助手，连接需求澄清、证据推荐与购买前决策。</p>
 <p align="center">
-  <a href="#产品画廊">查看产品画面</a> ·
-  <a href="docs/media/rag-commerce-v3-demo.mp4">观看 87 秒历史演示</a> ·
-  <a href="#三条本地启动命令">本地体验</a> ·
-  <a href="docs/architecture/V3-C4.md">架构设计</a>
+  <a href="#产品画廊">产品画廊</a> ·
+  <a href="#技术栈与选型">技术选型</a> ·
+  <a href="#agent-实测指标">实测指标</a> ·
+  <a href="#本地体验">本地体验</a> ·
+  <a href="docs/media/rag-commerce-v3-demo.mp4">87 秒历史演示</a>
 </p>
 
-> **研发展示版 · 非商业上线服务。** 当前候选仍为 **HOLD**，未公开发布；商品与报价为演示数据。下方历史运行截图用于展示交互与视觉设计，不代表当前源码已完成验收。
+> **研发展示版｜当前候选 HOLD｜商业发布 NO_GO。** 商品与报价为项目自有演示数据；源码已公开，当前候选尚未正式发布。本文于 **2026-11-05** 核对技术栈并离线汇总已有实测，报告日期与条件分别标注。
 
-## 最新进展 · 2026-11-01 同步
+## 产品定位与商业价值
 
-- **容量门禁本地通过（10 月 24 日）**：真实 PostgreSQL、双 Worker、本地 BGE，fake 模型，十批 × 30 共 300/300 完成；接受 p95 **182.079 ms**，首状态 p95 **111.482 ms**。[F60 完整结果与历史失败](docs/evidence/v3/final-F60-review-20261024.json)。
-- **Android 决策与无障碍增量**：比较、保存、待购连续性，以及两档字号下的 TalkBack 路径；8/8 原生场景为 explicit fake + 内存 API 的限定验收。[验收范围](docs/evidence/v3/android-talkback-20261024.json)。
-- **待完成**：有效人声闭环、浏览器首次设置后的完整外跳、最终同版 APK／视频／独立复审；整体 **HOLD**，商业发布 **NO_GO**。
+用户的问题往往是“这个预算下，什么适合我的用途”，随后才是“哪一件值得买”。RAG Commerce 把预算、硬约束和偏好变成可持续的购买任务：先澄清，再给出带商品事实、报价来源和取舍理由的候选，最后由用户比较、保存或确认加入待购。
 
-[文档导航与目录说明](docs/README.md) · [最新缺陷记录](docs/defects/V3-FINAL-CLOSEOUT.md) · [交付状态](docs/release/local-portfolio.json)
+| 购买中的问题 | 已实现的产品机制 | 面向商业应用的价值 |
+|---|---|---|
+| 需求分散，搜索条件难以一次说清 | 文字需求、用途探索、约束修改；图片理解后由用户确认 | 把自然语言需求衔接到结构化商品检索 |
+| 推荐理由与价格依据分离 | EvidenceRef、类型化 OfferQuote、报价时效、候选比较 | 让推荐与可追溯的商品信息一起呈现 |
+| 对话结束后，选择容易丢失 | Mission、保存候选、待购、快照与进程恢复 | 让购买前决策可以继续处理 |
+| 模型建议容易被误当成执行授权 | 明确审批、固定调用参数、幂等回执、Ops Trace | 为接入商家或平台工具提供受控执行基础 |
 
-### 本轮 Android 决策画面
-
-<img src="docs/media/android-ux-native-20261021/default-comparison.png" width="340" alt="2026-10-21 Android 比较工作台：按预算、硬约束和偏好比较候选">
-
-2026-10-21 运行截图，演示商品与报价；与下方历史推荐画面分开标注，不代表最终同版媒体签收。
-
-## 不止给你一张商品列表
-
-| 从需求开始 | 把推荐讲清楚 | 把决定交给你 |
-| :--- | :--- | :--- |
-| 描述预算、用途与偏好，逐步澄清购买约束。 | 查看推荐理由、约束匹配与报价来源，再比较候选。 | 保存方案或确认加入待购，让下一步建立在明确授权上。 |
+**适合评估的方向：** 有预算与用途约束的 3C 导购、商家或平台的购买前决策组件。真实消费者留存、转化率、收入与客户采用情况尚未测量，当前商业价值是产品定位与可验证机制，不包含已获得商业回报的声明。
 
 ## 产品画廊
 
-### 01 / Android · 从推荐到决策
+### Android · 推荐、比较与任务连续性
 
 <table>
 <tr>
 <td width="50%" align="center"><img src="docs/media/android-agent-recommendation.png" width="340" alt="Android 历史运行截图：带理由、来源、演示报价与保存入口的推荐卡片"></td>
-<td width="50%" align="center"><img src="docs/media/android-recovery.png" width="340" alt="Android 历史运行截图：任务恢复界面"></td>
+<td width="50%" align="center"><img src="docs/media/android-ux-native-20261021/default-comparison.png" width="340" alt="2026-10-21 Android 比较工作台：按预算、硬约束和偏好比较候选"></td>
 </tr>
 <tr>
-<td><strong>推荐有依据</strong><br>商品、场景匹配、来源与操作集中在同一张卡片中，帮助用户理解推荐。</td>
-<td><strong>任务有连续性</strong><br>恢复界面呈现任务状态；恢复能力的具体通过范围见下方分层验收记录。</td>
+<td><strong>推荐有依据</strong><br>商品、场景匹配、报价来源与操作放在同一张卡片中。</td>
+<td><strong>选择看得懂</strong><br>按约束与偏好比较候选，保存方案并继续处理购买任务。</td>
 </tr>
 </table>
 
-### 02 / Ops · 看得见的执行过程
+### Ops · 执行过程与证据
 
-![历史 Ops 界面：Agent Trace 工具执行与证据引用，fixture 演示数据](docs/media/ops-agent-trace.png)
+![历史 Ops 界面：Agent Trace、工具执行与证据引用，fixture 演示数据](docs/media/ops-agent-trace.png)
 
-**运行轨迹** — 用工具状态、检索命中和证据引用解释执行过程，方便开发与运营定位问题。
+工具状态、检索命中与证据引用用于定位执行问题，门禁界面单独呈现验收层级。
 
 <details>
-<summary><strong>展开查看发布门禁界面</strong></summary>
+<summary>查看任务恢复与发布门禁画面</summary>
 
-![历史 Ops 界面：分层发布门禁，不代表当前门禁通过](docs/media/ops-release-gates.png)
+<img src="docs/media/android-recovery.png" width="340" alt="Android 历史运行截图：任务恢复界面">
+
+![历史 Ops 界面：分层发布门禁](docs/media/ops-release-gates.png)
 
 </details>
 
-以上四张画面来自仓库已有的[历史运行素材](docs/media/manifest.json)，包含 fixture 数据；[历史视频](docs/media/rag-commerce-v3-demo.mp4)可下载播放。当前候选视频与最终原生验收尚未签收。
+画面为仓库已有运行素材，含演示商品与报价；比较页来自 2026-10-21，其他素材见[历史素材清单](docs/media/manifest.json)。[87 秒视频](docs/media/rag-commerce-v3-demo.mp4)属于历史演示，当前候选的同版 APK / 媒体签收仍待完成。
 
-## 为可信决策而设计
-
-- **事实来自证据。** 报价来自 `OfferQuote`，携带来源、采集时间、失效时间与验证级别；发现型候选不参与最低价排序。
-- **行动需要授权。** 模型负责规划与解释，执行器负责权限、审批与持久化；首版不包含支付、订单、退款和履约。
-- **体验连接工程。** Android 原生前端、持久化任务与增量事件衔接；Ops 提供运行与检索观测入口。
-
-> A native Android shopping agent for evidence-backed recommendations and explicit user decisions. Built with Kotlin / Compose, FastAPI, PostgreSQL and hybrid retrieval.
-
-## Agent 闭环
-
-文字购买与无目标探索共用 Mission；图库图片和原生录音用于理解需求，识别结果要经用户修改确认，不能充当价格、库存或商家政策证据。
+## Agent 架构与事实边界
 
 ```text
-Android → API 事务写入 Turn/Job → 独立 Worker
-        → 模型生成计划/参数 + 确定性执行器 + 11 个受控工具
-        → PostgreSQL 事件 → 逐帧 SSE / ThreadSnapshot → Android、Ops
+Android：需求 → 澄清 / 图片确认 → 推荐 → 比较 / 保存 / 审批
+    │ POST Turn / 用户决定                  ▲ SSE / ThreadSnapshot
+    ▼                                     │
+FastAPI → PostgreSQL：Turn + Job → 独立 Worker
+    → LangGraph 单 Agent：guard → plan → tools → respond
+    → 确定性执行器：11 个注册工具、授权、事实守卫、幂等与持久化
 
 60 个自有 3C SKU → 结构化过滤 + BM25 / 本地 BGE → RRF → EvidenceRef
+MinIO：图片 / 音频对象                    Ops Web：Trace / 检索 / 门禁
 ```
 
-用户保留最终决定权：主／次／再次推荐纵向浏览，比较、保存、待购和跳转均有实际 API 状态。模型提出参数不等于授权；工具仍核验归属、审批、幂等及报价有效期。图片确认链已有真实模型证据；原生有效语音闭环仍未验收。
+- **事实有来源：** 价格来自 `OfferQuote`，附来源、采集时间、失效时间和验证级别；`DISCOVERY_ONLY` 不参与最低价排序。LLM 负责规划与解释，不生成价格、库存、销量、物流或商家身份事实。
+- **行动有边界：** 审批绑定具体调用和参数，执行器核验归属与授权；支付、订单、退款及履约不在首版工具注册表中。
+- **任务可继续：** PostgreSQL 保存任务、事件和回执，Worker 租约处理进程中断，Android 通过持久游标与快照恢复。
 
-技术栈：Kotlin / Jetpack Compose / Room、FastAPI / Python、PostgreSQL、Qdrant、MinIO、Redis、React / TypeScript、OpenAPI、OpenTelemetry。没有支付、订单、生产身份或多 Agent。
+[现有 C4 设计](docs/architecture/V3-C4.md) · [Agent 时序设计](docs/architecture/V3-AGENT-SEQUENCE.md) · [当前实现与选型复盘](docs/architecture/TECH-STACK-DECISIONS.md)
 
-## 当前证据与限制
+## 技术栈与选型
 
-以下为 2026-10-13 的历史验收快照，保留负结果。F60 与无障碍后续进展以上方 10 月 24 日报告为准，本次仓库同步不重跑付费模型或完整设备验收。
+选型优先服务于 **Android 连续体验、商业事实可核验、操作受授权和本地可复现**。下表是按当前实现补做的工程比较；备选技术栈未做等条件跑分。
 
-<details>
-<summary><strong>展开验收记录、负结果与待完成项</strong></summary>
+| 层次 / 实际采用 | 选择理由 | 已承担的代价 | 其他技术栈更合适的条件 |
+|---|---|---|---|
+| **Kotlin 2.0 / Compose / Room** | 在原生生命周期内处理图库、AudioRecord、TalkBack 与任务恢复 | Android 专用 UI，另做 iOS 需要投入 | Flutter / React Native：多端复用优先，且具备相应团队能力 |
+| **Python 3.12 / FastAPI / Pydantic** | Agent、ONNX 推理和评测共用语言，OpenAPI 连接三端类型 | 需管理 CPU 阻塞、GC 与内存；与客户端跨语言维护 | TypeScript：统一 Web/API；Go / Java：以既有服务体系与团队积累为主 |
+| **LangGraph + 单 Agent + 确定性执行器** | 控制流清楚，规划与事实、授权、写入分工明确 | 模型等待仍长，状态与工具契约需要维护 | 普通函数流适合固定短流程；任务确有可分工收益时再评估多 Agent |
+| **PostgreSQL 16 + 独立 Worker + SSE** | Turn / Job 同事务落库，减少 Broker 双写；事件支持重放 | 租约与队列逻辑自行维护，300 s 租约影响故障恢复 | Celery + Broker：复杂路由 / 多队列；WebSocket：持续双向实时交互 |
+| **BM25 + 本地 BGE / ONNX + Qdrant + RRF** | 关键词、语义、过滤与证据形成可复跑链路 | 多一个向量服务和本地模型；**当前实测 BM25 排序更好** | BM25-only：窄目录精确检索；pgvector：希望合并关系与向量存储 |
+| **React 19 / TypeScript / Vite / TanStack Query** | Ops 连接既有 API，静态构建可交付 | 不提供完整的公开内容与 SEO 方案 | Next.js 等框架：出现公开内容、路由与渲染需求时按需选择 |
 
+基础设施使用 Docker Compose、MinIO；契约使用 OpenAPI 与生成类型，观测使用 OpenTelemetry；工程工具包括 uv、Gradle、pytest / Hypothesis、Ruff、Vitest、Playwright 与 GitHub Actions。**Redis 在启动配置中，当前应用主链没有调用；PostgreSQL 镜像包含 pgvector，当前向量检索实际使用 Qdrant。** LangGraph 负责控制流，持久化由项目自有 Store 与 PostgreSQL 实现。
 
-| 层级 | 已核验结果 | 边界与报告 |
+完整版本、源码入口、方案优劣与官方参考见[技术栈与选型复盘](docs/architecture/TECH-STACK-DECISIONS.md)。这套架构的优势是职责清楚与证据可查，成本是多语言、多服务维护；现有数据未证明其性能优于其他技术栈。
+
+## Agent 实测指标
+
+以下分别报告真实模型、检索组件和平台测试。**182 ms 是接单延迟；真实模型场景仍需数十秒或更久。** 本次仅复算已有记录，未重跑付费模型或设备验收。
+
+| 测量层级 / 日期 | 样本与条件 | 结果 | 证据 |
+|---|---|---|---|
+| **真实 MiMo 黄金集首轮 · 10-09** | G01–G10；真实 API / PostgreSQL / Worker；演示数据 | **9/10** 完整通过；解析与场景级 Schema 各 **10/10**；推荐证据完整的运行 **10/10** | [逐场景与复测](docs/evaluation/AGENT-PERFORMANCE.md#真实-mimo持久化黄金集首轮) |
+| **真实模型场景耗时与用量 · 10-09** | 同一首轮 10 场景，含工具与场景后置检查，失败保留 | 中位数 **38.827 s**；p95 **191.270 s**；**86,158 Token / 22 次付费调用记录**；供应商未返回金额 | [统计与口径](docs/evaluation/AGENT-PERFORMANCE.md) |
+| **检索消融 · 10-13** | 60 SKU；120 查询按 40 / 80 划分，验收含 64 个有匹配查询 | Recall@10 三路均 **1.000**；NDCG@10：BM25 **1.00000**、BGE **0.98102**、RRF **0.99348**；融合无增益 | [冻结报告](docs/evidence/v3/final-N07-retrieval-20261013.json) |
+| **本地平台容量 · 10-24** | 十批 × 30，共 300；真实 PostgreSQL、双 Worker、本地 BGE、**fake 模型** | **300/300** 完成，**10/10** 批次通过；接单 p95 **182.079 ms**；202 后首状态 p95 **111.482 ms**；提交至 Worker 开始 p95 **828.236 ms** | [完整验收与负结果](docs/evidence/v3/final-F60-review-20261024.json) |
+| **Worker 进程恢复 · 10-13** | 真实 PostgreSQL + 子进程故障注入 + fake | 自然 300 s 租约下 **304.438 s** 恢复；写入、回执与终态不重复 | [故障注入](docs/evidence/v3/final-N07-worker-process-recovery-02-20261013.json) |
+| **Android 场景覆盖 · 截至 10-13** | 具名尝试与修复复测；模拟器，实际 API / MiMo 或零新增调用的 UI 收尾 | **8/10 项已覆盖**；A02 有效人声、A09 完整外跳待完成；不作为首轮通过率 | [场景矩阵](docs/evaluation/AGENT-PERFORMANCE.md#原生-android-场景覆盖) |
+| **Android 冷启动 · 10-13** | 同一已安装 QA debug APK；准备前后各 30 次，API 35 模拟器 | p95 **3,179 → 1,785 ms**；后组最大 2,630 ms；非 release / 真机性能 | [同 APK 复审](docs/evidence/v3/final-NFR07-verified-dex-review-20261013.json) |
+| **TalkBack 限定验收 · 10-24** | 字号 1.0 / 2.0；原生模拟器 + fake + 内存 API | **8/8** 路径通过；不替代全产品无障碍与真机验收 | [范围与历史失败](docs/evidence/v3/android-talkback-20261024.json) |
+
+**保留负结果：** G07 首轮失败，R4 才通过；10 月 13 日容量接单 p95 **265.891 ms** 未达门槛；历史模型批次存在预算超限、格式失败和无来源金额问题。所有结果按批次与证据层级列示，不回填首轮、不只挑最佳数值。小目录自动标注与 10 条黄金场景的成绩不能外推生产准确率。
+
+[详细性能报告](docs/evaluation/AGENT-PERFORMANCE.md)包含 **14 组历史黄金集报告、10 条持久化首轮场景、复测、图片、原生场景、检索、容量和启动数据**。[机器可读统计](docs/evaluation/agent-metrics-20261105.json)可由以下命令离线复算：
+
+```powershell
+python scripts/summarize_agent_metrics.py --check
+```
+
+1,000 条构造 reference 的 100% 与预设耗时不计入 Agent 性能；当前没有多模型对照、真实模型并发容量、首张推荐时延、实际每任务金额或消费者转化率结果。
+
+## 商业化进度与交付范围
+
+| 交付面 | 当前状态 | 正式交付仍需要 |
 |---|---|---|
-| 黄金 Agent：真实 MiMo | 首次 10/10 可解析，9/10 预期流程；推荐证据 100% | G07 首次失败保留；[修复后审批与幂等](docs/evidence/v3/final-real-G07-R4-20261009.json) |
-| 原生 Android：真实 API / MiMo | 完整场景 8/10；当前审批与安全恢复增量已真实复验 | [A08-R5](docs/evidence/v3/final-real-A08-R5-20261013.json)：拒绝零写入、批准数量2、重复决定幂等；[A10-R5](docs/evidence/v3/final-real-A10-R5-20261013.json)：断网/进程恢复、审批、隔离和原生删除整程通过。先前六条记录保留；A02有效人声和A09浏览器首次设置仍待完成 |
-| 真实图片理解 | 图片→确认→带证据推荐；非 3C 澄清、文字/图片冲突处理 | [M01-R2](docs/evidence/v3/final-real-M01-R2-20261009.json)、[M02](docs/evidence/v3/final-real-M02-first-20261009.json)、[M04](docs/evidence/v3/final-real-M04-first-20261009.json)；原生语音未完成 |
-| 冻结检索验收 | RRF Recall@10=1.00、NDCG@10=0.99348；BM25=1.00、BGE=0.98102 | [当前120查询、40/80划分复验](docs/evidence/v3/final-N07-retrieval-20261013.json)；融合没有收益，自动构造标注和小目录限制保留 |
-| 平台容量 | 连续10批×30全部完成、终态一次；接受p95=265.89ms，未过200ms门槛；202后首状态p95=323.00ms | [完整失败报告](docs/evidence/v3/final-N07-durable-load-10-batches-20261013.json)；显式fake/真实BGE/双Worker。旧单批通过保留，不能替代连续负载；性能根因待定位 |
-| 进程恢复 | 终止真实 Worker 后自然300秒租约回收，写入/收据/终态不重复 | [304.438秒故障注入](docs/evidence/v3/final-N07-worker-process-recovery-02-20261013.json)；通过正式审批服务冻结调用，首次工具失败保留 |
-| 回归 | Python215项/0跳过；Android41单测、34视觉fixture、Ops五个真实工作流通过 | [当前分层质量证据](docs/evidence/v3/final-N07-quality-20261013.json)；单测UP-TO-DATE、18个lint警告保留。1000条构造用例不等于真实Agent成功率 |
-| Android启动（已安装QA debug） | 未准备验证产物时30次p95=3179ms失败；同APK准备verify后另30次p95=1785ms、fatal/StrictMode为0 | [同APK复审](docs/evidence/v3/final-NFR07-verified-dex-review-20261013.json)；原失败及2630ms离群保留。不是release性能，也不替代最终源码APK复验；[安装准备](docs/demo/V3-ANDROID-PREPARE.md) |
+| 源码与工程评估 | 可公开审阅源码、历史运行证据和本地演示 | 当前候选最终同版 APK、视频、独立复审；完整人声与浏览器外跳验收 |
+| 授权导购与深链 | DEMO_FIXTURE 报价、显式确认、来源与时效契约已实现 | 联盟授权、LIVE 报价 / 深链与数据更新条件 |
+| 面向消费者或商家的服务 | 产品机制已有演示；尚无生产商业服务 | 生产身份、安全/法务门禁、真实用户与物理设备验收、容量与运维安排 |
+| 支付、订单、退款与履约 | 首版工具范围外 | 另行产品定义与实施 |
 
-截至 2026-10-13 A08-R5/A10-R5 完整验收，原共享账本使用 265,339 / 2,000,000 Token、94 次 HTTP、预留 0。API 没有返回金额，费用标记 `NOT_AVAILABLE_FROM_PROVIDER`。每个追加名额按直接授权执行一次；历史失败全部保留。
+不承诺全网最低价、实时库存或生产 SLA。[当前候选交付记录](docs/release/local-portfolio.json)与[缺陷及根因](docs/defects/V3-FINAL-CLOSEOUT.md)保留未完成项；历史 [v0.3.0](https://github.com/JunyeFu/Rag-ecommerce-agent/releases/tag/v0.3.0) 的发布结论仅属于历史版本，本次更新不创建新 Release。
 
-[A10-R4](docs/evidence/v3/final-real-A10-R4-20261012.json)是历史局部收尾，[A08-R3](docs/evidence/v3/final-real-A08-R3-20261012.json)和[A08-R4](docs/evidence/v3/final-real-A08-R4-20261013.json)的失败记录继续保留；当前整程结果以R5报告为准。A02/M03仍等待实际人声；报价自动续期已修复，A09自然过期原生分支已补，完整外跳验收等待本人完成Chrome首次设置。最终同版启动、APK/视频和封版复审仍未签收。
+## 本地体验
 
-所有商品和报价均为自有演示数据，`DEMO_FIXTURE` 不能变成 LIVE 证据。当前覆盖中未观察到越权写入；虚构金额曾被事实守卫阻断并记为失败，不把安全拦截包装成整个流程通过。
-
-本轮源码修复提案数量/目标偏移、审批参数重规划、未绑定具体调用、同步批准占用API、前台审批状态竞态与无进展循环。批准参数持久化后由Worker执行冻结提案；Android终态读取真实待购。独立子进程换用数量99规划器仍只写原批准数量2，当前A08-R5/A10-R5又验证了真实模型与原生审批/恢复。报价按用户持久化，普通读取不续期，显式重新询价才更新有效期。
-
-</details>
-
-## 三条本地启动命令
-
-在当前候选源码目录执行，要求 Python 3.12.11、uv 0.11.13、Node 24.15、npm 12、Java 21、Docker Desktop 与 Android SDK。先确认 `uv --version` 与冻结版本一致；同机存在多个uv时，在本次终端选择正确版本：
+要求 Python **3.12.11**、uv **0.11.13**、Node **24.15.0**、npm **12.0.1**、Java **21**、Docker Desktop 与 Android SDK。完整固定配置见 [toolchain.versions.json](toolchain.versions.json)。
 
 ```powershell
 ./scripts/bootstrap.ps1 -Quick
@@ -126,24 +142,14 @@ Android → API 事务写入 Turn/Job → 独立 Worker
 ./apps/android/gradlew.bat -p apps/android :app:assembleDebug -PapiUrl=http://10.0.2.2:20881
 ```
 
-API 为 `127.0.0.1:20881`，Ops 为 `127.0.0.1:24174`；模拟器使用 `10.0.2.2:20881`。第三条命令构建当前源码 APK，不下载历史 APK。端口必须空闲；停止运行 `./scripts/stop_v3_demo.ps1`，只清理启动记录拥有的资源，数据卷保留。
+API 为 `127.0.0.1:20881`，Ops 为 `127.0.0.1:24174`，模拟器通过 `10.0.2.2:20881` 访问 API。端口需空闲；第三条命令构建当前源码 APK。停止使用 `./scripts/stop_v3_demo.ps1`，仅处理启动记录拥有的资源，数据卷保留。
 
-默认明确使用 fake 模型和真实本地 BGE，启动不会意外花费模型额度。BGE 固定 revision `46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59`，查询进程只读既有索引；构建新 collection 成功后才切换别名。真实 MiMo 使用独立、已授权的场景账本与现有进程凭据入口；无备用模型或自动重试。
+启动明确选择 fake 模型与本地 BGE；首次环境准备可能需要下载依赖和固定模型。真实 MiMo 使用独立授权与预算记录，不静默回退或自动重试。原生语音有效人声链尚未验收。
 
-本次 main 同步包含截至 2026-10-24 的本地开发进展；历史 Release 不包含这些新增能力。独立候选导出脚本使用显式文件清单，不复制凭据、环境、编译缓存或导航站；导出本身不表示交付已通过。
+## 工程导航与许可
 
-## 工程取舍与面试入口
+[文档导航](docs/README.md) · [技术选型](docs/architecture/TECH-STACK-DECISIONS.md) · [实测报告](docs/evaluation/AGENT-PERFORMANCE.md) · [评测方法](docs/evaluation/methodology.md) · [任务与证据](docs/task-packages/manifest.json) · [Android 演示准备](docs/demo/V3-ANDROID-PREPARE.md) · [贡献说明](CONTRIBUTING.md)
 
-- 单 Agent＋确定性执行器：模型负责规划和解释，权限、事务、预算与恢复是固定安全流程，不宣称完全自主。
-- PostgreSQL durable job＋租约：不用 Kafka；SSE 使用独立长连接配置，逐帧传递公开进度，不展示思维链。
-- RAG 消融不反向包装：在当前小目录上 BM25 优于融合，报告保留这一结果。
-- 错误直出：非法 Schema、429、超时、预算不足都保留失败；不静默切换 Provider。
-- [当前缺陷与根因](docs/defects/V3-FINAL-CLOSEOUT.md)、[五包收口计划](docs/plans/INTERNSHIP-FINAL-CLOSEOUT.md)、[任务包与证据](docs/task-packages/manifest.json)。
-- [C4 架构](docs/architecture/V3-C4.md)、[Agent 时序](docs/architecture/V3-AGENT-SEQUENCE.md)为已有设计资料，当前媒体和参数提案增量仍需同步复审。
-- [五分钟讲解](docs/demo/V3-FIVE-MINUTE-DEMO.md)、[系统设计讲解](docs/demo/V3-SYSTEM-DESIGN-INTERVIEW.md)为历史入口；当前 24 问答、四稿、八类材料由外部导航站维护，个人掌握和贡献不代签。
+[MIT](LICENSE) 覆盖项目自有源码、60 SKU 与项目生成美术资产；第三方依赖遵循各自许可。MinIO 固定版本为 **AGPL-3.0-only**，项目 MIT 不变更其许可，商业交付需结合实际部署与第三方许可确定范围。
 
-## 发布与许可
-
-历史 [v0.3.0](https://github.com/JunyeFu/Rag-ecommerce-agent/releases/tag/v0.3.0) 的发布结论仅属于历史版本。本次源码与文档同步由用户授权；未创建新 Release，最终同版验收仍待签收。
-
-MIT 覆盖项目自有源码、60 SKU 和项目生成美术资产。第三方依赖遵循各自许可，包括 MinIO 的 AGPL；不把第三方许可改成 MIT。商业发布仍缺联盟授权、LIVE 报价及生产门禁。
+> A native Android shopping decision agent with evidence-backed recommendations, explicit approval and durable task recovery. Built with Kotlin / Compose, Python / FastAPI / LangGraph, PostgreSQL and local hybrid retrieval. Development showcase; commercial release remains NO_GO.

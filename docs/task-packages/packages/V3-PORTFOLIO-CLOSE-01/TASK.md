@@ -20,6 +20,7 @@
 
 ## 路径所有权
 - 根 README/LICENSE、`docs/media`、`docs/release`、真实评测脚本及本任务包。
+- 2026-11-05：README 的技术选型、离线指标与商业价值披露增量转交 `V3-SHOWCASE-01`；本包历史 v0.3.0 的验收结论保持其原日期范围。
 
 ## 现状证据
 - 当前工作树冻结信息见 `data.json`；删除面由 `scripts/check_minimality.py` 精确约束。
