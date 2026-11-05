@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "package_id": "V3-SHOWCASE-01",
-  "status": "not_run",
+  "status": "passed",
   "checks": [
     {
       "command": "python scripts/summarize_agent_metrics.py --check",
@@ -54,11 +54,21 @@
         "warnings": 0
       },
       "result": "Task dependencies, ownership documentation and package state valid"
+    },
+    {
+      "command": "GitHub connector fetch_file(ref=main) for README.md, TECH-STACK-DECISIONS.md, AGENT-PERFORMANCE.md and agent-metrics-20261105.json; compare full UTF-8 content to validated local files",
+      "verified_at": "2026-11-05T14:57:11.732359+08:00",
+      "exit_code": 0,
+      "counts": {
+        "files": 4,
+        "identical": 4
+      },
+      "result": "Published content readback passed; first publication commit d53c92047097b6656131f1f97781d07a7f0abd56"
     }
   ],
   "external_gates": [],
-  "verified_at": "2026-11-05T14:53:59.529747+08:00",
-  "verification_scope": "Offline documentation and historical-metric reaggregation; GitHub publication readback pending",
+  "verified_at": "2026-11-05T14:57:11.732359+08:00",
+  "verification_scope": "Offline documentation and metric checks passed; published README, technology decisions, performance report and machine metrics read back identically from GitHub main",
   "source_commit": "0ed3910c79d21c5418d1111e4c92fd85b06533d1",
   "failure_summary": "The initial independent verifier compared a floating-point median using exact equality and failed; changing that assertion to isclose passed. Reported metric values and product code were unchanged.",
   "evidence_levels": {
@@ -69,9 +79,13 @@
     "product_candidate": "HOLD"
   },
   "publication": {
-    "status": "pending",
+    "status": "verified",
     "repository": "https://github.com/JunyeFu/Rag-ecommerce-agent",
     "branch": "main",
-    "scope": "README, technical decisions, offline metrics and task evidence; no new Release"
+    "scope": "README, technical decisions, offline metrics and task evidence; no new Release",
+    "content_commit": "d53c92047097b6656131f1f97781d07a7f0abd56",
+    "url": "https://github.com/JunyeFu/Rag-ecommerce-agent/commit/d53c92047097b6656131f1f97781d07a7f0abd56",
+    "readback_at": "2026-11-05T14:57:11.732359+08:00",
+    "new_release": false
   }
 }
