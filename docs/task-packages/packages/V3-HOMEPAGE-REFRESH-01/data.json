@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-HOMEPAGE-REFRESH-01",
+  "owner": "github-showcase",
+  "objective": "Commercial-style repository homepage with truthful evidence and approved main merge",
+  "inputs": [
+    "README.md",
+    "V3-REMEDIATION-CLOSE-01",
+    "existing product media and measured reports"
+  ],
+  "outputs": [
+    "README.md",
+    "evidence/verification.json"
+  ],
+  "acceptance": [
+    "approved main merge",
+    "GitHub desktop/mobile rendering and navigation pass",
+    "evidence-linked metrics and stack tradeoffs retained"
+  ],
+  "test_profiles": [
+    "documentation_links",
+    "offline_statistics",
+    "task_packages",
+    "github_rendering",
+    "remote_ci"
+  ],
+  "business_refs": [
+    "development preview",
+    "DEMO_FIXTURE",
+    "HOLD / NO_GO"
+  ],
+  "development_refs": [
+    "V3-SHOWCASE-01",
+    "V3-REMEDIATION-CLOSE-01"
+  ],
+  "risk_refs": [
+    "historical metrics are not current remeasurement",
+    "main merge does not authorize deployment or LIVE"
+  ]
+}

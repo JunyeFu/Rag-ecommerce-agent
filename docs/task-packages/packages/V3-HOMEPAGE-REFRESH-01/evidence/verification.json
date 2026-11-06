@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-HOMEPAGE-REFRESH-01",
+  "status": "not_run",
+  "external_gates": [
+    "真实联盟、LIVE、真机、法律、人审及正式发布仍未验收；按用户指令暂停"
+  ],
+  "checks": [],
+  "failure_summary": "Homepage rendering and CI pending"
+}
