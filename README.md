@@ -13,7 +13,10 @@
 </p>
 
 <p align="center">
-  <a href="docs/media/rag-commerce-v3-demo.mp4"><strong>观看 87 秒演示</strong></a> ·
+  <a href="docs/media/rag-commerce-v3-demo.mp4"><strong>观看 87 秒演示</strong></a>
+</p>
+
+<p align="center">
   <a href="#产品体验">产品体验</a> ·
   <a href="#实测证据">实测证据</a> ·
   <a href="#技术选型">技术选型</a> ·
