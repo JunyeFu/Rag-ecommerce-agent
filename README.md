@@ -73,7 +73,7 @@ FastAPI → PostgreSQL：Turn + Job → 独立 Worker
 MinIO：图片 / 音频对象                    Ops Web：Trace / 检索 / 门禁
 ```
 
-- **事实有来源：** 价格来自 `OfferQuote`，附来源、采集时间、失效时间和验证级别；`DISCOVERY_ONLY` 不参与最低价排序。LLM 负责规划与解释，不生成价格、库存、销量、物流或商家身份事实。
+- **事实有来源：** 价格来自 `OfferQuote`，附来源、采集时间、失效时间和验证级别；`DISCOVERY_ONLY` 不参与最低价排序。模型参与规划和多模态理解；公开阶段文本由运行时生成，模型不生成价格、库存、销量、物流或商家身份事实。
 - **行动有边界：** 审批绑定具体调用和参数，执行器核验归属与授权；支付、订单、退款及履约不在首版工具注册表中。
 - **任务可继续：** PostgreSQL 保存任务、事件和回执，Worker 租约处理进程中断，Android 通过持久游标与快照恢复。
 
@@ -113,7 +113,11 @@ MinIO：图片 / 音频对象                    Ops Web：Trace / 检索 / 门�
 
 **保留负结果：** G07 首轮失败，R4 才通过；10 月 13 日容量接单 p95 **265.891 ms** 未达门槛；历史模型批次存在预算超限、格式失败和无来源金额问题。所有结果按批次与证据层级列示，不回填首轮、不只挑最佳数值。小目录自动标注与 10 条黄金场景的成绩不能外推生产准确率。
 
-**本次 CI 复核（2026-11-05）：** Android / Compose 检查通过；Web 的重场景旧断言与当前待购返回结构不符，Python 门禁因冻结安全报告的 lock 文件换行摘要差异失败。全量 CI 未通过，详见[本次运行与原因](docs/evaluation/AGENT-PERFORMANCE.md#本次-github-ci-复核)。
+**历史 CI 复核（2026-11-05）：** Android / Compose 检查通过；Web 的重场景旧断言与当前待购返回结构不符，Python 门禁因冻结安全报告的 lock 文件换行摘要差异失败。详见[该次运行与原因](docs/evaluation/AGENT-PERFORMANCE.md#本次-github-ci-复核)。
+
+**本地修复（2026-11-05）：** 两批修复已补齐服务端用户/运营身份和受控 HTTPS 地址绑定，并完成 Windows、Linux 与浏览器验证，详见[分组结果与验收边界](docs/evaluation/AGENT-INTERVIEW-BATCH2-20261105.md)。
+
+**修复分支交付（2026-11-06）：** [草稿 PR #28](https://github.com/JunyeFu/Rag-ecommerce-agent/pull/28) 包含冷启动客户端身份修复的[远端 CI 五项全部通过](https://github.com/JunyeFu/Rag-ecommerce-agent/actions/runs/42063797508)：Python 300 通过/7 跳过，隔离真实 TLS 另跑 6 通过；Web、Android 与 Compose 通过。最新结果及剩余任务见[交付记录](docs/evaluation/AGENT-REMEDIATION-CLOSE-20261106.md)。外部验收按用户指令暂停，当前候选仍为 HOLD / NO_GO。
 
 [详细性能报告](docs/evaluation/AGENT-PERFORMANCE.md)包含 **14 组历史黄金集报告、10 条持久化首轮场景、复测、图片、原生场景、检索、容量和启动数据**。[机器可读统计](docs/evaluation/agent-metrics-20261105.json)可由以下命令离线复算：
 

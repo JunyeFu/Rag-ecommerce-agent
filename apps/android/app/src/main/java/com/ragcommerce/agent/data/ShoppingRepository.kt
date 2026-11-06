@@ -30,6 +30,8 @@ import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
 import java.time.Instant
 import java.util.UUID
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -401,6 +403,8 @@ class NetworkShoppingRepository @Inject constructor(
     private val eventStream: AgentEventStream,
 ) : ShoppingRepository {
     private val selectedTabKey = stringPreferencesKey("selected_primary_tab")
+    private val credentialMutex = Mutex()
+    private val encryptedCredentialKey = stringPreferencesKey("installation_credential_encrypted_v1")
     private val userIdKey = stringPreferencesKey("install_user_id")
     private val threadIdKey = stringPreferencesKey("active_thread_id")
     private val pendingFingerprintKey = stringPreferencesKey("pending_turn_fingerprint")
@@ -688,9 +692,10 @@ class NetworkShoppingRepository @Inject constructor(
     }
 
     override suspend fun restoreThread(): RemoteThreadSnapshot? {
+        if (settings.data.first()[threadIdKey] == null) return null
+        val userId = requireUserId()
         val preferences = settings.data.first()
         val threadId = preferences[threadIdKey] ?: return null
-        val userId = preferences[userIdKey] ?: return null
         val snapshot = api.thread(userId, threadId).use { parseThreadSnapshot(it.string()) }
         val products = snapshot.products.map { candidate ->
             val facts = productFacts(candidate.id)
@@ -855,18 +860,30 @@ class NetworkShoppingRepository @Inject constructor(
         dao.clearSavedItems()
         settings.edit { preferences ->
             preferences.clear()
-            preferences[userIdKey] = UUID.randomUUID().toString()
             preferences[selectedTabKey] = "PROFILE"
         }
     }
 
-    private suspend fun requireUserId(): String {
-        settings.data.first()[userIdKey]?.let { return it }
-        val generated = UUID.randomUUID().toString()
-        settings.edit { preferences ->
-            if (preferences[userIdKey] == null) preferences[userIdKey] = generated
+    private suspend fun requireUserId(): String = credentialMutex.withLock {
+        settings.data.first()[encryptedCredentialKey]?.let {
+            return@withLock "Bearer ${InstallationCipher.decrypt(it)}"
         }
-        return requireNotNull(settings.data.first()[userIdKey])
+        val created = api.install().use { JSONObject(it.string()) }
+        val encrypted = InstallationCipher.encrypt(created.getString("token"))
+        // Preserve offline records, but never transfer old server actions to a new owner.
+        settings.edit { preferences ->
+            preferences.remove(threadIdKey)
+            preferences.remove(pendingRunIdKey)
+            preferences.remove(pendingApprovalToolKey)
+            preferences.remove(lastEventIdKey)
+            preferences.remove(pendingFingerprintKey)
+            preferences.remove(pendingIdempotencyKey)
+            preferences.remove(pendingMediaIdsKey)
+            preferences.remove(savedComparisonKey)
+            preferences[userIdKey] = created.getString("owner_id")
+            preferences[encryptedCredentialKey] = encrypted
+        }
+        "Bearer ${created.getString("token")}"
     }
 
     private suspend fun requireThread(userId: String, goal: String): String {
@@ -924,8 +941,6 @@ class NetworkShoppingRepository @Inject constructor(
             "image/png",
             "image/webp",
             "audio/wav",
-            "audio/mpeg",
-            "audio/ogg",
         )
     }
 }

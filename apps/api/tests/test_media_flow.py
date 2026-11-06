@@ -18,7 +18,7 @@ def pending():
     ).json()["thread_id"]
     media = client.post(
         "/v1/media",
-        content=b"\x89PNG\r\n\x1a\nfixture",
+        content=b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\x9cc```\x00\x00\x00\x04\x00\x01\xf6\x178U\x00\x00\x00\x00IEND\xaeB`\x82",
         headers={**headers, "Content-Type": "image/png"},
     ).json()["media_id"]
     run = client.post(

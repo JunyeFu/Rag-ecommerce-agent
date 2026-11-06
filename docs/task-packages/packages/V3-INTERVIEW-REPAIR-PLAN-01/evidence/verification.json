@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-INTERVIEW-REPAIR-PLAN-01",
+  "status": "passed",
+  "recorded_at": "2026-11-05T17:48:02.900314+08:00",
+  "source_commit": "06039aba1cf4798704f26549b7a3633c42fceb96",
+  "scope": "Q1-Q10 remediation plan only; implementation not started and F01-F10 remain open",
+  "checks": [
+    {
+      "command": "Inline Python repair-plan path check (initial)",
+      "exit_code": 1,
+      "failure_summary": "Draft named apps/ops/package-lock.json; corrected to the repository-root package-lock.json before final verification."
+    },
+    {
+      "command": "Inline Python repair-plan coverage, local paths, test references, historical XML totals and tracked business diff checks",
+      "verified_at": "2026-11-05T17:48:02.900314+08:00",
+      "exit_code": 0,
+      "counts": {
+        "questions": 10,
+        "finding_groups": 10,
+        "local_links": 24,
+        "explicit_test_references": 3
+      },
+      "historical_audit_counts": {
+        "total": 55,
+        "failed": 18,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 37
+      },
+      "source_commit": "06039aba1cf4798704f26549b7a3633c42fceb96",
+      "business_tracked_diff": "empty",
+      "result": "passed"
+    },
+    {
+      "command": "python scripts/validate_task_packages.py",
+      "started_at": "2026-11-05T17:48:02.794944+08:00",
+      "exit_code": 0,
+      "counts": {
+        "packages": 53,
+        "errors": 0,
+        "warnings": 0
+      },
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "verified_at": "2026-11-05T17:48:02.900314+08:00",
+      "exit_code": 0,
+      "result": "passed"
+    }
+  ],
+  "questions_covered": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "finding_groups_covered": [
+    "F01",
+    "F02",
+    "F03",
+    "F04",
+    "F05",
+    "F06",
+    "F07",
+    "F08",
+    "F09",
+    "F10"
+  ],
+  "implementation_status": "not_started",
+  "finding_status": "all_open",
+  "historical_audit_counts": {
+    "total": 55,
+    "failed": 18,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 37
+  },
+  "audit_results_rerun": false,
+  "real_provider_calls": 0,
+  "persistent_database_changes": false,
+  "business_code_modified": false,
+  "historical_audit_modified": false,
+  "published": false,
+  "product_status": "HOLD",
+  "commercial_release": "NO_GO",
+  "failure_summary": "Final documentation checks passed; the initial draft path error was corrected. Historical audit failures are not repaired by this planning task.",
+  "external_gates": []
+}

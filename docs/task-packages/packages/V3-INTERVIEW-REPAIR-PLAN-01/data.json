@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-INTERVIEW-REPAIR-PLAN-01",
+  "owner": "remediation-planning",
+  "objective": "十题审查结果逐项修复方案",
+  "inputs": [
+    "docs/evaluation/AGENT-INTERVIEW-AUDIT-20261105.md",
+    "docs/evaluation/AGENT-INTERVIEW-AUDIT-EXTRA-20261105.md",
+    "current owning source"
+  ],
+  "outputs": [
+    "docs/plans/AGENT-INTERVIEW-REPAIR-PLAN-20261105.md",
+    "evidence/verification.json"
+  ],
+  "acceptance": [
+    "Q1-Q10 and F01-F10 covered",
+    "minimal changes and validation per item",
+    "no business changes",
+    "named validator passes"
+  ],
+  "test_profiles": [
+    "plan_coverage",
+    "path_and_link_check",
+    "task_packages",
+    "diff"
+  ],
+  "business_refs": [
+    "commercial facts from OfferQuote",
+    "development identity boundary",
+    "erasure lifecycle",
+    "LIVE gates remain separate"
+  ],
+  "development_refs": [
+    "V3-INTERVIEW-AUDIT-01",
+    "V3-INTERVIEW-AUDIT-02"
+  ],
+  "risk_refs": [
+    "planning is not implementation",
+    "no rewriting historical failures",
+    "no speculative code for passed topics"
+  ]
+}

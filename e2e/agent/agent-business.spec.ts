@@ -248,7 +248,14 @@ test("agent heavy: completes ten missions and a shopping decision loop with isol
     headers: userHeaders(primary.userId),
     data: { operation: "add", offer_id: offerId, quantity: 1 },
   });
-  expect((await cart.json()).items).toEqual([{ offer_id: offerId, quantity: 1 }]);
+  const cartItems = (await cart.json()).items;
+  expect(cartItems).toHaveLength(1);
+  expect(cartItems[0]).toMatchObject({ offer_id: offerId, quantity: 1 });
+  expect(cartItems[0].product.product_id).toBe(productBody.product_id);
+  expect(cartItems[0].quote.offer_id).toBe(offerId);
+  expect(cartItems[0].quote.verification).toBe("DEMO_FIXTURE");
+  expect(cartItems[0].quote.source_ref).toBeTruthy();
+  expect(Date.parse(cartItems[0].quote.expires_at)).toBeGreaterThan(Date.parse(cartItems[0].quote.collected_at));
 
   const watcherPath = `${apiBase}/v1/threads/${primary.threadId}/watchers`;
   const watcher = await request.post(watcherPath, {

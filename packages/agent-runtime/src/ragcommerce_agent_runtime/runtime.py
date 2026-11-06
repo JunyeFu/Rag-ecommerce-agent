@@ -22,6 +22,7 @@ from .contracts import (
     ToolResult,
     TurnCommand,
 )
+from .messages import public_stage_message
 from .mission import parse_shopping_mission
 from .model_provider import (
     ModelProvider,
@@ -466,7 +467,7 @@ class ShoppingAgent:
 
     async def _respond(self, state: AgentState) -> dict[str, Any]:
         checkpoint, command = state["checkpoint"], state["command"]
-        message = await self.planner.respond(command, state["results"])
+        message = public_stage_message(state["results"])
         self._emit(checkpoint, command, EventType.MESSAGE, {"text": message})
         if not state["results"] and checkpoint.tool_attempts == 0:
             self._emit(

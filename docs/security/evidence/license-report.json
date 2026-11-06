@@ -1,6 +1,6 @@
 {
   "commercial_release_eligible": false,
-  "component_count": 242,
+  "component_count": 243,
   "external_gate": "Resolve NOASSERTION entries and complete legal review",
   "license_counts": {
     "AGPL-3.0-only": 1,
@@ -9,7 +9,7 @@
     "ISC": 2,
     "MIT": 63,
     "MPL-2.0": 12,
-    "NOASSERTION": 137
+    "NOASSERTION": 138
   },
   "noassertion_components": [
     "pkg:maven/androidx.activity/activity-compose@1.9.3",
@@ -110,6 +110,7 @@
     "pkg:pypi/orjson@3.12.0",
     "pkg:pypi/ormsgpack@1.12.2",
     "pkg:pypi/packaging@26.3",
+    "pkg:pypi/pillow@13.0.0",
     "pkg:pypi/pluggy@1.6.0",
     "pkg:pypi/portalocker@3.2.0",
     "pkg:pypi/protobuf@7.36.0",

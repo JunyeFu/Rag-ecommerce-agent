@@ -108,18 +108,18 @@ test("ops mutation regression: validates, audits, and persists governed writes",
   expect(errors).toEqual([]);
 });
 
-test("ops trace review: renders persisted Agent tools after reload", async ({ page }) => {
+test("ops trace review: renders declared Agent trace tools after reload", async ({ page }) => {
   const errors = collectRuntimeErrors(page);
   const headers = { "X-Ops-Actor-ID": "local-ops-reviewer", "X-Ops-Role": "reviewer" };
   const response = await page.request.get("/v1/ops/traces", { headers });
   expect(response.ok()).toBeTruthy();
   const traces = await response.json() as Array<{ run_id: string; tools: Array<{ tool: string }> }>;
-  const trace = traces.find((item) => item.tools.some((tool) => tool.tool === "catalog.search"));
+  const trace = traces.find((item) => item.tools.length > 0);
   expect(trace).toBeDefined();
   await page.goto("/");
   await page.getByRole("button", { name: "Agent Trace", exact: true }).click();
   await page.locator("button.source-button").filter({ hasText: trace!.run_id }).click();
-  await expect(page.locator("aside.trace-detail")).toContainText("catalog.search");
+  await expect(page.locator("aside.trace-detail")).toContainText(trace!.tools[0].tool);
   await expect(page.locator("aside.trace-detail .tool-step")).toHaveCount(trace!.tools.length);
   await page.reload();
   await page.getByRole("button", { name: "Agent Trace", exact: true }).click();

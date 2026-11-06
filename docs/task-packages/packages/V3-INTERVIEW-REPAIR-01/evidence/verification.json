@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-INTERVIEW-REPAIR-01",
+  "status": "passed",
+  "recorded_at": "2026-11-05T20:00:11.351465+08:00",
+  "source_commit": "06039aba1cf4798704f26549b7a3633c42fceb96",
+  "version_scope": "current uncommitted workspace, not a released or remote-tested revision",
+  "implementation_status": "implemented_and_locally_verified",
+  "checks": [
+    {
+      "command": ".venv/Scripts/python -m pytest -q --tb=short --junitxml=output/interview-repairs-20261105/python-acceptance-final.xml",
+      "time": "2026-11-05T19:56:28.612631+08:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 276,
+        "passed": 275,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      "duration_seconds": 21.413,
+      "junit": "output/interview-repairs-20261105/python-acceptance-final.xml",
+      "services": "dedicated loopback PostgreSQL + MinIO + Qdrant; fresh acceptance database; independent child process included"
+    },
+    {
+      "command": "pytest original audit files -k 'test_q1_ or test_q2_ or test_q6_ or test_q7_ or test_q9_'",
+      "time": "2026-11-05T19:54:52.701151+08:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 25,
+        "passed": 25,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "duration_seconds": 1.531,
+      "junit": "output/interview-repairs-20261105/audit-protocol-regression.xml"
+    },
+    {
+      "command": "gradlew.bat --no-daemon :app:testDebugUnitTest :app:lintDebug :app:assembleBenchmark :app:assembleDebug :app:assembleDebugAndroidTest -PapiUrl=http://127.0.0.1:8080",
+      "time": "2026-11-05T20:00:11.351465+08:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 55,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 55
+      },
+      "environment": "explicit existing JDK21 and Android SDK; final build successful"
+    },
+    {
+      "command": "adb -s 127.0.0.1:5581 shell am instrument -w -r -e class com.ragcommerce.agent.InstallationAuthTest com.ragcommerce.agent.test/androidx.test.runner.AndroidJUnitRunner",
+      "time": "2026-11-05T20:00:11.351465+08:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0
+      },
+      "duration_seconds": 0.983,
+      "evidence_level": "native emulator to strict local API; headless, not physical-device or full UI acceptance"
+    },
+    {
+      "command": "npm run check; npm run test; npm run build",
+      "time": "2026-11-05T20:00:11.351465+08:00",
+      "exit_code": 0,
+      "counts": {
+        "unit_tests_passed": 2
+      },
+      "result": "typecheck/unit/build passed"
+    },
+    {
+      "command": "npx playwright test",
+      "time": "2026-11-05T20:00:11.351465+08:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      "duration_seconds": 20.3,
+      "scope": "local fixture Agent and Ops browser scenarios"
+    },
+    {
+      "command": "alembic -c apps/api/alembic.ini upgrade head; alembic check; strict metadata integration",
+      "time": "2026-11-05T20:00:11.351465+08:00",
+      "exit_code": 0,
+      "result": "cold migration through 20261105_0017 and metadata parity passed"
+    },
+    {
+      "command": "generate_contracts.py --check; generate_agent_artifacts.py --check; export_openapi.py --check; generate_sbom.py --check; security_gate.py --check",
+      "time": "2026-11-05T20:00:11.351465+08:00",
+      "exit_code": 0,
+      "counts": {
+        "generated_contract_files": 3,
+        "agent_artifacts": 2,
+        "tools": 11,
+        "openapi_paths": 32,
+        "sbom_components": 243
+      },
+      "result": "passed"
+    },
+    {
+      "command": "ruff check apps packages scripts; ruff format --check apps packages scripts; git diff --check",
+      "time": "2026-11-05T20:00:11.351465+08:00",
+      "exit_code": 0,
+      "result": "passed"
+    },
+    {
+      "command": "Inline documentation question/finding/link coverage",
+      "time": "2026-11-05T20:00:11.351465+08:00",
+      "exit_code": 0,
+      "counts": {
+        "questions": 10,
+        "findings": 10,
+        "local_links": 3
+      },
+      "result": "passed"
+    },
+    {
+      "command": "python scripts/validate_task_packages.py",
+      "time": "2026-11-05T20:00:11.351465+08:00",
+      "exit_code": 0,
+      "counts": {
+        "packages": 54,
+        "errors": 0,
+        "warnings": 0
+      },
+      "result": "passed before completion transition; final state revalidated separately"
+    }
+  ],
+  "questions": {
+    "1": {
+      "status": "regression_passed",
+      "detail_report": "docs/evaluation/AGENT-INTERVIEW-REPAIR-STATUS-20261105.md"
+    },
+    "2": {
+      "status": "fixed_and_verified",
+      "detail_report": "docs/evaluation/AGENT-INTERVIEW-REPAIR-STATUS-20261105.md"
+    },
+    "3": {
+      "status": "fixed_and_verified",
+      "detail_report": "docs/evaluation/AGENT-INTERVIEW-REPAIR-STATUS-20261105.md"
+    },
+    "4": {
+      "status": "fixed_and_verified",
+      "detail_report": "docs/evaluation/AGENT-INTERVIEW-REPAIR-STATUS-20261105.md"
+    },
+    "5": {
+      "status": "local_fix_passed_remote_ci_pending",
+      "detail_report": "docs/evaluation/AGENT-INTERVIEW-REPAIR-STATUS-20261105.md"
+    },
+    "6": {
+      "status": "regression_passed",
+      "detail_report": "docs/evaluation/AGENT-INTERVIEW-REPAIR-STATUS-20261105.md"
+    },
+    "7": {
+      "status": "fixed_and_verified",
+      "detail_report": "docs/evaluation/AGENT-INTERVIEW-REPAIR-STATUS-20261105.md"
+    },
+    "8": {
+      "status": "fixed_and_verified",
+      "detail_report": "docs/evaluation/AGENT-INTERVIEW-REPAIR-STATUS-20261105.md"
+    },
+    "9": {
+      "status": "strict_interface_passed_live_gate_open",
+      "detail_report": "docs/evaluation/AGENT-INTERVIEW-REPAIR-STATUS-20261105.md"
+    },
+    "10": {
+      "status": "fixed_and_verified",
+      "detail_report": "docs/evaluation/AGENT-INTERVIEW-REPAIR-STATUS-20261105.md"
+    }
+  },
+  "findings": {
+    "F01": "fixed_within_audited_scope",
+    "F02": "fixed_within_audited_scope",
+    "F03": "fixed_within_audited_scope",
+    "F04": "fixed_within_audited_scope",
+    "F05": "fixed_within_audited_scope",
+    "F06": "local_fix_passed_remote_ci_pending",
+    "F07": "fixed_within_audited_scope",
+    "F08": "fixed_within_audited_scope",
+    "F09": "strict_interface_fixed_live_integration_open",
+    "F10": "fixed_within_audited_scope"
+  },
+  "historical_evidence_modified": false,
+  "original_audit_probe_files_modified": false,
+  "superseded_runs": [
+    {
+      "path": "output/interview-repairs-20261105/q3.xml",
+      "role": "superseded failure/transition evidence; not final acceptance"
+    },
+    {
+      "path": "output/interview-repairs-20261105/python-initial.xml",
+      "role": "superseded failure/transition evidence; not final acceptance"
+    },
+    {
+      "path": "output/interview-repairs-20261105/python-second.xml",
+      "role": "superseded failure/transition evidence; not final acceptance"
+    },
+    {
+      "path": "output/interview-repairs-20261105/python-local.xml",
+      "role": "superseded failure/transition evidence; not final acceptance"
+    },
+    {
+      "path": "output/interview-repairs-20261105/python-services.xml",
+      "role": "superseded failure/transition evidence; not final acceptance"
+    },
+    {
+      "path": "output/interview-repairs-20261105/python-acceptance.xml",
+      "role": "superseded failure/transition evidence; not final acceptance"
+    },
+    {
+      "path": "output/interview-repairs-20261105/audit-retained-final.xml",
+      "role": "superseded failure/transition evidence; not final acceptance"
+    }
+  ],
+  "failure_summary": "Final acceptance has zero failures/errors. Earlier failures exposed old media fixtures, over-eager owner try-locks, schema registration/legacy metadata drift and outdated header/fixture expectations; corrected and rerun. Old default-UUID probes are explicitly adapted in 13 new checks; old price-exception protocol is mapped to 16 public-output/no-call checks.",
+  "skipped": [
+    {
+      "test": "test_eight_lanes_share_local_model_but_read_index_independently",
+      "reason": "LOCAL_EMBEDDING_TEST_COLLECTION not provided; no model/index downloaded for this task"
+    }
+  ],
+  "paid_model_calls": 0,
+  "live_affiliate_calls": 0,
+  "published": false,
+  "product_status": "HOLD",
+  "commercial_release": "NO_GO",
+  "external_gates": [
+    "远端GitHub Linux CI未运行，提交推送另行授权",
+    "LIVE连接地址绑定与DNS重定向验收待接入",
+    "生产Ops管理员认证未接入，严格入口503",
+    "完整产品、物理设备、法律、人审及发布门禁继续保留"
+  ],
+  "task_output_bytes_before_closeout": 513499,
+  "test_services_closed": {
+    "verified_at": "2026-11-05T20:01:08.144574+08:00",
+    "command": "Stop only task-owned uvicorn/AVD; docker stop task-named PostgreSQL, MinIO and Qdrant containers",
+    "exit_code": 0,
+    "data_removed": false,
+    "other_devices_or_windows_modified": false
+  }
+}

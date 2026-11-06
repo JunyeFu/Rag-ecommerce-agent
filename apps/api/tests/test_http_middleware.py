@@ -15,7 +15,7 @@ from ragcommerce_api.observability import configure_observability
 
 
 def test_http_headers_and_structured_log_survive_validation_errors(caplog):
-    app = create_app()
+    app = create_app(development_identity=True)
     configure_observability(app)
 
     async def execute():
@@ -40,7 +40,7 @@ def test_http_headers_and_structured_log_survive_validation_errors(caplog):
 
 
 def test_sse_first_chunk_is_delivered_before_stream_completion():
-    app = create_app()
+    app = create_app(development_identity=True)
     configure_observability(app)
 
     async def execute():
@@ -102,7 +102,7 @@ def test_sse_first_chunk_is_delivered_before_stream_completion():
 
 
 def test_unknown_application_error_is_not_silently_recovered():
-    app = create_app()
+    app = create_app(development_identity=True)
     configure_observability(app)
 
     @app.get("/broken-contract")

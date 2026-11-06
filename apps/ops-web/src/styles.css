@@ -206,3 +206,10 @@ tr.selected-row td:first-child { box-shadow: inset 3px 0 var(--accent); }
 @media (prefers-reduced-motion: no-preference) {
   .sidebar nav button, .icon-button, .secondary-action { transition: background-color 140ms ease, color 140ms ease; }
 }
+
+.ops-signin { max-width: 620px; padding: 24px; }
+.ops-signin form { display: grid; gap: 12px; margin-top: 24px; }
+.ops-signin input { width: 100%; box-sizing: border-box; min-height: 44px; padding: 10px; }
+
+.ops-signin button { min-height: 44px; border: 1px solid var(--accent); border-radius: 6px; background: var(--accent); color: white; font-weight: 650; padding: 10px 16px; }
+.ops-signin button:disabled { opacity: .65; }

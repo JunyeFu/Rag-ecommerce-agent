@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, type FormEvent } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { fixtureOpsIdentity, opsClient, setOpsCredential } from "./generated/ops-client";
 import { Icon, type IconName } from "./components";
 import { CONTRACT_VERSION } from "./generated/api-contracts";
 import { ConflictView, ConnectorView, EvaluationView, OverviewView, ReleaseView, RetrievalView, TraceView } from "./views";
@@ -26,6 +28,39 @@ function ActiveView({ section }: { section: Section }) {
 }
 
 export function App() {
+  const queryClient = useQueryClient();
+  const loginAttempt = useRef(0);
+  const [connected, setConnected] = useState(fixtureOpsIdentity);
+  const [secret, setSecret] = useState("");
+  const [error, setError] = useState("");
+  const [connecting, setConnecting] = useState(false);
+  function disconnect() {
+    loginAttempt.current += 1;
+    setConnecting(false);
+    setSecret("");
+    setError("");
+    setOpsCredential("");
+    queryClient.clear();
+    setConnected(false);
+  }
+  async function signIn(event: FormEvent) {
+    event.preventDefault();
+    const attempt = ++loginAttempt.current;
+    setConnecting(true);
+    setError("");
+    setOpsCredential(secret.trim());
+    setSecret("");
+    try {
+      await opsClient.policy();
+      if (attempt !== loginAttempt.current) return;
+      queryClient.clear();
+      setConnected(true);
+    } catch {
+      if (attempt !== loginAttempt.current) return;
+      disconnect();
+      setError("凭据无效或暂时无法连接，请确认后重试。");
+    } finally { if (attempt === loginAttempt.current) setConnecting(false); }
+  }
   const [section, setSection] = useState<Section>("overview");
   return (
     <div className="app-shell">
@@ -36,8 +71,8 @@ export function App() {
           <small>v{CONTRACT_VERSION}</small>
         </a>
         <div className="top-controls">
-          <button className="environment" type="button">生产预演 <span>非生产</span></button>
-          <button className="role" type="button">运营审核员 <span>reviewer fixture</span></button>
+          <button className="environment" type="button">{fixtureOpsIdentity ? "本地演示" : "运营工作台"}<span>{fixtureOpsIdentity ? "非生产" : "服务端授权"}</span></button>
+          <button className="role" type="button" onClick={disconnect}>{connecting ? "取消连接" : connected ? "退出运营身份" : "尚未连接"}</button>
         </div>
       </header>
       <div className="workspace" id="top">
@@ -63,7 +98,16 @@ export function App() {
           <a className="sidebar-audit" href="#audit"><Icon name="audit" size={18} />查看审计</a>
         </aside>
         <main className="main-region">
-          <ActiveView section={section} />
+          {connected ? <ActiveView section={section} /> : <section className="panel ops-signin">
+            <h1>连接运营工作台</h1>
+            <p>使用管理员提供的运营凭据。权限由服务器决定，退出或刷新页面后需重新连接。</p>
+            <form onSubmit={(event) => void signIn(event)}>
+              <label htmlFor="ops-credential">运营凭据</label>
+              <input id="ops-credential" type="password" autoComplete="off" value={secret} onChange={(event) => setSecret(event.target.value)} required />
+              <button className="primary-action" type="submit" disabled={connecting}>{connecting ? "连接中" : "连接"}</button>
+            </form>
+            {error && <p role="alert">{error}</p>}
+          </section>}
         </main>
       </div>
     </div>

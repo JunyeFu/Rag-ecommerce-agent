@@ -508,5 +508,5 @@ def test_agent_replans_after_tool_results_until_provider_finishes() -> None:
     assert [
         event.type for event in result if event.type in {EventType.PRODUCTS, EventType.COMPARISON}
     ] == [EventType.PRODUCTS, EventType.COMPARISON]
-    assert result[-2].data["text"] == "已完成 2 个工具步骤"
+    assert result[-2].data["text"] == "已完成本轮处理, 具体结果和证据请查看卡片。"
     assert result[-1].type is EventType.COMPLETED

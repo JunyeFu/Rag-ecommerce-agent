@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-INTERVIEW-AUDIT-02",
+  "status": "passed",
+  "recorded_at": "2026-11-05T17:17:17.985317+08:00",
+  "source_commit": "06039aba1cf4798704f26549b7a3633c42fceb96",
+  "scope": "Completed Q6-Q10 interview-driven audit; task acceptance passed, seven vulnerability/conditional probes still fail and no findings were repaired",
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe -X utf8 -m pytest -q scripts/tests/test_agent_interview_audit_extra.py --tb=line --junitxml=output/interview-audit-extra-20261105/audit-current.xml",
+      "started_at": "2026-11-05T17:14:44.868227+08:00",
+      "exit_code": 1,
+      "counts": {
+        "total": 29,
+        "passed": 22,
+        "failed": 7,
+        "errors": 0,
+        "skipped": 0
+      },
+      "duration_seconds": 1.858,
+      "junit": "output/interview-audit-extra-20261105/audit-current.xml"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -X utf8 -m pytest -q apps/api/tests/test_turn_api.py apps/api/tests/test_media_flow.py apps/api/tests/test_security_regression.py packages/connectors/tests/test_connector_contract.py packages/retrieval/tests/test_entity_and_outbox.py --tb=short --junitxml=output/interview-audit-extra-20261105/regression.xml",
+      "started_at": "2026-11-05T17:11:24.537275+08:00",
+      "exit_code": 0,
+      "counts": {
+        "total": 41,
+        "passed": 41,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "duration_seconds": 2.873,
+      "junit": "output/interview-audit-extra-20261105/regression.xml"
+    },
+    {
+      "command": "Inline Python positive PNG structure/CRC/decompression and report target checks",
+      "verified_at": "2026-11-05T17:17:17.985317+08:00",
+      "exit_code": 0,
+      "counts": {
+        "png_width": 1,
+        "png_height": 1,
+        "png_chunks": 3,
+        "local_links": 11
+      },
+      "result": "valid PNG and all local targets exist"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check scripts/tests/test_agent_interview_audit_extra.py; .venv/Scripts/python.exe -m ruff format --check scripts/tests/test_agent_interview_audit_extra.py",
+      "verified_at": "2026-11-05T17:17:17.985317+08:00",
+      "exit_code": 0,
+      "result": "passed"
+    },
+    {
+      "command": "python scripts/validate_task_packages.py",
+      "verified_at": "2026-11-05T17:17:17.985317+08:00",
+      "exit_code": 0,
+      "counts": {
+        "packages": 52,
+        "errors": 0,
+        "warnings": 0
+      },
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "verified_at": "2026-11-05T17:18:03.923158+08:00",
+      "exit_code": 0,
+      "result": "passed"
+    }
+  ],
+  "questions": {
+    "6": {
+      "passed": 5
+    },
+    "7": {
+      "passed": 4,
+      "failed": 2
+    },
+    "8": {
+      "passed": 5,
+      "failed": 3
+    },
+    "9": {
+      "passed": 4,
+      "failed": 1
+    },
+    "10": {
+      "passed": 4,
+      "failed": 1
+    }
+  },
+  "failed_probes": [
+    {
+      "test": "test_q7_failed_fixture_rebuild_preserves_last_good_projection",
+      "message": "AssertionError: fixture rebuild cleared the old index before validation\nassert 'extra-item' in {}\n +  where {} = <ragcommerce_retrieval.outbox.InMemoryProjection object at 0x000001A56EA15E20>.documents"
+    },
+    {
+      "test": "test_q7_failed_legacy_qdrant_rebuild_preserves_last_good_projection",
+      "message": "AssertionError: legacy rebuild replaced the old collection with an empty one\nassert () == ('extra-item',)\n  \n  Right contains one more item: 'extra-item'\n  Use -v to get more diff"
+    },
+    {
+      "test": "test_q8_header_only_media_is_rejected_at_upload[image/png-\\x89PNG\\r\\n\\x1a\\n]",
+      "message": "AssertionError: signature-only truncated media was admitted\nassert 201 in {400, 415, 422}\n +  where 201 = <Response [201 Created]>.status_code"
+    },
+    {
+      "test": "test_q8_header_only_media_is_rejected_at_upload[image/jpeg-\\xff\\xd8\\xff]",
+      "message": "AssertionError: signature-only truncated media was admitted\nassert 201 in {400, 415, 422}\n +  where 201 = <Response [201 Created]>.status_code"
+    },
+    {
+      "test": "test_q8_header_only_media_is_rejected_at_upload[audio/wav-RIFF\\x00\\x00\\x00\\x00WAVE]",
+      "message": "AssertionError: signature-only truncated media was admitted\nassert 201 in {400, 415, 422}\n +  where 201 = <Response [201 Created]>.status_code"
+    },
+    {
+      "test": "test_q9_omitting_dns_argument_cannot_skip_the_live_address_check",
+      "message": "Failed: DID NOT RAISE ConnectorError"
+    },
+    {
+      "test": "test_q10_inflight_agent_cannot_recreate_a_successfully_erased_checkpoint",
+      "message": "AssertionError: in-flight save recreated an orphan checkpoint after successful deletion\nassert RunCheckpoint(run_id=UUID('974309f7-b66f-5e0d-abe7-244d622781cb'), idempotency_key='erase-inflight', events=[AgentEven...e.datetime(2026, 11, 5, 9, 14, 46, 719114, tzinfo=datetime.timezone.utc), tool_attempts=0, replans=0, pending_calls=()) is None\n +  where RunCheckpoint(run_id=UUID('974309f7-b66f-5e0d-abe7-244d622781cb'), idempotency_key='erase-inflight', events=[AgentEven...e.datetime(2026, 11, 5, 9, 14, 46, 719114, tzinfo=datetime.timezone.utc), tool_attempts=0, replans=0, pending_calls=()) = load(UUID('974309f7-b66f-5e0d-abe7-244d622781cb'))\n +    where load = <ragcommerce_agent_runtime.store.InMemoryCheckpointStore object at 0x000001A56F086B70>.load"
+    }
+  ],
+  "finding_groups": [
+    {
+      "id": "F07",
+      "priority": "P2",
+      "scope": "Two fixture projection rebuilders destroy prior contents on failure; current alias publisher control passed"
+    },
+    {
+      "id": "F08",
+      "priority": "P2",
+      "scope": "Upload admission accepts signature-only truncated media; invalid WAV rejected before model request"
+    },
+    {
+      "id": "F09",
+      "priority": "CONDITIONAL_LIVE_INTEGRATION",
+      "scope": "Omitted optional DNS argument skips resolved-address validation; no LIVE exploit or DNS request tested"
+    },
+    {
+      "id": "F10",
+      "priority": "P1_LOCAL_LIFECYCLE",
+      "scope": "Actual API with in-memory stores: in-flight runtime recreates checkpoint after deletion returned 200; PostgreSQL/MinIO untested"
+    }
+  ],
+  "fixture_correction": {
+    "initial_junit": "output/interview-audit-extra-20261105/audit.xml",
+    "reason": "Initial positive PNG had an invalid IDAT CRC. Replaced it with a valid 1x1 RGBA PNG and reran all 29 probes. Same 22 passed / 7 failed, no new product defect counted."
+  },
+  "failure_summary": "Seven failed assertions in four scoped groups; no errors or skips. Current read-alias failure preservation, SSE replay and 41 existing checks passed. Audit findings remain unremediated.",
+  "real_provider_calls": 0,
+  "external_requests_during_tests": 0,
+  "persistent_database_changes": false,
+  "business_code_modified": false,
+  "previous_audit_modified": false,
+  "published": false,
+  "product_status": "HOLD",
+  "commercial_release": "NO_GO",
+  "sources": [
+    "https://www.nowcoder.com/feed/main/detail/e3425d60dec24ee1bcf1dc44420b0101",
+    "https://www.nowcoder.com/feed/main/detail/e380512a58d046798664f694fbc4d49a",
+    "https://www.nowcoder.com/feed/main/detail/40920533fad14136bff01c3928c7e953",
+    "https://www.nowcoder.com/discuss/916877388720373760?sourceSSR=dynamic",
+    "https://html.spec.whatwg.org/multipage/server-sent-events.html",
+    "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html"
+  ],
+  "external_gates": [],
+  "verified_at": "2026-11-05T17:18:03.923158+08:00"
+}

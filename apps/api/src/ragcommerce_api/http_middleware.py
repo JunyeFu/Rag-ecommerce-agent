@@ -14,8 +14,9 @@ LOGGER.addHandler(logging.StreamHandler())
 
 
 class DevelopmentAuthHeader:
-    def __init__(self, app: ASGIApp) -> None:
+    def __init__(self, app: ASGIApp, mode: str = "development-header") -> None:
         self.app = app
+        self.mode = mode
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         if scope["type"] != "http":
@@ -24,7 +25,7 @@ class DevelopmentAuthHeader:
 
         async def send_with_header(message: Message) -> None:
             if message["type"] == "http.response.start":
-                MutableHeaders(scope=message)["X-Auth-Mode"] = "development-header"
+                MutableHeaders(scope=message)["X-Auth-Mode"] = self.mode
             await send(message)
 
         await self.app(scope, receive, send_with_header)

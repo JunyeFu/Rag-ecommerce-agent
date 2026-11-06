@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Protocol
 from uuid import UUID
 
-import psycopg
+from ragcommerce_agent_runtime.postgres_connection import connect
 
 
 class ErasableUserStore(Protocol):
@@ -35,13 +35,19 @@ class PostgresUserDataEraser:
         self.dsn = dsn
 
     def delete_user(self, user_id: UUID) -> int:
-        with psycopg.connect(self.dsn) as connection:
+        with connect(self.dsn) as connection:
             run_ids = [
                 row[0]
                 for row in connection.execute(
-                    "SELECT run_id FROM api_turns WHERE owner_id=%s", (user_id,)
+                    "SELECT run_id FROM api_turns WHERE owner_id=%s UNION SELECT id FROM agent_runs WHERE conversation_id IN (SELECT thread_id FROM api_threads WHERE owner_id=%s)",
+                    (user_id, user_id),
                 ).fetchall()
             ]
+            threads = connection.execute(
+                "SELECT thread_id,mission_id FROM api_threads WHERE owner_id=%s", (user_id,)
+            ).fetchall()
+            thread_ids = [row[0] for row in threads]
+            mission_ids = [row[1] for row in threads]
             list_ids = [
                 row[0]
                 for row in connection.execute(
@@ -62,6 +68,14 @@ class PostgresUserDataEraser:
                 count += connection.execute(
                     "DELETE FROM agent_checkpoints WHERE run_id=ANY(%s)", (run_ids,)
                 ).rowcount
+            if run_ids:
+                connection.execute("DELETE FROM evidence_refs WHERE run_id=ANY(%s)", (run_ids,))
+                connection.execute(
+                    "DELETE FROM tool_invocations WHERE step_id IN (SELECT id FROM agent_steps WHERE run_id=ANY(%s))",
+                    (run_ids,),
+                )
+                connection.execute("DELETE FROM agent_steps WHERE run_id=ANY(%s)", (run_ids,))
+                connection.execute("DELETE FROM agent_runs WHERE id=ANY(%s)", (run_ids,))
             if list_ids:
                 count += connection.execute(
                     "DELETE FROM v3_list_items WHERE list_id=ANY(%s)", (list_ids,)
@@ -84,4 +98,15 @@ class PostgresUserDataEraser:
             count += connection.execute(
                 "DELETE FROM api_threads WHERE owner_id=%s", (user_id,)
             ).rowcount
+            if thread_ids:
+                connection.execute("DELETE FROM conversations WHERE id=ANY(%s)", (thread_ids,))
+            if mission_ids:
+                connection.execute(
+                    "DELETE FROM shopping_list_items WHERE list_id IN (SELECT id FROM shopping_lists WHERE mission_id=ANY(%s))",
+                    (mission_ids,),
+                )
+                connection.execute(
+                    "DELETE FROM shopping_lists WHERE mission_id=ANY(%s)", (mission_ids,)
+                )
+                connection.execute("DELETE FROM shopping_missions WHERE id=ANY(%s)", (mission_ids,))
             return count

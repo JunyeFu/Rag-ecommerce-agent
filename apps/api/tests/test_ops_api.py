@@ -14,13 +14,15 @@ def headers(role: str = "viewer", **values: str) -> dict[str, str]:
 
 
 def test_ops_api_is_unavailable_without_explicit_store() -> None:
-    response = TestClient(create_app()).get("/v1/ops/connectors", headers=headers())
+    response = TestClient(create_app(development_identity=True)).get(
+        "/v1/ops/connectors", headers=headers()
+    )
     assert response.status_code == 503
     assert "not configured" in response.json()["detail"]
 
 
 def test_connector_evidence_separates_local_and_external_status() -> None:
-    client = TestClient(create_app(ops_store=InMemoryOpsStore()))
+    client = TestClient(create_app(ops_store=InMemoryOpsStore(), development_identity=True))
     response = client.get("/v1/ops/connectors", headers=headers())
 
     assert response.status_code == 200
@@ -32,7 +34,7 @@ def test_connector_evidence_separates_local_and_external_status() -> None:
 
 
 def test_trace_contract_is_redacted_and_contains_only_digests_and_evidence_refs() -> None:
-    client = TestClient(create_app(ops_store=InMemoryOpsStore()))
+    client = TestClient(create_app(ops_store=InMemoryOpsStore(), development_identity=True))
     response = client.get("/v1/ops/traces", headers=headers())
     payload = response.json()
     serialized = response.text.lower()
@@ -46,7 +48,7 @@ def test_trace_contract_is_redacted_and_contains_only_digests_and_evidence_refs(
 
 def test_entity_resolution_requires_reviewer_reason_idempotency_and_audit() -> None:
     store = InMemoryOpsStore()
-    client = TestClient(create_app(ops_store=store))
+    client = TestClient(create_app(ops_store=store, development_identity=True))
     url = "/v1/ops/entity-conflicts/conflict-001/resolution"
     body = {"decision": "KEEP_SEPARATE", "reason": "来源型号字段存在可复核冲突"}
 
@@ -67,7 +69,7 @@ def test_entity_resolution_requires_reviewer_reason_idempotency_and_audit() -> N
 
 def test_evaluation_start_is_bounded_idempotent_and_does_not_claim_external_pass() -> None:
     store = InMemoryOpsStore()
-    client = TestClient(create_app(ops_store=store))
+    client = TestClient(create_app(ops_store=store, development_identity=True))
     body = {"dataset_version": "v2-fixture-1", "runner_version": "deterministic-1"}
     request_headers = headers("reviewer", **{"Idempotency-Key": "eval-1"})
 
@@ -83,7 +85,7 @@ def test_evaluation_start_is_bounded_idempotent_and_does_not_claim_external_pass
 
 
 def test_policy_disables_export_and_lists_sensitive_fields_as_prohibited() -> None:
-    client = TestClient(create_app(ops_store=InMemoryOpsStore()))
+    client = TestClient(create_app(ops_store=InMemoryOpsStore(), development_identity=True))
     policy = client.get("/v1/ops/policy", headers=headers()).json()
 
     assert policy["export_enabled"] is False

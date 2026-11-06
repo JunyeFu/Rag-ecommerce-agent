@@ -20,6 +20,7 @@ dependencies = [
     "tokenizers==0.22.2",
     "huggingface-hub==1.32.0",
     "numpy==2.5.2",
+    "pillow==13.0.0",
 ]
 
 [dependency-groups]
@@ -34,7 +35,7 @@ dev = [
 package = false
 
 [tool.pytest.ini_options]
-testpaths = ["apps/api/tests", "apps/worker/tests", "packages/domain/tests", "packages/connectors/tests", "packages/retrieval/tests", "packages/agent-runtime/tests", "packages/evaluation/tests"]
+testpaths = ["scripts/tests/test_agent_interview_repairs.py", "apps/api/tests", "apps/worker/tests", "packages/domain/tests", "packages/connectors/tests", "packages/retrieval/tests", "packages/agent-runtime/tests", "packages/evaluation/tests"]
 markers = ["integration: requires explicitly provided temporary services"]
 pythonpath = [
     "apps/api/src",

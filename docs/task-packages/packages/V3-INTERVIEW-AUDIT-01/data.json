@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-INTERVIEW-AUDIT-01",
+  "owner": "interview-audit",
+  "objective": "五类Agent面试问题驱动的漏洞挖掘与测试",
+  "inputs": [
+    "current source at 06039ab",
+    "public interview posts",
+    "data/demo/catalog.v3.jsonl"
+  ],
+  "outputs": [
+    "scripts/tests/test_agent_interview_audit.py",
+    "docs/evaluation/AGENT-INTERVIEW-AUDIT-20261105.md",
+    "evidence/verification.json"
+  ],
+  "acceptance": [
+    "five sourced questions each tested",
+    "failed assertions preserved",
+    "existing regression separated",
+    "task package valid"
+  ],
+  "test_profiles": [
+    "in_memory_runtime",
+    "fake_transport",
+    "ASGI_TestClient",
+    "retrieval_component",
+    "targeted_existing_pytest"
+  ],
+  "business_refs": [
+    "OfferQuote evidence",
+    "explicit approval",
+    "development identity only"
+  ],
+  "development_refs": [
+    "V3-BASE-00",
+    "V3-SHOWCASE-01"
+  ],
+  "risk_refs": [
+    "mock transport not real model attack rate",
+    "audit completion not vulnerability remediation",
+    "no paid or external target tests"
+  ]
+}

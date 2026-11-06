@@ -52,7 +52,7 @@ class DiscoveryConnector:
         )
 
     def resolve_link(self, offer_id: UUID) -> DeepLink:
-        validated = self._policy.validate_chain((self._url,))
+        validated = self._policy.validate_fixture_chain((self._url,))
         return DeepLink(
             uuid5(offer_id, "discovery-link"),
             offer_id,

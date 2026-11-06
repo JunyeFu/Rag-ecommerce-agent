@@ -86,7 +86,7 @@ class FixtureConnector:
 
     def resolve_link(self, offer_id: UUID) -> DeepLink:
         item = self._records[offer_id]
-        url = self._policy.validate_chain(tuple(str(url) for url in item["redirect_chain"]))  # type: ignore[arg-type]
+        url = self._policy.validate_fixture_chain(tuple(str(url) for url in item["redirect_chain"]))  # type: ignore[arg-type]
         return DeepLink(
             UUID(item["link_id"]),
             offer_id,

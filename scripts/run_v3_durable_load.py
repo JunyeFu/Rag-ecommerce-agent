@@ -21,8 +21,14 @@ def percentile(values: list[float], fraction: float) -> float:
 
 
 async def mission(client: httpx.AsyncClient) -> dict[str, object]:
-    user_id = str(uuid4())
-    headers = {"X-User-ID": user_id, "Idempotency-Key": str(uuid4())}
+    installation = await client.post("/v1/installations")
+    installation.raise_for_status()
+    identity = installation.json()
+    user_id = identity["owner_id"]
+    headers = {
+        "Authorization": "Bearer " + identity["token"],
+        "Idempotency-Key": str(uuid4()),
+    }
     response = await client.post(
         "/v1/threads", headers=headers, json={"goal": "预算1000元的通勤降噪耳机"}
     )

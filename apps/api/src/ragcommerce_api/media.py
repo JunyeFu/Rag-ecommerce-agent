@@ -5,12 +5,14 @@ from __future__ import annotations
 import hashlib
 import os
 import platform
+import wave
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
 from uuid import UUID, uuid4
 
-import psycopg
+from PIL import Image, UnidentifiedImageError
+from ragcommerce_agent_runtime.postgres_connection import connect
 
 
 class MediaRejected(ValueError):
@@ -38,12 +40,56 @@ SIGNATURES = {
     "audio/wav": lambda value: (
         len(value) >= 12 and value.startswith(b"RIFF") and value[8:12] == b"WAVE"
     ),
-    "audio/mpeg": lambda value: (
-        value.startswith(b"ID3")
-        or (len(value) >= 2 and value[0] == 0xFF and value[1] & 0xE0 == 0xE0)
-    ),
-    "audio/ogg": lambda value: value.startswith(b"OggS"),
 }
+
+
+def validate_media(
+    content_type: str, content: bytes, image_limit=8 * 1024 * 1024, audio_limit=25 * 1024 * 1024
+) -> tuple[str, str]:
+    normalized = content_type.split(";", 1)[0].strip().lower()
+    validator = SIGNATURES.get(normalized)
+    if validator is None:
+        raise MediaRejected("unsupported media type")
+    kind = normalized.split("/", 1)[0]
+    limit = image_limit if kind == "image" else audio_limit
+    if len(content) > limit:
+        raise MediaRejected(f"{kind} exceeds the configured size limit")
+    if not content or not validator(content):
+        raise MediaRejected("declared media type does not match file signature")
+    try:
+        if kind == "image":
+            expected = {"image/png": "PNG", "image/jpeg": "JPEG", "image/webp": "WEBP"}[normalized]
+            with Image.open(BytesIO(content), formats=[expected]) as image:
+                if image.width * image.height > 16_000_000 or getattr(image, "n_frames", 1) != 1:
+                    raise MediaRejected("invalid media: image pixel/frame limit")
+                image.verify()
+            with Image.open(BytesIO(content), formats=[expected]) as image:
+                image.load()
+        else:
+            with wave.open(BytesIO(content), "rb") as audio:
+                frames = audio.getnframes()
+                if not (
+                    0 < frames <= 16000 * 60
+                    and audio.getframerate() == 16000
+                    and audio.getnchannels() == 1
+                    and audio.getsampwidth() == 2
+                ):
+                    raise MediaRejected("invalid media: expected mono16k PCM16 WAV up to60seconds")
+                if len(audio.readframes(frames)) != frames * 2:
+                    raise MediaRejected("invalid media: truncated WAV frames")
+    except (
+        UnidentifiedImageError,
+        OSError,
+        SyntaxError,
+        ValueError,
+        EOFError,
+        wave.Error,
+        Image.DecompressionBombError,
+    ) as exc:
+        if isinstance(exc, MediaRejected):
+            raise
+        raise MediaRejected("invalid media: damaged content") from exc
+    return normalized, kind
 
 
 class InMemoryMediaStore:
@@ -55,16 +101,7 @@ class InMemoryMediaStore:
         self.records: dict[UUID, tuple[StoredMedia, bytes]] = {}
 
     def create(self, owner_id: UUID, content_type: str, content: bytes) -> StoredMedia:
-        normalized = content_type.split(";", 1)[0].strip().lower()
-        validator = SIGNATURES.get(normalized)
-        if validator is None:
-            raise MediaRejected("unsupported media type")
-        if not content or not validator(content):
-            raise MediaRejected("declared media type does not match file signature")
-        kind = normalized.split("/", 1)[0]
-        limit = self.IMAGE_LIMIT if kind == "image" else self.AUDIO_LIMIT
-        if len(content) > limit:
-            raise MediaRejected(f"{kind} exceeds the configured size limit")
+        normalized, kind = validate_media(content_type, content, self.IMAGE_LIMIT, self.AUDIO_LIMIT)
         now = datetime.now(UTC)
         record = StoredMedia(
             uuid4(),
@@ -150,16 +187,7 @@ class MinioMediaStore:
                     raise
 
     def create(self, owner_id: UUID, content_type: str, content: bytes) -> StoredMedia:
-        normalized = content_type.split(";", 1)[0].strip().lower()
-        validator = SIGNATURES.get(normalized)
-        if validator is None:
-            raise MediaRejected("unsupported media type")
-        if not content or not validator(content):
-            raise MediaRejected("declared media type does not match file signature")
-        kind = normalized.split("/", 1)[0]
-        limit = self.IMAGE_LIMIT if kind == "image" else self.AUDIO_LIMIT
-        if len(content) > limit:
-            raise MediaRejected(f"{kind} exceeds the configured size limit")
+        normalized, kind = validate_media(content_type, content, self.IMAGE_LIMIT, self.AUDIO_LIMIT)
         now = datetime.now(UTC)
         record = StoredMedia(
             uuid4(),
@@ -176,7 +204,7 @@ class MinioMediaStore:
             self.bucket, object_key, BytesIO(content), len(content), content_type=normalized
         )
         try:
-            with psycopg.connect(self.dsn) as connection:
+            with connect(self.dsn) as connection:
                 connection.execute(
                     """INSERT INTO api_media_objects(
                     id,owner_id,kind,content_type,size_bytes,content_sha256,object_key,
@@ -201,7 +229,7 @@ class MinioMediaStore:
     def require_owned(self, owner_id: UUID, media_ids: tuple[UUID, ...]) -> tuple[StoredMedia, ...]:
         if not media_ids:
             return ()
-        with psycopg.connect(self.dsn) as connection:
+        with connect(self.dsn) as connection:
             rows = connection.execute(
                 """SELECT id,owner_id,kind,content_type,size_bytes,content_sha256,created_at,expires_at
                 FROM api_media_objects WHERE owner_id=%s AND id=ANY(%s) AND deleted=false
@@ -226,7 +254,7 @@ class MinioMediaStore:
         return record, content
 
     def delete(self, owner_id: UUID, media_id: UUID) -> bool:
-        with psycopg.connect(self.dsn) as connection:
+        with connect(self.dsn) as connection:
             row = connection.execute(
                 """UPDATE api_media_objects SET deleted=true WHERE id=%s AND owner_id=%s
                 AND deleted=false RETURNING object_key""",
@@ -238,18 +266,17 @@ class MinioMediaStore:
         return True
 
     def delete_user(self, user_id: UUID) -> int:
-        with psycopg.connect(self.dsn) as connection:
+        with connect(self.dsn) as connection:
             rows = connection.execute(
-                """UPDATE api_media_objects SET deleted=true WHERE owner_id=%s AND deleted=false
-                RETURNING object_key""",
-                (user_id,),
+                "SELECT object_key FROM api_media_objects WHERE owner_id=%s", (user_id,)
             ).fetchall()
-        for (object_key,) in rows:
-            self.client.remove_object(self.bucket, object_key)
+            for (object_key,) in rows:
+                self.client.remove_object(self.bucket, object_key)
+            connection.execute("DELETE FROM api_media_objects WHERE owner_id=%s", (user_id,))
         return len(rows)
 
     def purge_expired(self, now: datetime | None = None) -> int:
-        with psycopg.connect(self.dsn) as connection:
+        with connect(self.dsn) as connection:
             rows = connection.execute(
                 """UPDATE api_media_objects SET deleted=true WHERE expires_at<=%s AND deleted=false
                 RETURNING object_key""",

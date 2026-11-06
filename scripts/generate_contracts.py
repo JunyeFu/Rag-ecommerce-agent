@@ -15,6 +15,7 @@ OPENAPI = ROOT / "packages/contracts/openapi.json"
 HEALTH_SCHEMA = ROOT / "packages/contracts/schemas/health-response.schema.json"
 GENERATOR_VERSION = "4"
 EXPECTED_OPERATIONS = {
+    "issueInstallation",
     "getThreads",
     "patchThread",
     "getThreadMessages",
@@ -909,7 +910,7 @@ export type AuditEvent = {{
   occurred_at: string;
 }};
 export type OpsPolicy = {{
-  auth_mode: "development_headers";
+  auth_mode: "development_headers" | "server_bearer";
   visible_fields: string[];
   prohibited_fields: string[];
   export_enabled: boolean;
