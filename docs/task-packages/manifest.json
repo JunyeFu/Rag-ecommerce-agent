@@ -372,7 +372,7 @@
     {
       "id": "V3-HOMEPAGE-REFRESH-02",
       "title": "Refresh commercial homepage with current frontend",
-      "status": "in_progress",
+      "status": "complete",
       "priority": "P1",
       "autonomy": "full",
       "dependencies": [

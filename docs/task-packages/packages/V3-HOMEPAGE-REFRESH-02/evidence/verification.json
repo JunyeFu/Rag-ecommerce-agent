@@ -1,9 +1,165 @@
 {
   "schema_version": 1,
   "package_id": "V3-HOMEPAGE-REFRESH-02",
-  "status": "not_run",
+  "status": "passed",
   "external_gates": [
     "LIVE, physical-device, legal, human acceptance and release remain paused"
   ],
-  "checks": []
+  "checks": [
+    {
+      "command": "README local link validation; scripts/summarize_agent_metrics.py --check; scripts/validate_task_packages.py; git diff --check",
+      "verified_at": "2026-11-06T15:10:03.883983+00:00",
+      "exit_code": 0,
+      "counts": {
+        "local_links": 40,
+        "new_runtime_images": 8,
+        "modified_historical_metric_values": 0,
+        "packages_local": 62,
+        "errors": 0,
+        "warnings": 0
+      }
+    },
+    {
+      "command": "node output/playwright/homepage-refresh-20261106/qa.cjs",
+      "verified_at": "2026-11-06T15:10:03.883983+00:00",
+      "exit_code": 0,
+      "counts": {
+        "viewports_passed": 2,
+        "page_errors": 0,
+        "broken_product_images": 0,
+        "document_overflow": 0
+      },
+      "result": "Actual GitHub images, new product disclosures, historical metrics disclosure, stack comparison disclosure and anchor navigation passed",
+      "browser": "Browser plugin not available; existing headless Playwright Chromium",
+      "rendering": [
+        {
+          "viewport": "desktop",
+          "title": "GitHub - JunyeFu/Rag-ecommerce-agent at codex/frontend-homepage-preview 路 GitHub",
+          "dimensions": {
+            "viewport": 1440,
+            "document": 1440
+          },
+          "tables": [
+            {
+              "width": 647,
+              "scroll": 647
+            },
+            {
+              "width": 838,
+              "scroll": 838
+            },
+            {
+              "width": 563,
+              "scroll": 563
+            },
+            {
+              "width": 838,
+              "scroll": 838
+            },
+            {
+              "width": 838,
+              "scroll": 838
+            },
+            {
+              "width": 838,
+              "scroll": 838
+            },
+            {
+              "width": 838,
+              "scroll": 838
+            }
+          ],
+          "pageErrors": [],
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 404 ()"
+          ],
+          "resourceErrors": [
+            {
+              "url": "https://github.com/_global-navigation/payloads.json",
+              "status": 404
+            }
+          ],
+          "frameworkOverlay": false,
+          "images": "visible images loaded",
+          "identity": "passed",
+          "anchors": "passed",
+          "details": "passed",
+          "screenshots": [
+            "desktop-hero.png",
+            "desktop-product.png",
+            "desktop-metrics.png"
+          ]
+        },
+        {
+          "viewport": "mobile",
+          "title": "GitHub - JunyeFu/Rag-ecommerce-agent at codex/frontend-homepage-preview 路 GitHub",
+          "dimensions": {
+            "viewport": 390,
+            "document": 390
+          },
+          "tables": [
+            {
+              "width": 324,
+              "scroll": 324
+            },
+            {
+              "width": 324,
+              "scroll": 324
+            },
+            {
+              "width": 324,
+              "scroll": 324
+            },
+            {
+              "width": 324,
+              "scroll": 389
+            },
+            {
+              "width": 324,
+              "scroll": 324
+            },
+            {
+              "width": 324,
+              "scroll": 452
+            },
+            {
+              "width": 324,
+              "scroll": 324
+            }
+          ],
+          "pageErrors": [],
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 404 ()"
+          ],
+          "resourceErrors": [
+            {
+              "url": "https://github.com/_global-navigation/payloads.json",
+              "status": 404
+            }
+          ],
+          "frameworkOverlay": false,
+          "images": "visible images loaded",
+          "identity": "passed",
+          "anchors": "passed",
+          "details": "passed",
+          "screenshots": [
+            "mobile-hero.png",
+            "mobile-product.png",
+            "mobile-metrics.png"
+          ]
+        }
+      ],
+      "console_exception": "GitHub global-navigation payload404 only; all README images load and no page runtime errors"
+    }
+  ],
+  "verified_at": "2026-11-06T15:10:03.883983+00:00",
+  "scope": "Homepage content, actual GitHub branch desktop/mobile rendering and navigation; merge/CI recorded on PR30",
+  "pr_url": "https://github.com/JunyeFu/Rag-ecommerce-agent/pull/30",
+  "rendered_commit": "5d4fceb9033382d9729f7ce42254dff9a5b1a035",
+  "commercial_release": "NO_GO",
+  "external_acceptance": "paused_by_user",
+  "application_source_committed": false,
+  "source_preview": "codex/frontend-cleanup local uncommitted frontend",
+  "assets": "Eight original runtime PNGs copied without modification",
+  "remaining_homepage_defects": []
 }
