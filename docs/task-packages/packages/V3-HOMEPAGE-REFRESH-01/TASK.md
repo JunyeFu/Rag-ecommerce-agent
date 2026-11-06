@@ -4,7 +4,7 @@
 合并已验收修复，并把 README 改为产品价值、实际体验和可核验实测驱动的正式展示首页。
 
 ## 状态
-in_progress
+complete（首页内容及GitHub分支渲染的本地验收）；最终合并与远端检查以PR记录为准。
 
 ## 范围
 README 视觉层级、产品与证据文案、导航、历史与当前结果分区；GitHub 桌面/移动实际渲染检查及授权合并。
@@ -28,7 +28,7 @@ README.md、本包全部文件、docs/task-packages/manifest.json；复用既有
 现有 github-cover.svg 和 Android/Ops 截图、AGENT-PERFORMANCE.md、agent-metrics-20261105.json、TECH-STACK-DECISIONS.md、PR28最终CI。
 
 ## 验收
-产品首页首屏层级清楚；桌面/手机图片可见且导航/展开可用；链接有效；实测口径和技术取舍保留；用户授权更新进入main。
+已验收修复PR28进入main；新版首页首屏层级清楚，桌面/手机图片及导航/展开可用，链接有效，实测口径与技术取舍保留，达到授权合并的准备状态。本包complete仅覆盖内容与分支页面验收；首页最终合并及远端CI在GitHub PR记录核验。
 
 ## 回滚
 保留Git历史和独立分支，不覆盖用户无关改动，不reset/clean/prune。

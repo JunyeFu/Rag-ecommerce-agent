@@ -1,10 +1,203 @@
 {
   "schema_version": 1,
   "package_id": "V3-HOMEPAGE-REFRESH-01",
-  "status": "not_run",
+  "status": "passed",
   "external_gates": [
     "真实联盟、LIVE、真机、法律、人审及正式发布仍未验收；按用户指令暂停"
   ],
-  "checks": [],
-  "failure_summary": "Homepage rendering and CI pending"
+  "checks": [
+    {
+      "command": "gh pr ready 28; GitHub merge_pull_request expected_head_sha553c6f655a60b09bd6c193f3ea9826ad0f77ed18",
+      "verified_at": "2026-11-06T02:51:25.351806+00:00",
+      "exit_code": 0,
+      "counts": {
+        "pull_requests_merged": 1
+      },
+      "merge_sha": "43220a757bd78a7300f041339fd18058c8e74f43",
+      "url": "https://github.com/JunyeFu/Rag-ecommerce-agent/pull/28"
+    },
+    {
+      "command": "GitHub Actions ci after PR28 main merge",
+      "verified_at": "2026-11-06T02:51:25.351806+00:00",
+      "exit_code": 0,
+      "counts": {
+        "jobs_passed": 5
+      },
+      "run_id": 42151686696,
+      "url": "https://github.com/JunyeFu/Rag-ecommerce-agent/actions/runs/42151686696"
+    },
+    {
+      "command": ".venv/Scripts/python scripts/summarize_agent_metrics.py --check",
+      "verified_at": "2026-11-06T02:51:25.351806+00:00",
+      "exit_code": 0,
+      "counts": {
+        "changed_measurement_values": 0
+      },
+      "result": "Metrics match existing source reports; no external model calls"
+    },
+    {
+      "command": "README HTML/Markdown local link existence and original metrics/stack-table preservation check",
+      "verified_at": "2026-11-06T02:51:25.351806+00:00",
+      "exit_code": 0,
+      "counts": {
+        "links": 47,
+        "missing": 0,
+        "full_original_tables_preserved": 2
+      }
+    },
+    {
+      "command": "node D:/C-drive-temp-20261028/new-temp/rag-homepage-20261106/qa.cjs",
+      "verified_at": "2026-11-06T02:51:25.351806+00:00",
+      "exit_code": 0,
+      "counts": {
+        "viewports_passed": 2,
+        "page_runtime_errors": 0,
+        "broken_readme_images": 0,
+        "document_horizontal_overflow": 0
+      },
+      "result": "actual GitHub page; anchors and two details expansions exercised; no framework overlay",
+      "browser": "Browser plugin not available; existing headless Playwright Chromium",
+      "viewports": [
+        {
+          "width": 1440,
+          "height": 1100
+        },
+        {
+          "width": 390,
+          "height": 844
+        }
+      ],
+      "console_exception": {
+        "status": 404,
+        "url": "https://github.com/_global-navigation/payloads.json",
+        "scope": "GitHub global navigation, not README resource; product images/badges load and anchors/details work"
+      },
+      "screenshots_directory": "D:/C-drive-temp-20261028/new-temp/rag-homepage-20261106/"
+    },
+    {
+      "command": "python scripts/validate_task_packages.py; git diff --check",
+      "verified_at": "2026-11-06T02:51:25.351806+00:00",
+      "exit_code": 0,
+      "counts": {
+        "packages": 57,
+        "errors": 0,
+        "warnings": 0
+      }
+    }
+  ],
+  "failure_summary": "No remaining README defect. Initial image wait timed out once; diagnostic and final runs loaded all product/badge images. GitHub global navigation payload404 is unrelated to README assets and was identified explicitly.",
+  "recorded_at": "2026-11-06T02:51:25.351806+00:00",
+  "scope": "Local content and GitHub branch rendering acceptance; authorized homepage merge and final remote CI are recorded on the GitHub PR",
+  "source_base": "43220a757bd78a7300f041339fd18058c8e74f43",
+  "rendered_source": "e550c46",
+  "published_product": false,
+  "product_status": "HOLD",
+  "commercial_release": "NO_GO",
+  "external_acceptance": "paused_by_user",
+  "rendering": [
+    {
+      "viewport": "desktop",
+      "title": "GitHub - JunyeFu/Rag-ecommerce-agent at codex/commercial-homepage · GitHub",
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440
+      },
+      "tables": [
+        {
+          "width": 631,
+          "scroll": 631
+        },
+        {
+          "width": 647,
+          "scroll": 647
+        },
+        {
+          "width": 563,
+          "scroll": 563
+        },
+        {
+          "width": 838,
+          "scroll": 838
+        },
+        {
+          "width": 838,
+          "scroll": 838
+        },
+        {
+          "width": 838,
+          "scroll": 838
+        },
+        {
+          "width": 838,
+          "scroll": 838
+        }
+      ],
+      "pageErrors": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "frameworkOverlay": false,
+      "images": "visible images loaded",
+      "identity": "passed",
+      "anchors": "passed",
+      "details": "passed",
+      "screenshots": [
+        "desktop-hero.png",
+        "desktop-product.png",
+        "desktop-metrics.png"
+      ]
+    },
+    {
+      "viewport": "mobile",
+      "title": "GitHub - JunyeFu/Rag-ecommerce-agent at codex/commercial-homepage · GitHub",
+      "dimensions": {
+        "viewport": 390,
+        "document": 390
+      },
+      "tables": [
+        {
+          "width": 324,
+          "scroll": 324
+        },
+        {
+          "width": 324,
+          "scroll": 324
+        },
+        {
+          "width": 324,
+          "scroll": 324
+        },
+        {
+          "width": 324,
+          "scroll": 389
+        },
+        {
+          "width": 324,
+          "scroll": 324
+        },
+        {
+          "width": 324,
+          "scroll": 452
+        },
+        {
+          "width": 324,
+          "scroll": 324
+        }
+      ],
+      "pageErrors": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "frameworkOverlay": false,
+      "images": "visible images loaded",
+      "identity": "passed",
+      "anchors": "passed",
+      "details": "passed",
+      "screenshots": [
+        "mobile-hero.png",
+        "mobile-product.png",
+        "mobile-metrics.png"
+      ]
+    }
+  ]
 }

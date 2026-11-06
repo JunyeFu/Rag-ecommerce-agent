@@ -13,8 +13,8 @@
     "evidence/verification.json"
   ],
   "acceptance": [
-    "approved main merge",
-    "GitHub desktop/mobile rendering and navigation pass",
+    "approved remediation PR28 merged to main",
+    "homepage ready for authorized main merge after desktop/mobile rendering and navigation checks",
     "evidence-linked metrics and stack tradeoffs retained"
   ],
   "test_profiles": [
