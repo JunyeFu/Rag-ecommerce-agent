@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-HOMEPAGE-REFRESH-02",
+  "status": "not_run",
+  "external_gates": [
+    "LIVE, physical-device, legal, human acceptance and release remain paused"
+  ],
+  "checks": []
+}

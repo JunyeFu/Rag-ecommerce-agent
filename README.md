@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/media/github-cover.svg" alt="RAG Commerce：从想买什么，到知道怎么选" width="100%">
+  <img src="docs/media/github-cover.svg" alt="RAG Commerce：把需求说清，把选择看明白" width="100%">
 </p>
 
 <h1 align="center">RAG Commerce</h1>
@@ -7,13 +7,13 @@
 
 <p align="center">
   <a href="https://github.com/JunyeFu/Rag-ecommerce-agent/actions/workflows/ci.yml"><img src="https://github.com/JunyeFu/Rag-ecommerce-agent/actions/workflows/ci.yml/badge.svg?branch=main" alt="main 分支 CI 状态"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-161912?style=flat-square" alt="自有源码 MIT 许可"></a>
-  <a href="#技术选型"><img src="https://img.shields.io/badge/Android-Kotlin%20%2B%20Compose-caff42?style=flat-square&labelColor=161912" alt="Android 原生 Kotlin 与 Compose"></a>
-  <a href="#交付状态"><img src="https://img.shields.io/badge/Stage-Development%20Preview-f3efdf?style=flat-square&labelColor=161912" alt="研发展示版"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-20201e?style=flat-square" alt="自有源码 MIT 许可"></a>
+  <a href="#技术选型"><img src="https://img.shields.io/badge/Android-Kotlin%20%2B%20Compose-095c45?style=flat-square&labelColor=20201e" alt="Android 原生 Kotlin 与 Compose"></a>
+  <a href="#交付状态"><img src="https://img.shields.io/badge/Stage-Development%20Preview-f5f5f3?style=flat-square&labelColor=20201e" alt="研发展示版"></a>
 </p>
 
 <p align="center">
-  <a href="docs/media/rag-commerce-v3-demo.mp4"><strong>观看 87 秒演示</strong></a>
+  <a href="#产品体验"><strong>查看新版界面</strong></a> · <a href="docs/evaluation/FRONTEND-PREVIEW-20261106.md">预览与验证说明</a>
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@
   <a href="#本地体验">本地体验</a>
 </p>
 
-> **产品预览。** 基于 60 个自有演示 SKU 与 DEMO_FIXTURE 报价，可审阅源码、运行证据和本地体验。当前候选 **HOLD / 商业发布 NO_GO**；外部验收保持暂停。
+> **开发预览 · 2026-11-06。** 下列新版界面来自本地开发分支的实际运行；商品与报价均为演示数据。
 
 ## 产品体验
 
@@ -31,16 +31,30 @@
 
 <table>
 <tr>
-<td width="50%" align="center"><img src="docs/media/android-agent-recommendation.png" width="260" alt="Android 历史推荐界面：候选理由、证据来源和演示报价"></td>
-<td width="50%" align="center"><img src="docs/media/android-ux-native-20261021/default-comparison.png" width="260" alt="2026-10-21 原生比较界面：预算、约束和偏好取舍"></td>
+<td width="50%" align="center"><img src="docs/media/frontend-20261106/recommendation-light.png" width="260" alt="新版 Android 浅色推荐：商品依据、演示报价与固定操作区"></td>
+<td width="50%" align="center"><img src="docs/media/frontend-20261106/recommendation-dark.png" width="260" alt="新版 Android 暗色推荐：层次清晰、正文可滚动、操作始终可达"></td>
 </tr>
 <tr>
-<td align="center"><strong>推荐有依据</strong><br>候选、理由、报价来源与有效期一起呈现。</td>
-<td align="center"><strong>选择看得懂</strong><br>比较差异，保留选择，继续购买任务。</td>
+<td align="center"><strong>信息看得清</strong><br>候选、理由与来源集中呈现。</td>
+<td align="center"><strong>选择始终在手边</strong><br>正文独立滚动，比较、保存、待购保持可达。</td>
 </tr>
 </table>
 
-<sub>仓库已有运行截图与历史演示视频，包含演示商品及报价。比较页为 2026-10-21；素材日期见<a href="docs/media/manifest.json">素材清单</a>，当前候选同版 APK / 视频签收仍待完成。</sub>
+同一套原生体验，适配浅暗主题、小屏与大字号。报价同时匹配商品和规格，到期后更新有效状态；操作结果在发生处给出回执，失败与结果未确认信息可保留、可关闭。
+
+<details>
+<summary><strong>展开完整选购流程与个人数据管理</strong></summary>
+
+<table>
+<tr><td width="50%" align="center"><img src="docs/media/frontend-20261106/task-light.png" width="240" alt="新版需求页：用途、预算和购买条件"></td><td width="50%" align="center"><img src="docs/media/frontend-20261106/confirmation-dark.png" width="240" alt="新版原生保存确认：具体商品与确认操作"></td></tr>
+<tr><td align="center"><strong>说清需求</strong></td><td align="center"><strong>行动前确认对象</strong></td></tr>
+<tr><td width="50%" align="center"><img src="docs/media/frontend-20261106/decisions-light.png" width="240" alt="新版决策页：已保存商品与待购计划"></td><td width="50%" align="center"><img src="docs/media/frontend-20261106/profile-dark.png" width="240" alt="新版个人页：匿名质量数据选择与可关闭操作回执"></td></tr>
+<tr><td align="center"><strong>保留选择，继续决策</strong></td><td align="center"><strong>管理自己的数据</strong></td></tr>
+</table>
+
+</details>
+
+截图拍摄于 2026-11-06，来自 API 35 模拟器与本地 fake-provider HTTP/SSE 流程。对应代码仍在本地开发分支，截图不表示 main 已包含该版本；当前候选 APK / 视频签收见[预览说明](docs/evaluation/FRONTEND-PREVIEW-20261106.md)。
 
 ### 从表达需求到继续决策
 
@@ -54,21 +68,37 @@
 适合评估 **有预算和用途约束的 3C 导购**，以及商家或平台的购买前决策组件。商业价值定位于需求组织与证据推荐；消费者留存、转化率、收入和客户采用情况尚未测量。
 
 <details>
-<summary><strong>查看 Ops 运营台与任务恢复界面</strong></summary>
+<summary><strong>查看新版 Ops 运营台</strong></summary>
 
-![历史 Ops 界面：Agent Trace、工具执行与证据引用，fixture 演示数据](docs/media/ops-agent-trace.png)
+![新版 Ops 浅色运行概览：分层统计卡与清晰导航，本地 fixture 数据](docs/media/frontend-20261106/ops-overview-light.png)
 
-执行状态、工具回执与证据引用帮助定位问题；运营身份和消费者安装凭据分别管理。
+![新版 Ops 暗色 Agent Trace：执行回执与详情，本地 fixture 数据](docs/media/frontend-20261106/ops-trace-dark.png)
 
-<img src="docs/media/android-recovery.png" width="260" alt="Android 历史任务恢复界面">
-
-![历史 Ops 发布门禁界面](docs/media/ops-release-gates.png)
+运营台将概览、执行详情与诊断信息分层呈现，保留任务状态、证据和发布门禁。2026-11-06 本地 fixture 截图中的 284 ms、Token 与统计值均为演示内容，不计入下文 Agent 性能实测。
 
 </details>
 
+<details>
+<summary><strong>查看历史演示视频</strong></summary>
+
+[观看 87 秒历史演示](docs/media/rag-commerce-v3-demo.mp4)。视频保留旧版界面，不代表本次新版前端；拍摄与构建信息见[素材清单](docs/media/manifest.json)。
+
+</details>
+
+### 新版前端的本地验证
+
+| 已验证内容 · 2026-11-06 | 结果与范围 |
+| --- | --- |
+| **Android 行为与状态** | **68 项单元 + 76 项原生 fixture 回归通过**；报价匹配与到期、确认、系统返回、操作回执均有覆盖 |
+| **布局与可访问操作** | 原生回归中包含 **12 组**推荐布局：两档屏幕 × 三档字号 × 浅暗主题，正文滚动与固定操作可达 |
+| **本地端到端体验** | 同一实际 MainActivity HTTP/Agent/SSE 流程浅暗各通过一次；模型为 **fake**，数据为演示目录 |
+| **Ops 呈现与交互** | 设计规范批次 **8 项 E2E 通过**；随后聚焦反馈用例另测通过，非新增业务覆盖 |
+
+以上是开发分支的本地验证，未新增真实模型跑分或物理设备验收。[验证范围与结果](docs/evaluation/FRONTEND-PREVIEW-20261106.md) · [机器可读摘要](docs/evidence/v3/frontend-preview-20261106.json)
+
 ## 实测证据
 
-按报告日期呈现历史实测，真实模型、检索组件与平台容量分别统计。本次首页更新没有重跑付费模型、设备或容量实验。
+以下保留既有报告的原始日期与口径。真实模型、检索组件和平台容量分别统计，新版 UI 的本地验证单独列在上方。
 
 <table width="100%">
 <tr>
@@ -158,7 +188,7 @@ MinIO：图片 / 音频对象                    Ops Web：Trace / 检索 / 门�
 
 | 评估方向 | 当前可审阅内容 | 下一阶段条件 |
 | --- | --- | --- |
-| **工程与产品评估** | 公开源码、原生体验素材、历史实测、身份/审批/恢复及 CI 证据 | 当前候选同版 APK / 视频、完整人声与浏览器外跳、独立复审 |
+| **工程与产品评估** | 公开源码、原生体验素材、历史实测、身份/审批/恢复及 CI 证据 | 开发分支源码同步、当前候选同版 APK / 视频、完整人声与浏览器外跳、独立复审 |
 | **授权导购接入** | 类型化报价、来源/时效、用户确认和受控 HTTPS 传输 | 联盟授权、LIVE 报价/深链、更新条件与正式部署 |
 | **消费者或商家服务** | 可运行的购买前决策机制与演示 | 真实用户、物理设备、安全/法务和业务人审、容量与运维验收 |
 

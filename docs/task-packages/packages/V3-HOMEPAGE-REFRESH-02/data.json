@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "package_id": "V3-HOMEPAGE-REFRESH-02",
+  "owner": "github-showcase",
+  "objective": "Refresh GitHub commercial homepage using current frontend preview",
+  "inputs": [
+    "Current native and Ops screenshots",
+    "Existing metrics and technical decisions"
+  ],
+  "outputs": [
+    "README.md",
+    "Updated media",
+    "Frontend preview evidence",
+    "evidence/verification.json"
+  ],
+  "acceptance": [
+    "Truthful development-preview labels",
+    "Actual GitHub desktop/mobile rendering passes"
+  ],
+  "test_profiles": [
+    "documentation_links",
+    "offline_statistics",
+    "task_packages",
+    "github_rendering",
+    "remote_ci"
+  ],
+  "business_refs": [
+    "development preview",
+    "DEMO_FIXTURE",
+    "HOLD / NO_GO"
+  ],
+  "development_refs": [
+    "V3-HOMEPAGE-REFRESH-01"
+  ],
+  "risk_refs": [
+    "historical metrics are not current remeasurement",
+    "main merge does not authorize deployment or LIVE"
+  ]
+}
