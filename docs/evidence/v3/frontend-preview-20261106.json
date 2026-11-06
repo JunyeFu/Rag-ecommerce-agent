@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "snapshot_date": "2026-11-06",
+  "source_branch": "codex/frontend-cleanup",
+  "source_state": "local_uncommitted_frontend_preview",
+  "main_contains_this_frontend": false,
+  "product_status": "HOLD",
+  "commercial_release": "NO_GO",
+  "android": {
+    "environment": "API35 emulator; local fake-provider HTTP/Agent/SSE; DEMO_FIXTURE data",
+    "unit": {
+      "passed": 68,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native_fixture": {
+      "passed": 76,
+      "failed": 0,
+      "skipped": 0,
+      "layout_cases_included": 12
+    },
+    "layout_matrix": {
+      "screens_dp": [
+        "360x640",
+        "412x915"
+      ],
+      "font_scales": [
+        1,
+        1.5,
+        2
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "cases": 12,
+      "capture_repeats_are_not_additional_coverage": true
+    },
+    "HTTP_SSE": {
+      "unique_scenario": 1,
+      "executions": 2,
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "passed": 2
+    },
+    "lint": {
+      "errors": 0,
+      "existing_warnings": 19
+    },
+    "findings": {
+      "A01": "fixed_verified_locally",
+      "A04": "fixed_verified_locally",
+      "A02": "fixed_verified_locally",
+      "A03": "fixed_verified_locally",
+      "A06": "fixed_verified_locally",
+      "A05": "fixed_verified_locally",
+      "A07": "fixed_verified_locally",
+      "A08": "fixed_verified_locally",
+      "A09": "fixed_verified_locally"
+    },
+    "source_test_classes": [
+      "QuoteValidityTest",
+      "OperationReceiptTest",
+      "ShoppingFlowTest",
+      "EditorialDesignTest",
+      "AndroidRepairTest",
+      "AndroidRepairLayoutTest",
+      "AndroidConnectedRepairTest"
+    ],
+    "verified_at": "2026-11-06T09:34:56.842985+00:00"
+  },
+  "ops": {
+    "scope": "2026-11-06 design-polish local fixture E2E",
+    "passed": 8,
+    "failed": 0,
+    "focused_feedback_case_separately_passed": 1,
+    "focused_case_not_additional_business_coverage": true
+  },
+  "external_acceptance": "paused_by_user",
+  "limitations": [
+    "No new paid model run, LIVE connector or physical-device acceptance",
+    "Ops screenshot timestamps and response time are fixture contents, not Agent performance",
+    "Current preview screenshots are not a released APK or current-version video"
+  ]
+}

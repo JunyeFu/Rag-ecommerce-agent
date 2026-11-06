@@ -1,22 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="480" viewBox="0 0 1440 480" role="img" aria-labelledby="title desc">
-<title id="title">RAG Commerce — 从想买什么，到知道怎么选</title><desc id="desc">奶油白与荧光绿品牌横幅，需求、证据、决定三步流程。产品概念示意。</desc>
-<rect width="1440" height="480" fill="#f3efdf"/>
-<path d="M0 1H1440M0 479H1440" stroke="#151711" stroke-width="2"/>
-<rect x="62" y="48" width="46" height="46" rx="12" fill="#161912"/>
-<text x="85" y="80" text-anchor="middle" fill="#caff42" font-family="Arial,sans-serif" font-size="29" font-weight="700">R</text>
-<g font-family="Arial,Microsoft YaHei,sans-serif" fill="#161912">
-<text x="125" y="79" font-size="22" font-weight="700">RAG COMMERCE</text>
-<text x="62" y="199" font-size="57" font-weight="700">从想买什么，</text><text x="62" y="274" font-size="57" font-weight="700">到知道怎么选。</text>
-<text x="66" y="329" font-size="22" fill="#5d6356">有证据的推荐 · 有解释的取舍 · 由你确认的行动</text>
-<text x="66" y="424" font-size="15" letter-spacing="3">NATIVE ANDROID / SHOPPING AGENT / V3</text>
-<rect x="910" y="48" width="466" height="380" rx="24" fill="#161912"/>
-<text x="946" y="92" fill="#d4d8cb" font-size="14" letter-spacing="2">THE DECISION JOURNEY</text>
-<rect x="946" y="122" width="394" height="73" rx="13" fill="#f3efdf"/>
-<text x="970" y="168" font-size="22">01  说出需求</text>
-<path d="M1143 198v20m-6-6 6 6 6-6" stroke="#caff42" stroke-width="2" fill="none"/>
-<rect x="946" y="223" width="394" height="73" rx="13" fill="#caff42"/>
-<text x="970" y="269" font-size="22" font-weight="700">02  看懂证据与取舍</text>
-<path d="M1143 299v20m-6-6 6 6 6-6" stroke="#caff42" stroke-width="2" fill="none"/>
-<rect x="946" y="324" width="394" height="73" rx="13" fill="#f3efdf"/>
-<text x="970" y="370" font-size="22">03  确认你的决定</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="420" viewBox="0 0 1440 420" role="img" aria-labelledby="title desc">
+<title id="title">RAG Commerce — 把需求说清，把选择看明白</title>
+<desc id="desc">与新版原生界面一致的浅灰、炭灰和深绿品牌封面。说清需求、看懂取舍、确认行动。</desc>
+<rect width="1440" height="420" fill="#f5f5f3"/><rect x="824" width="616" height="420" fill="#0b0b0a"/>
+<g font-family="Segoe UI,Microsoft YaHei,sans-serif">
+<rect x="58" y="42" width="44" height="44" rx="12" fill="#095c45"/>
+<text x="80" y="73" text-anchor="middle" fill="#fcfcfb" font-size="28" font-weight="600">R</text>
+<text x="119" y="72" fill="#20201e" font-size="22" font-weight="600" letter-spacing="2">RAG COMMERCE</text>
+<text x="58" y="190" fill="#20201e" font-size="56" font-weight="650">把需求说清，</text><text x="58" y="264" fill="#20201e" font-size="56" font-weight="650">把选择看明白。</text>
+<text x="60" y="319" fill="#666663" font-size="21">有依据的推荐 · 有时效的报价 · 由你确认的行动</text>
+<text x="60" y="380" fill="#095c45" font-size="15" letter-spacing="2">ANDROID 原生 / 3C 购物决策 / 开发预览</text>
+<text x="875" y="74" fill="#a3a3a0" font-size="16" letter-spacing="2">从需求，到决定</text>
+<rect x="872" y="103" width="512" height="76" rx="16" fill="#151515"/><rect x="872" y="191" width="512" height="76" rx="16" fill="#1a1a19"/><rect x="872" y="279" width="512" height="76" rx="16" fill="#20201e"/>
+<g fill="#8ecfb8" font-size="21" font-weight="560"><text x="897" y="150">01</text><text x="897" y="238">02</text><text x="897" y="326">03</text></g>
+<g fill="#e8e8e5" font-size="26" font-weight="560"><text x="955" y="151">说清预算与用途</text><text x="955" y="239">看懂依据与取舍</text><text x="955" y="327">确认保存与待购</text></g>
 </g></svg>
