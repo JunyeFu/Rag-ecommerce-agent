@@ -29,28 +29,27 @@
 
 选购从“什么适合我”开始。RAG Commerce 将预算、用途和偏好组织成购买任务，让用户看清候选之间的差异，保存选择，并在确认后执行待购操作。
 
-<table>
-<tr>
-<td width="50%" align="center"><img src="docs/media/frontend-20261106/recommendation-light.png" width="260" alt="新版 Android 浅色推荐：商品依据、演示报价与固定操作区"></td>
-<td width="50%" align="center"><img src="docs/media/frontend-20261106/recommendation-dark.png" width="260" alt="新版 Android 暗色推荐：层次清晰、正文可滚动、操作始终可达"></td>
-</tr>
-<tr>
-<td align="center"><strong>信息看得清</strong><br>候选、理由与来源集中呈现。</td>
-<td align="center"><strong>选择始终在手边</strong><br>正文独立滚动，比较、保存、待购保持可达。</td>
-</tr>
-</table>
+<p align="center">
+  <img src="docs/media/frontend-20261106/recommendation-light.png" width="260" alt="新版 Android 浅色推荐：商品依据、演示报价与固定操作区">
+  <img src="docs/media/frontend-20261106/recommendation-dark.png" width="260" alt="新版 Android 暗色推荐：层次清晰、正文可滚动、操作始终可达">
+</p>
+<p align="center"><strong>信息看得清 · 选择始终在手边</strong><br>候选、理由与来源集中呈现，比较、保存和待购保持可达。</p>
 
 同一套原生体验，适配浅暗主题、小屏与大字号。报价同时匹配商品和规格，到期后更新有效状态；操作结果在发生处给出回执，失败与结果未确认信息可保留、可关闭。
 
 <details>
 <summary><strong>展开完整选购流程与个人数据管理</strong></summary>
 
-<table>
-<tr><td width="50%" align="center"><img src="docs/media/frontend-20261106/task-light.png" width="240" alt="新版需求页：用途、预算和购买条件"></td><td width="50%" align="center"><img src="docs/media/frontend-20261106/confirmation-dark.png" width="240" alt="新版原生保存确认：具体商品与确认操作"></td></tr>
-<tr><td align="center"><strong>说清需求</strong></td><td align="center"><strong>行动前确认对象</strong></td></tr>
-<tr><td width="50%" align="center"><img src="docs/media/frontend-20261106/decisions-light.png" width="240" alt="新版决策页：已保存商品与待购计划"></td><td width="50%" align="center"><img src="docs/media/frontend-20261106/profile-dark.png" width="240" alt="新版个人页：匿名质量数据选择与可关闭操作回执"></td></tr>
-<tr><td align="center"><strong>保留选择，继续决策</strong></td><td align="center"><strong>管理自己的数据</strong></td></tr>
-</table>
+<p align="center">
+  <img src="docs/media/frontend-20261106/task-light.png" width="240" alt="新版需求页：用途、预算和购买条件">
+  <img src="docs/media/frontend-20261106/confirmation-dark.png" width="240" alt="新版原生保存确认：具体商品与确认操作">
+</p>
+<p align="center"><strong>说清需求 · 行动前确认对象</strong></p>
+<p align="center">
+  <img src="docs/media/frontend-20261106/decisions-light.png" width="240" alt="新版决策页：已保存商品与待购计划">
+  <img src="docs/media/frontend-20261106/profile-dark.png" width="240" alt="新版个人页：匿名质量数据选择与可关闭操作回执">
+</p>
+<p align="center"><strong>保留选择，继续决策 · 管理自己的数据</strong></p>
 
 </details>
 
